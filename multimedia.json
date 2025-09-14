@@ -1,0 +1,81 @@
+{
+  "secciones": [
+    {
+      "id": "presentacion",
+      "titulo": "Quienes somos",
+      "tipo": "imagen",
+      "contenido": [
+        {
+          "id": 1,
+          "titulo": "Nutrigan",
+          "descripcion": "NUTRIGÁN ES UNA EMPRESA DE NUTRICIÓN Y SANIDAD ANIMAL, HIGIENE GANADERA Y BIOTECNOLOGÍA 25 AÑOS DE INNOVACIÓN, CALIDAD DE PRODUCTOS Y SERVICIO DE ASESORAMIENTO. SE DISTRIBUYEN LOS PRODUCTOS DIRECTAMENTE A LAS EXPLOTACIONES GANADERAS, TANTO DE LECHE COMO DE CARNE, ASI COMO A COOPERATIVAS Y ALMACENES DE PIENSOS. SE REALIZAN RUTAS MENSUALES A LAS EXPLOTACIONES, BRINDÁNDOLES EL MÁXIMO SERVICIO Y ASESORAMIENTO PERSONALIZADO A LOS GANADEROS.",
+          "archivo": "/assets/multimedia/img-sobreNosotros2.webp",
+          "alt": "Instalaciones de Nutrigan España"
+        },
+        {
+          "id": 2,
+          "titulo": "Equipo de Trabajo",
+          "descripcion": "DESPUÉS DE 25 AÑOS DISTRIBUYENDO MÁS DE 200 REFERENCIAS DE NUTRICIÓN ANIMAL, SANIDAD Y BIOTECNOLOGÍA, DESTACA POR SU CARÁCTER INNOVADOR, ASESORAMIENTO CONTINUO EN LAS EXPLOTACIONES Y POR DISPONER DE PRODUCTOS DE ALTA CALIDAD, ASÍ COMO DE PROPORCIONAR EL MÁXIMO SERVICIO, PROFESIONALIDAD Y ENTREGA A LOS PRODUCTORES.",
+          "archivo": "/assets/multimedia/img-sobreNosotros.webp",
+          "alt": "Equipo de Nutrigan España"
+        }
+      ]
+    },
+    {
+      "id": "proceso",
+      "titulo": "Conoce los productos",
+      "tipo": "youtube",
+      "contenido": [
+        {
+          "id": 1,
+          "titulo": "Neolait - Bolo Prepalac 3.5",
+          "descripcion": "El 3% de las vacas tienen una cetosis clínica que ocurre después del parto. Sin embargo, el 25 % de las vacas tienen una cetosis subclínica.",
+          "videoId": "Sy69zXtWa9U",
+          "thumbnail": "https://img.youtube.com/vi/Sy69zXtWa9U/maxresdefault.jpg"
+        },
+        {
+          "id": 2,
+          "titulo": "Neolait - Bolo Heel 2.0",
+          "descripcion": "Sabías que es la tercera causa de sacrificio, la cojera es responsable de la caída de la produccción de leche variando en un 6% a más de 30%.",
+          "videoId": "FbZFY-Y7Dm8",
+          "thumbnail": "https://img.youtube.com/vi/FbZFY-Y7Dm8/maxresdefault.jpg"
+        },
+        {
+          "id": 3,
+          "titulo": "Neolait - Bolo Vitality",
+          "descripcion": "Sabía usted que cada año va disminuyendo un poco la calidad de la leche. Menos del 50% de las vacas lecheras están <<sanas>>.",
+          "videoId": "Vlzsn9ql4K0",
+          "thumbnail": "https://img.youtube.com/vi/Vlzsn9ql4K0/maxresdefault.jpg"
+        }
+      ]
+    },
+    {
+      "id": "testimonios",
+      "titulo": "Entrevistas",
+      "tipo": "youtube",
+      "contenido": [
+        {
+          "id": 1,
+          "titulo": "AgroNarcea distribuye en exclusiva productos de Nutrigan en el suroccidente asturiano",
+          "descripcion": "",
+          "videoId": "yWAyei1__rc",
+          "thumbnail": "https://img.youtube.com/vi/yWAyei1__rc/maxresdefault.jpg"
+        },
+        {
+          "id": 2,
+          "titulo": "Entrevista a Javier Álvarez, gerente de Nutrigan, distribuidor en Asturias de Allfeed",
+          "descripcion": "",
+          "videoId": "gKhVabbgYrs",
+          "thumbnail": "https://img.youtube.com/vi/gKhVabbgYrs/maxresdefault.jpg"
+        },
+        {
+          "id": 3,
+          "titulo": "Javier Álvarez Rodríguez, gerente de Nutrigan / El Campo de Asturias",
+          "descripcion": "",
+          "videoId": "gbklkIZG_Gc",
+          "thumbnail": "https://img.youtube.com/vi/gbklkIZG_Gc/maxresdefault.jpg"
+        }
+      ]
+    }
+  ]
+} 

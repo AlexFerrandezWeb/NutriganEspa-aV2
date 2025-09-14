@@ -1,0 +1,178 @@
+[
+    {
+      "id": 1,
+      "nombre": "Bolutech flash",
+      "descripcion": "Reducción del riesgo de hipocalcemia. Difusión en 1,5 horas",
+      "bolos": "Caja de 20 bolos",
+      "precio": 54.26,
+      "iva": 10,
+      "imagen": "/assets/producto14.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20Bolutech%20flash",
+      "pdf": "/docs/1Flash.pdf"
+    },
+    {
+      "id": 2,
+      "nombre": "Bolutech activ",
+      "descripcion": "Fósforo – Reducción de la hipofosfatemia. Tiempo de liberación: 1 hora",
+      "bolos": "Caja de 10 bolos",
+      "precio": 44.30,
+      "iva": 10,
+      "imagen": "/assets/producto2.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechActiv%20Caja%2010bolos",
+      "pdf": "/docs/2Activ.pdf"
+    },
+    {
+      "id": 3,
+      "nombre": "Bolutech heel",
+      "descripcion": "Mejora la calidad de las pezuñas y aumento fuerte de la producción. Tiempo de liberación: 150 días",
+      "bolos": "Caja de 10 bolos",
+      "precio": 76.74,
+      "iva": 10,
+      "imagen": "/assets/producto3.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechHeel%20Caja%2010bolos",
+      "pdf": "/docs/3Heel.pdf"
+    },
+    {
+      "id": 4,
+      "nombre": "Bolutech prepalac",
+      "descripcion": "Reducción del riesgo de acidosis. Tiempo de liberación: 8 días",
+      "bolos": "Caja de 10 bolos",
+      "precio": 55.82,
+      "iva": 10,
+      "imagen": "/assets/producto4.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechPrepalac%20Caja%2010bolos",
+      "pdf": "/docs/4Prepalac.pdf"
+    },
+    {
+      "id": 5,
+      "nombre": "Bolutech MG flash",
+      "descripcion": "Calcio - Reducción del riesgo de hipomagnesia. Tiempo de liberación: 6 horas",
+      "bolos": "Caja de 10 bolos",
+      "precio": 53,
+      "iva": 10,
+      "imagen": "/assets/producto5.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechMgFlash%20Caja%2010bolos",
+      "pdf": "/docs/5MgFlash.pdf"
+    },
+    {
+      "id": 6,
+      "nombre": "Bolutech refresh",
+      "descripcion": "Éxito en inseminación artificial, gracias al soporte de la preparación del ostro y la reproducción. Tiempo de liberación: 10 días",
+      "bolos": "Caja de 10 bolos",
+      "precio": 57.88,
+      "iva": 10,
+      "imagen": "/assets/producto6.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechRefresh%20Caja%2010bolos",
+      "pdf": "/docs/6Refresh.pdf"
+    },
+    {
+      "id": 7,
+      "nombre": "Nutrizan IG 2,5kg",
+      "descripcion": "Antidiarreico natural que contiene pectina. Regula el tránsito intestinal. Fuente de energía de rápida asimilación",
+      "bolos": "",
+      "precio": 44.73,
+      "iva": 10,
+      "imagen": "/assets/producto7.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20NutrizanIG%202,5kg",
+      "pdf": "/docs/7Nutrizan.pdf"
+    },
+    {
+      "id": 8,
+      "nombre": "Bolutech vitality",
+      "descripcion": "Reduce la cantidad de células somáticas y estimula la inmunidad. Tiempo de liberación: 40 días",
+      "bolos": "Caja de 10 bolos",
+      "precio": 70,
+      "iva": 10,
+      "imagen": "/assets/producto8.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechVitality%20Caja%2010bolos",
+      "pdf": "/docs/8Vitality.pdf"
+    },
+    {
+      "id": 9,
+      "nombre": "Bolutech start",
+      "descripcion": "Vacas en buena salud gracias a la reducción del riesgo de cetosis. Tiempo de liberación: 3 días",
+      "bolos": "Caja de 10 bolos",
+      "precio": 46.07,
+      "iva": 10,
+      "imagen": "/assets/producto9.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechStart%20Caja%2010bolos",
+      "pdf": "/docs/9Start.pdf"
+    },
+    {
+      "id": 10,
+      "nombre": "Bolutech tonic",
+      "descripcion": "Difusión a largo plazo de micro-elementos y vitaminas para vacas secas. Tiempo de liberación: 42 días",
+      "bolos": "Caja de 10 bolos",
+      "precio": 53,
+      "iva": 10,
+      "imagen": "/assets/producto10.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20BolutechTonic%20Caja%2010bolos",
+      "pdf": "/docs/10Tonic.pdf"
+    },
+    {
+      "id": 11,
+      "nombre": "Lactibiose effervescent",
+      "descripcion": "Polvo de electrolitos para prevenir la deshidratación y ofrecer un buen aporte de energía. Para terneros, corderos, cabritos, lechones y potros.",
+      "bolos": "Caja de 24 sobres",
+      "precio": 3.18,
+      "iva": 10,
+      "imagen": "/assets/producto11.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20LactibioseEffervescent%20Caja%2024sobres",
+      "pdf": "/docs/11Lactibiose.pdf"
+    },
+    {
+      "id": 12,
+      "nombre": "Polychoc total 5L",
+      "descripcion": "Alimento complementario dietético para ayudar a mejorar el celo y la fertilidad. Útil para el parto y el secado",
+      "bolos": "",
+      "precio": 69.42,
+      "iva": 10,
+      "imagen": "/assets/producto12.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20PolychocTotal%205L",
+      "pdf": "/docs/12Polychoctotal.pdf"
+    },
+    {
+      "id": 13,
+      "nombre": "Pulsomeriol 5L",
+      "descripcion": "Reducción del riesgo de cetosis",
+      "bolos": "",
+      "precio": 39.85,
+      "iva": 10,
+      "imagen": "/assets/producto13.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20Pulsomeriol%205L",
+      "pdf": "/docs/13Pulsomeriol.pdf"
+    },
+    {
+      "id": 14,
+      "nombre": "Bolutech junior",
+      "descripcion": "Difusión a largo plazo de micro-elementos y vitaminas para novillas de menos de 80kg. Tiempo de liberación: 250 días.",
+      "bolos": "Caja de 20 bolos",
+      "precio": 66.11,
+      "iva": 10,
+      "imagen": "/assets/producto1.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola%20querría%20encargar%20este%20producto:%20BolutechJunior%20Caja%2020bolos",
+      "pdf": "/docs/14Junior.pdf"
+    },
+    {
+      "id": 15,
+      "nombre": "Bolutech excell",
+      "descripcion": "Difusión a largo plazo de micro-elementos y vitaminas para novillas de menos de 220kg. Tiempo de liberación: 8 meses",
+      "bolos": "Caja de 10 bolos",
+      "precio": 51.81,
+      "iva": 10,
+      "imagen": "/assets/producto15.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20Bolutech%20flash",
+      "pdf": "/docs/15Excell.pdf"
+    },
+    {
+      "id": 16,
+      "nombre": "Bolutech dietevit equilibre",
+      "descripcion": "Con certificado ecológico, Cobertura de las necesidades nutricionales de novillas y fetos. Suministro a largo plazo de oligoelementos y vitaminas a los animales en pastoreo. Tiempo de liberación: 170 días",
+      "bolos": "Caja de 10 bolos",
+      "precio": 57.36,
+      "iva": 10,
+      "imagen": "/assets/producto16.webp",
+      "wpp": "https://wa.me/34626983042?text=Hola,%20querría%20encargar%20este%20producto:%20Bolutech%20flash",
+      "pdf": "/docs/16Dietevit.pdf"
+    }
+  ]

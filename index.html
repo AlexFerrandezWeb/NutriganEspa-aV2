@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Básico -->
+    <title>Nutrigan España | Nutrición y Sanidad Animal | Productos Veterinarios</title>
+    <meta name="description" content="Nutrigan España: Expertos en nutrición y sanidad animal, higiene ganadera y biotecnología. 25 años ofreciendo productos de alta calidad y asesoramiento personalizado para ganaderos.">
+    <meta name="keywords" content="nutrición animal, sanidad animal, ganadería, productos veterinarios, Nutrigan, higiene ganadera, biotecnología, bolos rumiales, piensos ganadería">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="/assets/img-vacas.jpg">
+    <link rel="apple-touch-icon" href="/assets/img-vacas.jpg">
+    
+    <!-- Preload de recursos críticos -->
+    <link rel="preload" href="/css/style.min.css" as="style">
+    <link rel="preload" href="/css/reset.min.css" as="style">
+    <link rel="preload" href="/assets/img-vacas.jpg" as="image" type="image/jpeg">
+    
+    <!-- Preconnect para dominios externos -->
+    <link rel="preconnect" href="https://www.facebook.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Prefetch para recursos futuros -->
+    <link rel="prefetch" href="/carrito.html" as="document">
+    <link rel="prefetch" href="/assets/img-sobreNosotros.jpg" as="image" type="image/jpeg">
+    <link rel="prefetch" href="/assets/img-nutrigan.jpg" as="image" type="image/jpeg">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nutriganespa%C3%B1a.com/">
+    <meta property="og:title" content="Nutrigan España | Nutrición y Sanidad Animal">
+    <meta property="og:description" content="25 años de experiencia en nutrición y sanidad animal. Productos de alta calidad y asesoramiento personalizado para ganadería.">
+    <meta property="og:image" content="https://nutriganespa%C3%B1a.com/assets/img-nutrigan.jpg">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="Nutrigan España">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nutrigan España | Nutrición y Sanidad Animal">
+    <meta name="twitter:description" content="25 años de experiencia en nutrición y sanidad animal. Productos de alta calidad y asesoramiento personalizado.">
+    <meta name="twitter:image" content="https://nutriganespa%C3%B1a.com/assets/img-nutrigan.jpg">
+
+    <!-- Metadatos adicionales -->
+    <meta name="author" content="Nutrigan España">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="language" content="Spanish">
+    <meta name="geo.region" content="ES-AS">
+    <meta name="geo.placename" content="Tineo">
+    <link rel="canonical" href="https://nutriganespa%C3%B1a.com/">
+
+    <!-- Estilos CSS actuales -->
+    <link rel="stylesheet" href="/css/style.min.css">
+    <link rel="stylesheet" href="/css/reset.min.css">
+    <link rel="stylesheet" href="/css/buscador.min.css">
+    <link rel="stylesheet" href="/css/multimedia.css">
+    <link rel="shortcut icon" href="/assets/img-vacas.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="/css/cookies.min.css">
+</head>
+<body>
+
+    <!--Barra de navegación-->
+
+    <header class="header" role="banner">
+        <a class="header-a" href="/index.html" aria-label="Nutrigan España - Inicio">
+            <img src="/assets/logo_nutriganesp.webp" alt="Nutrigan España" class="header-logo">
+        </a>
+    
+        <div class="buscador" role="search">
+            <input class="buscador-input" type="text" id="buscar" placeholder="¿Qué estas buscando?" autocomplete="off" aria-label="Buscar productos">
+            <button class="buscador-btn" aria-label="Buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="buscador-svg" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+            </button>
+            <ul class="buscador-ul" id="suggestions" role="listbox"></ul>
+        </div>
+        
+        <nav class="nav" role="navigation" aria-label="Menú principal">
+            <ul class="nav-ul" role="menubar">
+                <li class="nav-li" role="none"><a href="#productos-container" class="nav-a" role="menuitem">Productos</a></li>
+                <li class="nav-li" role="none"><a href="#multimedia" class="nav-a" role="menuitem">Quienes somos</a></li>
+                <li class="nav-li" role="none"><a href="/galeria.html" class="nav-a" role="menuitem">Feria Tineo</a></li>
+                <li class="nav-li" role="none">
+                    <a href="/carrito.html" class="nav-a-svg carrito-btn" role="menuitem" aria-label="Carrito de compras">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nav-svg" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+                        </svg>
+                        <span id="carrito-contador" class="carrito-contador" aria-live="polite">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main role="main">
+        <section class="presentacion" id="presentacion" aria-labelledby="presentacion-titulo">
+            <div class="carrusel">
+                <div id="img-carrusel" class="carrusel-imagen"></div>
+                <div id="img-carrusel2" class="carrusel-imagen"></div>
+                <div id="img-carrusel3" class="carrusel-imagen"></div>
+                <div id="img-carrusel4" class="carrusel-imagen"></div>
+                <div id="img-carrusel5" class="carrusel-imagen"></div>
+                <button class="carrusel-btn prev" aria-label="Imagen anterior">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                </button>
+                <button class="carrusel-btn next" aria-label="Siguiente imagen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                </button>
+                <div class="carrusel-puntos">
+                    <button class="punto" aria-label="Ir a imagen 1"></button>
+                    <button class="punto" aria-label="Ir a imagen 2"></button>
+                    <button class="punto" aria-label="Ir a imagen 3"></button>
+                    <button class="punto" aria-label="Ir a imagen 4"></button>
+                    <button class="punto" aria-label="Ir a imagen 5"></button>
+                </div>
+            </div>
+            <h2 class="presentacion-h2" id="presentacion-titulo">BIENVENIDO A <span class="presentacion-h4-destacado">NUTRIGAN ESPAÑA</span></h2>
+            <h1 class="presentacion-h1">NUTRICIÓN, SANIDAD ANIMAL, HIGIENE GANADERA Y BIOTECNOLOGÍA</h1>
+            <h4 class="presentacion-h4">DISTRIBUIDOR DIRECTO DE TODA LA GAMA BOLUTECH EN ESPAÑA <span class="presentacion-h4-destacado">DESDE HACE 30 AÑOS</span>, CALIDAD DE PRODUCTOS Y SERVICIO DE ASESORAMIENTO.</h4>
+            <h4 class="presentacion-h4">javiernutrigan@gmail.com</h4>
+            <a class="presentacion-a" href="/#productos-container" aria-label="Ver nuestros productos">VAMOS!</a>
+        </section>
+
+        <section class="productos" id="productos-container" aria-labelledby="productos-titulo">
+            <div class="productos-div">
+                <h2 class="productos-h2" id="productos-titulo">Nuestros productos</h2>
+                <a class="productos-a" href="/#productos-container" aria-label="Ver todos los productos">Ver todos</a>
+            </div>
+            <!-- Los productos se cargarán dinámicamente aquí -->
+        </section>
+
+        <!-- Sección multimedia -->
+        <section class="multimedia" id="multimedia" aria-labelledby="multimedia-titulo">
+            <div class="multimedia-container" id="multimedia-container">
+                <!-- El contenido se cargará dinámicamente aquí -->
+            </div>
+        </section>
+    </main>
+
+    <!--Pie de página-->
+
+    <div class="pago">
+        <ul class="ul-pago">
+            <li class="li-pago"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="pago-svg" viewBox="0 0 16 16">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1"/>
+              </svg><h2 class="h2-pago">Pago seguro</h2><h3 class="h3-pago">Bizum, targeta o contrareembolso.</h3></li>
+            <li class="li-pago"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="pago-svg" viewBox="0 0 16 16">
+                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+                <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+              </svg><h2 class="h2-pago">Envío a domicilio</h2><h3 class="h3-pago">En las mejores manos.</h3></li>
+            <li class="li-pago"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="pago-svg" viewBox="0 0 16 16">
+                <path d="M3.75 0a1 1 0 0 0-.8.4L.1 4.2a.5.5 0 0 0-.1.3V15a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4.5a.5.5 0 0 0-.1-.3L13.05.4a1 1 0 0 0-.8-.4zM8.5 4h6l.5.667V5H1v-.333L1.5 4h6V1h1zM8 7.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132"/>
+              </svg><h2 class="h2-pago">Excelente servicio</h2><h3 class="h3-pago">Rápido y eficaz</h3></li>
+        </ul>
+    </div>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-container">
+            <!-- Columna 1: Información de contacto -->
+            <div class="footer-section" aria-labelledby="contacto-titulo">
+                <h3 id="contacto-titulo">Contacto</h3>
+                <address>
+                    <ul>
+                        <li>📍 C/El Cortin n°63</li>
+                        <li>El Crucero - Tineo 33877 (Asturias)</li>
+                        <li>📞 <a href="tel:+34626983042">626 983 042</a></li>
+                        <li>✉️ <a href="mailto:javiernutrigan@gmail.com">javiernutrigan@gmail.com</a></li>
+                    </ul>
+                </address>
+            </div>
+    
+            <!-- Columna 2: Enlaces legales -->
+            <div class="footer-section" aria-labelledby="legal-titulo">
+                <h3 id="legal-titulo">Información legal</h3>
+                <nav aria-label="Enlaces legales">
+                    <ul>
+                        <li><a href="/aviso-legal.html">Aviso Legal</a></li>
+                        <li><a href="/politica-privacidad.html">Política de Privacidad</a></li>
+                        <li><a href="/politica-cookies.html">Política de Cookies</a></li>
+                        <li><a href="/terminos-condiciones.html">Términos y Condiciones</a></li>
+                    </ul>
+                </nav>
+            </div>
+    
+            <!-- Columna 3: Redes sociales -->
+            <div class="footer-section" aria-labelledby="redes-titulo">
+                <h3 id="redes-titulo">Síguenos</h3>
+                <div class="redes">
+                    <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Síguenos en Facebook">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="social-icon" aria-hidden="true">
+                            <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Columna 4: ELUA -->
+            <div class="footer-section" aria-labelledby="redes-titulo">
+                <div class="redes">
+                    <img src="./assets/img-elua.webp" alt="Certificado ELUA" class="img-elua">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Nutrigan España - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <div id="cookieConsent" class="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-description">
+        <div class="cookie-content">
+            <h2 id="cookie-title" class="visually-hidden">Política de Cookies</h2>
+            <p id="cookie-description">Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus hábitos de navegación.</p>
+            <div class="cookie-buttons">
+                <button onclick="aceptarCookies()" class="btn-aceptar" aria-label="Aceptar todas las cookies">Aceptar todas</button>
+                <button onclick="configurarCookies()" class="btn-configurar" aria-label="Configurar cookies">Configurar</button>
+                <button onclick="rechazarCookies()" class="btn-rechazar" aria-label="Rechazar todas las cookies">Rechazar todas</button>
+            </div>
+            <a href="/politica-cookies.html" class="cookie-link">Más información</a>
+        </div>
+    </div>
+
+    <script src="./js/common.min.js" defer></script>
+    <script src="./js/carrito.min.js" defer></script>
+    <script src="./js/buscador.min.js" defer></script>
+    <script src="./js/index.min.js" defer></script>
+    <script src="./js/multimedia.js" defer></script>
+    <script src="/js/cookies.min.js" defer></script>
+    <script src="/js/carrusel.js" defer></script>
+    
+    <!-- Scripts no críticos cargados de forma asíncrona -->
+    <script src="https://www.facebook.com/plugins/like.js" async defer></script>
+</body>
+</html>

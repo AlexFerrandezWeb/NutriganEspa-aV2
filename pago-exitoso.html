@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Exitoso - Nutrigan España</title>
+    <link rel="stylesheet" href="/css/style.min.css">
+    <link rel="stylesheet" href="/css/reset.min.css">
+    <style>
+        body {
+            padding-top: 80px; /* Espacio adicional para el header fijo */
+        }
+
+        .exito-container {
+            max-width: 800px;
+            margin: 15rem auto 2rem;
+            padding: 3rem;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .exito-container {
+                margin: 10rem 1rem 2rem;
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 60px; /* Menos padding en móviles */
+            }
+            
+            .exito-container {
+                margin: 8rem 0.5rem 1rem;
+                padding: 1.5rem 1rem;
+                border-radius: 4px;
+            }
+        }
+
+        .exito-icon {
+            color: #4CAF50;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .exito-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .exito-icon {
+                font-size: 2.5rem;
+                margin-bottom: 0.8rem;
+            }
+        }
+
+        .exito-titulo {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .exito-titulo {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .exito-titulo {
+                font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+        }
+
+        .exito-mensaje {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tiempo-entrega {
+            background-color: #e8f5e8;
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .tiempo-entrega h4 {
+            color: #2e7d32;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .tiempo-entrega p {
+            color: #388e3c;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .exito-mensaje {
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .tiempo-entrega {
+                padding: 0.8rem 1rem;
+                margin-bottom: 2rem;
+            }
+            
+            .tiempo-entrega h4 {
+                font-size: 1rem;
+            }
+            
+            .tiempo-entrega p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .exito-mensaje {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .tiempo-entrega {
+                padding: 0.8rem;
+                margin-bottom: 1.5rem;
+                border-radius: 6px;
+            }
+            
+            .tiempo-entrega h4 {
+                font-size: 0.95rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .tiempo-entrega p {
+                font-size: 0.85rem;
+            }
+        }
+
+        .exito-info {
+            background-color: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .exito-info {
+                padding: 1.2rem;
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .exito-info {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .exito-info p {
+                margin-bottom: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .exito-boton {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .exito-boton {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .exito-boton {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+        }
+
+        .exito-boton:hover {
+            background-color: #45a049;
+        }
+
+        .resumen-pedido {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        @media (max-width: 768px) {
+            .resumen-pedido {
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .resumen-pedido {
+                padding: 1rem;
+                margin: 1rem 0;
+            }
+        }
+
+        .resumen-pedido h3 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .resumen-pedido h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .resumen-pedido h3 {
+                font-size: 1.2rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .producto-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .producto-item {
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .producto-item {
+                padding: 0.6rem;
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+        }
+
+        .producto-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .producto-imagen {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .producto-imagen {
+                width: 50px;
+                height: 50px;
+                margin-right: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .producto-imagen {
+                width: 80px;
+                height: 80px;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .producto-info {
+            flex: 1;
+            min-width: 0; /* Permite que el contenido se ajuste */
+        }
+
+        @media (max-width: 768px) {
+            .producto-info {
+                min-width: 0;
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .producto-info {
+                width: 100%;
+                margin-bottom: 0.5rem;
+                min-width: 0;
+                overflow: hidden;
+            }
+        }
+
+        .producto-nombre {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 768px) {
+            .producto-nombre {
+                font-size: 0.95rem;
+                line-height: 1.2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .producto-nombre {
+                font-size: 0.9rem;
+                margin-bottom: 0.2rem;
+                line-height: 1.2;
+                text-align: center;
+            }
+        }
+
+        .producto-cantidad {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .producto-cantidad {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .producto-cantidad {
+                font-size: 0.8rem;
+                margin-bottom: 0.3rem;
+            }
+        }
+
+        .producto-precio {
+            font-weight: 600;
+            color: #4CAF50;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .producto-precio {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .producto-precio {
+                font-size: 0.95rem;
+            }
+        }
+
+        .total-pedido {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #e8f5e8;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .total-pedido {
+                padding: 1.2rem;
+                margin-top: 1.2rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .total-pedido {
+                padding: 1rem;
+                margin-top: 1rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" role="banner">
+        <a class="header-a" href="/index.html" aria-label="Nutrigan España - Inicio">
+            <img src="/assets/logo_nutriganesp.webp" alt="Nutrigan España" class="header-logo">
+        </a>
+    </header>
+
+    <main class="exito-container" role="main">
+        <div class="exito-icon">✓</div>
+        <h1 class="exito-titulo">¡Pago Exitoso!</h1>
+        <p class="exito-mensaje">Gracias por tu compra. Tu pedido ha sido procesado correctamente.</p>
+        
+        <div class="tiempo-entrega">
+            <h4>📦 Información de entrega</h4>
+            <p>Tu pedido será enviado en <strong>5-10 días hábiles</strong> a la dirección proporcionada.</p>
+        </div>
+        
+        <div class="exito-info">
+            <p>Número de pedido: <span id="numeroPedido"></span></p>
+            <p>Fecha: <span id="fechaPedido"></span></p>
+            <p>Email: <span id="emailCliente"></span></p>
+        </div>
+
+        <div id="resumenPedido" class="resumen-pedido" style="display: none;">
+            <h3>Resumen de tu pedido:</h3>
+            <div id="productosPedido" class="productos-lista"></div>
+            <div class="total-pedido">
+                <strong>Total pagado: <span id="totalPedido"></span>€</strong>
+            </div>
+        </div>
+
+        <a href="/index.html" class="exito-boton">Volver al inicio</a>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Obtener el session_id de Stripe de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            
+            if (sessionId) {
+                try {
+                    console.log('SessionId obtenido:', sessionId);
+                    // Usar endpoint real de Stripe
+                    const url = `http://localhost:3000/api/pedido/${sessionId}`;
+                    console.log('URL de petición:', url);
+                    
+                    // Obtener información del pedido desde el servidor
+                    const response = await fetch(url);
+                    console.log('Respuesta del servidor:', response.status, response.statusText);
+                    const data = await response.json();
+                    console.log('Datos recibidos:', data);
+                    
+                    if (data.success) {
+                        const pedido = data.pedido;
+                        
+                        // Mostrar información básica
+                        document.getElementById('numeroPedido').textContent = sessionId.substring(0, 20) + '...';
+                        document.getElementById('fechaPedido').textContent = new Date(pedido.fecha).toLocaleDateString('es-ES', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                        document.getElementById('emailCliente').textContent = pedido.customer_email || 'No proporcionado';
+                        
+                        // Mostrar resumen del pedido
+                        mostrarResumenPedido(pedido);
+                        
+                        // Guardar los datos del pedido para poder recargar en resize
+                        window.pedidoData = pedido;
+                        
+                    } else {
+                        console.error('Error al obtener pedido:', data.message);
+                        mostrarInformacionBasica(sessionId);
+                    }
+                } catch (error) {
+                    console.error('Error al cargar pedido:', error);
+                    mostrarInformacionBasica(sessionId);
+                }
+                
+                // Limpiar el carrito después del pago exitoso
+                localStorage.removeItem('carrito');
+                
+                // Actualizar el contador del carrito si existe
+                const contador = document.getElementById('carrito-contador');
+                if (contador) {
+                    contador.textContent = '0';
+                }
+            } else {
+                // Fallback: usar información del localStorage si no hay session_id
+                const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido'));
+                
+                if (ultimoPedido) {
+                    document.getElementById('numeroPedido').textContent = ultimoPedido.id;
+                    document.getElementById('fechaPedido').textContent = new Date(ultimoPedido.fecha).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                } else {
+                    document.getElementById('numeroPedido').textContent = 'N/A';
+                    document.getElementById('fechaPedido').textContent = new Date().toLocaleDateString('es-ES');
+                }
+            }
+            
+            // Event listener para redimensionar ventana
+            window.addEventListener('resize', function() {
+                if (window.pedidoData) {
+                    mostrarResumenPedido(window.pedidoData);
+                }
+            });
+        });
+        
+        function mostrarInformacionBasica(sessionId) {
+            document.getElementById('numeroPedido').textContent = sessionId.substring(0, 20) + '...';
+            document.getElementById('fechaPedido').textContent = new Date().toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('emailCliente').textContent = 'Cargando...';
+        }
+        
+        function mostrarResumenPedido(pedido) {
+            const resumenPedido = document.getElementById('resumenPedido');
+            const productosPedido = document.getElementById('productosPedido');
+            const totalPedido = document.getElementById('totalPedido');
+            
+            // Función para truncar texto largo según el tamaño de pantalla
+            function truncarTexto(texto, maxLength) {
+                if (texto.length <= maxLength) return texto;
+                return texto.substring(0, maxLength) + '...';
+            }
+
+            // Función para obtener el máximo de caracteres según el tamaño de pantalla
+            function obtenerMaxCaracteres() {
+                if (window.innerWidth <= 480) return 25; // Móviles
+                if (window.innerWidth <= 768) return 30; // Tablets
+                return 35; // Desktop
+            }
+
+            // Mostrar productos
+            if (!pedido.productos || pedido.productos.length === 0) {
+                productosPedido.innerHTML = '<p>No se encontraron productos en el pedido.</p>';
+                return;
+            }
+            
+            // Mostrar productos con diseño original
+            productosPedido.innerHTML = pedido.productos.map(producto => {
+                const maxCaracteres = obtenerMaxCaracteres();
+                const nombreTruncado = truncarTexto(producto.nombre, maxCaracteres);
+                return `
+                <div class="producto-item">
+                    <img src="${producto.imagen || '/assets/img-vacas.jpg'}" 
+                         alt="${producto.nombre}" 
+                         class="producto-imagen"
+                         onerror="this.src='/assets/img-vacas.jpg'"
+                         title="${producto.nombre}">
+                    <div class="producto-info">
+                        <div class="producto-nombre" title="${producto.nombre}">${nombreTruncado}</div>
+                        <div class="producto-cantidad">Cantidad: ${producto.cantidad}</div>
+                    </div>
+                    <div class="producto-precio">
+                        ${(parseFloat(producto.precioFinal || producto.precio) * parseInt(producto.cantidad)).toFixed(2)}€
+                    </div>
+                </div>
+            `;
+            }).join('');
+            
+            // Mostrar total
+            totalPedido.textContent = pedido.total.toFixed(2);
+            
+            // Mostrar el resumen
+            resumenPedido.style.display = 'block';
+        }
+    </script>
+</body>
+</html> 
