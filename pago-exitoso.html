@@ -6,6 +6,7 @@
     <title>Pago Exitoso - Nutrigan España</title>
     <link rel="stylesheet" href="/css/style.min.css">
     <link rel="stylesheet" href="/css/reset.min.css">
+    <link rel="stylesheet" href="/css/accessibility.css">
     <style>
         body {
             padding-top: 80px; /* Espacio adicional para el header fijo */
@@ -329,6 +330,7 @@
             margin-bottom: 0.25rem;
             word-wrap: break-word;
             overflow-wrap: break-word;
+            -webkit-hyphens: auto;
             hyphens: auto;
             line-height: 1.3;
         }
@@ -434,7 +436,7 @@
             <p>Email: <span id="emailCliente"></span></p>
         </div>
 
-        <div id="resumenPedido" class="resumen-pedido" style="display: none;">
+        <div id="resumenPedido" class="resumen-pedido resumen-pedido-hidden">
             <h3>Resumen de tu pedido:</h3>
             <div id="productosPedido" class="productos-lista"></div>
             <div class="total-pedido">

@@ -25,6 +25,7 @@
     <!-- Estilos CSS -->
     <link rel="stylesheet" href="/css/reset.min.css">
     <link rel="stylesheet" href="/css/style.min.css">
+    <link rel="stylesheet" href="/css/accessibility.css">
     <link rel="stylesheet" href="/css/cookies.min.css">
     <link rel="stylesheet" href="/css/buscador.min.css">
     <link rel="shortcut icon" href="/assets/img-vacas.jpg" type="image/x-icon">
@@ -39,8 +40,8 @@
         </a>
     
         <div class="buscador">
-            <input class="buscador-input" type="text" id="buscar" placeholder="¿Qué estas buscando?" autocomplete="off">
-            <button class="buscador-btn">
+            <input class="buscador-input" type="text" id="buscar" placeholder="¿Qué estas buscando?" autocomplete="off" aria-label="Buscar productos" title="Buscar productos">
+            <button class="buscador-btn" aria-label="Buscar productos">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="buscador-svg" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                 </svg>
@@ -52,7 +53,7 @@
             <ul class="nav-ul">
                 <li class="nav-li"><a href="/#productos-container" class="nav-a">Productos</a></li>
                 <li class="nav-li"><a href="/#descripcion" class="nav-a">Quienes somos</a></li>
-                <li class="nav-li" role="none"><a href="/galeria.html" class="nav-a" role="menuitem">Feria Tineo</a></li>
+                <li class="nav-li"><a href="/galeria.html" class="nav-a">Feria Tineo</a></li>
                 <li class="nav-li">
                     <a href="/carrito.html" class="nav-a-svg carrito-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nav-svg" viewBox="0 0 16 16">

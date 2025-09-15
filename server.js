@@ -16,22 +16,30 @@ if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_PUBLIC_KEY) {
     process.exit(1);
 }
 
-// Verificar que las claves sean de prueba
-if (!process.env.STRIPE_SECRET_KEY.startsWith('sk_test_') || !process.env.STRIPE_PUBLIC_KEY.startsWith('pk_test_')) {
-    console.error('Error: Las claves de Stripe deben ser de prueba (test mode)');
+// Verificar que las claves sean válidas (prueba o producción)
+if (!process.env.STRIPE_SECRET_KEY.startsWith('sk_') || !process.env.STRIPE_PUBLIC_KEY.startsWith('pk_')) {
+    console.error('Error: Las claves de Stripe deben ser válidas (sk_ y pk_)');
     console.error('STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY);
     console.error('STRIPE_PUBLIC_KEY:', process.env.STRIPE_PUBLIC_KEY);
     process.exit(1);
 }
+
+// Detectar si estamos en modo producción
+const isProduction = process.env.STRIPE_SECRET_KEY.startsWith('sk_live_');
+console.log('Modo:', isProduction ? 'PRODUCCIÓN' : 'PRUEBA');
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuración CORS más permisiva para desarrollo
+// Configuración CORS para producción y desarrollo
+const allowedOrigins = process.env.NODE_ENV === 'production' 
+    ? ['https://nutriganespaña.com', 'https://nutriganespana.com'] // Dominios de producción
+    : ['*']; // Permitir todas las conexiones en desarrollo
+
 app.use(cors({
-    origin: '*', // Permitir todas las conexiones en desarrollo
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -44,12 +52,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Middleware para manejar preflight requests
 app.options('*', cors());
 
+// Endpoint para obtener configuración de Stripe
+app.get('/api/stripe-config', (req, res) => {
+    res.json({
+        publicKey: process.env.STRIPE_PUBLIC_KEY,
+        isProduction: isProduction
+    });
+});
+
 // Endpoint de prueba para verificar que el servidor funciona
 app.get('/api/test', (req, res) => {
     res.json({
         success: true,
         message: 'Servidor funcionando correctamente',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        mode: isProduction ? 'PRODUCCIÓN' : 'PRUEBA'
     });
 });
 
@@ -178,32 +195,45 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
             });
         }
 
+        // Función para generar URL completa de imagen
+        function getImageUrl(imagenPath) {
+            if (!imagenPath) return null;
+            
+            // Si ya es una URL completa, la devolvemos tal como está
+            if (imagenPath.startsWith('http')) {
+                return imagenPath;
+            }
+            
+            // Construir URL completa usando el host de la petición
+            const baseUrl = `${req.protocol}://${req.get('host')}`;
+            return `${baseUrl}${imagenPath}`;
+        }
+
         // Convertir productos al formato de Stripe
         const lineItems = productos.map(producto => {
-            // Convertir URL relativa a absoluta si es necesario
-            let imagenUrl = null;
-            if (producto.imagen) {
-                if (producto.imagen.startsWith('http')) {
-                    imagenUrl = producto.imagen;
-                } else {
-                    // Construir URL absoluta basada en el host de la petición
-                    const baseUrl = `${req.protocol}://${req.get('host')}`;
-                    imagenUrl = `${baseUrl}${producto.imagen.startsWith('/') ? '' : '/'}${producto.imagen}`;
-                }
-            }
+            // Obtener URL completa de la imagen
+            const imagenUrl = getImageUrl(producto.imagen);
 
-            return {
+            console.log(`Producto: ${producto.nombre}, Imagen: ${imagenUrl}`);
+
+            const lineItem = {
                 price_data: {
                     currency: moneda,
                     product_data: {
                         name: producto.nombre,
-                        description: `Cantidad: ${producto.cantidad} • Envío gratuito incluido`,
-                        images: imagenUrl ? [imagenUrl] : undefined
+                        description: `Cantidad: ${producto.cantidad} • Envío gratuito incluido`
                     },
                     unit_amount: Math.round((producto.precioFinal || producto.precio) * 100) // Stripe usa centavos
                 },
                 quantity: producto.cantidad
             };
+
+            // Solo añadir imágenes si la URL es válida
+            if (imagenUrl) {
+                lineItem.price_data.product_data.images = [imagenUrl];
+            }
+
+            return lineItem;
         });
 
         // Guardar información del pedido en localStorage del servidor (simulado)
@@ -216,7 +246,7 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
 
         // Crear la sesión de Stripe Checkout
         const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card', 'paypal'],
+            payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
             success_url: `${req.protocol}://${req.get('host')}/pago-exitoso.html?session_id={CHECKOUT_SESSION_ID}`,

@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="/css/style.min.css">
     <link rel="stylesheet" href="/css/carrito.min.css">
     <link rel="stylesheet" href="/css/reset.min.css">
+    
+    <link rel="stylesheet" href="/css/accessibility.css">
     <link rel="stylesheet" href="./css/producto.min.css">
     <link rel="stylesheet" href="./css/buscador.min.css">
     <link rel="shortcut icon" href="/assets/img-vacas.jpg" type="image/x-icon">
@@ -41,7 +43,7 @@
     
         <div class="buscador">
             <input class="buscador-input" type="text" id="buscar" placeholder="¿Qué estas buscando?" autocomplete="off">
-            <button class="buscador-btn">
+            <button class="buscador-btn" aria-label="Buscar productos">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="buscador-svg" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                 </svg>
@@ -93,13 +95,14 @@
                         <td data-label="Cantidad">
                             <div class="cantidad-control">
                                 <button onclick="cambiarCantidad(index, -1)">-</button>
-                                <input type="number" value="1" min="1" max="99">
+                                <label for="cantidad-${index}" class="sr-only">Cantidad</label>
+                                <input type="number" id="cantidad-${index}" value="1" min="1" max="99" aria-label="Cantidad del producto">
                                 <button onclick="cambiarCantidad(index, 1)">+</button>
                             </div>
                         </td>
                         <td data-label="Subtotal">0.00€</td>
                         <td data-label="Acciones">
-                            <button class="btn-eliminar"></button>
+                            <button class="btn-eliminar" aria-label="Eliminar producto del carrito"></button>
                         </td>
                     </tr>
                 </tbody>
@@ -164,7 +167,7 @@
 <div class="footer-section">
     <h3>Síguenos</h3>
     <div class="redes">
-        <a href="https://www.facebook.com/profile.php?id=61551471786328&rdid=yzsz3iANF5wZQevc&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F151JzTjoZ6c%2F#" target="_blank" rel="noopener noreferrer" class="social-link">
+        <a href="https://www.facebook.com/profile.php?id=61551471786328&rdid=yzsz3iANF5wZQevc&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F151JzTjoZ6c%2F#" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Síguenos en Facebook">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="social-icon">
                 <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
             </svg>
@@ -197,6 +200,7 @@
     </div>
 
     <script src="./js/common.min.js" defer></script>
+    <script src="/js/config.js" defer></script>
     <script src="./js/carrito-fixed.js" defer></script>
     <script src="./js/buscador.min.js" defer></script>
     <script src="/js/cookies.min.js" defer></script>

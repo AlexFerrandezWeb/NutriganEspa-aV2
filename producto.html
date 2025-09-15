@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="/css/style.min.css">
     <link rel="stylesheet" href="./css/producto.min.css">
     <link rel="stylesheet" href="./css/cookies.min.css">
+    
+    <link rel="stylesheet" href="/css/accessibility.css">
     <link rel="stylesheet" href="./css/buscador.min.css">
     <link rel="shortcut icon" href="./assets/img-vacas.jpg" type="image/x-icon">
 </head>
@@ -40,7 +42,7 @@
     
         <div class="buscador">
             <input class="buscador-input" type="text" id="buscar" placeholder="¿Qué estas buscando?" autocomplete="off">
-            <button class="buscador-btn">
+            <button class="buscador-btn" aria-label="Buscar productos">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="buscador-svg" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
                 </svg>
@@ -52,7 +54,7 @@
             <ul class="nav-ul">
                 <li class="nav-li"><a href="/#productos" class="nav-a">Productos</a></li>
                 <li class="nav-li"><a href="/#descripcion" class="nav-a">Quienes somos</a></li>
-                <li class="nav-li" role="none"><a href="/galeria.html" class="nav-a" role="menuitem">Feria Tineo</a></li>
+                <li class="nav-li"><a href="/galeria.html" class="nav-a">Feria Tineo</a></li>
                 <li class="nav-li">
                     <a href="/carrito.html" class="nav-a-svg carrito-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nav-svg" viewBox="0 0 16 16">
@@ -87,7 +89,8 @@
             <div class="producto-carrito">
 
                 <div class="contador-container">
-                    <input type="number" class="contador" id="contador" name="tentacles" min="1" max="10" value="1" />
+                    <label for="contador" class="sr-only">Cantidad</label>
+                    <input type="number" class="contador" id="contador" name="tentacles" min="1" max="10" value="1" aria-label="Cantidad del producto" />
                     <button class="boton" onclick="cambiarValor(-1)">-</button>
                     <button class="boton" onclick="cambiarValor(1)">+</button>
                 </div>
@@ -158,7 +161,7 @@
             <div class="footer-section">
                 <h3>Síguenos</h3>
                 <div class="redes">
-                    <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Síguenos en Facebook">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" class="social-icon">
                             <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
                         </svg>
