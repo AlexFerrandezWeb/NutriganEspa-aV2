@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configuración CORS para producción y desarrollo
 const allowedOrigins = process.env.NODE_ENV === 'production' 
-    ? ['https://nutriganespaña.com', 'https://nutriganespana.com'] // Dominios de producción
+    ? ['https://nutriganespaña.com', 'https://nutriganespana.com', 'https://nutrigan-web.onrender.com'] // Dominios de producción
     : ['*']; // Permitir todas las conexiones en desarrollo
 
 app.use(cors({
