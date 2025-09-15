@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 const total = carrito.reduce((sum, item) => sum + (parseFloat(item.precioFinal || item.precio) * parseInt(item.cantidad)), 0);
                 
-                const response = await fetch("http://localhost:3000/api/crear-sesion-stripe", {
+                const response = await fetch("/api/crear-sesion-stripe", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
