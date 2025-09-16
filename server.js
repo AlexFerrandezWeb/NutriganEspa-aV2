@@ -33,23 +33,46 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuración CORS para producción y desarrollo
-const allowedOrigins = process.env.NODE_ENV === 'production' 
-    ? ['https://nutriganespaña.com', 'https://nutriganespana.com', 'https://xn--nutriganespaa-tkb.com', 'https://nutrigan-web.onrender.com'] // Dominios de producción
-    : ['http://localhost:5504', 'http://127.0.0.1:5504', 'http://localhost:3000', 'http://127.0.0.1:3000', '*']; // Permitir conexiones de desarrollo
+// Lista de dominios permitidos para CORS
+const whitelist = [
+    'https://xn--nutriganespaa-tkb.com', 
+    'https://www.xn--nutriganespaa-tkb.com',
+    'https://nutriganespaña.com', 
+    'https://nutriganespana.com', 
+    'https://nutrigan-web.onrender.com',
+    'http://localhost:5504', 
+    'http://127.0.0.1:5504', 
+    'http://localhost:3000', 
+    'http://127.0.0.1:3000'
+];
 
-app.use(cors({
-    origin: allowedOrigins,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-}));
+const corsOptions = {
+    origin: function (origin, callback) {
+        console.log('🔍 CORS - Origin recibido:', origin);
+        // Permite peticiones sin 'origin' (como las de Postman o apps móviles)
+        // O si el origen está en la lista blanca
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+            console.log('✅ CORS - Origin permitido:', origin);
+            callback(null, true);
+        } else {
+            console.log('❌ CORS - Origin bloqueado:', origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200 // Para navegadores legacy
+};
+
+// Usa el middleware de CORS con las opciones
+app.use(cors(corsOptions));
 
 // Middleware para parsear JSON (debe ir antes de las rutas)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Middleware para manejar preflight requests
+// Middleware adicional para manejar preflight requests
 app.options('*', (req, res) => {
     console.log('=== PETICIÓN OPTIONS (PREFLIGHT) ===');
     console.log('URL:', req.url);
@@ -57,14 +80,16 @@ app.options('*', (req, res) => {
     console.log('===============================');
     
     const origin = req.headers.origin;
-    const allowedOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
-    
-    res.header('Access-Control-Allow-Origin', allowedOrigin);
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Max-Age', '86400'); // Cache preflight por 24 horas
-    res.sendStatus(200);
+    if (whitelist.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+        res.header('Access-Control-Allow-Credentials', 'true');
+        res.header('Access-Control-Max-Age', '86400'); // Cache preflight por 24 horas
+        res.sendStatus(200);
+    } else {
+        res.status(403).send('Origin not allowed by CORS');
+    }
 });
 
 // Endpoint para obtener configuración de Stripe
