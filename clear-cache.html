@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limpiar Caché - Nutrigan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c5aa0;
+            text-align: center;
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            border-left: 4px solid #2c5aa0;
+            background-color: #f8f9fa;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #2c5aa0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #1e3d6f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Limpieza de Caché - Nutrigan España</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Importante:</strong> Si sigues viendo errores de "localhost:3000", necesitas limpiar completamente el caché de tu navegador.
+        </div>
+
+        <div class="step">
+            <h3>Paso 1: Limpiar caché del navegador</h3>
+            <p><strong>Chrome/Edge:</strong></p>
+            <ul>
+                <li>Presiona <code>Ctrl + Shift + Delete</code></li>
+                <li>Selecciona "Todo el tiempo"</li>
+                <li>Marca "Imágenes y archivos en caché"</li>
+                <li>Haz clic en "Borrar datos"</li>
+            </ul>
+            
+            <p><strong>Firefox:</strong></p>
+            <ul>
+                <li>Presiona <code>Ctrl + Shift + Delete</code></li>
+                <li>Selecciona "Todo"</li>
+                <li>Marca "Caché"</li>
+                <li>Haz clic en "Limpiar ahora"</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>Paso 2: Cerrar y reabrir el navegador</h3>
+            <p>Cierra completamente el navegador y ábrelo nuevamente.</p>
+        </div>
+
+        <div class="step">
+            <h3>Paso 3: Probar en modo incógnito</h3>
+            <p>Abre una ventana de incógnito (<code>Ctrl + Shift + N</code>) y prueba el proceso de pago.</p>
+        </div>
+
+        <div class="step">
+            <h3>Paso 4: Verificar que funciona</h3>
+            <p>Ve a <a href="/carrito.html" target="_blank">carrito.html</a> y prueba el proceso de pago.</p>
+            <p>En la consola del navegador (F12) deberías ver URLs como <code>/api/crear-sesion-stripe</code> (sin localhost).</p>
+        </div>
+
+        <div class="success">
+            <strong>✅ Si funciona correctamente:</strong> Serás redirigido a Stripe Checkout sin errores.
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="window.location.href='/carrito.html'">Ir al Carrito</button>
+            <button onclick="window.open('/carrito.html', '_blank')">Abrir Carrito en Nueva Pestaña</button>
+        </div>
+
+        <div style="margin-top: 30px; padding: 15px; background-color: #e9ecef; border-radius: 5px;">
+            <h4>🔍 Información técnica:</h4>
+            <p><strong>Problema:</strong> El navegador está usando archivos JavaScript cacheados que contienen URLs de localhost.</p>
+            <p><strong>Solución:</strong> Limpiar el caché fuerza al navegador a descargar las versiones actualizadas.</p>
+            <p><strong>Versión actual:</strong> Los archivos JS ahora usan URLs relativas y tienen parámetros de versión v2.0.</p>
+        </div>
+    </div>
+
+    <script>
+        // Script para verificar si estamos en el servidor correcto
+        console.log('🔧 Página de limpieza de caché cargada');
+        console.log('📍 URL actual:', window.location.href);
+        
+        // Verificar si hay errores en la consola
+        window.addEventListener('error', function(e) {
+            console.error('❌ Error detectado:', e.message);
+        });
+    </script>
+</body>
+</html>
