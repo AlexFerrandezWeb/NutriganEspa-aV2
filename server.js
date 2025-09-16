@@ -36,7 +36,7 @@ const PORT = process.env.PORT || 3000;
 // Configuración CORS para producción y desarrollo
 const allowedOrigins = process.env.NODE_ENV === 'production' 
     ? ['https://nutriganespaña.com', 'https://nutriganespana.com', 'https://xn--nutriganespaa-tkb.com', 'https://nutrigan-web.onrender.com'] // Dominios de producción
-    : ['*']; // Permitir todas las conexiones en desarrollo
+    : ['http://localhost:5504', 'http://127.0.0.1:5504', 'http://localhost:3000', 'http://127.0.0.1:3000', '*']; // Permitir conexiones de desarrollo
 
 app.use(cors({
     origin: allowedOrigins,
@@ -50,7 +50,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware para manejar preflight requests
-app.options('*', cors());
+app.options('*', (req, res) => {
+    console.log('=== PETICIÓN OPTIONS (PREFLIGHT) ===');
+    console.log('URL:', req.url);
+    console.log('Origin:', req.headers.origin);
+    console.log('===============================');
+    
+    const origin = req.headers.origin;
+    const allowedOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+    
+    res.header('Access-Control-Allow-Origin', allowedOrigin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Max-Age', '86400'); // Cache preflight por 24 horas
+    res.sendStatus(200);
+});
 
 // Endpoint para obtener configuración de Stripe
 app.get('/api/stripe-config', (req, res) => {
@@ -68,6 +83,17 @@ app.get('/api/test', (req, res) => {
         timestamp: new Date().toISOString(),
         mode: isProduction ? 'PRODUCCIÓN' : 'PRUEBA'
     });
+});
+
+// Middleware para debug - capturar todas las peticiones (debe ir ANTES de las rutas específicas)
+app.use('/api/*', (req, res, next) => {
+    console.log(`=== PETICIÓN RECIBIDA ===`);
+    console.log(`URL: ${req.url}`);
+    console.log(`Método: ${req.method}`);
+    console.log(`Headers:`, req.headers);
+    console.log(`Body:`, req.body);
+    console.log(`========================`);
+    next(); // Asegurar que se pase al siguiente middleware
 });
 
 // Endpoint de prueba para simular datos de pedido
@@ -109,17 +135,6 @@ app.get('/api/pedido-test/:sessionId', (req, res) => {
     
     console.log('Enviando respuesta de prueba:', respuestaPrueba);
     res.json(respuestaPrueba);
-});
-
-// Middleware para debug - capturar todas las peticiones
-app.use('/api/*', (req, res, next) => {
-    console.log(`=== PETICIÓN RECIBIDA ===`);
-    console.log(`URL: ${req.url}`);
-    console.log(`Método: ${req.method}`);
-    console.log(`Headers:`, req.headers);
-    console.log(`Body:`, req.body);
-    console.log(`========================`);
-    next();
 });
 
 // Middleware para manejar errores
@@ -183,8 +198,12 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
     try {
         console.log('=== RECIBIDA PETICIÓN A /api/crear-sesion-stripe ===');
         console.log('Método:', req.method);
+        console.log('URL:', req.url);
         console.log('Headers:', req.headers);
         console.log('Body:', req.body);
+        console.log('Content-Type:', req.get('Content-Type'));
+        console.log('Origin:', req.get('Origin'));
+        console.log('===============================================');
         
         const { productos, total, moneda = 'eur' } = req.body;
 
@@ -204,7 +223,12 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
                 return imagenPath;
             }
             
-            // Construir URL completa usando el host de la petición
+            // Para desarrollo local, usar localhost:3000
+            if (req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1')) {
+                return `http://localhost:3000${imagenPath}`;
+            }
+            
+            // Para producción, usar el dominio real
             const baseUrl = `${req.protocol}://${req.get('host')}`;
             return `${baseUrl}${imagenPath}`;
         }
@@ -228,9 +252,32 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
                 quantity: producto.cantidad
             };
 
-            // Solo añadir imágenes si la URL es válida
-            if (imagenUrl) {
+            // Solo añadir imágenes si estamos en producción o si la URL es accesible públicamente
+            const isProduction = process.env.NODE_ENV === 'production';
+            const isPublicUrl = imagenUrl && !imagenUrl.includes('localhost') && !imagenUrl.includes('127.0.0.1');
+            
+            if (isProduction && isPublicUrl) {
                 lineItem.price_data.product_data.images = [imagenUrl];
+                console.log(`Imagen añadida para ${producto.nombre}: ${imagenUrl}`);
+            } else if (!isProduction) {
+                // Para desarrollo, usar imágenes públicas que Stripe puede acceder
+                // Usar imágenes de ejemplo que sabemos que funcionan
+                const placeholderImages = {
+                    'producto2': 'https://stripe.com/img/v3/home/social.png',
+                    'producto3': 'https://stripe.com/img/v3/home/social.png',
+                    'producto9': 'https://stripe.com/img/v3/home/social.png',
+                    'producto11': 'https://stripe.com/img/v3/home/social.png'
+                };
+                
+                // Extraer el nombre del archivo de imagen
+                const imageName = imagenUrl ? imagenUrl.split('/').pop().replace('.webp', '') : 'default';
+                const placeholderImage = placeholderImages[imageName] || 'https://stripe.com/img/v3/home/social.png';
+                
+                lineItem.price_data.product_data.images = [placeholderImage];
+                console.log(`Imagen placeholder añadida para ${producto.nombre} (desarrollo): ${placeholderImage}`);
+                console.log(`LineItem completo:`, JSON.stringify(lineItem, null, 2));
+            } else {
+                console.log(`Imagen omitida para ${producto.nombre} (URL no pública)`);
             }
 
             return lineItem;
@@ -405,6 +452,7 @@ app.use(express.static(path.join(__dirname)));
 
 // Iniciar el servidor
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en puerto ${PORT}`);
     console.log('El servidor está escuchando en todas las interfaces de red');
+    console.log('Configurado para funcionar en Render');
 }); 

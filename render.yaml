@@ -13,3 +13,6 @@ services:
       - key: STRIPE_PUBLIC_KEY
         sync: false
     healthCheckPath: /api/test
+    # Configuración adicional para Render
+    autoDeploy: true
+    branch: main

@@ -1,3 +1,47 @@
+// Función para obtener la URL correcta de la API
+function getApiUrl(endpoint) {
+    console.log('🔍 Detectando entorno:', {
+        hostname: window.location.hostname,
+        port: window.location.port,
+        href: window.location.href
+    });
+    
+    // Si estamos en localhost:5504 (Live Server), usar localhost:3000 para la API
+    if (window.location.port === '5504' || window.location.hostname === '127.0.0.1') {
+        console.log('🏠 Desarrollo local detectado - usando localhost:3000');
+        return `http://localhost:3000${endpoint}`;
+    }
+    
+    // Si estamos en producción (cualquier dominio que no sea localhost), usar la URL completa de Render
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        console.log('🌐 Producción detectada - usando nutrigan-web.onrender.com');
+        return `https://nutrigan-web.onrender.com${endpoint}`;
+    }
+    
+    // Si estamos en el servidor de producción, usar la URL relativa
+    console.log('📁 Usando URL relativa');
+    return endpoint;
+}
+
+// Función para hacer peticiones con manejo de errores mejorado
+async function fetchWithRetry(url, options, maxRetries = 3) {
+    for (let i = 0; i < maxRetries; i++) {
+        try {
+            console.log(`Intento ${i + 1} de ${maxRetries} - Conectando a:`, url);
+            const response = await fetch(url, options);
+            console.log('Respuesta recibida:', response.status, response.statusText);
+            return response;
+        } catch (error) {
+            console.error(`Intento ${i + 1} falló:`, error);
+            if (i === maxRetries - 1) {
+                throw error;
+            }
+            // Esperar un poco antes del siguiente intento
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+    }
+}
+
 // Función para actualizar cantidad de producto
 function actualizarCantidad(index, valor) {
     let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
@@ -58,18 +102,18 @@ function mostrarCarrito() {
             <td data-label="Precio">${parseFloat(item.precioFinal || item.precio).toFixed(2)}€</td>
             <td data-label="Cantidad">
                 <div class="cantidad-control">
-                    <button onclick="cambiarCantidad(${index}, -1)">-</button>
+                    <button type="button" onclick="cambiarCantidad(${index}, -1)">-</button>
                     <input type="number" 
                            value="${item.cantidad}" 
                            min="1" 
                            max="99" 
                            onchange="actualizarCantidad(${index}, this.value)">
-                    <button onclick="cambiarCantidad(${index}, 1)">+</button>
+                    <button type="button" onclick="cambiarCantidad(${index}, 1)">+</button>
                 </div>
             </td>
             <td data-label="Subtotal">${(parseFloat(item.precioFinal || item.precio) * parseInt(item.cantidad)).toFixed(2)}€</td>
             <td data-label="Acciones">
-                <button class="btn-eliminar" onclick="eliminarProducto(${index})">
+                <button type="button" class="btn-eliminar" onclick="eliminarProducto(${index})" title="Eliminar producto">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
@@ -186,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 const total = carrito.reduce((sum, item) => sum + (parseFloat(item.precioFinal || item.precio) * parseInt(item.cantidad)), 0);
                 
-                const response = await fetch("/api/crear-sesion-stripe", {
+                const response = await fetchWithRetry(getApiUrl("/api/crear-sesion-stripe"), {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
