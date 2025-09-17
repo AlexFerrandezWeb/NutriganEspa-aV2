@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
 // Verificar y mostrar las variables de entorno
 console.log('Configuración de entorno:');
@@ -29,6 +30,15 @@ const isProduction = process.env.STRIPE_SECRET_KEY.startsWith('sk_live_');
 console.log('Modo:', isProduction ? 'PRODUCCIÓN' : 'PRUEBA');
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+// Configuración de nodemailer para envío de correos
+const transporter = nodemailer.createTransporter({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER || 'javiernutrigan@gmail.com',
+        pass: process.env.EMAIL_PASS // Esta será la contraseña de aplicación de Gmail
+    }
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -67,6 +77,96 @@ const corsOptions = {
 
 // Usa el middleware de CORS con las opciones
 app.use(cors(corsOptions));
+
+// Función para enviar correo de notificación de pedido
+async function enviarCorreoPedido(pedido) {
+    try {
+        const { productos, total, currency, customer_email, shipping_address, fecha } = pedido;
+        
+        // Crear lista de productos
+        let listaProductos = '';
+        productos.forEach((producto, index) => {
+            listaProductos += `
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${index + 1}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${producto.nombre}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${producto.cantidad}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${producto.precio}€</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${(producto.precio * producto.cantidad).toFixed(2)}€</td>
+                </tr>
+            `;
+        });
+
+        // Información de envío
+        let infoEnvio = 'No disponible';
+        if (shipping_address) {
+            const { address, name } = shipping_address;
+            infoEnvio = `
+                <strong>Nombre:</strong> ${name}<br>
+                <strong>Dirección:</strong> ${address.line1}<br>
+                ${address.line2 ? `<strong>Dirección 2:</strong> ${address.line2}<br>` : ''}
+                <strong>Ciudad:</strong> ${address.city}<br>
+                <strong>Código Postal:</strong> ${address.postal_code}<br>
+                <strong>País:</strong> ${address.country}
+            `;
+        }
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER || 'javiernutrigan@gmail.com',
+            to: 'javiernutrigan@gmail.com',
+            subject: `Nuevo Pedido - Nutrigan España - ${new Date(fecha).toLocaleDateString('es-ES')}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #2c5530; text-align: center;">Nuevo Pedido Recibido</h2>
+                    
+                    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+                        <h3 style="color: #2c5530; margin-top: 0;">Información del Pedido</h3>
+                        <p><strong>Fecha:</strong> ${new Date(fecha).toLocaleString('es-ES')}</p>
+                        <p><strong>Email del Cliente:</strong> ${customer_email || 'No proporcionado'}</p>
+                        <p><strong>Total:</strong> ${total}€</p>
+                    </div>
+
+                    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+                        <h3 style="color: #2c5530; margin-top: 0;">Dirección de Envío</h3>
+                        <div>${infoEnvio}</div>
+                    </div>
+
+                    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+                        <h3 style="color: #2c5530; margin-top: 0;">Productos Pedidos</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                            <thead>
+                                <tr style="background-color: #2c5530; color: white;">
+                                    <th style="padding: 10px; border: 1px solid #ddd;">#</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Producto</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Cantidad</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Precio Unit.</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${listaProductos}
+                            </tbody>
+                        </table>
+                        <div style="text-align: right; margin-top: 15px; font-size: 18px; font-weight: bold;">
+                            <strong>Total: ${total}€</strong>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px; color: #666;">
+                        <p>Este correo fue generado automáticamente por el sistema de Nutrigan España</p>
+                    </div>
+                </div>
+            `
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('✅ Correo enviado correctamente:', info.messageId);
+        return true;
+    } catch (error) {
+        console.error('❌ Error al enviar correo:', error);
+        return false;
+    }
+}
 
 // Middleware para parsear JSON (debe ir antes de las rutas)
 app.use(bodyParser.json());
@@ -423,17 +523,30 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
             }
         }
         
+        const pedido = {
+            sessionId: session.id,
+            productos: productos,
+            total: session.amount_total / 100, // Stripe devuelve en centavos
+            currency: session.currency,
+            fecha: new Date(session.created * 1000).toISOString(),
+            customer_email: session.customer_email || (session.customer_details ? session.customer_details.email : null),
+            shipping_address: session.shipping_details
+        };
+
+        // Enviar correo de notificación (no esperamos a que termine para responder al cliente)
+        enviarCorreoPedido(pedido).then(enviado => {
+            if (enviado) {
+                console.log('✅ Correo de notificación enviado para el pedido:', session.id);
+            } else {
+                console.log('❌ Error al enviar correo de notificación para el pedido:', session.id);
+            }
+        }).catch(error => {
+            console.error('❌ Error en el envío de correo:', error);
+        });
+
         const respuesta = {
             success: true,
-            pedido: {
-                sessionId: session.id,
-                productos: productos,
-                total: session.amount_total / 100, // Stripe devuelve en centavos
-                currency: session.currency,
-                fecha: new Date(session.created * 1000).toISOString(),
-                customer_email: session.customer_email || (session.customer_details ? session.customer_details.email : null),
-                shipping_address: session.shipping_details
-            }
+            pedido: pedido
         };
         
         console.log('Enviando respuesta:', respuesta);

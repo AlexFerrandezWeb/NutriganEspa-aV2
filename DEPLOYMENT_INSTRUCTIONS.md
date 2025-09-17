@@ -26,12 +26,21 @@ En la sección "Environment Variables" de Render, añade:
 NODE_ENV = production
 STRIPE_SECRET_KEY = sk_live_tu_clave_secreta_de_stripe
 STRIPE_PUBLIC_KEY = pk_live_tu_clave_publica_de_stripe
+EMAIL_USER = javiernutrigan@gmail.com
+EMAIL_PASS = tu_contraseña_de_aplicacion_de_gmail
 ```
 
 **⚠️ IMPORTANTE**: 
 - Usa las claves **LIVE** de Stripe (que empiecen con `sk_live_` y `pk_live_`)
 - NO uses las claves de prueba (que empiecen con `sk_test_` y `pk_test_`)
 - Las claves de prueba no funcionarán en producción
+
+**📧 Configuración de Gmail**:
+1. Ve a tu cuenta de Google (javiernutrigan@gmail.com)
+2. Activa la verificación en 2 pasos
+3. Ve a "Seguridad" > "Contraseñas de aplicaciones"
+4. Genera una contraseña de aplicación para "Mail"
+5. Usa esa contraseña como `EMAIL_PASS` (no tu contraseña normal)
 
 ### 5. Configuración del Servicio
 - **Name**: `nutrigan-web`
