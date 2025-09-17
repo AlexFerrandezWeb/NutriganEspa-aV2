@@ -6,21 +6,9 @@ function getApiUrl(endpoint) {
         href: window.location.href
     });
     
-    // Si estamos en localhost:5504 (Live Server), usar localhost:3000 para la API
-    if (window.location.port === '5504' || window.location.hostname === '127.0.0.1') {
-        console.log('🏠 [CONFIG] Desarrollo local detectado - usando localhost:3000');
-        return `http://localhost:3000${endpoint}`;
-    }
-    
-    // Si estamos en producción (cualquier dominio que no sea localhost), usar la URL completa de Render
-    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-        console.log('🌐 [CONFIG] Producción detectada - usando nutrigan-web.onrender.com');
-        return `https://nutrigan-web.onrender.com${endpoint}`;
-    }
-    
-    // Si estamos en el servidor de producción, usar la URL relativa
-    console.log('📁 [CONFIG] Usando URL relativa');
-    return endpoint;
+    // Siempre usar Render para la API (tanto en desarrollo como en producción)
+    console.log('🌐 [CONFIG] Usando nutrigan-web.onrender.com para la API');
+    return `https://nutrigan-web.onrender.com${endpoint}`;
 }
 
 // Configuración de Stripe
