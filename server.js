@@ -32,7 +32,7 @@ console.log('Modo:', isProduction ? 'PRODUCCIÓN' : 'PRUEBA');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Configuración de nodemailer para envío de correos
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.EMAIL_USER || 'javiernutrigan@gmail.com',
