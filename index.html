@@ -59,6 +59,65 @@
     <link rel="stylesheet" href="/css/multimedia.css">
     <link rel="shortcut icon" href="/assets/img-vacas.jpg" type="image/x-icon">
     <link rel="stylesheet" href="/css/cookies.min.css">
+    
+    <!-- Datos estructurados JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Nutrigan España",
+        "url": "https://nutriganespaña.com",
+        "logo": "https://nutriganespaña.com/assets/logo_nutriganesp.webp",
+        "description": "Expertos en nutrición y sanidad animal, higiene ganadera y biotecnología. 25 años ofreciendo productos de alta calidad y asesoramiento personalizado para ganaderos.",
+        "foundingDate": "1994",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Tineo",
+            "addressRegion": "Asturias",
+            "addressCountry": "ES"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "javiernutrigan@gmail.com",
+            "contactType": "customer service"
+        },
+        "sameAs": [
+            "https://www.facebook.com/nutriganespaña"
+        ],
+        "areaServed": "ES",
+        "serviceType": "Nutrición y Sanidad Animal",
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Productos Veterinarios Nutrigan",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Bolus Rumiales",
+                        "description": "Productos para la nutrición y salud del ganado"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Complementos Nutricionales",
+                        "description": "Suplementos para mejorar la alimentación animal"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Productos de Higiene Ganadera",
+                        "description": "Soluciones para la higiene y sanidad animal"
+                    }
+                }
+            ]
+        }
+    }
+    </script>
 </head>
 <body>
 

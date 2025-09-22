@@ -31,6 +31,59 @@
     <link rel="stylesheet" href="/css/accessibility.css">
     <link rel="stylesheet" href="./css/buscador.min.css">
     <link rel="shortcut icon" href="./assets/img-vacas.jpg" type="image/x-icon">
+    
+    <!-- Datos estructurados JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Catálogo de Productos Veterinarios - Nutrigan España",
+        "description": "Descubre nuestra gama completa de productos veterinarios: bolos rumiales, complementos nutricionales y productos para la salud animal.",
+        "url": "https://nutriganespaña.com/producto.html",
+        "mainEntity": {
+            "@type": "ItemList",
+            "name": "Productos Veterinarios Nutrigan",
+            "description": "Catálogo completo de productos para nutrición y sanidad animal",
+            "itemListElement": [
+                {
+                    "@type": "Product",
+                    "name": "Bolus Rumiales",
+                    "description": "Productos especializados para la nutrición del ganado",
+                    "category": "Nutrición Animal"
+                },
+                {
+                    "@type": "Product", 
+                    "name": "Complementos Nutricionales",
+                    "description": "Suplementos para mejorar la alimentación y salud animal",
+                    "category": "Complementos Alimentarios"
+                },
+                {
+                    "@type": "Product",
+                    "name": "Productos de Higiene Ganadera", 
+                    "description": "Soluciones para la higiene y sanidad en explotaciones ganaderas",
+                    "category": "Higiene Animal"
+                }
+            ]
+        },
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Inicio",
+                    "item": "https://nutriganespaña.com"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Productos",
+                    "item": "https://nutriganespaña.com/producto.html"
+                }
+            ]
+        }
+    }
+    </script>
 </head>
 <body>
     <!--Barra de navegación-->

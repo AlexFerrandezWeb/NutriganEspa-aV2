@@ -3,17 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería de Imágenes y Videos</title>
+    
+    <!-- SEO Básico -->
+    <title>Galería Feria Tineo | Nutrigan España | Eventos Ganaderos</title>
+    <meta name="description" content="Descubre nuestra participación en la Feria de Tineo. Nutrigan España presente en los principales eventos ganaderos de Asturias con productos de nutrición y sanidad animal.">
+    <meta name="keywords" content="feria tineo, eventos ganaderos, nutrición animal, sanidad animal, Nutrigan, Asturias, ganadería">
     
     <!-- Favicon -->
     <link rel="icon" href="/assets/img-vacas.jpg" type="image/jpeg">
     <link rel="apple-touch-icon" href="/assets/img-vacas.jpg">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nutriganespaña.com/galeria.html">
+    <meta property="og:title" content="Galería Feria Tineo | Nutrigan España">
+    <meta property="og:description" content="Descubre nuestra participación en la Feria de Tineo. Nutrigan España presente en los principales eventos ganaderos de Asturias.">
+    <meta property="og:image" content="https://nutriganespaña.com/assets/feria1.webp">
+    <meta property="og:site_name" content="Nutrigan España">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Galería Feria Tineo | Nutrigan España">
+    <meta name="twitter:description" content="Descubre nuestra participación en la Feria de Tineo. Nutrigan España presente en los principales eventos ganaderos de Asturias.">
+    <meta name="twitter:image" content="https://nutriganespaña.com/assets/feria1.webp">
+
+    <!-- Metadatos adicionales -->
+    <meta name="author" content="Nutrigan España">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Spanish">
     
     <link rel="stylesheet" href="/css/reset.min.css">
     <link rel="stylesheet" href="/css/style.min.css">
     <link rel="stylesheet" href="/css/galeria.css">
     <link rel="stylesheet" href="/css/buscador.min.css">
     <link rel="stylesheet" href="/css/cookies.min.css">
+    
+    <!-- Datos estructurados JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "Galería Feria Tineo - Nutrigan España",
+        "description": "Imágenes de la participación de Nutrigan España en la Feria de Tineo, uno de los principales eventos ganaderos de Asturias.",
+        "url": "https://nutriganespaña.com/galeria.html",
+        "mainEntity": {
+            "@type": "Event",
+            "name": "Feria de Tineo",
+            "description": "Evento ganadero donde Nutrigan España presenta sus productos de nutrición y sanidad animal",
+            "location": {
+                "@type": "Place",
+                "name": "Tineo",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Tineo",
+                    "addressRegion": "Asturias",
+                    "addressCountry": "ES"
+                }
+            },
+            "organizer": {
+                "@type": "Organization",
+                "name": "Nutrigan España"
+            }
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Nutrigan España",
+            "url": "https://nutriganespaña.com"
+        }
+    }
+    </script>
 </head>
 <body>
 

@@ -1,0 +1,39 @@
+User-agent: *
+Allow: /
+
+# Permitir acceso a todos los archivos estáticos
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+Allow: /docs/
+
+# Permitir acceso a todas las páginas principales
+Allow: /index.html
+Allow: /galeria.html
+Allow: /carrito.html
+Allow: /checkout.html
+Allow: /pago-exitoso.html
+Allow: /producto.html
+
+# Permitir acceso a páginas legales
+Allow: /aviso-legal.html
+Allow: /politica-cookies.html
+Allow: /politica-privacidad.html
+Allow: /terminos-condiciones.html
+
+# Bloquear archivos de configuración y desarrollo
+Disallow: /node_modules/
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /server.js
+Disallow: /render.yaml
+Disallow: /.env
+Disallow: /DEPLOYMENT_INSTRUCTIONS.md
+Disallow: /DEPLOYMENT.md
+Disallow: /GUIA_PRODUCCION.md
+Disallow: /README.md
+Disallow: /clear-cache.html
+
+# Sitemap
+Sitemap: https://nutriganespaña.com/sitemap.xml
+Sitemap: https://www.nutriganespaña.com/sitemap.xml
