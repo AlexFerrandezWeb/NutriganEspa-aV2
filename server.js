@@ -610,7 +610,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 currency: 'eur',
                 product_data: {
                     name: producto.nombre,
-                    description: producto.descripcion,
+                    description: `${producto.descripcion}\n\n🚚 Envío GRATIS\n📅 Entrega estimada: 5-10 días laborables`,
                     images: [`https://www.xn--nutriganespaa-tkb.com/${producto.imagen}`]
                 },
                 unit_amount: Math.round(producto.precio * 100) // Stripe usa centavos
