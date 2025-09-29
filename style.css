@@ -5040,6 +5040,7 @@ body {
 .carrito-vacio {
     text-align: center;
     padding: 4rem 2rem;
+    display: none;
 }
 
 .carrito-vacio-content {
