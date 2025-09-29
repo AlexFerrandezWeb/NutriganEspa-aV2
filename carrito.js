@@ -258,9 +258,16 @@ function configurarEventListeners() {
         }
     });
     
-    btnCancelarCheckout.addEventListener('click', cerrarModalCheckout);
-    btnFinalizarPedido.addEventListener('click', procesarPedido);
-    modalCheckoutCerrar.addEventListener('click', cerrarModalCheckout);
+    // Solo agregar event listeners si los elementos existen
+    if (btnCancelarCheckout) {
+        btnCancelarCheckout.addEventListener('click', cerrarModalCheckout);
+    }
+    if (btnFinalizarPedido) {
+        btnFinalizarPedido.addEventListener('click', procesarPedido);
+    }
+    if (modalCheckoutCerrar) {
+        modalCheckoutCerrar.addEventListener('click', cerrarModalCheckout);
+    }
     
     // Cerrar modal de checkout al hacer click fuera
     modalCheckout.addEventListener('click', function(e) {

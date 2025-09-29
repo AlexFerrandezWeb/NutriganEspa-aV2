@@ -589,6 +589,63 @@ app.post('/api/procesar-contrareembolso', async (req, res) => {
     }
 });
 
+// Endpoint para crear sesión de checkout de Stripe
+app.post('/api/create-checkout-session', async (req, res) => {
+    try {
+        console.log('=== RECIBIDA PETICIÓN A /api/create-checkout-session ===');
+        console.log('Body:', req.body);
+        
+        const { productos, total, cantidadTotal } = req.body;
+
+        if (!productos || productos.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'No hay productos en el carrito'
+            });
+        }
+
+        // Crear línea de productos para Stripe
+        const lineItems = productos.map(producto => ({
+            price_data: {
+                currency: 'eur',
+                product_data: {
+                    name: producto.nombre,
+                    description: producto.descripcion,
+                    images: [`https://www.xn--nutriganespaa-tkb.com/${producto.imagen}`]
+                },
+                unit_amount: Math.round(producto.precio * 100) // Stripe usa centavos
+            },
+            quantity: producto.cantidad
+        }));
+
+        // Crear sesión de checkout
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: lineItems,
+            mode: 'payment',
+            success_url: 'https://www.xn--nutriganespaa-tkb.com/gracias-compra.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url: 'https://www.xn--nutriganespaa-tkb.com/carrito.html',
+            metadata: {
+                total: total.toString(),
+                cantidadTotal: cantidadTotal.toString()
+            }
+        });
+
+        res.json({
+            success: true,
+            sessionId: session.id,
+            url: session.url
+        });
+
+    } catch (error) {
+        console.error('Error al crear sesión de checkout:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error al crear sesión de pago'
+        });
+    }
+});
+
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
 app.use(express.static(path.join(__dirname)));
 
