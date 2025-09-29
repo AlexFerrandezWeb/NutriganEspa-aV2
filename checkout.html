@@ -35,6 +35,35 @@
     <script src="/js/config.js?v=3.0" defer></script>
     <script src="/js/checkout-fixed.js?v=4.0" defer></script>
     <script src="/js/buscador.min.js?v=3.0" defer></script>
+    
+    <!-- Google Customer Reviews Badge -->
+    <script src="https://apis.google.com/js/platform.js?onload=renderBadge" async defer></script>
+    <script>
+        window.renderBadge = function() {
+            if (document.getElementById('google-reviews-badge')) {
+                return;
+            }
+            
+            var ratingBadgeContainer = document.createElement("div");
+            ratingBadgeContainer.id = "google-reviews-badge";
+            ratingBadgeContainer.style.cssText = "position: fixed; bottom: 100px; right: 20px; z-index: 999; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 8px;";
+            document.body.appendChild(ratingBadgeContainer);
+            
+            window.gapi.load('ratingbadge', function() {
+                window.gapi.ratingbadge.render(ratingBadgeContainer, {"merchant_id": 5663326184});
+                
+                setTimeout(() => {
+                    ratingBadgeContainer.style.cssText = "position: fixed !important; bottom: 100px !important; right: 20px !important; z-index: 999 !important; background: white !important; border-radius: 8px !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important; padding: 8px !important;";
+                }, 1000);
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.gapi) {
+                window.renderBadge();
+            }
+        });
+    </script>
 </head>
 <body>
     <!--Barra de navegación-->

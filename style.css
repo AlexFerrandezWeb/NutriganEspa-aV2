@@ -4931,6 +4931,33 @@ body {
    ESTILOS PARA CARRITO DE COMPRAS
    ======================================== */
 
+/* Google Customer Reviews Badge */
+#google-reviews-badge {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 1000 !important;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 8px;
+    transition: transform 0.3s ease;
+}
+
+#google-reviews-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    #google-reviews-badge {
+        bottom: 10px !important;
+        right: 10px !important;
+        transform: scale(0.9);
+    }
+}
+
 /* Google Customer Reviews Section */
 .google-reviews-section {
     padding: 3rem 0;
