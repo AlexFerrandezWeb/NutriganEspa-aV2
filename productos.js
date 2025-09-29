@@ -526,7 +526,7 @@ function cerrarModal() {
 // Función para contactar por WhatsApp
 function contactarWhatsApp(nombreProducto) {
     const mensaje = `Hola, me interesa el producto ${nombreProducto}. ¿Podrían darme más información?`;
-    const url = `https://wa.me/34123456789?text=${encodeURIComponent(mensaje)}`;
+    const url = `https://wa.me/34626983042?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 }
 
