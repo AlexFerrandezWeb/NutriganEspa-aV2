@@ -227,5 +227,49 @@
             }
         });
     </script>
+    
+    <!-- Google Customer Reviews -->
+    <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+    <script>
+        window.renderOptIn = function() {
+            window.gapi.load('surveyoptin', function() {
+                // Obtener datos del pedido desde localStorage
+                const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
+                const orderId = ultimoPedido.pedidoId || 'PED' + Date.now().toString().slice(-6);
+                const customerEmail = ultimoPedido.email || 'cliente@nutrigan.es';
+                
+                window.gapi.surveyoptin.render(
+                    {
+                        // REQUIRED FIELDS
+                        "merchant_id": 5663326184,
+                        "order_id": orderId,
+                        "email": customerEmail,
+                        "delivery_country": "ES",
+                        "estimated_delivery_date": getEstimatedDeliveryDate(),
+
+                        // OPTIONAL FIELDS
+                        "products": getProductsForGoogleReviews(ultimoPedido.productos || [])
+                    });
+            });
+        }
+        
+        // Función para calcular la fecha estimada de entrega (5-10 días laborables)
+        function getEstimatedDeliveryDate() {
+            const today = new Date();
+            const deliveryDays = 7; // Promedio de 7 días
+            const deliveryDate = new Date(today.getTime() + (deliveryDays * 24 * 60 * 60 * 1000));
+            return deliveryDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+        }
+        
+        // Función para obtener productos en formato Google Reviews
+        function getProductsForGoogleReviews(productos) {
+            return productos.map(producto => ({
+                "gtin": producto.gtin || "",
+                "name": producto.nombre || "",
+                "category": "Suplementos Nutricionales",
+                "brand": "Nutrigan"
+            }));
+        }
+    </script>
 </body>
 </html>

@@ -393,15 +393,24 @@ function mostrarConfirmacionPedido(pedido) {
     `;
     
     // Guardar información del pedido para la página de agradecimiento
+    const pedidoId = `NUT-2025-${String(Date.now()).slice(-6)}`;
     const pedidoInfo = {
-        numero: `#NUT-2025-${String(Date.now()).slice(-6)}`,
+        numero: `#${pedidoId}`,
+        pedidoId: pedidoId,
         fecha: new Date().toLocaleDateString('es-ES', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
         }),
         total: total.toFixed(2),
-        productos: carrito.length
+        productos: carrito.length,
+        email: pedido.cliente.email,
+        productos: carrito.map(producto => ({
+            nombre: producto.nombre,
+            gtin: producto.gtin || '',
+            precio: producto.precio,
+            cantidad: producto.cantidad
+        }))
     };
     
     localStorage.setItem('ultimoPedido', JSON.stringify(pedidoInfo));
