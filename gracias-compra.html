@@ -114,6 +114,16 @@
         </div>
     </section>
 
+    <!-- Google Customer Reviews Widget -->
+    <section class="google-reviews-section">
+        <div class="google-reviews-container">
+            <h2 class="google-reviews-titulo">¿Cómo fue su experiencia?</h2>
+            <p class="google-reviews-descripcion">Su opinión es muy importante para nosotros. ¡Ayúdenos a mejorar!</p>
+            <div id="google-reviews-widget" class="google-reviews-widget">
+                <!-- El widget de Google se cargará aquí -->
+            </div>
+        </div>
+    </section>
 
     <!-- Información de Contacto -->
     <section class="contacto-pedido">
@@ -254,25 +264,53 @@
             simularDatosPedido();
         }
         
+        // Mostrar mensaje de desarrollo si estamos en localhost
+        if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
+            console.log('🔧 MODO DESARROLLO: Google Reviews puede no funcionar en localhost');
+            console.log('✅ En producción (www.xn--nutriganespaa-tkb.com) funcionará correctamente');
+        }
+        
         window.renderOptIn = function() {
+            console.log('Google API cargada, iniciando renderOptIn...');
             window.gapi.load('surveyoptin', function() {
+                console.log('Survey opt-in cargado, obteniendo datos...');
                 // Obtener datos del pedido desde localStorage
                 const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
                 const orderId = ultimoPedido.pedidoId || 'PED' + Date.now().toString().slice(-6);
                 const customerEmail = ultimoPedido.email || 'cliente@nutrigan.es';
                 
-                window.gapi.surveyoptin.render(
-                    {
-                        // REQUIRED FIELDS
-                        "merchant_id": 5663326184,
-                        "order_id": orderId,
-                        "email": customerEmail,
-                        "delivery_country": "ES",
-                        "estimated_delivery_date": getEstimatedDeliveryDate(),
+                console.log('Datos para Google Reviews:', {
+                    merchant_id: 5663326184,
+                    order_id: orderId,
+                    email: customerEmail,
+                    delivery_country: "ES",
+                    estimated_delivery_date: getEstimatedDeliveryDate(),
+                    products: getProductsForGoogleReviews(ultimoPedido.productos || [])
+                });
+                
+                try {
+                    window.gapi.surveyoptin.render(
+                        {
+                            // REQUIRED FIELDS
+                            "merchant_id": 5663326184,
+                            "order_id": orderId,
+                            "email": customerEmail,
+                            "delivery_country": "ES",
+                            "estimated_delivery_date": getEstimatedDeliveryDate(),
 
-                        // OPTIONAL FIELDS
-                        "products": getProductsForGoogleReviews(ultimoPedido.productos || [])
-                    });
+                            // OPTIONAL FIELDS
+                            "products": getProductsForGoogleReviews(ultimoPedido.productos || [])
+                        },
+                        document.getElementById('google-reviews-widget')
+                    );
+                    console.log('Google Reviews widget renderizado exitosamente');
+                } catch (error) {
+                    console.error('Error al renderizar Google Reviews:', error);
+                    // Mostrar mensaje alternativo si Google no funciona
+                    document.getElementById('google-reviews-widget').innerHTML = 
+                        '<p style="text-align: center; color: #666; padding: 20px;">Gracias por su compra. Su opinión es muy importante para nosotros.</p>';
+                }
+                
             });
         }
         
