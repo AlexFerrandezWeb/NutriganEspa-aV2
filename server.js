@@ -58,13 +58,15 @@ const whitelist = [
 
 const corsOptions = {
     origin: function (origin, callback) {
-        console.log('🔍 CORS - Origin recibido:', origin);
-        // Permite peticiones sin 'origin' (como las de Postman o apps móviles)
-        // O si el origen está en la lista blanca
-        if (!origin || whitelist.indexOf(origin) !== -1) {
-            console.log('✅ CORS - Origin permitido:', origin);
+        // Solo logear si hay un problema o si es una petición importante
+        if (!origin) {
+            // Peticiones sin origin (Postman, apps móviles) - permitir silenciosamente
+            callback(null, true);
+        } else if (whitelist.indexOf(origin) !== -1) {
+            // Origin válido - permitir silenciosamente
             callback(null, true);
         } else {
+            // Origin no válido - logear y bloquear
             console.log('❌ CORS - Origin bloqueado:', origin);
             callback(new Error('Not allowed by CORS'));
         }
@@ -210,16 +212,18 @@ app.get('/api/test', (req, res) => {
     });
 });
 
-// Middleware para debug - capturar todas las peticiones (debe ir ANTES de las rutas específicas)
-app.use('/api/*', (req, res, next) => {
-    console.log(`=== PETICIÓN RECIBIDA ===`);
-    console.log(`URL: ${req.url}`);
-    console.log(`Método: ${req.method}`);
-    console.log(`Headers:`, req.headers);
-    console.log(`Body:`, req.body);
-    console.log(`========================`);
-    next(); // Asegurar que se pase al siguiente middleware
-});
+// Middleware para debug - capturar todas las peticiones (solo en desarrollo)
+if (!isProduction) {
+    app.use('/api/*', (req, res, next) => {
+        console.log(`=== PETICIÓN RECIBIDA ===`);
+        console.log(`URL: ${req.url}`);
+        console.log(`Método: ${req.method}`);
+        console.log(`Headers:`, req.headers);
+        console.log(`Body:`, req.body);
+        console.log(`========================`);
+        next(); // Asegurar que se pase al siguiente middleware
+    });
+}
 
 // Endpoint de prueba para simular datos de pedido
 app.get('/api/pedido-test/:sessionId', (req, res) => {
