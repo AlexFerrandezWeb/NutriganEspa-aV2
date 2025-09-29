@@ -35,5 +35,4 @@ Disallow: /README.md
 Disallow: /clear-cache.html
 
 # Sitemap
-Sitemap: https://nutriganespaña.com/sitemap.xml
-Sitemap: https://www.nutriganespaña.com/sitemap.xml
+Sitemap: https://www.xn--nutriganespaa-tkb.com/sitemap.xml
