@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias por su Compra - Nutrigan España</title>
+    <meta name="description" content="Gracias por confiar en Nutrigan España. Su pedido ha sido procesado correctamente.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <!-- Font Awesome para el icono del carrito -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts - Montserrat Alternates y Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav-principal">
+        <div class="nav-superior">
+            <div class="nav-hamburguesa-container">
+                <button class="nav-hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-izquierda-movil">
+                    <span class="linea1"></span>
+                    <span class="linea2"></span>
+                </button>
+                <div class="texto-menu-container">
+                    <span class="texto-actual">Menú</span>
+                    <span class="texto-siguiente">Cerrar</span>
+                </div>
+            </div>
+            <ul class="menu-izquierda-escritorio">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+                <li><a href="feriaTineo.html">Feria Tineo</a></li>
+            </ul>
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo_nutriganesp.png" alt="Logo Nutrigan España" class="logo">
+                </a>
+            </div>
+            <div class="nav-derecha">
+                <div class="carrito-container">
+                    <a href="carrito.html" class="carrito-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="carrito-contador" id="carrito-contador">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <form class="nav-buscador" action="#" method="get" role="search">
+            <div class="buscador-input-container">
+                <input type="search" name="q" placeholder="Buscar productos..." class="buscador-input" id="buscador-input">
+                <button type="submit" class="buscador-boton" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </nav>
+    
+    <!-- Menú móvil -->
+    <div class="menu-izquierda-movil" id="menu-izquierda-movil">
+        <ul class="menu-movil-lista">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+            <li><a href="feriaTineo.html">Feria Tineo</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="carrusel-container">
+        <!-- Texto hero superpuesto sobre el carrusel -->
+        <div class="hero-overlay">
+            <div class="hero-texto">
+                <div class="gracias-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1 class="hero-titulo">¡GRACIAS POR SU COMPRA!</h1>
+                <p class="hero-subtitulo">Su pedido ha sido procesado correctamente</p>
+                <p class="hero-descripcion">Hemos recibido su pedido y lo estamos procesando. En breve recibirá un email del recibo con todos los detalles.</p>
+                <a href="index.html" class="hero-cta">VOLVER AL INICIO</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información del Pedido -->
+    <section class="pedido-info">
+        <div class="pedido-container">
+            <div class="pedido-content">
+                <h2 class="pedido-titulo">Información del Pedido</h2>
+                <div class="pedido-details">
+                    <div class="pedido-item">
+                        <span class="pedido-label">Número de Pedido:</span>
+                        <span class="pedido-value" id="numero-pedido">#NUT-2025-001</span>
+                    </div>
+                    <div class="pedido-item">
+                        <span class="pedido-label">Fecha:</span>
+                        <span class="pedido-value" id="fecha-pedido">29 de septiembre de 2025</span>
+                    </div>
+                    <div class="pedido-item">
+                        <span class="pedido-label">Estado:</span>
+                        <span class="pedido-value pedido-enviado">Envío realizado</span>
+                    </div>
+                    <div class="pedido-item">
+                        <span class="pedido-label">Total:</span>
+                        <span class="pedido-value pedido-total" id="total-pedido">0,00 €</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Información de Contacto -->
+    <section class="contacto-pedido">
+        <div class="contacto-container">
+            <div class="contacto-content">
+                <h2 class="contacto-titulo">¿Necesita Ayuda?</h2>
+                <p class="contacto-descripcion">Si tiene alguna pregunta sobre su pedido o necesita asistencia, no dude en contactarnos.</p>
+                <div class="contacto-info">
+                    <div class="contacto-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+34 626 983 042</span>
+                    </div>
+                    <div class="contacto-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>javiernutrigan@gmail.com</span>
+                    </div>
+                    <div class="contacto-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>C/El Cortin n°63, El Crucero - Tineo 33877 (Asturias)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Sección de Contacto -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Contacto</h3>
+                <div class="footer-contenido">
+                    <p><i class="fas fa-phone"></i> +34 626 983 042</p>
+                    <p><i class="fas fa-envelope"></i> javiernutrigan@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> C/El Cortin n°63<br>El Crucero - Tineo 33877 (Asturias)</p>
+                </div>
+            </div>
+            
+            <!-- Sección de Información Legal -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Información Legal</h3>
+                <div class="footer-contenido">
+                    <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
+                    <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
+                    <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
+                    <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
+                </div>
+            </div>
+            
+            <!-- Sección de Síguenos -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Síguenos</h3>
+                <div class="footer-contenido">
+                    <div class="footer-redes-sociales">
+                        <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" class="red-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Línea de copyright -->
+        <div class="footer-copyright">
+            <p>&copy; 2025 Nutrigan España. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/34123456789?text=Hola,%20me%20interesan%20sus%20productos%20de%20nutrición%20animal" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-texto">Asesoramiento gratuito</span>
+    </a>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+    <script>
+        // Mostrar información del pedido desde localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const pedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
+            const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+            
+            // Mostrar número de pedido
+            if (pedido.numero) {
+                document.getElementById('numero-pedido').textContent = pedido.numero;
+            }
+            
+            // Mostrar fecha
+            if (pedido.fecha) {
+                document.getElementById('fecha-pedido').textContent = pedido.fecha;
+            }
+            
+            // Calcular y mostrar total
+            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            document.getElementById('total-pedido').textContent = total.toFixed(2) + ' €';
+            
+            // Limpiar carrito después de la compra
+            localStorage.removeItem('carrito');
+            localStorage.removeItem('ultimoPedido');
+            
+            // Actualizar contador del carrito
+            const cartCount = document.getElementById('nav-cart-count');
+            if (cartCount) {
+                cartCount.textContent = '0';
+            }
+        });
+    </script>
+</body>
+</html>

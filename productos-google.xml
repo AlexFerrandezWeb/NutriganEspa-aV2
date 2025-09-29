@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>Nutrigan España - Productos de Nutrición Animal</title>
+    <link>https://nutrigan.es</link>
+    <description>Suplementos nutricionales de alta calidad para ganado bovino, ovino y porcino</description>
+    
+    <!-- Producto 1: Bolutech Flash -->
+    <item>
+      <g:id>1</g:id>
+      <g:title>Bolutech Flash - Suplemento para Vacas en Periparto</g:title>
+      <g:description>Reducción del riesgo de hipocalcemia. Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=1</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto1.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>59.69 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Suplementos Nutricionales > Bovinos > Periparto</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BOL-FLASH-150G</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en periparto</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>150g</g:custom_label_3>
+    </item>
+
+    <!-- Producto 2: Bolutech Activ -->
+    <item>
+      <g:id>2</g:id>
+      <g:title>Bolutech Activ - Suplemento para Vacas en Lactación</g:title>
+      <g:description>Alimento mineral en forma de bolo. Complementación en fósforo soluble. Flushing fósforico. Suplemento específico para la prevención y tratamiento de la hipofosfatemia en ovejas.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=2</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto2.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>48.73 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Suplementos Nutricionales > Bovinos > Lactación</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BOL-ACTIV-120G</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en lactación</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>120g</g:custom_label_3>
+    </item>
+
+    <!-- Producto 3: Bolutech Heel -->
+    <item>
+      <g:id>3</g:id>
+      <g:title>Bolutech Heel - Suplemento para Cojeras en Bovinos</g:title>
+      <g:description>Suplemento nutricional específico para el tratamiento y prevención de cojeras en bovinos. Formulación especializada que fortalece las estructuras del pie y mejora la movilidad del ganado.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=3</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto3.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>52.15 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Suplementos Nutricionales > Bovinos > Salud Podal</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BOL-HEEL-100G</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Bovinos</g:custom_label_0>
+      <g:custom_label_1>Salud podal</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>100g</g:custom_label_3>
+    </item>
+
+    <!-- Producto 4: Blue Spray 200cc -->
+    <item>
+      <g:id>4</g:id>
+      <g:title>Blue Spray 200cc - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=4</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto4.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>18.50 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-200CC</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>200cc</g:custom_label_3>
+    </item>
+
+    <!-- Producto 5: Blue Spray 500cc -->
+    <item>
+      <g:id>5</g:id>
+      <g:title>Blue Spray 500cc - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=5</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto5.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>32.80 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-500CC</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>500cc</g:custom_label_3>
+    </item>
+
+    <!-- Producto 6: Blue Spray 1L -->
+    <item>
+      <g:id>6</g:id>
+      <g:title>Blue Spray 1L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=6</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto6.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>58.90 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-1L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>1L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 7: Blue Spray 5L -->
+    <item>
+      <g:id>7</g:id>
+      <g:title>Blue Spray 5L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=7</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto7.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>245.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-5L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>5L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 8: Blue Spray 10L -->
+    <item>
+      <g:id>8</g:id>
+      <g:title>Blue Spray 10L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=8</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto8.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>450.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-10L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>10L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 9: Blue Spray 20L -->
+    <item>
+      <g:id>9</g:id>
+      <g:title>Blue Spray 20L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=9</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto9.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>850.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-20L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>20L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 10: Blue Spray 200L -->
+    <item>
+      <g:id>10</g:id>
+      <g:title>Blue Spray 200L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=10</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto10.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7500.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-200L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>200L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 11: Blue Spray 1000L -->
+    <item>
+      <g:id>11</g:id>
+      <g:title>Blue Spray 1000L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=11</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto11.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>35000.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-1000L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>1000L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 12: Blue Spray 2000L -->
+    <item>
+      <g:id>12</g:id>
+      <g:title>Blue Spray 2000L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=12</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto12.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>65000.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-2000L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>2000L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 13: Blue Spray 5000L -->
+    <item>
+      <g:id>13</g:id>
+      <g:title>Blue Spray 5000L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=13</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto13.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>150000.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-5000L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>5000L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 14: Blue Spray 10000L -->
+    <item>
+      <g:id>14</g:id>
+      <g:title>Blue Spray 10000L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=14</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto14.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>280000.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-10000L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>10000L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 15: Blue Spray 20000L -->
+    <item>
+      <g:id>15</g:id>
+      <g:title>Blue Spray 20000L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=15</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto15.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>520000.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-20000L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>20000L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 16: Blue Spray 50000L -->
+    <item>
+      <g:id>16</g:id>
+      <g:title>Blue Spray 50000L - Desinfectante Veterinario</g:title>
+      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=16</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto16.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>1200000.00 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Desinfectantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-50000L</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Desinfectante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>50000L</g:custom_label_3>
+    </item>
+
+    <!-- Producto 17: Blue Spray 200cc - 200ml -->
+    <item>
+      <g:id>17</g:id>
+      <g:title>Blue Spray 200cc - 200ml - Cicatrizante Desinfectante</g:title>
+      <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol mejora la hidratación de la piel y la cicatrización de heridas.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=17</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto17.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7.05 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Cicatrizantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-200CC-200ML</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Cicatrizante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>200cc</g:custom_label_3>
+    </item>
+
+    <!-- Producto 18: Blue Spray 200cc - 400ml -->
+    <item>
+      <g:id>18</g:id>
+      <g:title>Blue Spray 200cc - 400ml - Cicatrizante Desinfectante</g:title>
+      <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol mejora la hidratación de la piel y la cicatrización de heridas.</g:description>
+      <g:link>https://nutrigan.es/producto.html?id=18</g:link>
+      <g:image_link>https://nutrigan.es/assets/producto17.webp</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>11.90 EUR</g:price>
+      <g:google_product_category>Animals & Pet Supplies > Pet Supplies > Pet Health Supplies</g:google_product_category>
+      <g:product_type>Sanidad Animal > Cicatrizantes > Spray</g:product_type>
+      <g:gtin></g:gtin>
+      <g:mpn>BLUE-SPRAY-200CC-400ML</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>Sanidad</g:custom_label_0>
+      <g:custom_label_1>Cicatrizante</g:custom_label_1>
+      <g:custom_label_2>Spray</g:custom_label_2>
+      <g:custom_label_3>200cc</g:custom_label_3>
+    </item>
+
+  </channel>
+</rss>

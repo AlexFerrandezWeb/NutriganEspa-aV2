@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feria de Tineo | Nutrigan España</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts - Montserrat Alternates y Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav-principal">
+        <div class="nav-superior">
+            <div class="nav-hamburguesa-container">
+                <button class="nav-hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-izquierda-movil">
+                    <span class="linea1"></span>
+                    <span class="linea2"></span>
+                </button>
+                <div class="texto-menu-container">
+                    <span class="texto-actual">Menú</span>
+                    <span class="texto-siguiente">Cerrar</span>
+                </div>
+            </div>
+            <ul class="menu-izquierda-escritorio">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+                <li><a href="feriaTineo.html" class="activo">Feria Tineo</a></li>
+            </ul>
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo_nutriganesp.png" alt="Logo Nutrigan España" class="logo">
+                </a>
+            </div>
+            <div class="nav-derecha">
+                <div class="carrito-container">
+                    <a href="carrito.html" class="carrito-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="carrito-contador" id="carrito-contador">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <form class="nav-buscador" action="#" method="get" role="search">
+            <div class="buscador-input-container">
+                <input type="search" name="q" placeholder="Buscar..." aria-label="Buscar">
+                <div class="buscador-texto-dinamico">
+                    <span class="buscador-texto-actual">Bolutech Flash</span>
+                    <span class="buscador-texto-siguiente">Bolutech Activ</span>
+                    <span class="buscador-texto-tercero">Bolutech Heel</span>
+                </div>
+            </div>
+            <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+        </form>
+        <ul class="menu-izquierda" id="menu-izquierda-movil">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+            <li><a href="feriaTineo.html" class="activo">Feria Tineo</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section para Feria de Tineo -->
+    <section class="feria-hero">
+        <div class="feria-hero-container">
+            <div class="feria-hero-content">
+                <h1 class="feria-hero-titulo">Feria de Tineo 2024</h1>
+                <p class="feria-hero-subtitulo">Galería de fotos y vídeos de nuestra participación</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Filtros de Galería -->
+    <section class="galeria-filtros-section">
+        <div class="galeria-filtros-container">
+            <h2 class="galeria-filtros-titulo">Explora nuestra galería</h2>
+            <div class="galeria-filtros-botones">
+                <button class="filtro-galeria-btn activo" data-filtro="todos">
+                    <i class="fas fa-th"></i>
+                    Todos
+                </button>
+                <button class="filtro-galeria-btn" data-filtro="fotos">
+                    <i class="fas fa-camera"></i>
+                    Fotos
+                </button>
+                <button class="filtro-galeria-btn" data-filtro="videos">
+                    <i class="fas fa-video"></i>
+                    Vídeos
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Galería de Fotos y Vídeos -->
+    <section class="galeria-section">
+        <div class="galeria-container">
+            <div class="galeria-grid">
+                <!-- Foto 1 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria1.webp" alt="Feria de Tineo 1" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria1')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Feria de Tineo 2025</h3>
+                        <p class="galeria-descripcion">Stand principal de Nutrigan España</p>
+                    </div>
+                </div>
+                
+                <!-- Vídeo 1 -->
+                <div class="galeria-item" data-categoria="videos">
+                    <div class="galeria-video-container">
+                        <div class="galeria-video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                    title="Presentación productos Nutrigan" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="galeria-video-info">
+                            <h3 class="galeria-titulo">Presentación de Productos</h3>
+                            <p class="galeria-descripcion">Demostración de nuestros suplementos nutricionales</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Foto 2 -->
+                <div class="galeria-item" data-categoria="fotos productos">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria2.webp" alt="Feria de Tineo 2" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria2')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Productos en Exposición</h3>
+                        <p class="galeria-descripcion">Gama completa de suplementos nutricionales</p>
+                    </div>
+                </div>
+                
+                <!-- Foto 3 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria3.webp" alt="Feria de Tineo 3" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria3')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Visitantes en el Stand</h3>
+                        <p class="galeria-descripcion">Interacción con ganaderos y profesionales</p>
+                    </div>
+                </div>
+                
+                <!-- Vídeo 2 -->
+                <div class="galeria-item" data-categoria="videos">
+                    <div class="galeria-video-container">
+                        <div class="galeria-video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                    title="Entrevista con ganaderos" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="galeria-video-info">
+                            <h3 class="galeria-titulo">Entrevista con Ganaderos</h3>
+                            <p class="galeria-descripcion">Testimonios de nuestros clientes</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Foto 4 -->
+                <div class="galeria-item" data-categoria="fotos productos">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria4.webp" alt="Feria de Tineo 4" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria4')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Demostración de Productos</h3>
+                        <p class="galeria-descripcion">Explicación de beneficios y características</p>
+                    </div>
+                </div>
+                
+                <!-- Foto 5 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria5.webp" alt="Feria de Tineo 5" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria5')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Equipo Nutrigan</h3>
+                        <p class="galeria-descripcion">Nuestro equipo en la Feria de Tineo</p>
+                    </div>
+                </div>
+                
+                <!-- Vídeo 3 -->
+                <div class="galeria-item" data-categoria="videos">
+                    <div class="galeria-video-container">
+                        <div class="galeria-video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                    title="Resumen de la feria" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                            </iframe>
+                        </div>
+                        <div class="galeria-video-info">
+                            <h3 class="galeria-titulo">Resumen de la Feria</h3>
+                            <p class="galeria-descripcion">Lo mejor de nuestra participación</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vídeo 4 - Feria 10 -->
+                <div class="galeria-item" data-categoria="videos">
+                    <div class="galeria-video-container">
+                        <div class="galeria-video-wrapper">
+                            <video controls class="galeria-video-local">
+                                <source src="assets/feria10.mp4" type="video/mp4">
+                                <source src="assets/feria10.webm" type="video/webm">
+                                Tu navegador no soporta el elemento de vídeo.
+                            </video>
+                        </div>
+                        <div class="galeria-video-info">
+                            <h3 class="galeria-titulo">Feria de Tineo 2025</h3>
+                            <p class="galeria-descripcion">Vídeo completo de nuestra participación en la feria</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Foto 6 -->
+                <div class="galeria-item" data-categoria="fotos productos">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria6.webp" alt="Feria de Tineo 6" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria6')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Certificados y Premios</h3>
+                        <p class="galeria-descripcion">Reconocimientos de calidad</p>
+                    </div>
+                </div>
+                
+                <!-- Foto 7 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria7.webp" alt="Feria de Tineo 7" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria7')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Feria de Tineo 2025</h3>
+                        <p class="galeria-descripcion">Momentos destacados de la feria</p>
+                    </div>
+                </div>
+                
+                <!-- Foto 8 -->
+                <div class="galeria-item" data-categoria="fotos productos">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria8.webp" alt="Feria de Tineo 8" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria8')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Productos Nutrigan</h3>
+                        <p class="galeria-descripcion">Exposición de nuestra gama de productos</p>
+                    </div>
+                </div>
+                
+                <!-- Foto 9 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria9.webp" alt="Feria de Tineo 9" class="galeria-imagen">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria9')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Stand Nutrigan</h3>
+                        <p class="galeria-descripcion">Nuestro espacio en la Feria de Tineo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Modal para imágenes -->
+    <div class="modal-galeria" id="modalGaleria">
+        <div class="modal-galeria-contenido">
+            <button class="modal-galeria-cerrar" onclick="cerrarModal()" aria-label="Cerrar modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-galeria-imagen-container">
+                <img src="" alt="" class="modal-galeria-imagen" id="modalImagen">
+            </div>
+            <div class="modal-galeria-info">
+                <h3 class="modal-galeria-titulo" id="modalTitulo"></h3>
+                <p class="modal-galeria-descripcion" id="modalDescripcion"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Sección de Contacto -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Contacto</h3>
+                <div class="footer-contenido">
+                    <p><i class="fas fa-phone"></i> +34 626 983 042</p>
+                    <p><i class="fas fa-envelope"></i> javiernutrigan@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> C/El Cortin n°63<br>El Crucero - Tineo 33877 (Asturias)</p>
+                </div>
+            </div>
+            
+            <!-- Sección de Información Legal -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Información Legal</h3>
+                <div class="footer-contenido">
+                    <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
+                    <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
+                    <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
+                    <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
+                </div>
+            </div>
+            
+            <!-- Sección de Síguenos -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Síguenos</h3>
+                <div class="footer-contenido">
+                    <div class="footer-redes-sociales">
+                        <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" class="red-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Línea de copyright -->
+        <div class="footer-copyright">
+            <p>&copy; 2025 Nutrigan España. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/34123456789?text=Hola,%20me%20interesan%20sus%20productos%20de%20nutrición%20animal" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-texto">Asesoramiento gratuito</span>
+    </a>
+    
+    <script src="main.js"></script>
+    <script>
+        // Actualizar contador del carrito
+        document.addEventListener('DOMContentLoaded', function() {
+            const contador = document.getElementById('carrito-contador');
+            if (contador) {
+                const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+                const cantidadTotal = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+                contador.textContent = cantidadTotal;
+                contador.setAttribute('data-count', cantidadTotal);
+            }
+        });
+    </script>
+    <script src="feriaTineo.js"></script>
+</body>
+</html>

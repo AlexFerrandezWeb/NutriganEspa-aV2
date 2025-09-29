@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras | Nutrigan España</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts - Montserrat Alternates y Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav-principal">
+        <div class="nav-superior">
+            <div class="nav-hamburguesa-container">
+                <button class="nav-hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-izquierda-movil">
+                    <span class="linea1"></span>
+                    <span class="linea2"></span>
+                </button>
+                <div class="texto-menu-container">
+                    <span class="texto-actual">Menú</span>
+                    <span class="texto-siguiente">Cerrar</span>
+                </div>
+            </div>
+            <ul class="menu-izquierda-escritorio">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+                <li><a href="feriaTineo.html">Feria Tineo</a></li>
+            </ul>
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo_nutriganesp.png" alt="Logo Nutrigan España" class="logo">
+                </a>
+            </div>
+            <div class="nav-derecha">
+                <div class="carrito-container">
+                    <a href="carrito.html" class="carrito-link carrito-activo">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="carrito-contador" id="carrito-contador">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <form class="nav-buscador" action="#" method="get" role="search">
+            <div class="buscador-input-container">
+                <input type="search" name="q" placeholder="Buscar..." aria-label="Buscar">
+                <div class="buscador-texto-dinamico">
+                    <span class="buscador-texto-actual">Bolutech Flash</span>
+                    <span class="buscador-texto-siguiente">Bolutech Activ</span>
+                    <span class="buscador-texto-tercero">Bolutech Heel</span>
+                </div>
+            </div>
+            <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+        </form>
+        <ul class="menu-izquierda" id="menu-izquierda-movil">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+            <li><a href="feriaTineo.html">Feria Tineo</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section del Carrito -->
+    <section class="carrito-hero">
+        <div class="carrito-hero-container">
+            <div class="carrito-hero-content">
+                <h1 class="carrito-hero-titulo">Carrito de Compras</h1>
+                <p class="carrito-hero-subtitulo">Revisa tus productos antes de finalizar la compra</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contenido Principal del Carrito -->
+    <section class="carrito-main">
+        <div class="carrito-container">
+            <!-- Carrito vacío -->
+            <div class="carrito-vacio" id="carrito-vacio" style="display: none;">
+                <div class="carrito-vacio-content">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h2>Tu carrito está vacío</h2>
+                    <p>No tienes productos en tu carrito. ¡Explora nuestros productos y añade algunos a tu carrito!</p>
+                    <a href="productos.html" class="btn-continuar-comprando">Continuar Comprando</a>
+                </div>
+            </div>
+            
+            <!-- Carrito con productos -->
+            <div class="carrito-contenido" id="carrito-contenido">
+                <div class="carrito-grid">
+                    <!-- Lista de productos -->
+                    <div class="carrito-productos">
+                        <div class="carrito-header">
+                            <h2>Productos en tu carrito</h2>
+                            <span class="carrito-cantidad" id="carrito-cantidad-total">0 productos</span>
+                        </div>
+                        
+                        <div class="carrito-lista" id="carrito-lista">
+                            <!-- Los productos se añadirán dinámicamente aquí -->
+                        </div>
+                    </div>
+                    
+                    <!-- Resumen del pedido -->
+                    <div class="carrito-resumen">
+                        <div class="resumen-card">
+                            <h3 class="resumen-titulo">Resumen del Pedido</h3>
+                            
+                            <div class="resumen-detalles">
+                                <div class="resumen-linea">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotal">€0.00</span>
+                                </div>
+                                <div class="resumen-linea">
+                                    <span>Envío:</span>
+                                    <span id="envio">€0.00</span>
+                                </div>
+                                <div class="resumen-linea resumen-total">
+                                    <span>Total:</span>
+                                    <span id="total">€0.00</span>
+                                </div>
+                            </div>
+                            
+                            <div class="resumen-acciones">
+                                <button class="btn-proceder-pago" id="btn-proceder-pago">
+                                    <i class="fas fa-credit-card"></i>
+                                    Proceder al Pago
+                                </button>
+                                <a href="productos.html" class="btn-continuar-comprando-secundario">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Continuar Comprando
+                                </a>
+                            </div>
+                            
+                            <div class="resumen-info">
+                                <div class="info-item">
+                                    <i class="fas fa-truck"></i>
+                                    <div class="info-text-container">
+                                        <span>Envío gratuito a toda la península</span>
+                                        <img src="assets/logoCorreos.webp" alt="Logo Correos" class="logo-correos">
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Compra 100% segura</span>
+                                </div>
+                                <div class="info-item">
+                                    <i class="fas fa-undo"></i>
+                                    <span>Devoluciones gratuitas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Modal de Confirmación -->
+    <div class="modal-confirmacion" id="modal-confirmacion">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <h3>¿Eliminar producto?</h3>
+                <button class="modal-cerrar" id="modal-cerrar" aria-label="Cerrar modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que quieres eliminar <strong id="producto-nombre-eliminar"></strong> <span id="producto-cantidad-eliminar"></span> de tu carrito?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancelar" id="btn-cancelar">Cancelar</button>
+                <button class="btn-confirmar" id="btn-confirmar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Sección de Contacto -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Contacto</h3>
+                <div class="footer-contenido">
+                    <p><i class="fas fa-phone"></i> +34 626 983 042</p>
+                    <p><i class="fas fa-envelope"></i> javiernutrigan@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> C/El Cortin n°63<br>El Crucero - Tineo 33877 (Asturias)</p>
+                </div>
+            </div>
+            
+            <!-- Sección de Información Legal -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Información Legal</h3>
+                <div class="footer-contenido">
+                    <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
+                    <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
+                    <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
+                    <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
+                </div>
+            </div>
+            
+            <!-- Sección de Síguenos -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Síguenos</h3>
+                <div class="footer-contenido">
+                    <div class="footer-redes-sociales">
+                        <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" class="red-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Línea de copyright -->
+        <div class="footer-copyright">
+            <p>&copy; 2025 Nutrigan España. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/34123456789?text=Hola,%20me%20interesan%20sus%20productos%20de%20nutrición%20animal" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-texto">Asesoramiento gratuito</span>
+    </a>
+    
+    <script src="main.js"></script>
+    <script src="carrito.js"></script>
+    <script>
+        // Actualizar contador del carrito
+        document.addEventListener('DOMContentLoaded', function() {
+            const contador = document.getElementById('carrito-contador');
+            if (contador) {
+                const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+                const cantidadTotal = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+                contador.textContent = cantidadTotal;
+                contador.setAttribute('data-count', cantidadTotal);
+            }
+        });
+    </script>
+</body>
+</html>

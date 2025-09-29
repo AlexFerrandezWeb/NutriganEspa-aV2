@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="producto-titulo">Producto | Nutrigan España</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts - Montserrat Alternates y Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav-principal">
+        <div class="nav-superior">
+            <div class="nav-hamburguesa-container">
+                <button class="nav-hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-izquierda-movil">
+                    <span class="linea1"></span>
+                    <span class="linea2"></span>
+                </button>
+                <div class="texto-menu-container">
+                    <span class="texto-actual">Menú</span>
+                    <span class="texto-siguiente">Cerrar</span>
+                </div>
+            </div>
+            <ul class="menu-izquierda-escritorio">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+                <li><a href="feriaTineo.html">Feria Tineo</a></li>
+            </ul>
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo_nutriganesp.png" alt="Logo Nutrigan España" class="logo">
+                </a>
+            </div>
+            <div class="nav-derecha">
+                <div class="carrito-container">
+                    <a href="carrito.html" class="carrito-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="carrito-contador" id="carrito-contador">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <form class="nav-buscador" action="#" method="get" role="search">
+            <div class="buscador-input-container">
+                <input type="search" name="q" placeholder="Buscar..." aria-label="Buscar">
+                <div class="buscador-texto-dinamico">
+                    <span class="buscador-texto-actual">Bolutech Flash</span>
+                    <span class="buscador-texto-siguiente">Bolutech Activ</span>
+                    <span class="buscador-texto-tercero">Bolutech Heel</span>
+                </div>
+            </div>
+            <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+        </form>
+        <ul class="menu-izquierda" id="menu-izquierda-movil">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+            <li><a href="feriaTineo.html">Feria Tineo</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Breadcrumb -->
+    <section class="breadcrumb-section">
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                    <li class="breadcrumb-item">
+                        <a href="index.html" class="breadcrumb-link">
+                            <i class="fas fa-home"></i>
+                            Inicio
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="productos.html" class="breadcrumb-link">Productos</a>
+                    </li>
+                    <li class="breadcrumb-item breadcrumb-current" id="breadcrumb-producto">
+                        <span id="breadcrumb-nombre">Cargando...</span>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+    
+    <!-- Hero Section del Producto -->
+    <section class="producto-hero">
+        <button class="btn-volver-atras-hero" onclick="volverAProductos()" aria-label="Volver a productos">
+            <i class="fas fa-arrow-left"></i>
+            <span>Volver a Productos</span>
+        </button>
+        <div class="producto-hero-container">
+            <div class="producto-hero-content">
+                <h1 class="producto-hero-titulo" id="producto-nombre">Cargando producto...</h1>
+                <p class="producto-hero-subtitulo" id="producto-subtitulo">Especificaciones técnicas y detalles</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contenido Principal del Producto -->
+    <section class="producto-main">
+        <div class="producto-container">
+            <div class="producto-grid">
+                <!-- Galería de Imágenes -->
+                <div class="producto-galeria">
+                    <div class="producto-imagen-principal">
+                        <img id="producto-imagen-principal" src="" alt="" class="imagen-principal">
+                        <div class="producto-badges" id="producto-badges">
+                            <!-- Los badges se añadirán dinámicamente -->
+                        </div>
+                    </div>
+                    <div class="producto-miniaturas" id="producto-miniaturas">
+                        <!-- Las miniaturas se añadirán dinámicamente -->
+                    </div>
+                </div>
+                
+                <!-- Información del Producto -->
+                <div class="producto-info">
+                    <div class="producto-header">
+                        <h2 class="producto-titulo" id="producto-titulo-detalle">Cargando...</h2>
+                        <div class="producto-precio-container">
+                            <span class="producto-precio" id="producto-precio">€0.00</span>
+                        </div>
+                        <div class="caracteristica-item">
+                            <i class="fas fa-box"></i>
+                            <span><strong id="producto-presentacion-texto">-</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="producto-descripcion-detalle" id="producto-descripcion">
+                        <p>Cargando descripción...</p>
+                    </div>
+                    
+                    <div class="producto-caracteristicas" id="producto-caracteristicas">
+                        <div class="caracteristica-item">
+                            <i class="fas fa-cow"></i>
+                            <span>Especie: <strong id="producto-especie">-</strong></span>
+                        </div>
+                        <div class="caracteristica-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Tiempo de Liberación: <strong id="producto-tiempo-liberacion">-</strong></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Botón de Ficha Técnica -->
+                    <div class="producto-ficha-tecnica">
+                        <button class="btn-ficha-tecnica" id="btn-ficha-tecnica">
+                            <i class="fas fa-file-pdf"></i>
+                            <span>Ver Ficha Técnica</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Controles de Compra -->
+                    <div class="producto-compra">
+                        <div class="cantidad-selector">
+                            <label for="cantidad-producto">Cantidad:</label>
+                            <div class="cantidad-controls">
+                                <button class="cantidad-btn" id="cantidad-menos" aria-label="Disminuir cantidad">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" id="cantidad-producto" value="1" min="1" max="99">
+                                <button class="cantidad-btn" id="cantidad-mas" aria-label="Aumentar cantidad">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="producto-acciones">
+                            <button class="btn-añadir-carrito" id="btn-añadir-carrito">
+                                <i class="fas fa-plus"></i>
+                                Añadir al Carrito
+                            </button>
+                            <button class="btn-comprar-ahora" id="btn-comprar-ahora">
+                                <i class="fas fa-shopping-cart"></i>
+                                Ver Carrito
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Información Adicional -->
+                    <div class="producto-info-adicional">
+                        <div class="info-item">
+                            <i class="fas fa-truck"></i>
+                            <div class="info-text-container">
+                                <span>Envío gratuito a toda la península</span>
+                                <img src="assets/logoCorreos.webp" alt="Logo Correos" class="logo-correos">
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Garantía de calidad certificada</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-undo"></i>
+                            <span>Devoluciones gratuitas en 30 días</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Productos Relacionados -->
+            <div class="productos-relacionados">
+                <div class="relacionados-container">
+                    <h3 class="relacionados-titulo">Productos Relacionados</h3>
+                    <div class="relacionados-grid" id="relacionados-grid">
+                        <!-- Los productos relacionados se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Sección de Contacto -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Contacto</h3>
+                <div class="footer-contenido">
+                    <p><i class="fas fa-phone"></i> +34 626 983 042</p>
+                    <p><i class="fas fa-envelope"></i> javiernutrigan@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> C/El Cortin n°63<br>El Crucero - Tineo 33877 (Asturias)</p>
+                </div>
+            </div>
+            
+            <!-- Sección de Información Legal -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Información Legal</h3>
+                <div class="footer-contenido">
+                    <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
+                    <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
+                    <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
+                    <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
+                </div>
+            </div>
+            
+            <!-- Sección de Síguenos -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Síguenos</h3>
+                <div class="footer-contenido">
+                    <div class="footer-redes-sociales">
+                        <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" class="red-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Línea de copyright -->
+        <div class="footer-copyright">
+            <p>&copy; 2025 Nutrigan España. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/34123456789?text=Hola,%20me%20interesan%20sus%20productos%20de%20nutrición%20animal" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-texto">Asesoramiento gratuito</span>
+    </a>
+    
+    <script src="main.js"></script>
+    <script src="producto.js"></script>
+    <script>
+        // Actualizar contador del carrito
+        document.addEventListener('DOMContentLoaded', function() {
+            const contador = document.getElementById('carrito-contador');
+            if (contador) {
+                const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+                const cantidadTotal = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+                contador.textContent = cantidadTotal;
+                contador.setAttribute('data-count', cantidadTotal);
+            }
+        });
+    </script>
+</body>
+</html>

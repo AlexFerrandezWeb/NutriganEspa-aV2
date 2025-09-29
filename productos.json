@@ -1,0 +1,697 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Bolutech Flash",
+      "descripcion": "Reducción del riesgo de hipocalcemia.",
+      "descripcionCompleta": "Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.",
+      "precio": 59.69,
+      "moneda": "EUR",
+      "imagen": "assets/producto1.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en periparto",
+      "etapa": "90 Minutos",
+      "tiempoLiberacion": "90 Minutos",
+      "presentacion": "Caja de 20 bolos",
+      "peso": "150g",
+      "ingredientes": [
+        "Calcio",
+        "Fósforo",
+        "Magnesio",
+        "Vitaminas D3 y E"
+      ],
+      "beneficios": [
+        "Reduce el riesgo de hipocalcemia",
+        "Mejora la producción láctea",
+        "Fortalecimiento óseo",
+        "Recuperación post-parto"
+      ],
+      "formato": "Bolus de liberación controlada",
+      "composicion": "Calcio 25%, Fósforo 15%, Magnesio 8%, Vitamina D3 2000 UI, Vitamina E 50mg",
+      "certificaciones": "ISO 9001, GMP, Registro Sanitario",
+      "temperatura": "Almacenar entre 5°C y 25°C",
+      "fichaTecnica": "assets/fichas-tecnicas/1Flash.pdf",
+      "stock": 45,
+      "destacado": true
+    },
+    {
+      "id": 2,
+      "nombre": "Bolutech Activ",
+      "descripcion": "Alimento mineral en forma de bolo. Complementación en fósforo soluble. Flushing fósforico.",
+      "descripcionCompleta": "Suplemento específico para la prevención y tratamiento de la hipofosfatemia en ovejas. Formulación de liberación controlada que asegura la absorción óptima del fósforo.",
+      "precio": 48.73,
+      "moneda": "EUR",
+      "imagen": "assets/producto2.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en lactación",
+      "etapa": "60 Minutos",
+      "tiempoLiberacion": "60 Minutos",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "120g",
+      "ingredientes": [
+        "Fósforo",
+        "Calcio",
+        "Magnesio",
+        "Vitamina D3"
+      ],
+      "beneficios": [
+        "Previene la hipofosfatemia",
+        "Mejora la fertilidad",
+        "Fortalecimiento óseo",
+        "Producción láctea óptima"
+      ],
+      "formato": "Bolus de liberación rápida",
+      "composicion": "Fósforo 30%, Calcio 20%, Magnesio 5%, Vitamina D3 1500 UI",
+      "certificaciones": "ISO 9001, GMP, Registro Sanitario",
+      "temperatura": "Almacenar entre 10°C y 30°C",
+      "stock": 38,
+      "destacado": true,
+      "fichaTecnica": "assets/fichas-tecnicas/2Activ.pdf"
+    },
+    {
+      "id": 3,
+      "nombre": "Bolutech Heel",
+      "descripcion": "Mejora la calidad de las pezuñas y aumento fuerte de la producción.",
+      "descripcionCompleta": "Suplemento de larga duración para cerdos que mejora significativamente la calidad de las pezuñas y optimiza el crecimiento y desarrollo en todas las etapas productivas.",
+      "precio": 84.41,
+      "moneda": "EUR",
+      "imagen": "assets/producto3.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en lactación",
+      "etapa": "150 Días",
+      "tiempoLiberacion": "150 días",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "200g",
+      "ingredientes": [
+        "Zinc",
+        "Biotina",
+        "Aminoácidos",
+        "Vitaminas del grupo B"
+      ],
+      "beneficios": [
+        "Mejora la calidad de las pezuñas",
+        "Optimiza el crecimiento",
+        "Mejora la conversión alimenticia",
+        "Fortalecimiento del sistema inmune"
+      ],
+      "formato": "Bolus de liberación prolongada",
+      "composicion": "Zinc 15%, Biotina 0.5%, Aminoácidos 20%, Vitaminas B1, B2, B6, B12",
+      "certificaciones": "ISO 9001, GMP, Registro Sanitario",
+      "temperatura": "Almacenar entre 5°C y 30°C",
+      "stock": 22,
+      "destacado": true,
+      "fichaTecnica": "assets/fichas-tecnicas/3Heel.pdf"
+    },
+    {
+      "id": 4,
+      "nombre": "Bolutech Prepalac",
+      "descripcion": "Suplemento completo para vacas en lactación. Mejora la producción láctea.",
+      "descripcionCompleta": "Suplemento nutricional integral diseñado específicamente para vacas en lactación. Optimiza la producción láctea y mejora la calidad de la leche.",
+      "precio": 61.4,
+      "moneda": "EUR",
+      "imagen": "assets/producto4.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en preparto",
+      "etapa": "8 días",
+      "tiempoLiberacion": "8 días",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "180g",
+      "ingredientes": [
+        "Proteínas",
+        "Energía",
+        "Vitaminas",
+        "Minerales",
+        "Aminoácidos"
+      ],
+      "beneficios": [
+        "Aumenta la producción láctea",
+        "Mejora la calidad de la leche",
+        "Optimiza la reproducción",
+        "Fortalecimiento general"
+      ],
+      "formato": "Bolus de liberación sostenida",
+      "composicion": "Proteínas 35%, Energía 25%, Vitaminas A, D, E, Minerales esenciales",
+      "certificaciones": "ISO 9001, GMP, Registro Sanitario",
+      "temperatura": "Almacenar entre 5°C y 25°C",
+      "stock": 31,
+      "destacado": false,
+      "fichaTecnica": "assets/fichas-tecnicas/4Prepalac.pdf"
+    },
+    {
+      "id": 5,
+      "nombre": "Bolutech MG Flash",
+      "descripcion": "Para un parto más fácil.",
+      "descripcionCompleta": "Suplemento nutricional específico para ovejas en gestación y lactación. Asegura el correcto desarrollo fetal y la producción láctea óptima.",
+      "precio": 58.3,
+      "moneda": "EUR",
+      "imagen": "assets/producto5.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en periparto",
+      "etapa": "6 Horas",
+      "tiempoLiberacion": "6 Horas",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "100g",
+      "ingredientes": [
+        "Calcio",
+        "Fósforo",
+        "Proteínas",
+        "Vitaminas A, D, E"
+      ],
+      "beneficios": [
+        "Desarrollo fetal óptimo",
+        "Producción láctea mejorada",
+        "Prevención de carencias",
+        "Mejora la fertilidad"
+      ],
+      "stock": 42,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/5MGFlash.pdf"
+    },
+    {
+      "id": 6,
+      "nombre": "Bolutech Refresh",
+      "descripcion": "Ayuda a la preparación del celo y a la reproducción.",
+      "descripcionCompleta": "Suplemento nutricional completo para cerdos que optimiza el crecimiento, mejora la conversión alimenticia y fortalece el sistema inmune.",
+      "precio": 63.67,
+      "moneda": "EUR",
+      "imagen": "assets/producto6.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en periparto",
+      "etapa": "10 Días",
+      "tiempoLiberacion": "10 Días",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "150g",
+      "ingredientes": [
+        "Proteínas",
+        "Aminoácidos",
+        "Vitaminas",
+        "Minerales",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Crecimiento optimizado",
+        "Mejor conversión alimenticia",
+        "Sistema inmune fortalecido",
+        "Salud digestiva mejorada"
+      ],
+      "stock": 28,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/6Refresh.pdf"
+    },
+    {
+      "id": 7,
+      "nombre": "Nutrizan IG 2.5kg",
+      "descripcion": "Suplemento para terneros recién nacidos y en crecimiento con problemas digestivos.",
+      "descripcionCompleta": "Suplemento nutricional específico para terneros que fortalece el sistema inmune, mejora el crecimiento y previene enfermedades digestivas.",
+      "precio": 49.2,
+      "moneda": "EUR",
+      "imagen": "assets/producto7.webp",
+      "categoria": "bovinos, ovinos",
+      "especie": "Terneros, corderos y lechones",
+      "etapa": "1 a 5 Días",
+      "tiempoLiberacion": "1 a 5 Días",
+      "presentacion": "Cubo de 2.5kg",
+      "peso": "80g",
+      "ingredientes": [
+        "Colostro",
+        "Inmunoglobulinas",
+        "Vitaminas",
+        "Minerales"
+      ],
+      "beneficios": [
+        "Fortalecimiento inmune",
+        "Crecimiento saludable",
+        "Prevención de diarreas",
+        "Desarrollo óptimo"
+      ],
+      "stock": 56,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/7Nutrizan.pdf"
+    },
+    {
+      "id": 8,
+      "nombre": "Bolutech Vitality",
+      "descripcion": "Para mejorar la calidad de la leche, reducir la incidencia de mastitis y maximizar el potencial productivo de sus vacas durante el exigente periodo de la lactancia.",
+      "descripcionCompleta": "Suplemento nutricional para corderos que optimiza el crecimiento, mejora la ganancia de peso y fortalece la salud general.",
+      "precio": 77,
+      "moneda": "EUR",
+      "imagen": "assets/producto8.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en lactación",
+      "etapa": "40 Días",
+      "tiempoLiberacion": "40 Días",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "70g",
+      "ingredientes": [
+        "Proteínas",
+        "Energía",
+        "Vitaminas",
+        "Minerales"
+      ],
+      "beneficios": [
+        "Crecimiento acelerado",
+        "Mejor ganancia de peso",
+        "Salud óptima",
+        "Prevención de carencias"
+      ],
+      "stock": 67,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/8Vitality.pdf"
+    },
+    {
+      "id": 9,
+      "nombre": "Bolutech Start",
+      "descripcion": "Prevención del ahogamiento energético que supone la cetosis.",
+      "descripcionCompleta": "Suplemento nutricional específico para cerdas que optimiza la reproducción, mejora el desarrollo fetal y la producción láctea.",
+      "precio": 50.68,
+      "moneda": "EUR",
+      "imagen": "assets/producto9.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en periparto",
+      "etapa": "3 Días",
+      "tiempoLiberacion": "3 Días",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "160g",
+      "ingredientes": [
+        "Proteínas",
+        "Calcio",
+        "Fósforo",
+        "Vitaminas",
+        "Aminoácidos"
+      ],
+      "beneficios": [
+        "Reproducción optimizada",
+        "Desarrollo fetal mejorado",
+        "Producción láctea óptima",
+        "Salud reproductiva"
+      ],
+      "stock": 19,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/9Start.pdf"
+    },
+    {
+      "id": 10,
+      "nombre": "Bolutech Tonic",
+      "descripcion": "Para garantizar un parto sin problemas, un ternero sano y un arranque de lactación potente y saludable.",
+      "descripcionCompleta": "Suplemento nutricional para toros reproductores que mejora la calidad seminal, la libido y la fertilidad general.",
+      "precio": 58.3,
+      "moneda": "EUR",
+      "imagen": "assets/producto10.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas en preparto",
+      "etapa": "42 Días",
+      "tiempoLiberacion": "42 Días",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "220g",
+      "ingredientes": [
+        "Zinc",
+        "Selenio",
+        "Vitaminas E y B12",
+        "Aminoácidos",
+        "Antioxidantes"
+      ],
+      "beneficios": [
+        "Mejora la calidad seminal",
+        "Aumenta la libido",
+        "Fertilidad optimizada",
+        "Salud reproductiva"
+      ],
+      "stock": 15,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/10Tonic.pdf"
+    },
+    {
+      "id": 11,
+      "nombre": "Lactibiose Effervescent",
+      "descripcion": "Rehidratación oral para animales jóvenes.",
+      "descripcionCompleta": "Suplemento nutricional para carneros que optimiza la reproducción, mejora la calidad seminal y fortalece la salud reproductiva.",
+      "precio": 84,
+      "moneda": "EUR",
+      "imagen": "assets/producto11.webp",
+      "categoria": "bovinos",
+      "especie": "Terneros",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Caja de 24 sobres",
+      "peso": "140g",
+      "ingredientes": [
+        "Zinc",
+        "Selenio",
+        "Vitaminas",
+        "Aminoácidos",
+        "Antioxidantes"
+      ],
+      "beneficios": [
+        "Calidad seminal mejorada",
+        "Fertilidad optimizada",
+        "Salud reproductiva",
+        "Vigor reproductor"
+      ],
+      "stock": 23,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/11Lactibiose.pdf"
+    },
+    {
+      "id": 12,
+      "nombre": "Polychoc total 5L",
+      "descripcion": "Alimentación dietética complementaria para rumiantes.",
+      "descripcionCompleta": "Suplemento nutricional para verracos que optimiza la reproducción, mejora la calidad seminal y fortalece la salud reproductiva.",
+      "precio": 76.36,
+      "moneda": "EUR",
+      "imagen": "assets/producto12.webp",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Vacas, corderos y cerdos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Garrafa de 5L",
+      "peso": "180g",
+      "ingredientes": [
+        "Zinc",
+        "Selenio",
+        "Vitaminas",
+        "Aminoácidos",
+        "Antioxidantes"
+      ],
+      "beneficios": [
+        "Calidad seminal óptima",
+        "Fertilidad mejorada",
+        "Salud reproductiva",
+        "Vigor reproductor"
+      ],
+      "stock": 12,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/12Polychoctotal.pdf"
+    },
+    {
+      "id": 13,
+      "nombre": "Pulsomeriol 5L",
+      "descripcion": "Precursor de la glucosa, para optimizar el metabolismo energético en el hígado.",
+      "descripcionCompleta": "Suplemento nutricional específico para vacas lecheras de alta producción que optimiza la producción láctea y mejora la calidad de la leche.",
+      "precio": 43.84,
+      "moneda": "EUR",
+      "imagen": "assets/producto13.webp",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Vacas, Ovejas y Cabras",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Garrafa de 5L",
+      "peso": "250g",
+      "ingredientes": [
+        "Proteínas de alta calidad",
+        "Energía",
+        "Vitaminas",
+        "Minerales",
+        "Aminoácidos"
+      ],
+      "beneficios": [
+        "Producción láctea máxima",
+        "Calidad de leche óptima",
+        "Salud del rumen",
+        "Eficiencia productiva"
+      ],
+      "stock": 8,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/13Pulsomeriol.pdf"
+    },
+    {
+      "id": 14,
+      "nombre": "Bolutech Junior",
+      "descripcion": "Suplementación para novillas en pastoreo.",
+      "descripcionCompleta": "Suplemento nutricional para ovejas de carne que optimiza el crecimiento, mejora la calidad de la carne y acelera el engorde.",
+      "precio": 72.72,
+      "moneda": "EUR",
+      "imagen": "assets/producto14.webp",
+      "categoria": "bovinos",
+      "especie": "Terneros y novillas",
+      "etapa": "250 Días",
+      "tiempoLiberacion": "250 Días",
+      "presentacion": "Caja de 20 bolos",
+      "peso": "110g",
+      "ingredientes": [
+        "Proteínas",
+        "Energía",
+        "Vitaminas",
+        "Minerales",
+        "Aminoácidos"
+      ],
+      "beneficios": [
+        "Crecimiento acelerado",
+        "Calidad de carne mejorada",
+        "Engorde optimizado",
+        "Salud general"
+      ],
+      "stock": 34,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/14Junior.pdf"
+    },
+    {
+      "id": 15,
+      "nombre": "Bolutech Excell",
+      "descripcion": "Para garantizar que los animales mantengan un estado de salud y fertilidad óptimo.",
+      "descripcionCompleta": "Suplemento nutricional para cerdos en crecimiento que optimiza el desarrollo, mejora la conversión alimenticia y acelera el engorde.",
+      "precio": 56.99,
+      "moneda": "EUR",
+      "imagen": "assets/producto15.webp",
+      "categoria": "bovinos",
+      "especie": "Terneros y novillas",
+      "etapa": "8 Meses",
+      "tiempoLiberacion": "8 Meses",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "130g",
+      "ingredientes": [
+        "Proteínas",
+        "Aminoácidos",
+        "Vitaminas",
+        "Minerales",
+        "Energía"
+      ],
+      "beneficios": [
+        "Crecimiento optimizado",
+        "Mejor conversión alimenticia",
+        "Engorde acelerado",
+        "Salud digestiva"
+      ],
+      "stock": 41,
+      "destacado": false,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/15Excell.pdf"
+    },
+    {
+      "id": 16,
+      "nombre": "Bolutech Dietevit equilibre",
+      "descripcion": "Suplementos para vacas ecológicas en pastoreo.",
+      "descripcionCompleta": "Suplemento nutricional premium de alta calidad para todas las especies ganaderas. Formulación avanzada que optimiza el rendimiento y la salud.",
+      "precio": 63.1,
+      "moneda": "EUR",
+      "imagen": "assets/producto16.webp",
+      "categoria": "bovinos",
+      "especie": "Vacas y novillas",
+      "etapa": "170 Días",
+      "tiempoLiberacion": "170 Días",
+      "presentacion": "Caja de 10 bolos",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Rendimiento máximo",
+        "Salud óptima",
+        "Eficiencia productiva",
+        "Calidad premium"
+      ],
+      "stock": 5,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/16Dietevit.pdf"
+    },
+    {
+      "id": 17,
+      "nombre": "Blue Spray 200cc - 200ml",
+      "descripcion": "Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos.",
+      "descripcionCompleta": "Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.",
+      "precio": 7.05,
+      "moneda": "EUR",
+      "imagen": "assets/producto17.webp",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 200ml",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 18,
+      "nombre": "Blue Spray 200cc - 400ml",
+      "descripcion": "Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos.",
+      "descripcionCompleta": "Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.",
+      "precio": 11.9,
+      "moneda": "EUR",
+      "imagen": "assets/producto17.webp",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 400ml",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    }
+  ],
+  "categorias": [
+    {
+      "id": "bovinos",
+      "nombre": "Bovinos",
+      "descripcion": "Productos específicos para ganado bovino",
+      "especies": [
+        "Terneros",
+        "Novillas",
+        "Vacas",
+        "Toros",
+        "Vacas lecheras"
+      ]
+    },
+    {
+      "id": "ovinos",
+      "nombre": "Ovinos",
+      "descripcion": "Productos específicos para ganado ovino",
+      "especies": [
+        "Ovejas",
+        "Corderos",
+        "Carneros",
+        "Ovejas de carne"
+      ]
+    },
+    {
+      "id": "caprinos",
+      "nombre": "Caprinos",
+      "descripcion": "Productos específicos para ganado caprino",
+      "especies": [
+        "Cabras",
+        "Cabritos",
+        "Machos cabríos",
+        "Cabras lecheras"
+      ]
+    },
+    {
+      "id": "porcinos",
+      "nombre": "Porcinos",
+      "descripcion": "Productos específicos para ganado porcino",
+      "especies": [
+        "Cerdos",
+        "Lechones",
+        "Cerdas",
+        "Verracos"
+      ]
+    },
+    {
+      "id": "todas",
+      "nombre": "Todas las especies",
+      "descripcion": "Productos universales para todas las especies",
+      "especies": [
+        "Todas las especies ganaderas"
+      ]
+    }
+  ],
+  "etapas": [
+    "Transición y post-parto",
+    "Gestación y lactación",
+    "Todas las etapas",
+    "Lactación",
+    "Crecimiento temprano",
+    "Crecimiento y engorde",
+    "Reproducción",
+    "Lactación alta producción",
+    "Engorde"
+  ],
+  "presentaciones": [
+    "Bolus",
+    "Bolus de liberación prolongada",
+    "Bolus pequeño",
+    "Bolus grande",
+    "Bolus premium"
+  ]
+}

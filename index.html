@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrigan España | Web Oficial</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="reset.css">
+    <!-- Font Awesome para el icono del carrito -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts - Montserrat Alternates y Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav-principal">
+        <div class="nav-superior">
+            <div class="nav-hamburguesa-container">
+                <button class="nav-hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-izquierda-movil">
+                    <span class="linea1"></span>
+                    <span class="linea2"></span>
+                </button>
+                <div class="texto-menu-container">
+                    <span class="texto-actual">Menú</span>
+                    <span class="texto-siguiente">Cerrar</span>
+                </div>
+            </div>
+            <ul class="menu-izquierda-escritorio">
+                <li><a href="index.html" class="activo">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+                <li><a href="feriaTineo.html">Feria Tineo</a></li>
+            </ul>
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo_nutriganesp.png" alt="Logo Nutrigan España" class="logo">
+                </a>
+            </div>
+            <div class="nav-derecha">
+                <div class="carrito-container">
+                    <a href="carrito.html" class="carrito-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="carrito-contador" id="carrito-contador">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <form class="nav-buscador" action="#" method="get" role="search">
+            <div class="buscador-input-container">
+                <input type="search" name="q" placeholder="Buscar..." aria-label="Buscar">
+                <div class="buscador-texto-dinamico">
+                    <span class="buscador-texto-actual">Bolutech Flash</span>
+                    <span class="buscador-texto-siguiente">Bolutech Activ</span>
+                    <span class="buscador-texto-tercero">Bolutech Heel</span>
+                </div>
+            </div>
+            <button type="submit" aria-label="Buscar"><i class="fas fa-search"></i></button>
+        </form>
+        <ul class="menu-izquierda" id="menu-izquierda-movil">
+            <li><a href="index.html" class="activo">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
+            <li><a href="feriaTineo.html">Feria Tineo</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Carrusel de imágenes -->
+    <div class="carrusel-container">
+        <!-- Texto hero superpuesto sobre el carrusel -->
+        <div class="hero-overlay">
+            <div class="hero-texto">
+                <h1 class="hero-titulo">MAXIMIZA TU PRODUCCIÓN</h1>
+                <p class="hero-subtitulo">Suplementación nutricional de alta calidad para tu ganado</p>
+                <p class="hero-descripcion">Más de 30 años liderando la innovación en nutrición animal. Productos certificados que optimizan el rendimiento y la producción en tu ganado. Distribuidor directo de toda la gama de productos Bolutech.</p>
+                <a href="productos.html" class="hero-cta">VER PRODUCTOS</a>
+            </div>
+        </div>
+        
+        <div class="carrusel-wrapper">
+            <div class="carrusel-slide active">
+                <img src="assets/img-carrusel.webp" alt="Imagen 1 del carrusel" class="carrusel-imagen">
+            </div>
+            <div class="carrusel-slide">
+                <img src="assets/img-carrusel2.webp" alt="Imagen 2 del carrusel" class="carrusel-imagen">
+            </div>
+            <div class="carrusel-slide">
+                <img src="assets/img-carrusel3.webp" alt="Imagen 3 del carrusel" class="carrusel-imagen">
+            </div>
+            <div class="carrusel-slide">
+                <img src="assets/img-carrusel4.webp" alt="Imagen 4 del carrusel" class="carrusel-imagen">
+            </div>
+            <div class="carrusel-slide">
+                <img src="assets/img-carrusel5.webp" alt="Imagen 5 del carrusel" class="carrusel-imagen">
+            </div>
+        </div>
+        
+        <!-- Indicadores de navegación -->
+        <div class="carrusel-indicadores">
+            <span class="indicador active" data-slide="0"></span>
+            <span class="indicador" data-slide="1"></span>
+            <span class="indicador" data-slide="2"></span>
+            <span class="indicador" data-slide="3"></span>
+            <span class="indicador" data-slide="4"></span>
+        </div>
+        
+        <!-- Botones de navegación -->
+        <button class="carrusel-btn carrusel-prev" aria-label="Imagen anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="carrusel-btn carrusel-next" aria-label="Imagen siguiente">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+    
+    <!-- Sección de Productos -->
+    <section id="productos" class="productos-section">
+        <div class="productos-container">
+            <h2 class="productos-titulo">Productos Destacados</h2>
+            <p class="productos-subtitulo">Descubre nuestra gama completa de suplementos nutricionales para ganado</p>
+            
+            <div class="productos-grid">
+                <a href="producto.html?id=1" class="producto-item producto-link">
+                    <div class="producto-imagen-container">
+                        <img src="assets/producto1.webp" alt="Suplemento para vacas" class="producto-imagen">
+                    </div>
+                    <h3 class="producto-nombre">Bolutech Flash</h3>
+                    <p class="producto-descripcion">Reducción del riesgo de hipocalcemia.</p>
+                    <div class="producto-precio">€59.69</div>
+                    <button class="producto-btn">Ver Detalles</button>
+                </a>
+                
+                <a href="producto.html?id=2" class="producto-item producto-link">
+                    <div class="producto-imagen-container">
+                        <img src="assets/producto2.webp" alt="Suplemento para ovejas" class="producto-imagen">
+                    </div>
+                    <h3 class="producto-nombre">Bolutech Activ</h3>
+                    <p class="producto-descripcion">Alimento mineral en forma de bolo. Complementación en fósforo soluble. Flushing fósforico.</p>
+                    <div class="producto-precio">€48.73</div>
+                    <button class="producto-btn">Ver Detalles</button>
+                </a>
+                
+                <a href="producto.html?id=3" class="producto-item producto-link">
+                    <div class="producto-imagen-container">
+                        <img src="assets/producto3.webp" alt="Suplemento para cerdos" class="producto-imagen">
+                    </div>
+                    <h3 class="producto-nombre">Bolutech Heel</h3>
+                    <p class="producto-descripcion">Mejora la calidad de las pezuñas y aumento fuerte de la producción.</p>
+                    <div class="producto-precio">€84.41</div>
+                    <button class="producto-btn">Ver Detalles</button>
+                </a>
+            </div>
+            
+            <div class="productos-cta">
+                <a href="productos.html" class="productos-ver-todos">Ver Todos los Productos</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección Quienes Somos -->
+    <section class="quienes-somos-section">
+        <div class="quienes-somos-container">
+            <div class="quienes-somos-content">
+                <div class="quienes-somos-texto">
+                    <h2 class="quienes-somos-titulo">Quienes Somos</h2>
+                    <p class="quienes-somos-descripcion">
+                        Nutrigan España es una empresa líder en el sector de la nutrición y suplementación animal, 
+                        con más de 30 años de experiencia en el mercado. Nos especializamos en la fabricación y 
+                        distribución de productos de alta calidad que ayudan a ganaderos y productores a 
+                        optimizar el rendimiento y salud de sus animales.
+                    </p>
+                    <p class="quienes-somos-descripcion">
+                        Nuestro compromiso con la excelencia nos ha llevado a obtener las más altas certificaciones 
+                        internacionales, garantizando que cada producto que sale de nuestras instalaciones cumple 
+                        con los estándares más exigentes de calidad y seguridad para la alimentación animal.
+                    </p>
+                    <div class="quienes-somos-valores">
+                        <div class="valor-item">
+                            <div class="valor-icono">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <div class="valor-contenido">
+                                <h3 class="valor-titulo">Calidad</h3>
+                                <p class="valor-descripcion">Productos certificados con los más altos estándares para ganado</p>
+                            </div>
+                        </div>
+                        <div class="valor-item">
+                            <div class="valor-icono">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="valor-contenido">
+                                <h3 class="valor-titulo">Sostenibilidad</h3>
+                                <p class="valor-descripcion">Compromiso con el medio ambiente y prácticas responsables</p>
+                            </div>
+                        </div>
+                        <div class="valor-item">
+                            <div class="valor-icono">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="valor-contenido">
+                                <h3 class="valor-titulo">Innovación</h3>
+                                <p class="valor-descripcion">Investigación constante para mejorar la nutrición animal</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Imágenes movidas aquí para que aparezcan antes del botón en responsive -->
+                    <div class="quienes-somos-imagenes-movil">
+                        <div class="quienes-somos-imagen">
+                            <img src="assets/sobreNosotros.webp" alt="Equipo Nutrigan España" class="quienes-somos-img">
+                        </div>
+                        <div class="quienes-somos-imagen">
+                            <img src="assets/sobreNosotros2.webp" alt="Instalaciones Nutrigan España" class="quienes-somos-img">
+                        </div>
+                    </div>
+                    
+                    <div class="quienes-somos-cta">
+                        <a href="sobreNosotros.html" class="quienes-somos-btn">Saber más</a>
+                    </div>
+                </div>
+                <!-- Imágenes para escritorio -->
+                <div class="quienes-somos-imagenes">
+                    <div class="quienes-somos-imagen">
+                        <img src="assets/sobreNosotros.webp" alt="Equipo Nutrigan España" class="quienes-somos-img">
+                    </div>
+                    <div class="quienes-somos-imagen">
+                        <img src="assets/sobreNosotros2.webp" alt="Instalaciones Nutrigan España" class="quienes-somos-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sección de Certificados -->
+    <section class="certificados-section">
+        <div class="certificados-container">
+            <h2 class="certificados-titulo">Certificaciones Oficiales</h2>
+            <p class="certificados-subtitulo">Nuestra empresa cuenta con las más altas certificaciones de calidad y seguridad</p>
+            
+            <div class="certificados-grid">
+                <div class="certificado-item">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado1.webp" alt="Certificado de Calidad" class="certificado-imagen">
+                    </div>
+                    <h3 class="certificado-nombre">PRO-09420141</h3>
+                    <p class="certificado-descripcion">Ganadería libre de uso de antibióticos y desparasitante beta-caseína láctica A2</p>
+                </div>
+                
+                <div class="certificado-item">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado2.webp" alt="Certificado ISO 14001" class="certificado-imagen">
+                    </div>
+                    <h3 class="certificado-nombre">ISO 14067</h3>
+                    <p class="certificado-descripcion">Alianza innovadora en la agricultura</p>
+                </div>
+                
+                <div class="certificado-item">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado3.webp" alt="Certificado HACCP" class="certificado-imagen">
+                    </div>
+                    <h3 class="certificado-nombre">NEOLAIT®</h3>
+                    <p class="certificado-descripcion">Distribuidor Oficial</p>
+                </div>
+                
+                <div class="certificado-item">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado4.webp" alt="Certificado BRC" class="certificado-imagen">
+                    </div>
+                    <h3 class="certificado-nombre">Euro Dog®</h3>
+                    <p class="certificado-descripcion">Distribuidor Oficial</p>
+                </div>
+
+                <div class="certificado-item">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado5.webp" alt="Certificado BRC" class="certificado-imagen">
+                    </div>
+                    <h3 class="certificado-nombre">Gav-All Feed®</h3>
+                    <p class="certificado-descripcion">Distribuidor Oficial</p>
+                </div>
+        
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Sección de Contacto -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Contacto</h3>
+                <div class="footer-contenido">
+                    <p><i class="fas fa-phone"></i> +34 626 983 042</p>
+                    <p><i class="fas fa-envelope"></i> javiernutrigan@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> C/El Cortin n°63<br>El Crucero - Tineo 33877 (Asturias)</p>
+                </div>
+            </div>
+            
+            <!-- Sección de Información Legal -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Información Legal</h3>
+                <div class="footer-contenido">
+                    <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
+                    <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
+                    <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
+                    <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
+                </div>
+            </div>
+            
+            <!-- Sección de Síguenos -->
+            <div class="footer-seccion">
+                <h3 class="footer-titulo">Síguenos</h3>
+                <div class="footer-contenido">
+                    <div class="footer-redes-sociales">
+                        <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" class="red-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Línea de copyright -->
+        <div class="footer-copyright">
+            <p>&copy; 2025 Nutrigan España. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/34123456789?text=Hola,%20me%20interesan%20sus%20productos%20de%20nutrición%20animal" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-texto">Asesoramiento gratuito</span>
+    </a>
+    
+    <script src="main.js"></script>
+    <script>
+        // Actualizar contador del carrito
+        document.addEventListener('DOMContentLoaded', function() {
+            const contador = document.getElementById('carrito-contador');
+            if (contador) {
+                const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+                const cantidadTotal = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+                contador.textContent = cantidadTotal;
+                contador.setAttribute('data-count', cantidadTotal);
+            }
+        });
+    </script>
+</body>
+</html>
