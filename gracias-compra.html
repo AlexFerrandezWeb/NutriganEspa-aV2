@@ -231,6 +231,29 @@
     <!-- Google Customer Reviews -->
     <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
     <script>
+        // Función de prueba para simular datos de pedido
+        function simularDatosPedido() {
+            const datosPrueba = {
+                pedidoId: 'TEST-' + Date.now().toString().slice(-6),
+                email: 'test@nutrigan.es',
+                productos: [
+                    {
+                        nombre: 'Bolutech Flash',
+                        gtin: '1234567890123',
+                        precio: 59.69,
+                        cantidad: 1
+                    }
+                ]
+            };
+            localStorage.setItem('ultimoPedido', JSON.stringify(datosPrueba));
+            console.log('Datos de prueba cargados:', datosPrueba);
+        }
+        
+        // Cargar datos de prueba si no hay datos reales
+        if (!localStorage.getItem('ultimoPedido')) {
+            simularDatosPedido();
+        }
+        
         window.renderOptIn = function() {
             window.gapi.load('surveyoptin', function() {
                 // Obtener datos del pedido desde localStorage
