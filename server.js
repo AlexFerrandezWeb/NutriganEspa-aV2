@@ -628,9 +628,29 @@ app.post('/api/create-checkout-session', async (req, res) => {
             mode: 'payment',
             success_url: 'https://www.xn--nutriganespaa-tkb.com/gracias-compra.html?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: 'https://www.xn--nutriganespaa-tkb.com/carrito.html',
+            // Configuración de campos de envío
+            shipping_address_collection: {
+                allowed_countries: ['ES']
+            },
+            // Configuración de campos de facturación
+            billing_address_collection: 'required',
+            // Configuración de teléfono
+            phone_number_collection: {
+                enabled: true
+            },
+            // Configuración de cliente
+            customer_creation: 'always',
+            // Metadatos del pedido
             metadata: {
                 total: total.toString(),
-                cantidadTotal: cantidadTotal.toString()
+                cantidadTotal: cantidadTotal.toString(),
+                productos_json: JSON.stringify(productos)
+            },
+            // Mensaje personalizado
+            custom_text: {
+                submit: {
+                    message: 'Nutrigan España - Productos de calidad para el bienestar animal. Envío gratuito incluido en todos los pedidos.'
+                }
             }
         });
 
