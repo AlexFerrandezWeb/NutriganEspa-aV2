@@ -22,10 +22,13 @@ function actualizarProgreso(paso) {
 function validarFormulario() {
     const nombre = document.getElementById('nombre').value.trim();
     const email = document.getElementById('email').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
     const direccion = document.getElementById('direccion').value.trim();
+    const ciudad = document.getElementById('ciudad').value.trim();
+    const codigoPostal = document.getElementById('codigoPostal').value.trim();
     const metodoPago = document.querySelector('input[name="metodoPago"]:checked')?.value;
     
-    if (!nombre || !email || !direccion || !metodoPago) {
+    if (!nombre || !email || !telefono || !direccion || !ciudad || !codigoPostal || !metodoPago) {
         alert('Por favor, completa todos los campos obligatorios.');
         return false;
     }
@@ -61,11 +64,14 @@ async function procesarPago() {
         const formData = {
             nombre: document.getElementById('nombre').value,
             email: document.getElementById('email').value,
+            telefono: document.getElementById('telefono').value,
             direccion: document.getElementById('direccion').value,
+            ciudad: document.getElementById('ciudad').value,
+            codigoPostal: document.getElementById('codigoPostal').value,
             metodoPago: document.querySelector('input[name="metodoPago"]:checked').value,
-            numeroTarjeta: document.getElementById('numeroTarjeta').value,
-            fechaExpiracion: document.getElementById('fechaExpiracion').value,
-            cvv: document.getElementById('cvv').value
+            numeroTarjeta: document.getElementById('numeroTarjeta')?.value || '',
+            fechaExpiracion: document.getElementById('fechaExpiracion')?.value || '',
+            cvv: document.getElementById('cvv')?.value || ''
         };
         
         // Enviar datos al servidor
