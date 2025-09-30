@@ -11,7 +11,6 @@ Allow: /docs/
 Allow: /index.html
 Allow: /galeria.html
 Allow: /carrito.html
-Allow: /checkout.html
 Allow: /pago-exitoso.html
 Allow: /producto.html
 
