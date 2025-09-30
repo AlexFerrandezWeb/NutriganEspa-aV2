@@ -45,14 +45,17 @@ const PORT = process.env.PORT || 3000;
 
 // Lista de dominios permitidos para CORS
 const whitelist = [
-    'https://xn--nutriganespaa-tkb.com', 
+    'https://xn--nutriganespaa-tkb.com',
     'https://www.xn--nutriganespaa-tkb.com',
-    'https://nutriganespaña.com', 
-    'https://nutriganespana.com', 
+    'https://nutriganespaña.com',
+    'https://nutriganespana.com',
     'https://nutrigan-web.onrender.com',
-    'http://localhost:5504', 
-    'http://127.0.0.1:5504', 
-    'http://localhost:3000', 
+    // Desarrollo local (Live Server y similares)
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'http://localhost:5504',
+    'http://127.0.0.1:5504',
+    'http://localhost:3000',
     'http://127.0.0.1:3000'
 ];
 
