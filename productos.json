@@ -2,7 +2,7 @@
   "productos": [
     {
       "id": 1,
-      "nombre": "Bolutech Flash",
+      "nombre": "Bolutech® Flash",
       "descripcion": "Reducción del riesgo de hipocalcemia.",
       "descripcionCompleta": "Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.",
       "precio": 59.69,
@@ -36,7 +36,7 @@
     },
     {
       "id": 2,
-      "nombre": "Bolutech Activ",
+      "nombre": "Bolutech® Activ",
       "descripcion": "Alimento mineral en forma de bolo. Complementación en fósforo soluble. Flushing fósforico.",
       "descripcionCompleta": "Suplemento específico para la prevención y tratamiento de la hipofosfatemia en ovejas. Formulación de liberación controlada que asegura la absorción óptima del fósforo.",
       "precio": 48.73,
@@ -70,7 +70,7 @@
     },
     {
       "id": 3,
-      "nombre": "Bolutech Heel",
+      "nombre": "Bolutech® Heel",
       "descripcion": "Mejora la calidad de las pezuñas y aumento fuerte de la producción.",
       "descripcionCompleta": "Suplemento de larga duración para cerdos que mejora significativamente la calidad de las pezuñas y optimiza el crecimiento y desarrollo en todas las etapas productivas.",
       "precio": 84.41,
@@ -104,7 +104,7 @@
     },
     {
       "id": 4,
-      "nombre": "Bolutech Prepalac",
+      "nombre": "Bolutech® Prepalac",
       "descripcion": "Suplemento completo para vacas en lactación. Mejora la producción láctea.",
       "descripcionCompleta": "Suplemento nutricional integral diseñado específicamente para vacas en lactación. Optimiza la producción láctea y mejora la calidad de la leche.",
       "precio": 61.4,
@@ -139,7 +139,7 @@
     },
     {
       "id": 5,
-      "nombre": "Bolutech MG Flash",
+      "nombre": "Bolutech® MG Flash",
       "descripcion": "Para un parto más fácil.",
       "descripcionCompleta": "Suplemento nutricional específico para ovejas en gestación y lactación. Asegura el correcto desarrollo fetal y la producción láctea óptima.",
       "precio": 58.3,
@@ -173,7 +173,7 @@
     },
     {
       "id": 6,
-      "nombre": "Bolutech Refresh",
+      "nombre": "Bolutech® Refresh",
       "descripcion": "Ayuda a la preparación del celo y a la reproducción.",
       "descripcionCompleta": "Suplemento nutricional completo para cerdos que optimiza el crecimiento, mejora la conversión alimenticia y fortalece el sistema inmune.",
       "precio": 63.67,
@@ -208,7 +208,7 @@
     },
     {
       "id": 7,
-      "nombre": "Nutrizan IG 2.5kg",
+      "nombre": "Nutrizan® IG 2.5kg",
       "descripcion": "Suplemento para terneros recién nacidos y en crecimiento con problemas digestivos.",
       "descripcionCompleta": "Suplemento nutricional específico para terneros que fortalece el sistema inmune, mejora el crecimiento y previene enfermedades digestivas.",
       "precio": 49.2,
@@ -216,8 +216,8 @@
       "imagen": "assets/producto7.webp",
       "categoria": "bovinos, ovinos",
       "especie": "Terneros, corderos y lechones",
-      "etapa": "1 a 5 Días",
-      "tiempoLiberacion": "1 a 5 Días",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
       "presentacion": "Cubo de 2.5kg",
       "peso": "80g",
       "ingredientes": [
@@ -242,7 +242,7 @@
     },
     {
       "id": 8,
-      "nombre": "Bolutech Vitality",
+      "nombre": "Bolutech® Vitality",
       "descripcion": "Para mejorar la calidad de la leche, reducir la incidencia de mastitis y maximizar el potencial productivo de sus vacas durante el exigente periodo de la lactancia.",
       "descripcionCompleta": "Suplemento nutricional para corderos que optimiza el crecimiento, mejora la ganancia de peso y fortalece la salud general.",
       "precio": 77,
@@ -276,7 +276,7 @@
     },
     {
       "id": 9,
-      "nombre": "Bolutech Start",
+      "nombre": "Bolutech® Start",
       "descripcion": "Prevención del ahogamiento energético que supone la cetosis.",
       "descripcionCompleta": "Suplemento nutricional específico para cerdas que optimiza la reproducción, mejora el desarrollo fetal y la producción láctea.",
       "precio": 50.68,
@@ -311,7 +311,7 @@
     },
     {
       "id": 10,
-      "nombre": "Bolutech Tonic",
+      "nombre": "Bolutech® Tonic",
       "descripcion": "Para garantizar un parto sin problemas, un ternero sano y un arranque de lactación potente y saludable.",
       "descripcionCompleta": "Suplemento nutricional para toros reproductores que mejora la calidad seminal, la libido y la fertilidad general.",
       "precio": 58.3,
@@ -346,7 +346,7 @@
     },
     {
       "id": 11,
-      "nombre": "Lactibiose Effervescent",
+      "nombre": "Lactibiose® Effervescent",
       "descripcion": "Rehidratación oral para animales jóvenes.",
       "descripcionCompleta": "Suplemento nutricional para carneros que optimiza la reproducción, mejora la calidad seminal y fortalece la salud reproductiva.",
       "precio": 84,
@@ -451,7 +451,7 @@
     },
     {
       "id": 14,
-      "nombre": "Bolutech Junior",
+      "nombre": "Bolutech® Junior",
       "descripcion": "Suplementación para novillas en pastoreo.",
       "descripcionCompleta": "Suplemento nutricional para ovejas de carne que optimiza el crecimiento, mejora la calidad de la carne y acelera el engorde.",
       "precio": 72.72,
@@ -486,7 +486,7 @@
     },
     {
       "id": 15,
-      "nombre": "Bolutech Excell",
+      "nombre": "Bolutech® Excell",
       "descripcion": "Para garantizar que los animales mantengan un estado de salud y fertilidad óptimo.",
       "descripcionCompleta": "Suplemento nutricional para cerdos en crecimiento que optimiza el desarrollo, mejora la conversión alimenticia y acelera el engorde.",
       "precio": 56.99,
@@ -521,7 +521,7 @@
     },
     {
       "id": 16,
-      "nombre": "Bolutech Dietevit equilibre",
+      "nombre": "Bolutech® Dietevit equilibre",
       "descripcion": "Suplementos para vacas ecológicas en pastoreo.",
       "descripcionCompleta": "Suplemento nutricional premium de alta calidad para todas las especies ganaderas. Formulación avanzada que optimiza el rendimiento y la salud.",
       "precio": 63.1,
@@ -619,6 +619,666 @@
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
       "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 19,
+      "nombre": "Globigen® Día Stop 2KG",
+      "descripcion": "Complemento alimenticio con proteínas funcionales (IgY), así como electrolitos y carbohidratos fácilmente asimilables. La IgY puede fijar patógenos, como bacterias y virus, en el intestino y mejorar así la salud intestinal.",
+      "descripcionCompleta": "Complemento alimenticio con proteínas funcionales (IgY), así como electrolitos y carbohidratos fácilmente asimilables. La IgY puede fijar patógenos, como bacterias y virus, en el intestino y mejorar así la salud intestinal.",
+      "precio": 48.05,
+      "moneda": "EUR",
+      "imagen": "assets/producto19.jpg",
+      "categoria": "bovinos",
+      "especie": "Terneros",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 2KG",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 20,
+      "nombre": "Calz-o-Phos liquid 0,5L",
+      "descripcion": "Reduce el riesgo de fiebre de la leche: Vacas sanas para una gestión rentable.",
+      "descripcionCompleta": "Reduce el riesgo de fiebre de la leche: Vacas sanas para una gestión rentable.",
+      "precio": 11.20,
+      "moneda": "EUR",
+      "imagen": "assets/producto20.jpg",
+      "categoria": "bovinos",
+      "especie": "Vacas lecheras",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 0,5L",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 21,
+      "nombre": "gav-ALLFEED® ENTEROGAV - 1L",
+      "descripcion": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
+      "descripcionCompleta": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
+      "precio": 70.40,
+      "moneda": "EUR",
+      "imagen": "assets/producto21.jpg",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Terneros, corderos y cabritos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 1L",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 22,
+      "nombre": "gav-ALLFEED® ENTEROGAV - 5L",
+      "descripcion": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
+      "descripcionCompleta": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
+      "precio": 325.60,
+      "moneda": "EUR",
+      "imagen": "assets/producto22.jpg",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Terneros, corderos y cabritos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Garrafa de 5L",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 23,
+      "nombre": "gav-ALLFEED® Replyn DEFENSE WS250ml",
+      "descripcion": "Espray dermoprotector con acción biológica repelente y antipicaduras para el control de insectos y ectoparasitos y enfermedad del ehe (enfermedad hemorrágica epizoótica).",
+      "descripcionCompleta": "Espray dermoprotector con acción biológica repelente y antipicaduras para el control de insectos y ectoparasitos y enfermedad del ehe (enfermedad hemorrágica epizoótica).",
+      "precio": 32.98,
+      "moneda": "EUR",
+      "imagen": "assets/producto23.jpg",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 250ml",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 24,
+      "nombre": "gav-ALLFEED® Replyn DUNE - 10KG",
+      "descripcion": "Nutraceutico para el controlde infestación de endoparasitos y ectoparasitos e insectos.",
+      "descripcionCompleta": "Nutraceutico para el controlde infestación de endoparasitos y ectoparasitos e insectos.",
+      "precio": 2085.60,
+      "moneda": "EUR",
+      "imagen": "assets/producto24.png",
+      "categoria": "bovinos, ovinos, caprinos, equinos",
+      "especie": "Vacas, terneros, ovejas, cabras y caballos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "120 Bloques",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 25,
+      "nombre": "Snap Detector",
+      "descripcion": "Test rápido de diagnóstico veterinario que sirve para detectar desde enfermedades infecciosas en perros y gatos hasta residuos de antibióticos en la leche de vacas, ovejas o cabras.",
+      "descripcionCompleta": "Test rápido de diagnóstico veterinario que sirve para detectar desde enfermedades infecciosas en perros y gatos hasta residuos de antibióticos en la leche de vacas, ovejas o cabras.",
+      "precio": 264.99,
+      "moneda": "EUR",
+      "imagen": "assets/producto25.jpg",
+      "categoria": "bovinos, ovinos, caprinos, porcinos, equinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "1 caja (30 unidades)",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 26,
+      "nombre": "gav-ALLFEED® Dipp FORTE - 250ml",
+      "descripcion": "Es un nutracéutico con propiedades antisépticas, diseñado para la higiene, protección y mejora de la salud general de la ubre y los pezones.",
+      "descripcionCompleta": "Es un nutracéutico con propiedades antisépticas, diseñado para la higiene, protección y mejora de la salud general de la ubre y los pezones.",
+      "precio": 107.80,
+      "moneda": "EUR",
+      "imagen": "assets/producto26.jpg",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Vacas lecheras, ovejas lecheras y cabras lecheras",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 250ml",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 27,
+      "nombre": "gav-ALLFEED® Lactomint CARE - 5L",
+      "descripcion": "Nanotecnologica aplicada anti-inflamatoria y dermoprotectora para el cuidadode inflamaciones y edemas subcutaneos derivados de golpes.",
+      "descripcionCompleta": "Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.",
+      "precio": 338.80,
+      "moneda": "EUR",
+      "imagen": "assets/producto27.jpg",
+      "categoria": "equinos",
+      "especie": "Caballos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Garrafa de 5L",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 28,
+      "nombre": "gav-ALLFEED® Lactomint CARE - 5L + Dipp FORTE - 250ml",
+      "descripcion": "LactomintCare:Nanotecnologica aplicada anti-inflamatoria y dermoprotectora para el cuidadode inflamaciones y edemas subcutaneos derivados de golpes.",
+      "descripcionCompleta": "LactomintCare:Nanotecnologica aplicada anti-inflamatoria y dermoprotectora para el cuidadode inflamaciones y edemas subcutaneos derivados de golpes. DippForte:Es un nutracéutico con propiedades antisépticas, diseñado para la higiene, protección y mejora de la salud general de la ubre y los pezones.",
+      "precio": 446.60,
+      "moneda": "EUR",
+      "imagen": "assets/producto28.jpg",
+      "categoria": "bovinos, ovinos, caprinos, equinos",
+      "especie": "Vacas lecheras, ovejas lecheras, cabras lecheras y caballos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Garrafa de 5L + Bote de 250ml",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 29,
+      "nombre": "gav-ALLFEED® Lactomint CARE - 500ml",
+      "descripcion": "Nanotecnologica aplicada anti-inflamatoria y dermoprotectora para el cuidadode inflamaciones y edemas subcutaneos derivados de golpes.",
+      "descripcionCompleta": "Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.",
+      "precio": 250.80,
+      "moneda": "EUR",
+      "imagen": "assets/producto29.jpg",
+      "categoria": "equinos",
+      "especie": "Caballos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 500ml",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 30,
+      "nombre": "gav-ALLFEED® Lactomint UTER - 40ml",
+      "descripcion": "Nutracéutico (un producto de origen natural con efectos terapéuticos) diseñado específicamente para el cuidado y la higiene de la zona vaginal y uterina de las hembras de producción.",
+      "descripcionCompleta": "Nutracéutico (un producto de origen natural con efectos terapéuticos) diseñado específicamente para el cuidado y la higiene de la zona vaginal y uterina de las hembras de producción.",
+      "precio": 267.96,
+      "moneda": "EUR",
+      "imagen": "assets/producto30.jpg",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Vacas, ovejas, cabras y cerdas",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Caja de 60 unidades",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 31,
+      "nombre": "gav-ALLFEED® Lactomint IMM",
+      "descripcion": "Alternativa o complemento natural a los antibióticos intramamarios en formato de jeringa. Su principal ventaja es que, al ser un producto natural, no requiere tiempo de supresión en leche. Esto significa que la leche del animal tratado se puede seguir utilizando para el consumo sin necesidad de descartarla.",
+      "descripcionCompleta": "Alternativa o complemento natural a los antibióticos intramamarios en formato de jeringa. Su principal ventaja es que, al ser un producto natural, no requiere tiempo de supresión en leche. Esto significa que la leche del animal tratado se puede seguir utilizando para el consumo sin necesidad de descartarla.",
+      "precio": 145.75,
+      "moneda": "EUR",
+      "imagen": "assets/producto31.jpg",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Vacas lecheras, ovejas lecheras y cabras lecheras",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Caja de 24 unidades",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 32,
+      "nombre": "Globigen® Calf Paste",
+      "descripcion": "Salud intestinal para un mayor rendimiento productivo.",
+      "descripcionCompleta": "Salud intestinal para un mayor rendimiento productivo.",
+      "precio": 136.62,
+      "moneda": "EUR",
+      "imagen": "assets/producto32.jpg",
+      "categoria": "bovinos",
+      "especie": "Terneros",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "2 cajas (12 jeringas)",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 33,
+      "nombre": "Activador Microorganismos BIOPRANA 20L",
+      "descripcion": "Acelera la descomposición de la materia orgánica en general reduciendo o eliminando malos olores, reduciendo o eliminando insectos plaga como moscas, larvas, etc.",
+      "descripcionCompleta": "Acelera la descomposición de la materia orgánica en general reduciendo o eliminando malos olores, reduciendo o eliminando insectos plaga como moscas, larvas, etc.",
+      "precio": 153.89,
+      "moneda": "EUR",
+      "imagen": "assets/producto33.png",
+      "categoria": "bovinos, ovinos, caprinos, porcinos, equinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Garrafa de 20L",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 34,
+      "nombre": "gav-ALLFEED® Bronkub PLUS 20KG",
+      "descripcion": "Producto natural a base de extractos de plantas (fitobióticos), aceites esenciales y vitaminas, diseñado para actuar como un expectorante, mucolítico y broncodilatador.",
+      "descripcionCompleta": "Producto natural a base de extractos de plantas (fitobióticos), aceites esenciales y vitaminas, diseñado para actuar como un expectorante, mucolítico y broncodilatador.",
+      "precio": 1089.00,
+      "moneda": "EUR",
+      "imagen": "assets/producto34.png",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Terneros, ovejas, cabras y cerdos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "30 Cubos",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 35,
+      "nombre": "gav-ALLFEED® DELICIOUS - 4KG",
+      "descripcion": "Potenciador calostral rico en lactoferrina, inmunoglobulinas, rico en flora intestinal, astringentes y protectores de mucosa intestinal, y estimulantes del apetito.",
+      "descripcionCompleta": "Potenciador calostral rico en lactoferrina, inmunoglobulinas, rico en flora intestinal, astringentes y protectores de mucosa intestinal, y estimulantes del apetito.",
+      "precio": 63.80,
+      "moneda": "EUR",
+      "imagen": "assets/producto35.png",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Terneros, vacas, ovejas, cabras y cerdos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Cubo de 4KG",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 36,
+      "nombre": "gav-ALLFEED® CALOSTRUM - 500g",
+      "descripcion": "Potenciador calostral rico en lactoferrina, inmunoglobulinas, rico en flora intestinal, astringentes y protectores de mucosa intestinal.",
+      "descripcionCompleta": "Potenciador calostral rico en lactoferrina, inmunoglobulinas, rico en flora intestinal, astringentes y protectores de mucosa intestinal.",
+      "precio": 44.45,
+      "moneda": "EUR",
+      "imagen": "assets/producto36.png",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Terneros, corderos y cabritos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Bote de 500g",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 37,
+      "nombre": "EuroDog® Bocaditos Repelent Alta Calidad - 20KG",
+      "descripcion": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
+      "descripcionCompleta": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
+      "precio": 1174.80,
+      "moneda": "EUR",
+      "imagen": "assets/producto37.png",
+      "categoria": "perros",
+      "especie": "Perros de todas las razas y tamaños",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Palet 60 sacos",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
+    },
+    {
+      "id": 38,
+      "nombre": "EuroDog® Galletas Repelent Alta Calidad - 20KG",
+      "descripcion": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
+      "descripcionCompleta": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
+      "precio": 1026.30,
+      "moneda": "EUR",
+      "imagen": "assets/producto38.png",
+      "categoria": "perros",
+      "especie": "Perros de todas las razas y tamaños",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Palet 60 sacos",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco"
     }
   ],
   "categorias": [
@@ -665,6 +1325,30 @@
         "Lechones",
         "Cerdas",
         "Verracos"
+      ]
+    },
+    {
+      "id": "equinos",
+      "nombre": "Equinos",
+      "descripcion": "Productos específicos para caballos y equinos",
+      "especies": [
+        "Caballos",
+        "Yeguas",
+        "Potros",
+        "Caballos de deporte",
+        "Caballos de trabajo"
+      ]
+    },
+    {
+      "id": "perros",
+      "nombre": "Perros",
+      "descripcion": "Productos específicos para perros",
+      "especies": [
+        "Perros adultos",
+        "Cachorros",
+        "Perros de trabajo",
+        "Perros de deporte",
+        "Perros de compañía"
       ]
     },
     {

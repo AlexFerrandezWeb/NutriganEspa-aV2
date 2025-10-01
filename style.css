@@ -2656,7 +2656,7 @@ body {
     }
     
     .productos-grid-catalogo.pocos-productos[data-count="2"] {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
         max-width: 100%;
         gap: 1rem;
     }

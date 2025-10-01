@@ -204,6 +204,8 @@ function obtenerNombreCategoria(categoriaId) {
         'ovinos': 'Ovinos',
         'caprinos': 'Caprinos',
         'porcinos': 'Porcinos',
+        'equinos': 'Equinos',
+        'perros': 'Perros',
         'todas': 'Todas las especies'
     };
     return categorias[categoriaId] || categoriaId;
