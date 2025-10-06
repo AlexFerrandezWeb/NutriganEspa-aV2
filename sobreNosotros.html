@@ -280,19 +280,27 @@
             
             <div class="certificaciones-grid">
                 <div class="certificado-item">
-                    <div class="certificado-imagen">
-                        <img src="assets/certificado1.webp" alt="ISO 9001" class="certificado-img">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado1.webp" alt="ISO 9001" class="certificado-imagen">
                     </div>
                     <h3 class="certificado-nombre">PRO-09420141</h3>
                     <p class="certificado-descripcion">Ganadería libre de uso de antibióticos y desparasitante beta-caseína láctica A2</p>
                 </div>
                 
                 <div class="certificado-item">
-                    <div class="certificado-imagen">
-                        <img src="assets/certificado2.webp" alt="ISO 14001" class="certificado-img">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado2.jpg" alt="ISO 14001" class="certificado-imagen">
                     </div>
                     <h3 class="certificado-nombre">ISO 14067</h3>
                     <p class="certificado-descripcion">Alianza innovadora en la agricultura</p>
+                </div>
+
+                <div class="certificado-item">
+                    <div class="certificado-imagen-container">
+                        <img src="assets/certificado3.jpg" alt="Certificado BRC" class="certificado-imagen">
+                    </div>
+                    <h3 class="certificado-nombre">Biopranaworls S.L.</h3>
+                    <p class="certificado-descripcion">Biotecnología. Microorganismos para el tratamiento de los purines</p>
                 </div>
                 
             </div>
@@ -353,6 +361,18 @@
         <span class="whatsapp-texto">Asesoramiento gratuito</span>
     </a>
     
+    <!-- Modal para certificados -->
+    <div id="modal-certificado" class="modal-certificado">
+        <div class="modal-certificado-content">
+            <span class="modal-certificado-close">&times;</span>
+            <img id="modal-certificado-imagen" src="" alt="Certificado">
+            <div class="modal-certificado-info">
+                <h3 id="modal-certificado-titulo"></h3>
+                <p id="modal-certificado-descripcion"></p>
+            </div>
+        </div>
+    </div>
+    
     <script src="main.js"></script>
     <script src="sobreNosotros.js"></script>
     <script>
@@ -365,6 +385,52 @@
                 contador.textContent = cantidadTotal;
                 contador.setAttribute('data-count', cantidadTotal);
             }
+
+            // Modal para certificados
+            const modal = document.getElementById('modal-certificado');
+            const modalImg = document.getElementById('modal-certificado-imagen');
+            const modalTitulo = document.getElementById('modal-certificado-titulo');
+            const modalDescripcion = document.getElementById('modal-certificado-descripcion');
+            const closeBtn = document.querySelector('.modal-certificado-close');
+
+            // Hacer clickeables las imágenes de certificados
+            const certificadoImagenes = document.querySelectorAll('.certificado-imagen-container');
+            certificadoImagenes.forEach(container => {
+                container.addEventListener('click', function() {
+                    const img = this.querySelector('.certificado-imagen');
+                    const titulo = this.parentElement.querySelector('.certificado-nombre').textContent;
+                    const descripcion = this.parentElement.querySelector('.certificado-descripcion').textContent;
+                    
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalTitulo.textContent = titulo;
+                    modalDescripcion.textContent = descripcion;
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+                });
+            });
+
+            // Cerrar modal
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restaurar scroll del body
+            });
+
+            // Cerrar modal al hacer clic fuera del contenido
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Cerrar modal con tecla Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
         });
     </script>
 </body>

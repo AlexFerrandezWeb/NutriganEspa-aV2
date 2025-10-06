@@ -1683,8 +1683,8 @@ body {
 
 
 .certificado-imagen-container {
-    width: 160px;
-    height: 100px;
+    width: 140px;
+    height: 90px;
     margin: 0 auto 1.5rem auto;
     display: flex;
     align-items: center;
@@ -1736,14 +1736,15 @@ body {
     }
     
     .certificado-imagen-container {
-        width: 140px;
-        height: 90px;
+        width: 120px;
+        height: 80px;
     }
     
     .certificado-imagen {
-        width: 140px;
-        height: 90px;
+        width: 120px;
+        height: 80px;
         border-radius: 8px;
+        object-fit: contain;
     }
 }
 
@@ -1778,14 +1779,15 @@ body {
     }
     
     .certificado-imagen-container {
-        width: 120px;
-        height: 80px;
+        width: 100px;
+        height: 70px;
     }
     
     .certificado-imagen {
-        width: 120px;
-        height: 80px;
+        width: 100px;
+        height: 70px;
         border-radius: 8px;
+        object-fit: contain;
     }
 }
 
@@ -4728,8 +4730,8 @@ body {
 }
 
 .certificado-imagen {
-    width: 160px;
-    height: 100px;
+    width: 140px;
+    height: 90px;
     margin: 0 auto 1.5rem auto;
     display: flex;
     align-items: center;
@@ -4739,6 +4741,18 @@ body {
     padding: 0;
     visibility: visible;
     opacity: 1;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.certificado-imagen:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.certificado-imagen-container {
+    cursor: pointer;
 }
 
 .certificado-img {
@@ -7004,6 +7018,130 @@ body {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
+    }
+}
+
+/* Modal para certificados */
+.modal-certificado {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-certificado-content {
+    position: relative;
+    background-color: #ffffff;
+    margin: 2% auto;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.modal-certificado-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #aaa;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+}
+
+.modal-certificado-close:hover,
+.modal-certificado-close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+#modal-certificado-imagen {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.modal-certificado-info {
+    text-align: center;
+}
+
+.modal-certificado-info h3 {
+    font-family: var(--fuente-titulos);
+    font-size: 1.8rem;
+    color: var(--color-principal);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.modal-certificado-info p {
+    font-size: 1.1rem;
+    color: var(--color-texto-oscuro);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Animaciones del modal */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive para el modal */
+@media (max-width: 768px) {
+    .modal-certificado-content {
+        margin: 5% auto;
+        padding: 1.5rem;
+        width: 95%;
+    }
+    
+    .modal-certificado-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-certificado-info p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-certificado-content {
+        margin: 10% auto;
+        padding: 1rem;
+        width: 98%;
+    }
+    
+    .modal-certificado-close {
+        top: 10px;
+        right: 15px;
+        font-size: 1.5rem;
     }
 }
 

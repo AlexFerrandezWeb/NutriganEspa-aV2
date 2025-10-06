@@ -482,18 +482,29 @@ async function verFichaTecnica() {
             console.log('Producto encontrado:', producto);
             
             if (producto && producto.fichaTecnica) {
-                console.log('Abriendo ficha técnica:', producto.fichaTecnica);
-                // Usar la ficha técnica del JSON
-                window.open(producto.fichaTecnica, '_blank');
+                try {
+                    // Verificar que el recurso exista antes de abrir
+                    const headResp = await fetch(producto.fichaTecnica, { method: 'HEAD' });
+                    if (headResp.ok) {
+                        console.log('Abriendo ficha técnica:', producto.fichaTecnica);
+                        window.open(producto.fichaTecnica, '_blank');
+                    } else {
+                        console.warn('Ficha técnica no encontrada (HEAD no OK):', producto.fichaTecnica);
+                        mostrarNotificacion('Ficha técnica no disponible', 'error');
+                    }
+                } catch (e) {
+                    console.error('Error verificando la ficha técnica:', e);
+                    mostrarNotificacion('Ficha técnica no disponible', 'error');
+                }
             } else {
                 console.log('No se encontró ficha técnica');
                 // Mostrar mensaje de que no está disponible
-                alert('Ficha técnica no disponible');
+                mostrarNotificacion('Ficha técnica no disponible', 'error');
             }
         } catch (error) {
             console.error('Error al cargar la ficha técnica:', error);
             // Mostrar mensaje de que no está disponible
-            alert('Ficha técnica no disponible');
+            mostrarNotificacion('Ficha técnica no disponible', 'error');
         }
     } else {
         console.error('No se pudo obtener el ID del producto');

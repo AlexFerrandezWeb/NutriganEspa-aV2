@@ -585,7 +585,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/17BlueSpray.pdf"
     },
     {
       "id": 18,
@@ -618,13 +619,14 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/18BlueSpray.pdf"
     },
     {
       "id": 19,
       "nombre": "Globigen® Día Stop 2KG",
-      "descripcion": "Complemento alimenticio con proteínas funcionales (IgY), así como electrolitos y carbohidratos fácilmente asimilables. La IgY puede fijar patógenos, como bacterias y virus, en el intestino y mejorar así la salud intestinal.",
-      "descripcionCompleta": "Complemento alimenticio con proteínas funcionales (IgY), así como electrolitos y carbohidratos fácilmente asimilables. La IgY puede fijar patógenos, como bacterias y virus, en el intestino y mejorar así la salud intestinal.",
+      "descripcion": "Complemento alimenticio con proteínas funcionales (IgY), así como electrolitos y carbohidratos fácilmente asimilables, mejorando así la salud intestinal y ayudando frente a transtornos digestivos.",
+      "descripcionCompleta": "Complemento alimenticio con proteínas funcionales (IgY), así como electrolitos y carbohidratos fácilmente asimilables, mejorando así la salud intestinal y ayudando frente a transtornos digestivos.",
       "precio": 48.05,
       "moneda": "EUR",
       "imagen": "assets/producto19.jpg",
@@ -651,7 +653,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/19DiaStop.pdf"
     },
     {
       "id": 20,
@@ -684,21 +687,22 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/20Calz.pdf"
     },
     {
       "id": 21,
       "nombre": "gav-ALLFEED® ENTEROGAV - 1L",
       "descripcion": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
       "descripcionCompleta": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
-      "precio": 70.40,
+      "precio": 403.92,
       "moneda": "EUR",
       "imagen": "assets/producto21.jpg",
       "categoria": "bovinos, ovinos, caprinos",
       "especie": "Terneros, corderos y cabritos",
       "etapa": "Sin tiempo de espera",
       "tiempoLiberacion": "Sin tiempo de espera",
-      "presentacion": "Bote de 1L",
+      "presentacion": "6 botes de 1L",
       "peso": "300g",
       "ingredientes": [
         "Proteínas premium",
@@ -717,21 +721,22 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/21ENTEROGAV.pdf"
     },
     {
       "id": 22,
       "nombre": "gav-ALLFEED® ENTEROGAV - 5L",
-      "descripcion": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
-      "descripcionCompleta": "alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
-      "precio": 325.60,
+      "descripcion": "Alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
+      "descripcionCompleta": "Alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.",
+      "precio": 618.20,
       "moneda": "EUR",
       "imagen": "assets/producto22.jpg",
       "categoria": "bovinos, ovinos, caprinos",
       "especie": "Terneros, corderos y cabritos",
       "etapa": "Sin tiempo de espera",
       "tiempoLiberacion": "Sin tiempo de espera",
-      "presentacion": "Garrafa de 5L",
+      "presentacion": "2 garrafas de 5L",
       "peso": "300g",
       "ingredientes": [
         "Proteínas premium",
@@ -750,7 +755,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/22ENTEROGAV.pdf"
     },
     {
       "id": 23,
@@ -783,7 +789,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/23REPLYNDEFENSEWS250.pdf"
     },
     {
       "id": 24,
@@ -816,14 +823,15 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/24REPLYNDUNE.pdf"
     },
     {
       "id": 25,
       "nombre": "Snap Detector",
-      "descripcion": "Test rápido de diagnóstico veterinario que sirve para detectar desde enfermedades infecciosas en perros y gatos hasta residuos de antibióticos en la leche de vacas, ovejas o cabras.",
-      "descripcionCompleta": "Test rápido de diagnóstico veterinario que sirve para detectar desde enfermedades infecciosas en perros y gatos hasta residuos de antibióticos en la leche de vacas, ovejas o cabras.",
-      "precio": 264.99,
+      "descripcion": "Detector de residuos betalactámicos en leche",
+      "descripcionCompleta": "Detector de residuos betalactámicos en leche",
+      "precio": 264.90,
       "moneda": "EUR",
       "imagen": "assets/producto25.jpg",
       "categoria": "bovinos, ovinos, caprinos, porcinos, equinos",
@@ -849,13 +857,14 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/25SnapDetector.pdf"
     },
     {
       "id": 26,
       "nombre": "gav-ALLFEED® Dipp FORTE - 250ml",
-      "descripcion": "Es un nutracéutico con propiedades antisépticas, diseñado para la higiene, protección y mejora de la salud general de la ubre y los pezones.",
-      "descripcionCompleta": "Es un nutracéutico con propiedades antisépticas, diseñado para la higiene, protección y mejora de la salud general de la ubre y los pezones.",
+      "descripcion": "Potente antiséptico antibacteriano, anti-inflamatorio. Junto al producto Lactomint Care refuerza los resultados. Certificación E.L.U.A.",
+      "descripcionCompleta": "Potente antiséptico antibacteriano, anti-inflamatorio. Junto al producto Lactomint Care refuerza los resultados. Certificación E.L.U.A.",
       "precio": 107.80,
       "moneda": "EUR",
       "imagen": "assets/producto26.jpg",
@@ -882,13 +891,14 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/26DIPPFORTE.pdf"
     },
     {
       "id": 27,
       "nombre": "gav-ALLFEED® Lactomint CARE - 5L",
-      "descripcion": "Nanotecnologica aplicada anti-inflamatoria y dermoprotectora para el cuidadode inflamaciones y edemas subcutaneos derivados de golpes.",
-      "descripcionCompleta": "Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.",
+      "descripcion": "Antiinflamatorio, analgésico, refrescante, antiséptico, cicatrizante. No es necesario el masajeo en la ubre después de la aplicación. En caso de mastitis aplicar en el momento. NO NECESITA DE SUPRESIÓN NI PRESCRIPCIÓN VETERINARIA. CERTIFICACIÓN E.L.U.A. Recomendable su uso junto con el producto Dipp Forte 250ml",
+      "descripcionCompleta": "Antiinflamatorio, analgésico, refrescante, antiséptico, cicatrizante. No es necesario el masajeo en la ubre después de la aplicación. En caso de mastitis aplicar en el momento. NO NECESITA DE SUPRESIÓN NI PRESCRIPCIÓN VETERINARIA. CERTIFICACIÓN E.L.U.A. Recomendable su uso junto con el producto Dipp Forte 250ml",
       "precio": 338.80,
       "moneda": "EUR",
       "imagen": "assets/producto27.jpg",
@@ -915,13 +925,14 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/27LACTOMINTCARE.pdf"
     },
     {
       "id": 28,
       "nombre": "gav-ALLFEED® Lactomint CARE - 5L + Dipp FORTE - 250ml",
-      "descripcion": "LactomintCare:Nanotecnologica aplicada anti-inflamatoria y dermoprotectora para el cuidadode inflamaciones y edemas subcutaneos derivados de golpes.",
-      "descripcionCompleta": "LactomintCare:Nanotecnologica aplicada anti-inflamatoria y dermoprotectora para el cuidadode inflamaciones y edemas subcutaneos derivados de golpes. DippForte:Es un nutracéutico con propiedades antisépticas, diseñado para la higiene, protección y mejora de la salud general de la ubre y los pezones.",
+      "descripcion": "La aplicación de ambos productos juntos es lo recomendable. Siguiendo los protocolos de secado y postparto se secan todas las vacas por igual. Mastitis aplicar de inmediato. SIN PERIODO DE SUPRESIÓN NI DESCARTE DE LECHE. SIN RECETAS VETERINARIAS.",
+      "descripcionCompleta": "La aplicación de ambos productos juntos es lo recomendable. Siguiendo los protocolos de secado y postparto se secan todas las vacas por igual. Mastitis aplicar de inmediato. SIN PERIODO DE SUPRESIÓN NI DESCARTE DE LECHE. SIN RECETAS VETERINARIAS.",
       "precio": 446.60,
       "moneda": "EUR",
       "imagen": "assets/producto28.jpg",
@@ -948,7 +959,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/28LactomintCareDippForte.pdf"
     },
     {
       "id": 29,
@@ -962,7 +974,7 @@
       "especie": "Caballos",
       "etapa": "Sin tiempo de espera",
       "tiempoLiberacion": "Sin tiempo de espera",
-      "presentacion": "Bote de 500ml",
+      "presentacion": "6 Botes de 500ml",
       "peso": "300g",
       "ingredientes": [
         "Proteínas premium",
@@ -981,7 +993,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/29LACTOMINTCARE.pdf"
     },
     {
       "id": 30,
@@ -1014,7 +1027,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/30LACTOMINTUTER.pdf"
     },
     {
       "id": 31,
@@ -1047,13 +1061,14 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/31LACTOMINTIMM.pdf"
     },
     {
       "id": 32,
       "nombre": "Globigen® Calf Paste",
-      "descripcion": "Salud intestinal para un mayor rendimiento productivo.",
-      "descripcionCompleta": "Salud intestinal para un mayor rendimiento productivo.",
+      "descripcion": "Pienso complementario para terneros recién nacidos. Contiene proteínas funcionales (IgY). Mejora la salud y apoya el sistema inmunológico.",
+      "descripcionCompleta": "Pienso complementario para terneros recién nacidos. Contiene proteínas funcionales (IgY). Mejora la salud y apoya el sistema inmunológico.",
       "precio": 136.62,
       "moneda": "EUR",
       "imagen": "assets/producto32.jpg",
@@ -1080,21 +1095,22 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/32CALFPASTE.pdf"
     },
     {
       "id": 33,
       "nombre": "Activador Microorganismos BIOPRANA 20L",
-      "descripcion": "Acelera la descomposición de la materia orgánica en general reduciendo o eliminando malos olores, reduciendo o eliminando insectos plaga como moscas, larvas, etc.",
-      "descripcionCompleta": "Acelera la descomposición de la materia orgánica en general reduciendo o eliminando malos olores, reduciendo o eliminando insectos plaga como moscas, larvas, etc.",
-      "precio": 153.89,
+      "descripcion": "Acelera la descomposición de la materia orgánica en general reduciendo o eliminando malos olores, reduciendo o eliminando insectos plaga como moscas, larvas, etc. Purines homogéneos y licuados. Contactar para más información.",
+      "descripcionCompleta": "Acelera la descomposición de la materia orgánica en general reduciendo o eliminando malos olores, reduciendo o eliminando insectos plaga como moscas, larvas, etc. Purines homogéneos y licuados. Contactar para más información.",
+      "precio": 461.67,
       "moneda": "EUR",
       "imagen": "assets/producto33.png",
       "categoria": "bovinos, ovinos, caprinos, porcinos, equinos",
       "especie": "Todas las especies",
       "etapa": "Sin tiempo de espera",
       "tiempoLiberacion": "Sin tiempo de espera",
-      "presentacion": "Garrafa de 20L",
+      "presentacion": "3 garrafas de 20L",
       "peso": "300g",
       "ingredientes": [
         "Proteínas premium",
@@ -1113,7 +1129,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/33ACTIVADORBIOPRANA.pdf"
     },
     {
       "id": 34,
@@ -1146,7 +1163,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/34BRONKUBPLUS.pdf"
     },
     {
       "id": 35,
@@ -1179,7 +1197,8 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/35DELICIOUS.pdf"
     },
     {
       "id": 36,
@@ -1212,13 +1231,14 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/36CALOSTRUM.pdf"
     },
     {
       "id": 37,
       "nombre": "EuroDog® Bocaditos Repelent Alta Calidad - 20KG",
-      "descripcion": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
-      "descripcionCompleta": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
+      "descripcion": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales. No contienen cereales. Comiéndolo de continúo los perros no parasitan. Más información contactar.",
+      "descripcionCompleta": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales. No contienen cereales. Comiéndolo de continúo los perros no parasitan. Más información contactar.",
       "precio": 1174.80,
       "moneda": "EUR",
       "imagen": "assets/producto37.png",
@@ -1245,14 +1265,15 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/37BOCADITOS.pdf"
     },
     {
       "id": 38,
       "nombre": "EuroDog® Galletas Repelent Alta Calidad - 20KG",
-      "descripcion": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
-      "descripcionCompleta": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales.",
-      "precio": 1026.30,
+      "descripcion": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales. No contienen cereales. Comiéndolo de continúo los perros no parasitan. Más información contactar.",
+      "descripcionCompleta": "Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales. No contienen cereales. Comiéndolo de continúo los perros no parasitan. Más información contactar.",
+      "precio": 1026.60,
       "moneda": "EUR",
       "imagen": "assets/producto38.png",
       "categoria": "perros",
@@ -1278,7 +1299,348 @@
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
       "certificaciones": "ISO 9001, GMP",
-      "temperatura": "Almacenar en lugar fresco y seco"
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/38Galletas.pdf"
+    },
+    {
+      "id": 39,
+      "nombre": "Bactercip N100 - 24kg",
+      "descripcion": "Detergente ácido de alto rendimiento formulado para la limpieza y desincrustación de circuitos cerrados en la industria alimentaria y ganadera. Precio unitario: 38,62€",
+      "descripcionCompleta": "Detergente ácido de alto rendimiento formulado para la limpieza y desincrustación de circuitos cerrados en la industria alimentaria y ganadera. Su potente acción elimina eficazmente la piedra de leche y otros residuos inorgánicos, garantizando la máxima higiene en instalaciones de ordeño, tanques de frío y pasteurizadores. Indispensable para el mantenimiento profesional de tus equipos. Precio unitario: 38,62€",
+      "precio": 1004.12,
+      "moneda": "EUR",
+      "imagen": "assets/producto39.jpg",
+      "categoria": "todo tipo de animales",
+      "especie": "Uso de limpieza y desinfección",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Palet 26 garrafas",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/39Bactercip.pdf"
+    },
+    {
+      "id": 40,
+      "nombre": "Bacterclor S100 - 24kg",
+      "descripcion": "Potente detergente desinfectante, fuertemente alcalino y clorado, diseñado para la limpieza y desinfección en un solo paso. Precio unitario: 33,61€",
+      "descripcionCompleta": "Potente detergente desinfectante, fuertemente alcalino y clorado, diseñado para la limpieza y desinfección en un solo paso. Su fórmula no espumante es ideal para limpiezas CIP (Cleaning in Place) en circuitos, hornos y superficies de la industria alimentaria. Elimina eficazmente materia orgánica, grasas y todo tipo de suciedad, garantizando una desinfección de amplio espectro contra bacterias y hongos. Precio unitario: 33,61€",
+      "precio": 873.96,
+      "moneda": "EUR",
+      "imagen": "assets/producto40.jpg",
+      "categoria": "todo tipo de animales",
+      "especie": "Uso de limpieza y desinfección",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Palet 26 garrafas",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/40Bacterclor.pdf"
+    },
+    {
+      "id": 41,
+      "nombre": "Bacterclor S100 - 60kg",
+      "descripcion": "Potente detergente desinfectante, fuertemente alcalino y clorado, diseñado para la limpieza y desinfección en un solo paso. Precio unitario: 77,42€",
+      "descripcionCompleta": "Potente detergente desinfectante, fuertemente alcalino y clorado, diseñado para la limpieza y desinfección en un solo paso. Su fórmula no espumante es ideal para limpiezas CIP (Cleaning in Place) en circuitos, hornos y superficies de la industria alimentaria. Elimina eficazmente materia orgánica, grasas y todo tipo de suciedad, garantizando una desinfección de amplio espectro contra bacterias y hongos. Precio unitario: 77,42€",
+      "precio": 464.52,
+      "moneda": "EUR",
+      "imagen": "assets/producto41.jpg",
+      "categoria": "todo tipo de animales",
+      "especie": "Uso de limpieza y desinfección",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "6 garrafas",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/41Bacterclor.pdf"
+    },
+    {
+      "id": 42,
+      "nombre": "Dry Part - 25kg",
+      "descripcion": "Nutracéutico nanotecnológico para el control metabólico en periparto. Fórmula de última generación diseñada para el tratamiento de la Cetoacidosis Diabética (C.A.D.) y la prevención de la toxemia de gestación. Precio unitario: 60,26€ saco",
+      "descripcionCompleta": "Nutracéutico nanotecnológico para el control metabólico en periparto. Fórmula de última generación diseñada para el tratamiento de la Cetoacidosis Diabética (C.A.D.) y la prevención de la toxemia de gestación. Gracias a la nanotecnología, sus activos inhiben eficazmente la producción de cuerpos cetónicos y estimulan los niveles de insulina en el periodo de transición. Una herramienta esencial para proteger la salud de la madre y asegurar un inicio de lactación exitoso. Precio unitario: 60,26€ saco",
+      "precio": 1446.24,
+      "moneda": "EUR",
+      "imagen": "assets/producto42.jpg",
+      "categoria": "bovinos, ovinos, caprino, porcinos",
+      "especie": "Terneros, corderos, cabritos y cerditos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Palet 24 sacos",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/42DRYPART.pdf"
+    },
+    {
+      "id": 43,
+      "nombre": "Filmaderm - 20kg",
+      "descripcion": "Solución filmógena con efecto desinfectante, relajante, descongestionante, termoregulador y anti-inflamatorio. Precio unitario: 76,23€",
+      "descripcionCompleta": "Solución filmógena con efecto desinfectante, relajante, descongestionante, termoregulador y anti-inflamatorio. Desarrollado a partir de la fermentación una cuidada selección de aceites medicinales, extractos cítricos y mentha arvensis, FILMADERM, mejora sistematicamente la integridad de la piel del pezon y la flixiblididad de los esfínteres. Precio unitario: 76,23€",
+      "precio": 228.69,
+      "moneda": "EUR",
+      "imagen": "assets/producto43.jpg",
+      "categoria": "bovinos, ovinos, caprinos, porcinos, equinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "3 garrafas",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/43Filmaderm.pdf"
+    },
+    {
+      "id": 44,
+      "nombre": "Filmavit - 20kg",
+      "descripcion": "Desarrollado a partir de extractos cítricos asociados a glicerina vegetal y ácido ascórbico, FILMAVIT, presenta un gran poder de desinfección y cicatrización de heridas y cortes, aumentando la sanidad del pezón; la más importante barrera natural de defensa. Precio unitario: 76,23€",
+      "descripcionCompleta": "Desarrollado a partir de extractos cítricos asociados a glicerina vegetal y ácido ascórbico, FILMAVIT, presenta un gran poder de desinfección y cicatrización de heridas y cortes, aumentando la sanidad del pezón; la más importante barrera natural de defensa. Precio unitario: 76,23€",
+      "precio": 228.69,
+      "moneda": "EUR",
+      "imagen": "assets/producto44.jpg",
+      "categoria": "bovinos, ovinos, caprinos, porcinos",
+      "especie": "Bovinos, ovinos, caprinos y porcinos",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "3 garrafas",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/44Filmavit.pdf"
+    },
+    {
+      "id": 45,
+      "nombre": "Lactox A+B - 10kg",
+      "descripcion": "Avanzado sistema bicomponente para la higiene post-ordeño. Al mezclar la base (Lactox A) con el activador (Lactox B), se genera dióxido de cloro, un potente desinfectante de amplio espectro que previene la mastitis. Precio unitario: 67,76€",
+      "descripcionCompleta": "Avanzado sistema bicomponente para la higiene post-ordeño. Al mezclar la base (Lactox A) con el activador (Lactox B), se genera dióxido de cloro, un potente desinfectante de amplio espectro que previene la mastitis. Su fórmula espesa crea una película protectora visible sobre el pezón, asegurando una protección duradera y un excelente cuidado de la piel. Precio unitario: 67,76€",
+      "precio": 203.28,
+      "moneda": "EUR",
+      "imagen": "assets/producto45.jpg",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Vacas lecheras, ovejas lecheras y cabras lecheras",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "3 Unidades",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/45LACTOX.pdf"
+    },
+    {
+      "id": 46,
+      "nombre": "Optiderm - 20kg",
+      "descripcion": "Espuma higienizante, especialmente desarrollada para mejorar la higiene de las ubres en los animales productores de leche.",
+      "descripcionCompleta": "Espuma higienizante, especialmente desarrollada para mejorar la higiene de las ubres en los animales productores de leche. Posee un gran poder de limpieza y su formulación, especialmente desarrollada con componentes naturales de la propia leche, limita el riesgo de inhibidores y residuos en la misma.",
+      "precio": 1026.60,
+      "moneda": "EUR",
+      "imagen": "assets/producto46.jpg",
+      "categoria": "bovinos, ovinos, caprino, porcinos, equinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Palet 60 sacos",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/46Optiderm.pdf"
+    },
+    {
+      "id": 47,
+      "nombre": "Optilactol - 20kg",
+      "descripcion": "Es una fuente de energía líquida de alta concentración para rumiantes, formulada a base de propilenglicol y otros precursores de glucosa. Precio unitario: 76,23€",
+      "descripcionCompleta": "Es una fuente de energía líquida de alta concentración para rumiantes, formulada a base de propilenglicol y otros precursores de glucosa. Diseñado para prevenir la cetosis y reducir el balance energético negativo en vacas, ovejas y cabras durante el periparto. Precio unitario: 76,23€",
+      "precio": 228.69,
+      "moneda": "EUR",
+      "imagen": "assets/producto47.jpg",
+      "categoria": "bovinos, ovinos, caprinos",
+      "especie": "Vacas, ovejas y cabras",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "3 Unidades",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/47Optilactol.pdf"
+    },
+    {
+      "id": 48,
+      "nombre": "Secuestrante Detox azove - 30kg",
+      "descripcion": "Es un aditivo de amplio espectro para piensos, formulado para proteger a sus animales contra los efectos perjudiciales de las micotoxinas. Precio unitario: 152,10€ saco",
+      "descripcionCompleta": "Es un aditivo de amplio espectro para piensos, formulado para proteger a sus animales contra los efectos perjudiciales de las micotoxinas. Su combinación de silicatos y paredes de levaduras adsorbe y neutraliza eficazmente una gran variedad de toxinas (Aflatoxinas, Zearalenona, etc.), mejorando la salud intestinal, el rendimiento productivo y la inmunidad del ganado. Precio unitario: 152,10€ saco",
+      "precio": 3042.00,
+      "moneda": "EUR",
+      "imagen": "assets/producto48.jpg",
+      "categoria": "bovinos, ovinos, caprinos, porcinos, equinos",
+      "especie": "Todas las especies",
+      "etapa": "Sin tiempo de espera",
+      "tiempoLiberacion": "Sin tiempo de espera",
+      "presentacion": "Palet 20 sacos",
+      "peso": "300g",
+      "ingredientes": [
+        "Proteínas premium",
+        "Aminoácidos esenciales",
+        "Vitaminas avanzadas",
+        "Minerales quelados",
+        "Prebióticos"
+      ],
+      "beneficios": [
+        "Sin antibióticos",
+        "Sin tiempo de espera",
+        "Fácil aplicación"
+      ],
+      "stock": 10,
+      "destacado": true,
+      "formato": "Bolus",
+      "composicion": "Ver etiqueta del producto",
+      "certificaciones": "ISO 9001, GMP",
+      "temperatura": "Almacenar en lugar fresco y seco",
+      "fichaTecnica": "assets/fichas-tecnicas/48DETOXAZOVE.pdf"
     }
   ],
   "categorias": [
