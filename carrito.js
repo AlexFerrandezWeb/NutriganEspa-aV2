@@ -78,7 +78,10 @@ function crearItemCarrito(producto, index) {
     itemDiv.className = 'carrito-item';
     itemDiv.setAttribute('data-index', index);
     
-    const precioTotal = producto.precio * producto.cantidad;
+    // Usar precioUnitario si existe, sino usar precio
+    const precioUnitario = producto.precioUnitario || producto.precio;
+    const precioTotal = precioUnitario * producto.cantidad;
+    const cantidadMinima = producto.cantidadMinima || 1;
     
     itemDiv.innerHTML = `
         <div class="carrito-item-imagen">
@@ -87,17 +90,18 @@ function crearItemCarrito(producto, index) {
         <div class="carrito-item-info">
             <h3 class="carrito-item-nombre">${producto.nombre}</h3>
             <p class="carrito-item-descripcion">${producto.descripcion || 'Producto de nutrición animal'}</p>
+            ${cantidadMinima > 1 ? `<small class="cantidad-minima-info">Mínimo: ${cantidadMinima} unidades</small>` : ''}
         </div>
         <div class="carrito-item-precios">
-            <div class="carrito-item-precio-unitario">€${producto.precio.toFixed(2)} c/u</div>
+            <div class="carrito-item-precio-unitario">€${precioUnitario.toFixed(2)} c/u</div>
             <div class="carrito-item-precio-total">€${precioTotal.toFixed(2)}</div>
         </div>
         <div class="carrito-item-controls">
             <div class="carrito-item-cantidad">
-                <button class="cantidad-btn" onclick="cambiarCantidad(${index}, -1)" ${producto.cantidad <= 1 ? 'disabled' : ''}>
+                <button class="cantidad-btn" onclick="cambiarCantidad(${index}, -1)" ${producto.cantidad <= cantidadMinima ? 'disabled' : ''}>
                     <i class="fas fa-minus"></i>
                 </button>
-                <input type="number" class="cantidad-input" value="${producto.cantidad}" min="1" max="99" 
+                <input type="number" class="cantidad-input" value="${producto.cantidad}" min="${cantidadMinima}" max="99" 
                        onchange="actualizarCantidad(${index}, this.value)">
                 <button class="cantidad-btn" onclick="cambiarCantidad(${index}, 1)" ${producto.cantidad >= 99 ? 'disabled' : ''}>
                     <i class="fas fa-plus"></i>
@@ -115,9 +119,16 @@ function crearItemCarrito(producto, index) {
 // Función para cambiar cantidad de un producto
 function cambiarCantidad(index, cambio) {
     if (carrito[index]) {
-        const nuevaCantidad = carrito[index].cantidad + cambio;
-        if (nuevaCantidad >= 1 && nuevaCantidad <= 99) {
-            carrito[index].cantidad = nuevaCantidad;
+        const producto = carrito[index];
+        const cantidadMinima = producto.cantidadMinima || 1;
+        const nuevaCantidad = producto.cantidad + cambio;
+        
+        if (nuevaCantidad >= cantidadMinima && nuevaCantidad <= 99) {
+            producto.cantidad = nuevaCantidad;
+            // Recalcular precio total si tiene precio unitario
+            if (producto.precioUnitario) {
+                producto.precio = producto.precioUnitario * nuevaCantidad;
+            }
             guardarCarrito();
             cargarCarrito();
         }
@@ -127,13 +138,36 @@ function cambiarCantidad(index, cambio) {
 // Función para actualizar cantidad desde input
 function actualizarCantidad(index, nuevaCantidad) {
     const cantidad = parseInt(nuevaCantidad);
-    if (cantidad >= 1 && cantidad <= 99 && carrito[index]) {
-        carrito[index].cantidad = cantidad;
+    const producto = carrito[index];
+    
+    if (!producto) return;
+    
+    const cantidadMinima = producto.cantidadMinima || 1;
+    
+    if (cantidad >= cantidadMinima && cantidad <= 99) {
+        producto.cantidad = cantidad;
+        // Recalcular precio total si tiene precio unitario
+        if (producto.precioUnitario) {
+            producto.precio = producto.precioUnitario * cantidad;
+        }
         guardarCarrito();
         cargarCarrito();
-    } else if (carrito[index]) {
+    } else {
         // Si la cantidad no es válida, restaurar el valor anterior
-        document.querySelector(`[data-index="${index}"] .cantidad-input`).value = carrito[index].cantidad;
+        const input = document.querySelector(`[data-index="${index}"] .cantidad-input`);
+        if (input) {
+            input.value = producto.cantidad;
+        }
+        
+        // Si es menor al mínimo, establecer al mínimo
+        if (cantidad < cantidadMinima) {
+            producto.cantidad = cantidadMinima;
+            if (producto.precioUnitario) {
+                producto.precio = producto.precioUnitario * cantidadMinima;
+            }
+            guardarCarrito();
+            cargarCarrito();
+        }
     }
 }
 
@@ -179,8 +213,11 @@ function actualizarResumenCarrito() {
     const cantidadTotalElement = document.getElementById('carrito-cantidad-total');
     const btnProcederPago = document.getElementById('btn-proceder-pago');
     
-    // Calcular subtotal
-    const subtotal = carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0);
+    // Calcular subtotal usando precio unitario si existe
+    const subtotal = carrito.reduce((total, producto) => {
+        const precioUnitario = producto.precioUnitario || producto.precio;
+        return total + (precioUnitario * producto.cantidad);
+    }, 0);
     
     // Calcular envío (siempre gratuito)
     const envio = 0;

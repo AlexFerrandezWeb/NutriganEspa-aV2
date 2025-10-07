@@ -57,7 +57,22 @@ function mostrarProducto(producto) {
     
     // Actualizar información principal
     document.getElementById('producto-titulo-detalle').textContent = producto.nombre;
-    document.getElementById('producto-precio').textContent = `€${producto.precio.toFixed(2)}`;
+    
+    // Manejar precio unitario y cantidad mínima
+    if (producto.cantidadMinima && producto.cantidadMinima > 1) {
+        document.getElementById('producto-precio').innerHTML = `
+            <span class="precio-unitario">€${producto.precioUnitario.toFixed(2)} <small>/unidad</small></span>
+            <div class="precio-info">
+                <small>Mínimo: ${producto.cantidadMinima} unidades</small>
+            </div>
+        `;
+        // Establecer cantidad inicial al mínimo
+        document.getElementById('cantidad-producto').value = producto.cantidadMinima;
+        cantidadActual = producto.cantidadMinima;
+    } else {
+        document.getElementById('producto-precio').textContent = `€${producto.precio.toFixed(2)}`;
+    }
+    
     document.getElementById('producto-descripcion').innerHTML = `<p>${producto.descripcion}</p>`;
     
     // Actualizar características
@@ -223,7 +238,11 @@ function cambiarCantidad(cambio) {
     const valorActual = parseInt(input.value);
     const nuevaCantidad = valorActual + cambio;
     
-    if (nuevaCantidad >= 1 && nuevaCantidad <= 99) {
+    // Obtener cantidad mínima del producto actual
+    const cantidadMinima = productoActual?.cantidadMinima || 1;
+    const cantidadMaxima = productoActual?.stock || 99;
+    
+    if (nuevaCantidad >= cantidadMinima && nuevaCantidad <= cantidadMaxima) {
         input.value = nuevaCantidad;
         // No llamar a actualizarCantidad aquí, el event listener 'input' lo hará automáticamente
     }
@@ -234,11 +253,22 @@ function actualizarCantidad() {
     const input = document.getElementById('cantidad-producto');
     const cantidad = parseInt(input.value);
     
-    if (cantidad >= 1 && cantidad <= 99) {
+    // Obtener cantidad mínima del producto actual
+    const cantidadMinima = productoActual?.cantidadMinima || 1;
+    const cantidadMaxima = productoActual?.stock || 99;
+    
+    if (cantidad >= cantidadMinima && cantidad <= cantidadMaxima) {
         cantidadActual = cantidad;
         actualizarBotonesCantidad();
     } else {
-        input.value = cantidadActual;
+        // Si la cantidad es menor al mínimo, establecer al mínimo
+        if (cantidad < cantidadMinima) {
+            input.value = cantidadMinima;
+            cantidadActual = cantidadMinima;
+        } else {
+            input.value = cantidadActual;
+        }
+        actualizarBotonesCantidad();
     }
 }
 
@@ -247,8 +277,11 @@ function actualizarBotonesCantidad() {
     const cantidadMenos = document.getElementById('cantidad-menos');
     const cantidadMas = document.getElementById('cantidad-mas');
     
-    cantidadMenos.disabled = cantidadActual <= 1;
-    cantidadMas.disabled = cantidadActual >= 99;
+    const cantidadMinima = productoActual?.cantidadMinima || 1;
+    const cantidadMaxima = productoActual?.stock || 99;
+    
+    cantidadMenos.disabled = cantidadActual <= cantidadMinima;
+    cantidadMas.disabled = cantidadActual >= cantidadMaxima;
 }
 
 // Función para añadir al carrito
@@ -269,11 +302,19 @@ function añadirAlCarrito() {
         mostrarEfectoTextoCarrito(boton);
     }
     
+    // Calcular precio total basado en precio unitario si existe
+    let precioTotal = productoActual.precio;
+    if (productoActual.precioUnitario && productoActual.cantidadMinima) {
+        precioTotal = productoActual.precioUnitario * cantidadActual;
+    }
+    
     const productoCarrito = {
         id: productoActual.id,
         nombre: productoActual.nombre,
         descripcion: productoActual.descripcion,
-        precio: productoActual.precio,
+        precio: precioTotal,
+        precioUnitario: productoActual.precioUnitario || productoActual.precio,
+        cantidadMinima: productoActual.cantidadMinima || 1,
         imagen: productoActual.imagen,
         cantidad: cantidadActual
     };

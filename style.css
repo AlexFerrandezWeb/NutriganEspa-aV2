@@ -6263,6 +6263,48 @@ body {
     font-weight: 500;
 }
 
+/* Estilos para precio unitario */
+.precio-unitario {
+    font-family: var(--fuente-titulos);
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-contador);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.precio-unitario small {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-storm-gray);
+    margin-left: 0.3rem;
+}
+
+.precio-info {
+    margin-top: 0.5rem;
+}
+
+.precio-info small {
+    font-size: 0.9rem;
+    color: var(--color-storm-gray);
+    background-color: var(--color-secundario);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 500;
+}
+
+/* Estilos para cantidad mínima en carrito */
+.cantidad-minima-info {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-storm-gray);
+    background-color: var(--color-secundario);
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    margin-top: 0.3rem;
+    font-weight: 500;
+}
+
 
 .producto-descripcion-detalle {
     font-size: 1.1rem;
