@@ -52,6 +52,9 @@ function cargarCarrito() {
         console.log('Carrito vacío, mostrando mensaje');
         carritoVacio.style.display = 'block';
         carritoContenido.style.display = 'none';
+        // Actualizar contador cuando el carrito está vacío
+        console.log('Llamando a actualizarResumenCarrito desde carrito vacío');
+        actualizarResumenCarrito();
         return;
     }
     
@@ -193,6 +196,8 @@ function eliminarProducto() {
         carrito.splice(productoAEliminar, 1);
         guardarCarrito();
         cargarCarrito();
+        // Actualizar contador inmediatamente después de eliminar
+        actualizarContadorCarrito();
         cerrarModalConfirmacion();
         productoAEliminar = null;
     }
@@ -244,7 +249,14 @@ function actualizarResumenCarrito() {
 // Función para actualizar contador del carrito en el nav
 function actualizarContadorCarrito() {
     const contador = document.getElementById('carrito-contador');
+    if (!contador) {
+        console.warn('Contador del carrito no encontrado');
+        return;
+    }
+    
     const cantidadTotal = carrito.reduce((total, producto) => total + producto.cantidad, 0);
+    console.log('Actualizando contador del carrito:', cantidadTotal);
+    
     contador.textContent = cantidadTotal;
     contador.setAttribute('data-count', cantidadTotal);
     
