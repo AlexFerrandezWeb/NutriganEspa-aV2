@@ -150,10 +150,10 @@ function crearElementoProducto(producto) {
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles
             </button>
-            <button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id})">
+            ${producto.id !== 24 ? `<button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id})">
                 <i class="fas fa-shopping-cart"></i>
                 Añadir al Carrito
-            </button>
+            </button>` : ''}
         </div>
     `;
     
