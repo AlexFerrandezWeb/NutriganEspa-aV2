@@ -7232,10 +7232,10 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-secundario) 100%);
-    color: var(--color-texto-oscuro);
+    background: #ffffff;
+    color: #1d2336;
     padding: 1.5rem;
-    box-shadow: 0 -4px 20px rgba(29, 35, 54, 0.15);
+    box-shadow: 0 -4px 20px rgba(29, 35, 54, 0.25);
     z-index: 10000;
     display: none;
     border-top: 3px solid var(--color-acento);
@@ -7311,7 +7311,7 @@ body {
 }
 
 .cookie-link {
-    color: var(--color-acento);
+    color: #1d815d;
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 500;
@@ -7320,7 +7320,7 @@ body {
 }
 
 .cookie-link:hover {
-    color: var(--color-contador);
+    color: #166b4f;
     text-decoration: underline;
 }
 
