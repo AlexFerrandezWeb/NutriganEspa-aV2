@@ -583,6 +583,12 @@ async function enviarCarritoARender() {
         });
         
         if (!response.ok) {
+            const errorData = await response.json();
+            if (errorData.productosSinStock) {
+                // Manejar error de stock insuficiente
+                mostrarErrorStock(errorData.productosSinStock);
+                return;
+            }
             throw new Error(`Error del servidor: ${response.status}`);
         }
         
@@ -605,6 +611,51 @@ async function enviarCarritoARender() {
         btnProcederPago.innerHTML = textoOriginal;
         btnProcederPago.disabled = false;
     }
+}
+
+// Función para mostrar error de stock insuficiente
+function mostrarErrorStock(productosSinStock) {
+    let mensaje = '❌ Stock insuficiente para los siguientes productos:\n\n';
+    
+    productosSinStock.forEach(producto => {
+        if (producto.error) {
+            mensaje += `• ${producto.nombre}: ${producto.error}\n`;
+        } else {
+            mensaje += `• ${producto.nombre}: Solo quedan ${producto.stockDisponible} unidades (solicitadas: ${producto.cantidadSolicitada})\n`;
+        }
+    });
+    
+    mensaje += '\nPor favor, ajusta las cantidades o elimina los productos sin stock.';
+    
+    // Mostrar alerta con el error
+    alert(mensaje);
+    
+    // Crear notificación visual adicional
+    const notificacion = document.createElement('div');
+    notificacion.className = 'notificacion-error';
+    notificacion.innerHTML = `
+        <div class="notificacion-contenido">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Stock insuficiente para algunos productos</span>
+        </div>
+    `;
+    
+    document.body.appendChild(notificacion);
+    
+    // Mostrar notificación
+    setTimeout(() => {
+        notificacion.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Ocultar notificación después de 5 segundos
+    setTimeout(() => {
+        notificacion.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notificacion.parentNode) {
+                notificacion.parentNode.removeChild(notificacion);
+            }
+        }, 300);
+    }, 5000);
 }
 
 // Función para mostrar error de pago

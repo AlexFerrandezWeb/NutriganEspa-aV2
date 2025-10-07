@@ -250,5 +250,21 @@
             }
         });
     </script>
+
+    <!-- Banner de Cookies -->
+    <div id="cookieConsent" class="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-description">
+        <div class="cookie-content">
+            <h2 id="cookie-title" class="visually-hidden">Política de Cookies</h2>
+            <p id="cookie-description">Utilizamos cookies propias y de terceros para mejorar nuestros servicios y mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus hábitos de navegación.</p>
+            <div class="cookie-buttons">
+                <button onclick="aceptarCookies()" class="btn-aceptar" aria-label="Aceptar todas las cookies">Aceptar todas</button>
+                <button onclick="configurarCookies()" class="btn-configurar" aria-label="Configurar cookies">Configurar</button>
+                <button onclick="rechazarCookies()" class="btn-rechazar" aria-label="Rechazar todas las cookies">Rechazar todas</button>
+            </div>
+            <a href="/politica-cookies.html" class="cookie-link">Más información</a>
+        </div>
+    </div>
+
+    <script src="js/cookies.min.js" defer></script>
 </body>
 </html>

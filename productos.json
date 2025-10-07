@@ -31,7 +31,7 @@
       "certificaciones": "ISO 9001, GMP, Registro Sanitario",
       "temperatura": "Almacenar entre 5°C y 25°C",
       "fichaTecnica": "assets/fichas-tecnicas/1Flash.pdf",
-      "stock": 45,
+      "stock": 500,
       "destacado": true
     },
     {
@@ -64,7 +64,7 @@
       "composicion": "Fósforo 30%, Calcio 20%, Magnesio 5%, Vitamina D3 1500 UI",
       "certificaciones": "ISO 9001, GMP, Registro Sanitario",
       "temperatura": "Almacenar entre 10°C y 30°C",
-      "stock": 38,
+      "stock": 500,
       "destacado": true,
       "fichaTecnica": "assets/fichas-tecnicas/2Activ.pdf"
     },
@@ -98,7 +98,7 @@
       "composicion": "Zinc 15%, Biotina 0.5%, Aminoácidos 20%, Vitaminas B1, B2, B6, B12",
       "certificaciones": "ISO 9001, GMP, Registro Sanitario",
       "temperatura": "Almacenar entre 5°C y 30°C",
-      "stock": 22,
+      "stock": 500,
       "destacado": true,
       "fichaTecnica": "assets/fichas-tecnicas/3Heel.pdf"
     },
@@ -133,7 +133,7 @@
       "composicion": "Proteínas 35%, Energía 25%, Vitaminas A, D, E, Minerales esenciales",
       "certificaciones": "ISO 9001, GMP, Registro Sanitario",
       "temperatura": "Almacenar entre 5°C y 25°C",
-      "stock": 31,
+      "stock": 500,
       "destacado": false,
       "fichaTecnica": "assets/fichas-tecnicas/4Prepalac.pdf"
     },
@@ -163,7 +163,7 @@
         "Prevención de carencias",
         "Mejora la fertilidad"
       ],
-      "stock": 42,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -198,7 +198,7 @@
         "Sistema inmune fortalecido",
         "Salud digestiva mejorada"
       ],
-      "stock": 28,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -232,7 +232,7 @@
         "Prevención de diarreas",
         "Desarrollo óptimo"
       ],
-      "stock": 56,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -266,7 +266,7 @@
         "Salud óptima",
         "Prevención de carencias"
       ],
-      "stock": 67,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -301,7 +301,7 @@
         "Producción láctea óptima",
         "Salud reproductiva"
       ],
-      "stock": 19,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -336,7 +336,7 @@
         "Fertilidad optimizada",
         "Salud reproductiva"
       ],
-      "stock": 15,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -371,7 +371,7 @@
         "Salud reproductiva",
         "Vigor reproductor"
       ],
-      "stock": 23,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -406,7 +406,7 @@
         "Salud reproductiva",
         "Vigor reproductor"
       ],
-      "stock": 12,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -441,7 +441,7 @@
         "Salud del rumen",
         "Eficiencia productiva"
       ],
-      "stock": 8,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -476,7 +476,7 @@
         "Engorde optimizado",
         "Salud general"
       ],
-      "stock": 34,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -511,7 +511,7 @@
         "Engorde acelerado",
         "Salud digestiva"
       ],
-      "stock": 41,
+      "stock": 500,
       "destacado": false,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -546,7 +546,7 @@
         "Eficiencia productiva",
         "Calidad premium"
       ],
-      "stock": 5,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -580,7 +580,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -614,7 +614,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -648,7 +648,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -682,7 +682,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -716,7 +716,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -750,7 +750,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -784,7 +784,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -854,7 +854,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -888,7 +888,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -922,7 +922,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -956,7 +956,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -990,7 +990,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1024,7 +1024,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1058,7 +1058,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1092,7 +1092,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1126,7 +1126,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1160,7 +1160,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1194,7 +1194,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1228,7 +1228,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1262,7 +1262,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1296,7 +1296,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1330,7 +1330,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1364,7 +1364,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1398,7 +1398,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1432,7 +1432,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1466,7 +1466,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1500,7 +1500,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1534,7 +1534,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1568,7 +1568,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1602,7 +1602,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",
@@ -1636,7 +1636,7 @@
         "Sin tiempo de espera",
         "Fácil aplicación"
       ],
-      "stock": 10,
+      "stock": 500,
       "destacado": true,
       "formato": "Bolus",
       "composicion": "Ver etiqueta del producto",

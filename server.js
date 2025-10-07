@@ -43,6 +43,104 @@ const transporter = nodemailer.createTransport({
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Función para verificar si hay stock suficiente para los productos
+function verificarStock(productos) {
+    try {
+        console.log('🔍 Verificando stock de productos...');
+        
+        // Leer el archivo de productos
+        const fs = require('fs');
+        const productosPath = path.join(__dirname, 'productos.json');
+        const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
+        
+        const productosSinStock = [];
+        
+        // Verificar stock de cada producto
+        productos.forEach(productoCarrito => {
+            const producto = productosData.productos.find(p => p.id === productoCarrito.id);
+            
+            if (producto) {
+                const cantidadSolicitada = parseInt(productoCarrito.cantidad);
+                const stockDisponible = parseInt(producto.stock);
+                
+                console.log(`📦 ${producto.nombre}: Stock disponible: ${stockDisponible}, Cantidad solicitada: ${cantidadSolicitada}`);
+                
+                if (stockDisponible < cantidadSolicitada) {
+                    productosSinStock.push({
+                        nombre: producto.nombre,
+                        stockDisponible: stockDisponible,
+                        cantidadSolicitada: cantidadSolicitada
+                    });
+                }
+            } else {
+                productosSinStock.push({
+                    nombre: `Producto ID ${productoCarrito.id}`,
+                    stockDisponible: 0,
+                    cantidadSolicitada: productoCarrito.cantidad,
+                    error: 'Producto no encontrado'
+                });
+            }
+        });
+        
+        return productosSinStock;
+        
+    } catch (error) {
+        console.error('❌ Error al verificar stock:', error);
+        throw error;
+    }
+}
+
+// Función para reducir el stock de productos vendidos
+async function reducirStock(productosVendidos) {
+    try {
+        console.log('🔄 Reduciendo stock de productos vendidos...');
+        
+        // Leer el archivo de productos
+        const fs = require('fs');
+        const productosPath = path.join(__dirname, 'productos.json');
+        const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
+        
+        let stockActualizado = false;
+        
+        // Reducir stock de cada producto vendido
+        productosVendidos.forEach(productoVendido => {
+            const productoIndex = productosData.productos.findIndex(p => p.id === productoVendido.id);
+            
+            if (productoIndex !== -1) {
+                const producto = productosData.productos[productoIndex];
+                const cantidadVendida = parseInt(productoVendido.cantidad);
+                const stockActual = parseInt(producto.stock);
+                
+                if (stockActual >= cantidadVendida) {
+                    producto.stock = stockActual - cantidadVendida;
+                    stockActualizado = true;
+                    
+                    console.log(`📦 Producto: ${producto.nombre}`);
+                    console.log(`   Stock anterior: ${stockActual}`);
+                    console.log(`   Cantidad vendida: ${cantidadVendida}`);
+                    console.log(`   Stock nuevo: ${producto.stock}`);
+                } else {
+                    console.error(`❌ Error: Stock insuficiente para ${producto.nombre}. Stock actual: ${stockActual}, Cantidad vendida: ${cantidadVendida}`);
+                }
+            } else {
+                console.error(`❌ Error: Producto con ID ${productoVendido.id} no encontrado`);
+            }
+        });
+        
+        // Guardar los cambios si se actualizó algún stock
+        if (stockActualizado) {
+            fs.writeFileSync(productosPath, JSON.stringify(productosData, null, 2), 'utf8');
+            console.log('✅ Stock actualizado correctamente en productos.json');
+        } else {
+            console.log('ℹ️ No se actualizó ningún stock');
+        }
+        
+    } catch (error) {
+        console.error('❌ Error al reducir stock:', error);
+        throw error;
+    }
+}
+
 // Lista de dominios permitidos para CORS
 const whitelist = [
     'https://xn--nutriganespaa-tkb.com',
@@ -525,6 +623,9 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
             try {
                 productos = JSON.parse(session.metadata.productos_json);
                 console.log('Productos parseados:', productos);
+                
+                // Reducir stock de los productos vendidos
+                await reducirStock(productos);
             } catch (e) {
                 console.error('Error al parsear productos:', e);
             }
@@ -604,6 +705,16 @@ app.post('/api/create-checkout-session', async (req, res) => {
             return res.status(400).json({
                 success: false,
                 message: 'No hay productos en el carrito'
+            });
+        }
+
+        // Verificar stock antes de crear la sesión de checkout
+        const productosSinStock = verificarStock(productos);
+        if (productosSinStock.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Stock insuficiente para algunos productos',
+                productosSinStock: productosSinStock
             });
         }
 

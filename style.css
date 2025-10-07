@@ -7161,4 +7161,235 @@ body {
     }
 }
 
+/* Estilos para notificaciones de error */
+.notificacion-error {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ff4444;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    max-width: 350px;
+    font-family: var(--fuente-texto);
+}
+
+.notificacion-error .notificacion-contenido {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notificacion-error i {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.notificacion-error span {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.notificacion-error-pago {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #ff4444;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.3);
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    max-width: 350px;
+    font-family: var(--fuente-texto);
+}
+
+.notificacion-error-pago .notificacion-contenido {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notificacion-error-pago i {
+    font-size: 1.2rem;
+    color: #ffffff;
+}
+
+.notificacion-error-pago span {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Estilos para banner de cookies */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-secundario) 100%);
+    color: var(--color-texto-oscuro);
+    padding: 1.5rem;
+    box-shadow: 0 -4px 20px rgba(29, 35, 54, 0.15);
+    z-index: 10000;
+    display: none;
+    border-top: 3px solid var(--color-acento);
+    font-family: var(--fuente-texto);
+}
+
+.cookie-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cookie-content p {
+    flex: 1;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    min-width: 300px;
+}
+
+.cookie-buttons {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.cookie-buttons button {
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--fuente-texto);
+    min-width: 100px;
+}
+
+.btn-aceptar {
+    background-color: var(--color-contador);
+    color: white;
+}
+
+.btn-aceptar:hover {
+    background-color: #166b4f;
+    transform: translateY(-1px);
+}
+
+.btn-configurar {
+    background-color: var(--color-acento);
+    color: white;
+}
+
+.btn-configurar:hover {
+    background-color: #6a9491;
+    transform: translateY(-1px);
+}
+
+.btn-rechazar {
+    background-color: transparent;
+    color: var(--color-texto-oscuro);
+    border: 2px solid var(--color-texto-oscuro);
+}
+
+.btn-rechazar:hover {
+    background-color: var(--color-texto-oscuro);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.cookie-link {
+    color: var(--color-acento);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-left: 1rem;
+    transition: color 0.3s ease;
+}
+
+.cookie-link:hover {
+    color: var(--color-contador);
+    text-decoration: underline;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Responsive para banner de cookies */
+@media (max-width: 768px) {
+    .cookie-banner {
+        padding: 1rem;
+    }
+    
+    .cookie-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .cookie-content p {
+        min-width: auto;
+        font-size: 0.85rem;
+    }
+    
+    .cookie-buttons {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .cookie-buttons button {
+        flex: 1;
+        min-width: 80px;
+        font-size: 0.8rem;
+        padding: 0.6rem 1rem;
+    }
+    
+    .cookie-link {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .cookie-banner {
+        padding: 0.8rem;
+    }
+    
+    .cookie-content p {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+    
+    .cookie-buttons {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+    
+    .cookie-buttons button {
+        width: 100%;
+        padding: 0.7rem 1rem;
+    }
+}
+
 
