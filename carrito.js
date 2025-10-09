@@ -551,6 +551,12 @@ function limpiarCarrito() {
     cargarCarrito();
 }
 
+// Función para obtener la URL correcta de la API
+function getApiUrl(endpoint) {
+    // Siempre usar Render para la API (tanto en desarrollo como en producción)
+    return `https://nutrigan-web.onrender.com${endpoint}`;
+}
+
 // Función para enviar carrito a Render
 async function enviarCarritoARender() {
     const btnProcederPago = document.getElementById('btn-proceder-pago');
@@ -565,16 +571,19 @@ async function enviarCarritoARender() {
         // Preparar datos del carrito
         const datosCarrito = {
             productos: carrito,
-            total: carrito.reduce((total, producto) => total + (producto.precio * producto.cantidad), 0),
+            total: carrito.reduce((total, producto) => {
+                const precioUnitario = producto.precioUnitario || producto.precio;
+                return total + (precioUnitario * producto.cantidad);
+            }, 0),
             cantidadTotal: carrito.reduce((total, producto) => total + producto.cantidad, 0),
             timestamp: new Date().toISOString()
         };
         
-        // URL de tu backend en Render
-        const RENDER_URL = 'https://www.xn--nutriganespaa-tkb.com';
+        console.log('🛒 Enviando datos del carrito:', datosCarrito);
+        console.log('🌐 URL de la API:', getApiUrl('/api/create-checkout-session'));
         
-        // Enviar datos a Render
-        const response = await fetch(`${RENDER_URL}/api/create-checkout-session`, {
+        // Enviar datos a Render usando getApiUrl
+        const response = await fetch(getApiUrl('/api/create-checkout-session'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
