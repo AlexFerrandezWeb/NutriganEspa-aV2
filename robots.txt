@@ -1,25 +1,6 @@
 User-agent: *
 Allow: /
 
-# Permitir acceso a todos los archivos estáticos
-Allow: /assets/
-Allow: /css/
-Allow: /js/
-Allow: /docs/
-
-# Permitir acceso a todas las páginas principales
-Allow: /index.html
-Allow: /galeria.html
-Allow: /carrito.html
-Allow: /pago-exitoso.html
-Allow: /producto.html
-
-# Permitir acceso a páginas legales
-Allow: /aviso-legal.html
-Allow: /politica-cookies.html
-Allow: /politica-privacidad.html
-Allow: /terminos-condiciones.html
-
 # Bloquear archivos de configuración y desarrollo
 Disallow: /node_modules/
 Disallow: /package.json
@@ -32,6 +13,7 @@ Disallow: /DEPLOYMENT.md
 Disallow: /GUIA_PRODUCCION.md
 Disallow: /README.md
 Disallow: /clear-cache.html
+Disallow: /tatus
 
 # Sitemap
 Sitemap: https://www.xn--nutriganespaa-tkb.com/sitemap.xml
