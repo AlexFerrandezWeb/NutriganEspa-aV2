@@ -3,7 +3,7 @@
     {
       "id": 1,
       "nombre": "Bolutech® Flash",
-      "descripcion": "Reducción del riesgo de hipocalcemia.",
+      "descripcion": "Control y disminución de papilomas en pezones y ubres (verrugas), reducción de hipomagnesemia (fiebre o tetania de la hierba). Indicado para pastos muy tiernos donde las carencias en magnesio son evidentes.",
       "descripcionCompleta": "Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.",
       "precio": 59.69,
       "moneda": "EUR",
@@ -37,7 +37,7 @@
     {
       "id": 2,
       "nombre": "Bolutech® Activ",
-      "descripcion": "Alimento mineral en forma de bolo. Complementación en fósforo soluble. Flushing fósforico.",
+      "descripcion": "Reducción de riesgo de hipofosfatemia. Compuesto de fosforo soluble y flushing fosfórico. Terapia fosfotalfica.",
       "descripcionCompleta": "Suplemento específico para la prevención y tratamiento de la hipofosfatemia en ovejas. Formulación de liberación controlada que asegura la absorción óptima del fósforo.",
       "precio": 48.73,
       "moneda": "EUR",
@@ -71,7 +71,7 @@
     {
       "id": 3,
       "nombre": "Bolutech® Heel",
-      "descripcion": "Mejora la calidad de las pezuñas y aumento fuerte de la producción.",
+      "descripcion": "Bolo especifico de patas. Mejora la calidad del casco (casco blando) y el cimiento del mismo.",
       "descripcionCompleta": "Suplemento de larga duración para cerdos que mejora significativamente la calidad de las pezuñas y optimiza el crecimiento y desarrollo en todas las etapas productivas.",
       "precio": 84.41,
       "moneda": "EUR",
@@ -105,7 +105,7 @@
     {
       "id": 4,
       "nombre": "Bolutech® Prepalac",
-      "descripcion": "Suplemento completo para vacas en lactación. Mejora la producción láctea.",
+      "descripcion": "Control y profilaxis de las acetonemias (cetosis). Suplemento energético postparto.",
       "descripcionCompleta": "Suplemento nutricional integral diseñado específicamente para vacas en lactación. Optimiza la producción láctea y mejora la calidad de la leche.",
       "precio": 61.4,
       "moneda": "EUR",
@@ -174,7 +174,7 @@
     {
       "id": 6,
       "nombre": "Bolutech® Refresh",
-      "descripcion": "Ayuda a la preparación del celo y a la reproducción.",
+      "descripcion": "Preparación del celo (fertilidad) e inseminación exitosa (fecundidad).",
       "descripcionCompleta": "Suplemento nutricional completo para cerdos que optimiza el crecimiento, mejora la conversión alimenticia y fortalece el sistema inmune.",
       "precio": 63.67,
       "moneda": "EUR",
@@ -209,7 +209,7 @@
     {
       "id": 7,
       "nombre": "Nutrizan® IG 2.5kg",
-      "descripcion": "Suplemento para terneros recién nacidos y en crecimiento con problemas digestivos.",
+      "descripcion": "Suplemento dietéticobpara terneros con problemas digestivos (diarrea) aH.",
       "descripcionCompleta": "Suplemento nutricional específico para terneros que fortalece el sistema inmune, mejora el crecimiento y previene enfermedades digestivas.",
       "precio": 49.2,
       "moneda": "EUR",
@@ -243,7 +243,7 @@
     {
       "id": 8,
       "nombre": "Bolutech® Vitality",
-      "descripcion": "Para mejorar la calidad de la leche, reducir la incidencia de mastitis y maximizar el potencial productivo de sus vacas durante el exigente periodo de la lactancia.",
+      "descripcion": "Profilaxis y control del recuento celular (células somáticas). Reduce en una media +150000 células.",
       "descripcionCompleta": "Suplemento nutricional para corderos que optimiza el crecimiento, mejora la ganancia de peso y fortalece la salud general.",
       "precio": 77,
       "moneda": "EUR",
@@ -277,7 +277,7 @@
     {
       "id": 9,
       "nombre": "Bolutech® Start",
-      "descripcion": "Prevención del ahogamiento energético que supone la cetosis.",
+      "descripcion": "Prevención y profilaxis de las acetonemias postparto. Suplementación energética postparto.",
       "descripcionCompleta": "Suplemento nutricional específico para cerdas que optimiza la reproducción, mejora el desarrollo fetal y la producción láctea.",
       "precio": 50.68,
       "moneda": "EUR",
@@ -312,7 +312,7 @@
     {
       "id": 10,
       "nombre": "Bolutech® Tonic",
-      "descripcion": "Para garantizar un parto sin problemas, un ternero sano y un arranque de lactación potente y saludable.",
+      "descripcion": "Preparación al parto con el fin de que las placentas sean perfectamente expulsadas. Se evitan las retenciones placentarias, incluso en partos gemelares.",
       "descripcionCompleta": "Suplemento nutricional para toros reproductores que mejora la calidad seminal, la libido y la fertilidad general.",
       "precio": 58.3,
       "moneda": "EUR",
@@ -347,7 +347,7 @@
     {
       "id": 11,
       "nombre": "Lactibiose® Effervescent",
-      "descripcion": "Rehidratación oral para animales jóvenes.",
+      "descripcion": "Polvo rehidratante efervescente antidiarreico. Buena palatibilidad gracias al aporte de vainilla.",
       "descripcionCompleta": "Suplemento nutricional para carneros que optimiza la reproducción, mejora la calidad seminal y fortalece la salud reproductiva.",
       "precio": 84,
       "moneda": "EUR",
@@ -382,7 +382,7 @@
     {
       "id": 12,
       "nombre": "Polychoc total 5L",
-      "descripcion": "Alimentación dietética complementaria para rumiantes.",
+      "descripcion": "Vitaminas con soporte de metionina, hD3",
       "descripcionCompleta": "Suplemento nutricional para verracos que optimiza la reproducción, mejora la calidad seminal y fortalece la salud reproductiva.",
       "precio": 76.36,
       "moneda": "EUR",
@@ -417,7 +417,7 @@
     {
       "id": 13,
       "nombre": "Pulsomeriol 5L",
-      "descripcion": "Precursor de la glucosa, para optimizar el metabolismo energético en el hígado.",
+      "descripcion": "Control y profilaxis de las acetonemias.",
       "descripcionCompleta": "Suplemento nutricional específico para vacas lecheras de alta producción que optimiza la producción láctea y mejora la calidad de la leche.",
       "precio": 43.84,
       "moneda": "EUR",
@@ -452,7 +452,7 @@
     {
       "id": 14,
       "nombre": "Bolutech® Junior",
-      "descripcion": "Suplementación para novillas en pastoreo.",
+      "descripcion": "Bolo vitamínico mineral específico para terneras recién destetadas. Mejora el crecimiento y desarrollo en ternera. Eficaz después de convalecencia.",
       "descripcionCompleta": "Suplemento nutricional para ovejas de carne que optimiza el crecimiento, mejora la calidad de la carne y acelera el engorde.",
       "precio": 72.72,
       "moneda": "EUR",
@@ -487,7 +487,7 @@
     {
       "id": 15,
       "nombre": "Bolutech® Excell",
-      "descripcion": "Para garantizar que los animales mantengan un estado de salud y fertilidad óptimo.",
+      "descripcion": "Bolo vitamínico mineral específico para crecimiento y desarrollo de las novillas. Favorece la aparición del celo. Mejora los aplomos.",
       "descripcionCompleta": "Suplemento nutricional para cerdos en crecimiento que optimiza el desarrollo, mejora la conversión alimenticia y acelera el engorde.",
       "precio": 56.99,
       "moneda": "EUR",
@@ -522,7 +522,7 @@
     {
       "id": 16,
       "nombre": "Bolutech® Dietevit equilibre",
-      "descripcion": "Suplementos para vacas ecológicas en pastoreo.",
+      "descripcion": "Bolo específico para vacas o novillas en granjas convencionale ecológicas. Certificado ECO.",
       "descripcionCompleta": "Suplemento nutricional premium de alta calidad para todas las especies ganaderas. Formulación avanzada que optimiza el rendimiento y la salud.",
       "precio": 63.1,
       "moneda": "EUR",
@@ -795,7 +795,7 @@
     {
       "id": 24,
       "nombre": "gav-ALLFEED® Replyn DUNE - 10KG",
-      "descripcion": "Nutraceutico para el controlde infestación de endoparasitos y ectoparasitos e insectos.",
+      "descripcion": "Nutraceutico para el controlde infestación de endoparasitos y ectoparasitos e insectos. Eficacia demostrada antipicaduras.",
       "descripcionCompleta": "Nutraceutico para el controlde infestación de endoparasitos y ectoparasitos e insectos.",
       "precio": 17.38,
       "precioUnitario": 17.38,
@@ -1035,7 +1035,7 @@
     {
       "id": 31,
       "nombre": "gav-ALLFEED® Lactomint IMM",
-      "descripcion": "Alternativa o complemento natural a los antibióticos intramamarios en formato de jeringa. Su principal ventaja es que, al ser un producto natural, no requiere tiempo de supresión en leche. Esto significa que la leche del animal tratado se puede seguir utilizando para el consumo sin necesidad de descartarla.",
+      "descripcion": "Válido para hacer secados y profilaxis y control de mastitis. Sin descarte alguno de leche.",
       "descripcionCompleta": "Alternativa o complemento natural a los antibióticos intramamarios en formato de jeringa. Su principal ventaja es que, al ser un producto natural, no requiere tiempo de supresión en leche. Esto significa que la leche del animal tratado se puede seguir utilizando para el consumo sin necesidad de descartarla.",
       "precio": 145.75,
       "moneda": "EUR",
@@ -1069,7 +1069,7 @@
     {
       "id": 32,
       "nombre": "Globigen® Calf Paste",
-      "descripcion": "Pienso complementario para terneros recién nacidos. Contiene proteínas funcionales (IgY). Mejora la salud y apoya el sistema inmunológico.",
+      "descripcion": "Calostro en forma de pasta para animales recién nacidos.",
       "descripcionCompleta": "Pienso complementario para terneros recién nacidos. Contiene proteínas funcionales (IgY). Mejora la salud y apoya el sistema inmunológico.",
       "precio": 136.62,
       "moneda": "EUR",
@@ -1137,7 +1137,7 @@
     {
       "id": 34,
       "nombre": "gav-ALLFEED® Bronkub PLUS 20KG",
-      "descripcion": "Producto natural a base de extractos de plantas (fitobióticos), aceites esenciales y vitaminas, diseñado para actuar como un expectorante, mucolítico y broncodilatador.",
+      "descripcion": "Cubo 20kg. A libre disposición para toda la problemática respiratoria de cualquier índole.",
       "descripcionCompleta": "Producto natural a base de extractos de plantas (fitobióticos), aceites esenciales y vitaminas, diseñado para actuar como un expectorante, mucolítico y broncodilatador.",
       "precio": 1089.00,
       "moneda": "EUR",
