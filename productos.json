@@ -3,7 +3,7 @@
     {
       "id": 1,
       "nombre": "Bolutech® Flash",
-      "descripcion": "Control y disminución de papilomas en pezones y ubres (verrugas), reducción de hipomagnesemia (fiebre o tetania de la hierba). Indicado para pastos muy tiernos donde las carencias en magnesio son evidentes.",
+      "descripcion": "Reducción del riesgo de hipocalcemia.",
       "descripcionCompleta": "Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.",
       "precio": 59.69,
       "moneda": "EUR",
@@ -140,7 +140,7 @@
     {
       "id": 5,
       "nombre": "Bolutech® MG Flash",
-      "descripcion": "Para un parto más fácil.",
+      "descripcion": "Control y disminución de papilomas en pezones y ubres (verrugas). Reducción de hipomagnesemia (fiebre o tetania de la hierba). Indicado para pastos muy tiernos donde las carencias en magnesio son evidentes.",
       "descripcionCompleta": "Suplemento nutricional específico para ovejas en gestación y lactación. Asegura el correcto desarrollo fetal y la producción láctea óptima.",
       "precio": 58.3,
       "moneda": "EUR",
@@ -243,7 +243,7 @@
     {
       "id": 8,
       "nombre": "Bolutech® Vitality",
-      "descripcion": "Profilaxis y control del recuento celular (células somáticas). Reduce en una media +150000 células.",
+      "descripcion": "Profilaxis y control del recuento celular (células somáticas). Reduce en una media +169000 células.",
       "descripcionCompleta": "Suplemento nutricional para corderos que optimiza el crecimiento, mejora la ganancia de peso y fortalece la salud general.",
       "precio": 77,
       "moneda": "EUR",
@@ -522,7 +522,7 @@
     {
       "id": 16,
       "nombre": "Bolutech® Dietevit equilibre",
-      "descripcion": "Bolo específico para vacas o novillas en granjas convencionale ecológicas. Certificado ECO.",
+      "descripcion": "Bolo específico para vacas o novillas en granjas convencionales y ecológicas. Certificado ECO.",
       "descripcionCompleta": "Suplemento nutricional premium de alta calidad para todas las especies ganaderas. Formulación avanzada que optimiza el rendimiento y la salud.",
       "precio": 63.1,
       "moneda": "EUR",
