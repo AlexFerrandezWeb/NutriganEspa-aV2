@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
   <channel>
     <title>Nutrigan España - Productos de Nutrición Animal</title>
-    <link>https://nutrigan.es</link>
+    <link>https://www.xn--nutriganespaa-tkb.com</link>
     <description>Suplementos nutricionales de alta calidad para ganado bovino, ovino y porcino</description>
     
     <!-- Producto 1: Bolutech Flash -->
@@ -10,8 +10,8 @@
       <g:id>1</g:id>
       <g:title>Bolutech Flash - Suplemento para Vacas en Periparto</g:title>
       <g:description>Reducción del riesgo de hipocalcemia. Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=1</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto1.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=1</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto1.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -36,8 +36,8 @@
       <g:id>2</g:id>
       <g:title>Bolutech Activ - Suplemento para Vacas en Lactación</g:title>
       <g:description>Alimento mineral en forma de bolo. Complementación en fósforo soluble. Flushing fósforico. Suplemento específico para la prevención y tratamiento de la hipofosfatemia en ovejas.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=2</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto2.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=2</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto2.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -62,8 +62,8 @@
       <g:id>3</g:id>
       <g:title>Bolutech Heel - Suplemento para Cojeras en Bovinos</g:title>
       <g:description>Suplemento nutricional específico para el tratamiento y prevención de cojeras en bovinos. Formulación especializada que fortalece las estructuras del pie y mejora la movilidad del ganado.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=3</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto3.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=3</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto3.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -88,8 +88,8 @@
       <g:id>4</g:id>
       <g:title>Blue Spray 200cc - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=4</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto4.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=4</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto4.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -114,8 +114,8 @@
       <g:id>5</g:id>
       <g:title>Blue Spray 500cc - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=5</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto5.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=5</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto5.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -140,8 +140,8 @@
       <g:id>6</g:id>
       <g:title>Blue Spray 1L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=6</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto6.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=6</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto6.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -166,8 +166,8 @@
       <g:id>7</g:id>
       <g:title>Blue Spray 5L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=7</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto7.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=7</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto7.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -192,8 +192,8 @@
       <g:id>8</g:id>
       <g:title>Blue Spray 10L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=8</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto8.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=8</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto8.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -218,8 +218,8 @@
       <g:id>9</g:id>
       <g:title>Blue Spray 20L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=9</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto9.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=9</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto9.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -244,8 +244,8 @@
       <g:id>10</g:id>
       <g:title>Blue Spray 200L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=10</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto10.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=10</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto10.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -270,8 +270,8 @@
       <g:id>11</g:id>
       <g:title>Blue Spray 1000L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=11</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto11.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=11</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto11.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -296,8 +296,8 @@
       <g:id>12</g:id>
       <g:title>Blue Spray 2000L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=12</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto12.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=12</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto12.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -322,8 +322,8 @@
       <g:id>13</g:id>
       <g:title>Blue Spray 5000L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=13</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto13.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=13</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto13.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -348,8 +348,8 @@
       <g:id>14</g:id>
       <g:title>Blue Spray 10000L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=14</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto14.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=14</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto14.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -374,8 +374,8 @@
       <g:id>15</g:id>
       <g:title>Blue Spray 20000L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=15</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto15.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=15</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto15.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -400,8 +400,8 @@
       <g:id>16</g:id>
       <g:title>Blue Spray 50000L - Desinfectante Veterinario</g:title>
       <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=16</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto16.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=16</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto16.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -426,8 +426,8 @@
       <g:id>17</g:id>
       <g:title>Blue Spray 200cc - 200ml - Cicatrizante Desinfectante</g:title>
       <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol mejora la hidratación de la piel y la cicatrización de heridas.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=17</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto17.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=17</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto17.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
@@ -452,8 +452,8 @@
       <g:id>18</g:id>
       <g:title>Blue Spray 200cc - 400ml - Cicatrizante Desinfectante</g:title>
       <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol mejora la hidratación de la piel y la cicatrización de heridas.</g:description>
-      <g:link>https://nutrigan.es/producto.html?id=18</g:link>
-      <g:image_link>https://nutrigan.es/assets/producto17.webp</g:image_link>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=18</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto17.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
