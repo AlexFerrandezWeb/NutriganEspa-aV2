@@ -3,475 +3,1158 @@
   <channel>
     <title>Nutrigan España - Productos de Nutrición Animal</title>
     <link>https://www.xn--nutriganespaa-tkb.com</link>
-    <description>Suplementos nutricionales de alta calidad para ganado bovino, ovino y porcino</description>
-    
-    <!-- Producto 1: Bolutech Flash -->
+    <description>Suplementos nutricionales de alta calidad para ganado bovino, ovino, caprino y porcino</description>
+
     <item>
       <g:id>1</g:id>
-      <g:title>Bolutech Flash - Suplemento para Vacas en Periparto</g:title>
-      <g:description>Reducción del riesgo de hipocalcemia. Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.</g:description>
+      <g:title>Bolutech® Flash</g:title>
+      <g:description>Suplemento nutricional de alta eficacia para vacas en transición. Reduce significativamente el riesgo de hipocalcemia y mejora la producción láctea en los primeros días post-parto.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=1</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto1.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>59.69 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Suplementos Nutricionales &gt; Bovinos &gt; Periparto</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BOL-FLASH-150G</g:mpn>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en periparto &gt; Bolus de liberación controlada</g:product_type>
+      <g:mpn>SKU-1</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Bovinos</g:custom_label_0>
+      <g:custom_label_0>bovinos</g:custom_label_0>
       <g:custom_label_1>Vacas en periparto</g:custom_label_1>
-      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_2>Bolus de liberación controlada</g:custom_label_2>
       <g:custom_label_3>150g</g:custom_label_3>
     </item>
 
-    <!-- Producto 2: Bolutech Activ -->
     <item>
       <g:id>2</g:id>
-      <g:title>Bolutech Activ - Suplemento para Vacas en Lactación</g:title>
-      <g:description>Alimento mineral en forma de bolo. Complementación en fósforo soluble. Flushing fósforico. Suplemento específico para la prevención y tratamiento de la hipofosfatemia en ovejas.</g:description>
+      <g:title>Bolutech® Activ</g:title>
+      <g:description>Suplemento específico para la prevención y tratamiento de la hipofosfatemia en ovejas. Formulación de liberación controlada que asegura la absorción óptima del fósforo.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=2</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto2.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>48.73 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Suplementos Nutricionales &gt; Bovinos &gt; Lactación</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BOL-ACTIV-120G</g:mpn>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en lactación &gt; Bolus de liberación rápida</g:product_type>
+      <g:mpn>SKU-2</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Bovinos</g:custom_label_0>
+      <g:custom_label_0>bovinos</g:custom_label_0>
       <g:custom_label_1>Vacas en lactación</g:custom_label_1>
-      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_2>Bolus de liberación rápida</g:custom_label_2>
       <g:custom_label_3>120g</g:custom_label_3>
     </item>
 
-    <!-- Producto 3: Bolutech Heel -->
     <item>
       <g:id>3</g:id>
-      <g:title>Bolutech Heel - Suplemento para Cojeras en Bovinos</g:title>
-      <g:description>Suplemento nutricional específico para el tratamiento y prevención de cojeras en bovinos. Formulación especializada que fortalece las estructuras del pie y mejora la movilidad del ganado.</g:description>
+      <g:title>Bolutech® Heel</g:title>
+      <g:description>Suplemento de larga duración para cerdos que mejora significativamente la calidad de las pezuñas y optimiza el crecimiento y desarrollo en todas las etapas productivas.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=3</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto3.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>52.15 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Suplementos Nutricionales &gt; Bovinos &gt; Salud Podal</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BOL-HEEL-100G</g:mpn>
+      <g:price>84.41 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en lactación &gt; Bolus de liberación prolongada</g:product_type>
+      <g:mpn>SKU-3</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Bovinos</g:custom_label_0>
-      <g:custom_label_1>Salud podal</g:custom_label_1>
-      <g:custom_label_2>Bolus</g:custom_label_2>
-      <g:custom_label_3>100g</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en lactación</g:custom_label_1>
+      <g:custom_label_2>Bolus de liberación prolongada</g:custom_label_2>
+      <g:custom_label_3>200g</g:custom_label_3>
     </item>
 
-    <!-- Producto 4: Blue Spray 200cc -->
     <item>
       <g:id>4</g:id>
-      <g:title>Blue Spray 200cc - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Prepalac</g:title>
+      <g:description>Suplemento nutricional integral diseñado específicamente para vacas en lactación. Optimiza la producción láctea y mejora la calidad de la leche.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=4</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto4.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>18.50 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-200CC</g:mpn>
+      <g:price>61.40 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en preparto &gt; Bolus de liberación sostenida</g:product_type>
+      <g:mpn>SKU-4</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>200cc</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en preparto</g:custom_label_1>
+      <g:custom_label_2>Bolus de liberación sostenida</g:custom_label_2>
+      <g:custom_label_3>180g</g:custom_label_3>
     </item>
 
-    <!-- Producto 5: Blue Spray 500cc -->
     <item>
       <g:id>5</g:id>
-      <g:title>Blue Spray 500cc - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® MG Flash</g:title>
+      <g:description>Suplemento nutricional específico para ovejas en gestación y lactación. Asegura el correcto desarrollo fetal y la producción láctea óptima.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=5</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto5.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>32.80 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-500CC</g:mpn>
+      <g:price>58.30 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en periparto &gt; Bolus</g:product_type>
+      <g:mpn>SKU-5</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>500cc</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en periparto</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>100g</g:custom_label_3>
     </item>
 
-    <!-- Producto 6: Blue Spray 1L -->
     <item>
       <g:id>6</g:id>
-      <g:title>Blue Spray 1L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Refresh</g:title>
+      <g:description>Suplemento nutricional completo para cerdos que optimiza el crecimiento, mejora la conversión alimenticia y fortalece el sistema inmune.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=6</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto6.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>58.90 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-1L</g:mpn>
+      <g:price>63.67 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en periparto &gt; Bolus</g:product_type>
+      <g:mpn>SKU-6</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>1L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en periparto</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>150g</g:custom_label_3>
     </item>
 
-    <!-- Producto 7: Blue Spray 5L -->
     <item>
       <g:id>7</g:id>
-      <g:title>Blue Spray 5L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Nutrizan® IG 2.5kg</g:title>
+      <g:description>Suplemento nutricional específico para terneros que fortalece el sistema inmune, mejora el crecimiento y previene enfermedades digestivas.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=7</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto7.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>245.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-5L</g:mpn>
+      <g:price>49.20 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos &gt; Terneros, corderos y lechones &gt; Bolus</g:product_type>
+      <g:mpn>SKU-7</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>5L</g:custom_label_3>
+      <g:custom_label_0>bovinos, ovinos</g:custom_label_0>
+      <g:custom_label_1>Terneros, corderos y lechones</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>80g</g:custom_label_3>
     </item>
 
-    <!-- Producto 8: Blue Spray 10L -->
     <item>
       <g:id>8</g:id>
-      <g:title>Blue Spray 10L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Vitality</g:title>
+      <g:description>Suplemento nutricional para corderos que optimiza el crecimiento, mejora la ganancia de peso y fortalece la salud general.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=8</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto8.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>450.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-10L</g:mpn>
+      <g:price>77.00 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en lactación &gt; Bolus</g:product_type>
+      <g:mpn>SKU-8</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>10L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en lactación</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>70g</g:custom_label_3>
     </item>
 
-    <!-- Producto 9: Blue Spray 20L -->
     <item>
       <g:id>9</g:id>
-      <g:title>Blue Spray 20L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Start</g:title>
+      <g:description>Suplemento nutricional específico para cerdas que optimiza la reproducción, mejora el desarrollo fetal y la producción láctea.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=9</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto9.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>850.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-20L</g:mpn>
+      <g:price>50.68 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en periparto &gt; Bolus</g:product_type>
+      <g:mpn>SKU-9</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>20L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en periparto</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>160g</g:custom_label_3>
     </item>
 
-    <!-- Producto 10: Blue Spray 200L -->
     <item>
       <g:id>10</g:id>
-      <g:title>Blue Spray 200L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Tonic</g:title>
+      <g:description>Suplemento nutricional para toros reproductores que mejora la calidad seminal, la libido y la fertilidad general.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=10</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto10.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>7500.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-200L</g:mpn>
+      <g:price>58.30 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas en preparto &gt; Bolus</g:product_type>
+      <g:mpn>SKU-10</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>200L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas en preparto</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>220g</g:custom_label_3>
     </item>
 
-    <!-- Producto 11: Blue Spray 1000L -->
     <item>
       <g:id>11</g:id>
-      <g:title>Blue Spray 1000L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Lactibiose® Effervescent</g:title>
+      <g:description>Suplemento nutricional para carneros que optimiza la reproducción, mejora la calidad seminal y fortalece la salud reproductiva.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=11</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto11.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>35000.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-1000L</g:mpn>
+      <g:price>84.00 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Terneros &gt; Bolus</g:product_type>
+      <g:mpn>SKU-11</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>1000L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Terneros</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>140g</g:custom_label_3>
     </item>
 
-    <!-- Producto 12: Blue Spray 2000L -->
     <item>
       <g:id>12</g:id>
-      <g:title>Blue Spray 2000L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Polychoc total 5L</g:title>
+      <g:description>Suplemento nutricional para verracos que optimiza la reproducción, mejora la calidad seminal y fortalece la salud reproductiva.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=12</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto12.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>65000.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-2000L</g:mpn>
+      <g:price>76.36 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Vacas, corderos y cerdos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-12</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>2000L</g:custom_label_3>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Vacas, corderos y cerdos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>180g</g:custom_label_3>
     </item>
 
-    <!-- Producto 13: Blue Spray 5000L -->
     <item>
       <g:id>13</g:id>
-      <g:title>Blue Spray 5000L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Pulsomeriol 5L</g:title>
+      <g:description>Suplemento nutricional específico para vacas lecheras de alta producción que optimiza la producción láctea y mejora la calidad de la leche.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=13</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto13.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>150000.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-5000L</g:mpn>
+      <g:price>43.84 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Vacas, Ovejas y Cabras &gt; Bolus</g:product_type>
+      <g:mpn>SKU-13</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>5000L</g:custom_label_3>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Vacas, Ovejas y Cabras</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>250g</g:custom_label_3>
     </item>
 
-    <!-- Producto 14: Blue Spray 10000L -->
     <item>
       <g:id>14</g:id>
-      <g:title>Blue Spray 10000L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Junior</g:title>
+      <g:description>Suplemento nutricional para ovejas de carne que optimiza el crecimiento, mejora la calidad de la carne y acelera el engorde.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=14</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto14.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>280000.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-10000L</g:mpn>
+      <g:price>72.72 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Terneros y novillas &gt; Bolus</g:product_type>
+      <g:mpn>SKU-14</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>10000L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Terneros y novillas</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>110g</g:custom_label_3>
     </item>
 
-    <!-- Producto 15: Blue Spray 20000L -->
     <item>
       <g:id>15</g:id>
-      <g:title>Blue Spray 20000L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Excell</g:title>
+      <g:description>Suplemento nutricional para cerdos en crecimiento que optimiza el desarrollo, mejora la conversión alimenticia y acelera el engorde.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=15</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto15.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>520000.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-20000L</g:mpn>
+      <g:price>56.99 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Terneros y novillas &gt; Bolus</g:product_type>
+      <g:mpn>SKU-15</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>20000L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Terneros y novillas</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>130g</g:custom_label_3>
     </item>
 
-    <!-- Producto 16: Blue Spray 50000L -->
     <item>
       <g:id>16</g:id>
-      <g:title>Blue Spray 50000L - Desinfectante Veterinario</g:title>
-      <g:description>Desinfectante de amplio espectro para uso veterinario. Eficaz contra bacterias, virus y hongos. Formulación segura para el ganado y el medio ambiente.</g:description>
+      <g:title>Bolutech® Dietevit equilibre</g:title>
+      <g:description>Suplemento nutricional premium de alta calidad para todas las especies ganaderas. Formulación avanzada que optimiza el rendimiento y la salud.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=16</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto16.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
-      <g:price>1200000.00 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Desinfectantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-50000L</g:mpn>
+      <g:price>63.10 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas y novillas &gt; Bolus</g:product_type>
+      <g:mpn>SKU-16</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Desinfectante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>50000L</g:custom_label_3>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas y novillas</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
     </item>
 
-    <!-- Producto 17: Blue Spray 200cc - 200ml -->
     <item>
       <g:id>17</g:id>
-      <g:title>Blue Spray 200cc - 200ml - Cicatrizante Desinfectante</g:title>
-      <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol mejora la hidratación de la piel y la cicatrización de heridas.</g:description>
+      <g:title>Blue Spray 200cc - 200ml</g:title>
+      <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=17</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto17.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>7.05 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Cicatrizantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-200CC-200ML</g:mpn>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-17</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Cicatrizante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>200cc</g:custom_label_3>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
     </item>
 
-    <!-- Producto 18: Blue Spray 200cc - 400ml -->
     <item>
       <g:id>18</g:id>
-      <g:title>Blue Spray 200cc - 400ml - Cicatrizante Desinfectante</g:title>
-      <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol mejora la hidratación de la piel y la cicatrización de heridas.</g:description>
+      <g:title>Blue Spray 200cc - 400ml</g:title>
+      <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.</g:description>
       <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=18</g:link>
       <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto17.webp</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>11.90 EUR</g:price>
-      <g:google_product_category>Animals &amp; Pet Supplies &gt; Pet Supplies &gt; Pet Health Supplies</g:google_product_category>
-      <g:product_type>Sanidad Animal &gt; Cicatrizantes &gt; Spray</g:product_type>
-      <g:gtin></g:gtin>
-      <g:mpn>BLUE-SPRAY-200CC-400ML</g:mpn>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-18</g:mpn>
       <g:shipping>
         <g:country>ES</g:country>
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
-      <g:custom_label_0>Sanidad</g:custom_label_0>
-      <g:custom_label_1>Cicatrizante</g:custom_label_1>
-      <g:custom_label_2>Spray</g:custom_label_2>
-      <g:custom_label_3>200cc</g:custom_label_3>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
     </item>
 
+    <item>
+      <g:id>19</g:id>
+      <g:title>Globigen® Día Stop 2KG</g:title>
+      <g:description>Complemento alimenticio con proteínas funcionales (IgY), así como electrolitos y carbohidratos fácilmente asimilables, mejorando así la salud intestinal y ayudando frente a transtornos digestivos.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=19</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto19.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>48.05 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Terneros &gt; Bolus</g:product_type>
+      <g:mpn>SKU-19</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Terneros</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>20</g:id>
+      <g:title>Calz-o-Phos liquid 0,5L</g:title>
+      <g:description>Reduce el riesgo de fiebre de la leche: Vacas sanas para una gestión rentable.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=20</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto20.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>11.20 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Vacas lecheras &gt; Bolus</g:product_type>
+      <g:mpn>SKU-20</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Vacas lecheras</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>21</g:id>
+      <g:title>gav-ALLFEED® ENTEROGAV - 1L</g:title>
+      <g:description>alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=21</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto21.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>403.92 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Terneros, corderos y cabritos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-21</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Terneros, corderos y cabritos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>22</g:id>
+      <g:title>gav-ALLFEED® ENTEROGAV - 5L</g:title>
+      <g:description>Alimento complementario dietético (nutracéutico) diseñado principalmente para el control y tratamiento de desórdenes digestivos en animales jóvenes.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=22</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto22.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>618.20 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Terneros, corderos y cabritos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-22</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Terneros, corderos y cabritos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>23</g:id>
+      <g:title>gav-ALLFEED® Replyn DEFENSE WS250ml</g:title>
+      <g:description>Espray dermoprotector con acción biológica repelente y antipicaduras para el control de insectos y ectoparasitos y enfermedad del ehe (enfermedad hemorrágica epizoótica).</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=23</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto23.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>32.98 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-23</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>24</g:id>
+      <g:title>gav-ALLFEED® Replyn DUNE - 10KG</g:title>
+      <g:description>Nutraceutico para el controlde infestación de endoparasitos y ectoparasitos e insectos.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=24</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto24.png</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>17.38 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, equinos &gt; Vacas, terneros, ovejas, cabras y caballos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-24</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, equinos</g:custom_label_0>
+      <g:custom_label_1>Vacas, terneros, ovejas, cabras y caballos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>25</g:id>
+      <g:title>Snap Detector</g:title>
+      <g:description>Detector de residuos betalactámicos en leche</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=25</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto25.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>264.90 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos, equinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-25</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos, equinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>26</g:id>
+      <g:title>gav-ALLFEED® Dipp FORTE - 250ml</g:title>
+      <g:description>Potente antiséptico antibacteriano, anti-inflamatorio. Junto al producto Lactomint Care refuerza los resultados. Certificación E.L.U.A.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=26</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto26.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>107.80 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Vacas lecheras, ovejas lecheras y cabras lecheras &gt; Bolus</g:product_type>
+      <g:mpn>SKU-26</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Vacas lecheras, ovejas lecheras y cabras lecheras</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>27</g:id>
+      <g:title>gav-ALLFEED® Lactomint CARE - 5L</g:title>
+      <g:description>Antiinflamatorio, analgésico, refrescante, antiséptico, cicatrizante. No es necesario el masajeo en la ubre después de la aplicación. En caso de mastitis aplicar en el momento. NO NECESITA DE SUPRESIÓN NI PRESCRIPCIÓN VETERINARIA. CERTIFICACIÓN E.L.U.A. Recomendable su uso junto con el producto Dipp Forte 250ml</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=27</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto27.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>338.80 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>equinos &gt; Caballos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-27</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>equinos</g:custom_label_0>
+      <g:custom_label_1>Caballos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>28</g:id>
+      <g:title>gav-ALLFEED® Lactomint CARE - 5L + Dipp FORTE - 250ml</g:title>
+      <g:description>La aplicación de ambos productos juntos es lo recomendable. Siguiendo los protocolos de secado y postparto se secan todas las vacas por igual. Mastitis aplicar de inmediato. SIN PERIODO DE SUPRESIÓN NI DESCARTE DE LECHE. SIN RECETAS VETERINARIAS.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=28</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto28.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>446.60 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, equinos &gt; Vacas lecheras, ovejas lecheras, cabras lecheras y caballos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-28</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, equinos</g:custom_label_0>
+      <g:custom_label_1>Vacas lecheras, ovejas lecheras, cabras lecheras y caballos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>29</g:id>
+      <g:title>gav-ALLFEED® Lactomint CARE - 500ml</g:title>
+      <g:description>Cicatrizante desinfectante para heridas en ganado y mascotas libre de antibióticos. Su fórmula con dexpantenol y carvacrol (aceite esencial de orégano) mejora la hidratación de la piel y la cicatrización de heridas. ✅Sin antibióticos ✅Sin tiempo de espera ✅Fácil aplicación: Pulverizar 1-2 veces al día a 20-30cm de distancia hasta la recuperación. Protege y acelera la regeneración de la piel de tu ganado y mascotas con Blue Spray.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=29</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto29.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>250.80 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>equinos &gt; Caballos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-29</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>equinos</g:custom_label_0>
+      <g:custom_label_1>Caballos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>30</g:id>
+      <g:title>gav-ALLFEED® Lactomint UTER - 40ml</g:title>
+      <g:description>Nutracéutico (un producto de origen natural con efectos terapéuticos) diseñado específicamente para el cuidado y la higiene de la zona vaginal y uterina de las hembras de producción.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=30</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto30.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>267.96 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Vacas, ovejas, cabras y cerdas &gt; Bolus</g:product_type>
+      <g:mpn>SKU-30</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Vacas, ovejas, cabras y cerdas</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>31</g:id>
+      <g:title>gav-ALLFEED® Lactomint IMM</g:title>
+      <g:description>Alternativa o complemento natural a los antibióticos intramamarios en formato de jeringa. Su principal ventaja es que, al ser un producto natural, no requiere tiempo de supresión en leche. Esto significa que la leche del animal tratado se puede seguir utilizando para el consumo sin necesidad de descartarla.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=31</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto31.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>145.75 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Vacas lecheras, ovejas lecheras y cabras lecheras &gt; Bolus</g:product_type>
+      <g:mpn>SKU-31</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Vacas lecheras, ovejas lecheras y cabras lecheras</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>32</g:id>
+      <g:title>Globigen® Calf Paste</g:title>
+      <g:description>Pienso complementario para terneros recién nacidos. Contiene proteínas funcionales (IgY). Mejora la salud y apoya el sistema inmunológico.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=32</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto32.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>136.62 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos &gt; Terneros &gt; Bolus</g:product_type>
+      <g:mpn>SKU-32</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos</g:custom_label_0>
+      <g:custom_label_1>Terneros</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>33</g:id>
+      <g:title>Activador Microorganismos BIOPRANA 20L</g:title>
+      <g:description>Acelera la descomposición de la materia orgánica en general reduciendo o eliminando malos olores, reduciendo o eliminando insectos plaga como moscas, larvas, etc. Purines homogéneos y licuados. Contactar para más información.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=33</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto33.png</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>461.67 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos, equinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-33</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos, equinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>34</g:id>
+      <g:title>gav-ALLFEED® Bronkub PLUS 20KG</g:title>
+      <g:description>Producto natural a base de extractos de plantas (fitobióticos), aceites esenciales y vitaminas, diseñado para actuar como un expectorante, mucolítico y broncodilatador.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=34</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto34.png</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>1089.00 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Terneros, ovejas, cabras y cerdos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-34</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Terneros, ovejas, cabras y cerdos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>35</g:id>
+      <g:title>gav-ALLFEED® DELICIOUS - 4KG</g:title>
+      <g:description>Potenciador calostral rico en lactoferrina, inmunoglobulinas, rico en flora intestinal, astringentes y protectores de mucosa intestinal, y estimulantes del apetito.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=35</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto35.png</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>63.80 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Terneros, vacas, ovejas, cabras y cerdos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-35</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Terneros, vacas, ovejas, cabras y cerdos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>36</g:id>
+      <g:title>gav-ALLFEED® CALOSTRUM - 500g</g:title>
+      <g:description>Potenciador calostral rico en lactoferrina, inmunoglobulinas, rico en flora intestinal, astringentes y protectores de mucosa intestinal.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=36</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto36.png</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>44.45 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Terneros, corderos y cabritos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-36</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Terneros, corderos y cabritos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>37</g:id>
+      <g:title>EuroDog® Bocaditos Repelent Alta Calidad - 20KG</g:title>
+      <g:description>Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales. No contienen cereales. Comiéndolo de continúo los perros no parasitan. Más información contactar.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=37</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto37.png</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>1174.80 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>perros &gt; Perros de todas las razas y tamaños &gt; Bolus</g:product_type>
+      <g:mpn>SKU-37</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>perros</g:custom_label_0>
+      <g:custom_label_1>Perros de todas las razas y tamaños</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>38</g:id>
+      <g:title>EuroDog® Galletas Repelent Alta Calidad - 20KG</g:title>
+      <g:description>Snack funcional para perros que ayuda a protegerlos desde dentro contra pulgas, garrapatas y mosquitos, sirviendo como un excelente refuerzo natural a los métodos antiparasitarios tradicionales. No contienen cereales. Comiéndolo de continúo los perros no parasitan. Más información contactar.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=38</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto38.png</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>1026.60 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>perros &gt; Perros de todas las razas y tamaños &gt; Bolus</g:product_type>
+      <g:mpn>SKU-38</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>perros</g:custom_label_0>
+      <g:custom_label_1>Perros de todas las razas y tamaños</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>39</g:id>
+      <g:title>Bactercip N100 - 24kg</g:title>
+      <g:description>Detergente ácido de alto rendimiento formulado para la limpieza y desincrustación de circuitos cerrados en la industria alimentaria y ganadera. Su potente acción elimina eficazmente la piedra de leche y otros residuos inorgánicos, garantizando la máxima higiene en instalaciones de ordeño, tanques de frío y pasteurizadores. Indispensable para el mantenimiento profesional de tus equipos. Precio unitario: 38,62€</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=39</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto39.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>1004.12 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>todo tipo de animales &gt; Uso de limpieza y desinfección &gt; Bolus</g:product_type>
+      <g:mpn>SKU-39</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>todo tipo de animales</g:custom_label_0>
+      <g:custom_label_1>Uso de limpieza y desinfección</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>40</g:id>
+      <g:title>Bacterclor S100 - 24kg</g:title>
+      <g:description>Potente detergente desinfectante, fuertemente alcalino y clorado, diseñado para la limpieza y desinfección en un solo paso. Su fórmula no espumante es ideal para limpiezas CIP (Cleaning in Place) en circuitos, hornos y superficies de la industria alimentaria. Elimina eficazmente materia orgánica, grasas y todo tipo de suciedad, garantizando una desinfección de amplio espectro contra bacterias y hongos. Precio unitario: 33,61€</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=40</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto40.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>873.96 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>todo tipo de animales &gt; Uso de limpieza y desinfección &gt; Bolus</g:product_type>
+      <g:mpn>SKU-40</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>todo tipo de animales</g:custom_label_0>
+      <g:custom_label_1>Uso de limpieza y desinfección</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>41</g:id>
+      <g:title>Bacterclor S100 - 60kg</g:title>
+      <g:description>Potente detergente desinfectante, fuertemente alcalino y clorado, diseñado para la limpieza y desinfección en un solo paso. Su fórmula no espumante es ideal para limpiezas CIP (Cleaning in Place) en circuitos, hornos y superficies de la industria alimentaria. Elimina eficazmente materia orgánica, grasas y todo tipo de suciedad, garantizando una desinfección de amplio espectro contra bacterias y hongos. Precio unitario: 77,42€</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=41</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto41.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>464.52 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>todo tipo de animales &gt; Uso de limpieza y desinfección &gt; Bolus</g:product_type>
+      <g:mpn>SKU-41</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>todo tipo de animales</g:custom_label_0>
+      <g:custom_label_1>Uso de limpieza y desinfección</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>42</g:id>
+      <g:title>Dry Part - 25kg</g:title>
+      <g:description>Nutracéutico nanotecnológico para el control metabólico en periparto. Fórmula de última generación diseñada para el tratamiento de la Cetoacidosis Diabética (C.A.D.) y la prevención de la toxemia de gestación. Gracias a la nanotecnología, sus activos inhiben eficazmente la producción de cuerpos cetónicos y estimulan los niveles de insulina en el periodo de transición. Una herramienta esencial para proteger la salud de la madre y asegurar un inicio de lactación exitoso. Precio unitario: 60,26€ saco</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=42</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto42.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>1446.24 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprino, porcinos &gt; Terneros, corderos, cabritos y cerditos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-42</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprino, porcinos</g:custom_label_0>
+      <g:custom_label_1>Terneros, corderos, cabritos y cerditos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>43</g:id>
+      <g:title>Filmaderm - 20kg</g:title>
+      <g:description>Solución filmógena con efecto desinfectante, relajante, descongestionante, termoregulador y anti-inflamatorio. Desarrollado a partir de la fermentación una cuidada selección de aceites medicinales, extractos cítricos y mentha arvensis, FILMADERM, mejora sistematicamente la integridad de la piel del pezon y la flixiblididad de los esfínteres. Precio unitario: 76,23€</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=43</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto43.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>228.69 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos, equinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-43</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos, equinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>44</g:id>
+      <g:title>Filmavit - 20kg</g:title>
+      <g:description>Desarrollado a partir de extractos cítricos asociados a glicerina vegetal y ácido ascórbico, FILMAVIT, presenta un gran poder de desinfección y cicatrización de heridas y cortes, aumentando la sanidad del pezón; la más importante barrera natural de defensa. Precio unitario: 76,23€</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=44</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto44.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>228.69 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos &gt; Bovinos, ovinos, caprinos y porcinos &gt; Bolus</g:product_type>
+      <g:mpn>SKU-44</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos</g:custom_label_0>
+      <g:custom_label_1>Bovinos, ovinos, caprinos y porcinos</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>45</g:id>
+      <g:title>Lactox A+B - 10kg</g:title>
+      <g:description>Avanzado sistema bicomponente para la higiene post-ordeño. Al mezclar la base (Lactox A) con el activador (Lactox B), se genera dióxido de cloro, un potente desinfectante de amplio espectro que previene la mastitis. Su fórmula espesa crea una película protectora visible sobre el pezón, asegurando una protección duradera y un excelente cuidado de la piel. Precio unitario: 67,76€</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=45</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto45.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>203.28 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Vacas lecheras, ovejas lecheras y cabras lecheras &gt; Bolus</g:product_type>
+      <g:mpn>SKU-45</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Vacas lecheras, ovejas lecheras y cabras lecheras</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>46</g:id>
+      <g:title>Optiderm - 20kg</g:title>
+      <g:description>Espuma higienizante, especialmente desarrollada para mejorar la higiene de las ubres en los animales productores de leche. Posee un gran poder de limpieza y su formulación, especialmente desarrollada con componentes naturales de la propia leche, limita el riesgo de inhibidores y residuos en la misma.</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=46</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto46.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>228.69 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprino, porcinos, equinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-46</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprino, porcinos, equinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>47</g:id>
+      <g:title>Optilactol - 20kg</g:title>
+      <g:description>Es una fuente de energía líquida de alta concentración para rumiantes, formulada a base de propilenglicol y otros precursores de glucosa. Diseñado para prevenir la cetosis y reducir el balance energético negativo en vacas, ovejas y cabras durante el periparto. Precio unitario: 76,23€</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=47</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto47.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>228.69 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos &gt; Vacas, ovejas y cabras &gt; Bolus</g:product_type>
+      <g:mpn>SKU-47</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos</g:custom_label_0>
+      <g:custom_label_1>Vacas, ovejas y cabras</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
+
+    <item>
+      <g:id>48</g:id>
+      <g:title>Secuestrante Detox azove - 30kg</g:title>
+      <g:description>Es un aditivo de amplio espectro para piensos, formulado para proteger a sus animales contra los efectos perjudiciales de las micotoxinas. Su combinación de silicatos y paredes de levaduras adsorbe y neutraliza eficazmente una gran variedad de toxinas (Aflatoxinas, Zearalenona, etc.), mejorando la salud intestinal, el rendimiento productivo y la inmunidad del ganado. Precio unitario: 152,10€ saco</g:description>
+      <g:link>https://www.xn--nutriganespaa-tkb.com/producto.html?id=48</g:link>
+      <g:image_link>https://www.xn--nutriganespaa-tkb.com/assets/producto48.jpg</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>3042.00 EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>bovinos, ovinos, caprinos, porcinos, equinos &gt; Todas las especies &gt; Bolus</g:product_type>
+      <g:mpn>SKU-48</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      <g:custom_label_0>bovinos, ovinos, caprinos, porcinos, equinos</g:custom_label_0>
+      <g:custom_label_1>Todas las especies</g:custom_label_1>
+      <g:custom_label_2>Bolus</g:custom_label_2>
+      <g:custom_label_3>300g</g:custom_label_3>
+    </item>
   </channel>
 </rss>
