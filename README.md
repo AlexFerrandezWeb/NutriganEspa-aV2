@@ -107,7 +107,7 @@ Para habilitar los pagos, necesitarás:
 - 📍 C/El Cortin n°63, El Crucero - Tineo 33877 (Asturias)
 - 📞 626 983 042
 - ✉️ javiernutrigan@gmail.com
-- 🌐 [Facebook](https://www.facebook.com/nutriganespana)
+- 🌐 [Facebook](https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61554696603699/)
 
 ## 📄 Licencia
 

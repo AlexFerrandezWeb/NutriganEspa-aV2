@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gracias por su Compra - Nutrigan España</title>
-    <meta name="description" content="Gracias por confiar en Nutrigan España. Su pedido ha sido procesado correctamente.">
+    <meta name="description"
+        content="Gracias por confiar en Nutrigan España. Su pedido ha sido procesado correctamente.">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png">
     <link rel="apple-touch-icon" href="assets/favicon.png">
-    
+
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="reset.css">
     <!-- Font Awesome para el icono del carrito -->
@@ -16,42 +18,46 @@
     <!-- Google Fonts - Montserrat Alternates y Open Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
+
     <!-- Google Customer Reviews Badge -->
     <script src="https://apis.google.com/js/platform.js?onload=renderBadge" async defer></script>
     <script>
-        window.renderBadge = function() {
+        window.renderBadge = function () {
             if (document.getElementById('google-reviews-badge')) {
                 return;
             }
-            
+
             var ratingBadgeContainer = document.createElement("div");
             ratingBadgeContainer.id = "google-reviews-badge";
             ratingBadgeContainer.style.cssText = "position: fixed; bottom: 100px; right: 20px; z-index: 999; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 8px;";
             document.body.appendChild(ratingBadgeContainer);
-            
-            window.gapi.load('ratingbadge', function() {
-                window.gapi.ratingbadge.render(ratingBadgeContainer, {"merchant_id": 5663326184});
-                
+
+            window.gapi.load('ratingbadge', function () {
+                window.gapi.ratingbadge.render(ratingBadgeContainer, { "merchant_id": 5663326184 });
+
                 setTimeout(() => {
                     ratingBadgeContainer.style.cssText = "position: fixed !important; bottom: 100px !important; right: 20px !important; z-index: 999 !important; background: white !important; border-radius: 8px !important; box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important; padding: 8px !important;";
                 }, 1000);
             });
         }
-        
-        document.addEventListener('DOMContentLoaded', function() {
+
+        document.addEventListener('DOMContentLoaded', function () {
             if (window.gapi) {
                 window.renderBadge();
             }
         });
     </script>
 </head>
+
 <body>
     <nav class="nav-principal">
         <div class="nav-superior">
             <div class="nav-hamburguesa-container">
-                <button class="nav-hamburguesa" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-izquierda-movil">
+                <button class="nav-hamburguesa" aria-label="Abrir menú" aria-expanded="false"
+                    aria-controls="menu-izquierda-movil">
                     <span class="linea1"></span>
                     <span class="linea2"></span>
                 </button>
@@ -82,14 +88,15 @@
         </div>
         <form class="nav-buscador" action="#" method="get" role="search">
             <div class="buscador-input-container">
-                <input type="search" name="q" placeholder="Buscar productos..." class="buscador-input" id="buscador-input">
+                <input type="search" name="q" placeholder="Buscar productos..." class="buscador-input"
+                    id="buscador-input">
                 <button type="submit" class="buscador-boton" aria-label="Buscar">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </form>
     </nav>
-    
+
     <!-- Menú móvil -->
     <div class="menu-izquierda-movil" id="menu-izquierda-movil">
         <ul class="menu-movil-lista">
@@ -110,7 +117,8 @@
                 </div>
                 <h1 class="hero-titulo">¡GRACIAS POR SU COMPRA!</h1>
                 <p class="hero-subtitulo">Su pedido ha sido procesado correctamente</p>
-                <p class="hero-descripcion">Hemos recibido su pedido y lo estamos procesando. En breve recibirá un email del recibo con todos los detalles.</p>
+                <p class="hero-descripcion">Hemos recibido su pedido y lo estamos procesando. En breve recibirá un email
+                    del recibo con todos los detalles.</p>
                 <a href="index.html" class="hero-cta">VOLVER AL INICIO</a>
             </div>
         </div>
@@ -159,7 +167,8 @@
         <div class="contacto-container">
             <div class="contacto-content">
                 <h2 class="contacto-titulo">¿Necesita Ayuda?</h2>
-                <p class="contacto-descripcion">Si tiene alguna pregunta sobre su pedido o necesita asistencia, no dude en contactarnos.</p>
+                <p class="contacto-descripcion">Si tiene alguna pregunta sobre su pedido o necesita asistencia, no dude
+                    en contactarnos.</p>
                 <div class="contacto-info">
                     <div class="contacto-item">
                         <i class="fas fa-phone"></i>
@@ -191,7 +200,7 @@
                     <p><i class="fas fa-map-marker-alt"></i> C/El Cortin n°63<br>El Crucero - Tineo 33877 (Asturias)</p>
                 </div>
             </div>
-            
+
             <!-- Sección de Información Legal -->
             <div class="footer-seccion">
                 <h3 class="footer-titulo">Información Legal</h3>
@@ -203,32 +212,30 @@
                     <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
                 </div>
             </div>
-            
+
             <!-- Sección de Síguenos -->
             <div class="footer-seccion">
                 <h3 class="footer-titulo">Síguenos</h3>
                 <div class="footer-contenido">
                     <div class="footer-redes-sociales">
-                        <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61551471786328/?locale=nn_NO" class="red-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61554696603699/" class="red-social"
+                            aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Línea de copyright -->
         <div class="footer-copyright">
             <p>&copy; 2025 Nutrigan España. Todos los derechos reservados.</p>
         </div>
     </footer>
-    
+
     <!-- Botón flotante de WhatsApp -->
-    <a href="https://wa.me/34626983042?text=Hola,%20me%20interesan%20sus%20productos%20de%20nutrición%20animal" 
-       class="whatsapp-float" 
-       target="_blank" 
-       rel="noopener noreferrer"
-       aria-label="Contactar por WhatsApp">
+    <a href="https://wa.me/34626983042?text=Hola,%20me%20interesan%20sus%20productos%20de%20nutrición%20animal"
+        class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="whatsapp-texto">Asesoramiento gratuito</span>
     </a>
@@ -237,28 +244,28 @@
     <script src="main.js"></script>
     <script>
         // Mostrar información del pedido desde localStorage
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const pedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
             const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-            
+
             // Mostrar número de pedido
             if (pedido.numero) {
                 document.getElementById('numero-pedido').textContent = pedido.numero;
             }
-            
+
             // Mostrar fecha
             if (pedido.fecha) {
                 document.getElementById('fecha-pedido').textContent = pedido.fecha;
             }
-            
+
             // Calcular y mostrar total
             const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
             document.getElementById('total-pedido').textContent = total.toFixed(2) + ' €';
-            
+
             // Limpiar carrito después de la compra
             localStorage.removeItem('carrito');
             localStorage.removeItem('ultimoPedido');
-            
+
             // Actualizar contador del carrito
             const cartCount = document.getElementById('nav-cart-count');
             if (cartCount) {
@@ -266,7 +273,7 @@
             }
         });
     </script>
-    
+
     <!-- Google Customer Reviews -->
     <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
     <script>
@@ -287,27 +294,27 @@
             localStorage.setItem('ultimoPedido', JSON.stringify(datosPrueba));
             console.log('Datos de prueba cargados:', datosPrueba);
         }
-        
+
         // Cargar datos de prueba si no hay datos reales
         if (!localStorage.getItem('ultimoPedido')) {
             simularDatosPedido();
         }
-        
+
         // Mostrar mensaje de desarrollo si estamos en localhost
         if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
             console.log('🔧 MODO DESARROLLO: Google Reviews puede no funcionar en localhost');
             console.log('✅ En producción (www.xn--nutriganespaa-tkb.com) funcionará correctamente');
         }
-        
-        window.renderOptIn = function() {
+
+        window.renderOptIn = function () {
             console.log('Google API cargada, iniciando renderOptIn...');
-            window.gapi.load('surveyoptin', function() {
+            window.gapi.load('surveyoptin', function () {
                 console.log('Survey opt-in cargado, obteniendo datos...');
                 // Obtener datos del pedido desde localStorage
                 const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
                 const orderId = ultimoPedido.pedidoId || 'PED' + Date.now().toString().slice(-6);
                 const customerEmail = ultimoPedido.email || 'cliente@nutrigan.es';
-                
+
                 console.log('Datos para Google Reviews:', {
                     merchant_id: 5663326184,
                     order_id: orderId,
@@ -316,7 +323,7 @@
                     estimated_delivery_date: getEstimatedDeliveryDate(),
                     products: getProductsForGoogleReviews(ultimoPedido.productos || [])
                 });
-                
+
                 try {
                     window.gapi.surveyoptin.render(
                         {
@@ -336,13 +343,13 @@
                 } catch (error) {
                     console.error('Error al renderizar Google Reviews:', error);
                     // Mostrar mensaje alternativo si Google no funciona
-                    document.getElementById('google-reviews-widget').innerHTML = 
+                    document.getElementById('google-reviews-widget').innerHTML =
                         '<p style="text-align: center; color: #666; padding: 20px;">Gracias por su compra. Su opinión es muy importante para nosotros.</p>';
                 }
-                
+
             });
         }
-        
+
         // Función para calcular la fecha estimada de entrega (5-10 días laborables)
         function getEstimatedDeliveryDate() {
             const today = new Date();
@@ -350,7 +357,7 @@
             const deliveryDate = new Date(today.getTime() + (deliveryDays * 24 * 60 * 60 * 1000));
             return deliveryDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
         }
-        
+
         // Función para obtener productos en formato Google Reviews
         function getProductsForGoogleReviews(productos) {
             return productos.map(producto => ({
@@ -362,4 +369,5 @@
         }
     </script>
 </body>
+
 </html>
