@@ -761,7 +761,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 currency: 'eur',
                 product_data: {
                     name: producto.nombre,
-                    description: `${producto.descripcion}\n\n🚚 Envío GRATIS\n📅 Entrega estimada: 5-10 días laborables`,
                     images: [`https://www.xn--nutriganespaa-tkb.com/${producto.imagen}`]
                 },
                 unit_amount: Math.round(producto.precio * 100) // Stripe usa centavos
@@ -776,6 +775,29 @@ app.post('/api/create-checkout-session', async (req, res) => {
             mode: 'payment',
             success_url: 'https://www.xn--nutriganespaa-tkb.com/gracias-compra.html?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: 'https://www.xn--nutriganespaa-tkb.com/carrito.html',
+            // Configuración de envíos
+            shipping_options: [
+                {
+                    shipping_rate_data: {
+                        type: 'fixed_amount',
+                        fixed_amount: {
+                            amount: 0,
+                            currency: 'eur',
+                        },
+                        display_name: 'Envío gratuito',
+                        delivery_estimate: {
+                            minimum: {
+                                unit: 'business_day',
+                                value: 5,
+                            },
+                            maximum: {
+                                unit: 'business_day',
+                                value: 10,
+                            },
+                        },
+                    },
+                },
+            ],
             // Configuración de campos de envío
             shipping_address_collection: {
                 allowed_countries: ['ES']
