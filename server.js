@@ -47,24 +47,24 @@ const PORT = process.env.PORT || 3000;
 function verificarStock(productos) {
     try {
         console.log('🔍 Verificando stock de productos...');
-        
+
         // Leer el archivo de productos
         const fs = require('fs');
         const productosPath = path.join(__dirname, 'productos.json');
         const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
-        
+
         const productosSinStock = [];
-        
+
         // Verificar stock de cada producto
         productos.forEach(productoCarrito => {
             const producto = productosData.productos.find(p => p.id === productoCarrito.id);
-            
+
             if (producto) {
                 const cantidadSolicitada = parseInt(productoCarrito.cantidad);
                 const stockDisponible = parseInt(producto.stock);
-                
+
                 console.log(`📦 ${producto.nombre}: Stock disponible: ${stockDisponible}, Cantidad solicitada: ${cantidadSolicitada}`);
-                
+
                 if (stockDisponible < cantidadSolicitada) {
                     productosSinStock.push({
                         nombre: producto.nombre,
@@ -81,9 +81,9 @@ function verificarStock(productos) {
                 });
             }
         });
-        
+
         return productosSinStock;
-        
+
     } catch (error) {
         console.error('❌ Error al verificar stock:', error);
         throw error;
@@ -94,27 +94,27 @@ function verificarStock(productos) {
 async function reducirStock(productosVendidos) {
     try {
         console.log('🔄 Reduciendo stock de productos vendidos...');
-        
+
         // Leer el archivo de productos
         const fs = require('fs');
         const productosPath = path.join(__dirname, 'productos.json');
         const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
-        
+
         let stockActualizado = false;
-        
+
         // Reducir stock de cada producto vendido
         productosVendidos.forEach(productoVendido => {
             const productoIndex = productosData.productos.findIndex(p => p.id === productoVendido.id);
-            
+
             if (productoIndex !== -1) {
                 const producto = productosData.productos[productoIndex];
                 const cantidadVendida = parseInt(productoVendido.cantidad);
                 const stockActual = parseInt(producto.stock);
-                
+
                 if (stockActual >= cantidadVendida) {
                     producto.stock = stockActual - cantidadVendida;
                     stockActualizado = true;
-                    
+
                     console.log(`📦 Producto: ${producto.nombre}`);
                     console.log(`   Stock anterior: ${stockActual}`);
                     console.log(`   Cantidad vendida: ${cantidadVendida}`);
@@ -126,7 +126,7 @@ async function reducirStock(productosVendidos) {
                 console.error(`❌ Error: Producto con ID ${productoVendido.id} no encontrado`);
             }
         });
-        
+
         // Guardar los cambios si se actualizó algún stock
         if (stockActualizado) {
             fs.writeFileSync(productosPath, JSON.stringify(productosData, null, 2), 'utf8');
@@ -134,7 +134,7 @@ async function reducirStock(productosVendidos) {
         } else {
             console.log('ℹ️ No se actualizó ningún stock');
         }
-        
+
     } catch (error) {
         console.error('❌ Error al reducir stock:', error);
         throw error;
@@ -185,7 +185,7 @@ app.use(cors(corsOptions));
 async function enviarCorreoPedido(pedido) {
     try {
         const { productos, total, currency, customer_email, shipping_address, fecha } = pedido;
-        
+
         // Crear lista de productos
         let listaProductos = '';
         productos.forEach((producto, index) => {
@@ -281,7 +281,7 @@ app.options('*', (req, res) => {
     console.log('URL:', req.url);
     console.log('Origin:', req.headers.origin);
     console.log('===============================');
-    
+
     const origin = req.headers.origin;
     if (whitelist.includes(origin)) {
         res.header('Access-Control-Allow-Origin', origin);
@@ -331,7 +331,7 @@ app.get('/api/pedido-test/:sessionId', (req, res) => {
     const { sessionId } = req.params;
     console.log('=== PETICIÓN DE PRUEBA A /api/pedido-test ===');
     console.log('SessionId:', sessionId);
-    
+
     // Simular respuesta
     const respuestaPrueba = {
         success: true,
@@ -362,7 +362,7 @@ app.get('/api/pedido-test/:sessionId', (req, res) => {
             shipping_address: null
         }
     };
-    
+
     console.log('Enviando respuesta de prueba:', respuestaPrueba);
     res.json(respuestaPrueba);
 });
@@ -408,16 +408,16 @@ app.post('/api/procesar-pago', async (req, res) => {
         // Guardar información del pago (simulado)
         const pedidoId = 'PED' + Date.now().toString().slice(-6);
 
-        res.json({ 
-            success: true, 
+        res.json({
+            success: true,
             message: 'Pago procesado correctamente',
             chargeId: charge.id,
             pedidoId: pedidoId
         });
     } catch (error) {
         console.error('Error al procesar el pago:', error);
-        res.status(500).json({ 
-            success: false, 
+        res.status(500).json({
+            success: false,
             message: error.message || 'Error al procesar el pago'
         });
     }
@@ -434,7 +434,7 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
         console.log('Content-Type:', req.get('Content-Type'));
         console.log('Origin:', req.get('Origin'));
         console.log('===============================================');
-        
+
         const { productos, total, moneda = 'eur' } = req.body;
 
         if (!productos || productos.length === 0) {
@@ -447,17 +447,17 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
         // Función para generar URL completa de imagen
         function getImageUrl(imagenPath) {
             if (!imagenPath) return null;
-            
+
             // Si ya es una URL completa, la devolvemos tal como está
             if (imagenPath.startsWith('http')) {
                 return imagenPath;
             }
-            
+
             // Para desarrollo local, usar localhost:3000
             if (req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1')) {
                 return `http://localhost:3000${imagenPath}`;
             }
-            
+
             // Para producción, usar el dominio real
             const baseUrl = `${req.protocol}://${req.get('host')}`;
             return `${baseUrl}${imagenPath}`;
@@ -485,7 +485,7 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
             // Solo añadir imágenes si estamos en producción o si la URL es accesible públicamente
             const isProduction = process.env.NODE_ENV === 'production';
             const isPublicUrl = imagenUrl && !imagenUrl.includes('localhost') && !imagenUrl.includes('127.0.0.1');
-            
+
             if (isProduction && isPublicUrl) {
                 lineItem.price_data.product_data.images = [imagenUrl];
                 console.log(`Imagen añadida para ${producto.nombre}: ${imagenUrl}`);
@@ -498,11 +498,11 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
                     'producto9': 'https://stripe.com/img/v3/home/social.png',
                     'producto11': 'https://stripe.com/img/v3/home/social.png'
                 };
-                
+
                 // Extraer el nombre del archivo de imagen
                 const imageName = imagenUrl ? imagenUrl.split('/').pop().replace('.webp', '') : 'default';
                 const placeholderImage = placeholderImages[imageName] || 'https://stripe.com/img/v3/home/social.png';
-                
+
                 lineItem.price_data.product_data.images = [placeholderImage];
                 console.log(`Imagen placeholder añadida para ${producto.nombre} (desarrollo): ${placeholderImage}`);
                 console.log(`LineItem completo:`, JSON.stringify(lineItem, null, 2));
@@ -531,7 +531,11 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
             metadata: {
                 total: total.toString(),
                 cantidad_productos: productos.length.toString(),
-                productos_json: JSON.stringify(productos)
+                productos_json: JSON.stringify(productos.map(p => ({
+                    id: p.id,
+                    c: p.cantidad,
+                    p: p.precioFinal || p.precio
+                })))
             },
             customer_creation: 'always',
             billing_address_collection: 'required',
@@ -571,9 +575,9 @@ app.post('/api/crear-sesion-stripe', async (req, res) => {
 app.get('/api/verificar-sesion/:sessionId', async (req, res) => {
     try {
         const { sessionId } = req.params;
-        
+
         const session = await stripe.checkout.sessions.retrieve(sessionId);
-        
+
         res.json({
             success: true,
             session: {
@@ -599,16 +603,16 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
     try {
         console.log('=== PETICIÓN A /api/pedido/:sessionId ===');
         console.log('SessionId:', req.params.sessionId);
-        
+
         const { sessionId } = req.params;
-        
+
         const session = await stripe.checkout.sessions.retrieve(sessionId);
-        
+
         console.log('Estado del pago:', session.payment_status);
         console.log('Metadata:', session.metadata);
         console.log('Customer email:', session.customer_email);
         console.log('Customer details:', session.customer_details);
-        
+
         if (session.payment_status !== 'paid') {
             console.log('Pago no completado, estado:', session.payment_status);
             return res.status(400).json({
@@ -616,21 +620,54 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
                 message: 'El pago no ha sido completado'
             });
         }
-        
+
         // Parsear los productos desde los metadata
         let productos = [];
         if (session.metadata && session.metadata.productos_json) {
             try {
-                productos = JSON.parse(session.metadata.productos_json);
-                console.log('Productos parseados:', productos);
-                
+                const productosMin = JSON.parse(session.metadata.productos_json);
+                console.log('Productos minimizados recibidos:', productosMin);
+
+                // Re-hidratar productos (recuperar información completa)
+                const fs = require('fs');
+                const path = require('path');
+                const productosPath = path.join(__dirname, 'productos.json');
+                const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
+
+                productos = productosMin.map(pMin => {
+                    const pFull = productosData.productos.find(p => p.id === pMin.id);
+                    if (pFull) {
+                        // Calcular precio final si no existe
+                        const precioBase = parseFloat(pFull.precio);
+
+                        return {
+                            ...pFull,
+                            cantidad: pMin.c,
+                            precio: pMin.p, // Usar el precio guardado en la sesión por si cambió
+                            precioFinal: pMin.p,
+                            // Asegurar que la imagen tenga la ruta correcta si es relativa
+                            imagen: pFull.imagen.startsWith('http') ? pFull.imagen : `/assets/${path.basename(pFull.imagen)}`
+
+                        };
+                    }
+                    return {
+                        id: pMin.id,
+                        nombre: 'Producto no encontrado (ID: ' + pMin.id + ')',
+                        precio: pMin.p,
+                        cantidad: pMin.c,
+                        imagen: '/assets/logo.png' // Imagen por defecto
+                    };
+                });
+
+                console.log('Productos re-hidratados:', productos.length);
+
                 // Reducir stock de los productos vendidos
                 await reducirStock(productos);
             } catch (e) {
-                console.error('Error al parsear productos:', e);
+                console.error('Error al parsear/hidratar productos:', e);
             }
         }
-        
+
         const pedido = {
             sessionId: session.id,
             productos: productos,
@@ -656,7 +693,7 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
             success: true,
             pedido: pedido
         };
-        
+
         console.log('Enviando respuesta:', respuesta);
         res.json(respuesta);
     } catch (error) {
@@ -677,18 +714,18 @@ app.post('/api/procesar-contrareembolso', async (req, res) => {
         // Por ejemplo, crear un pedido en tu sistema con estado "pendiente de pago"
 
         const pedidoId = 'CR' + Date.now().toString().slice(-6);
-        
-        res.json({ 
-            success: true, 
+
+        res.json({
+            success: true,
             message: 'Pedido creado correctamente',
             pedidoId: pedidoId,
             metodoPago: 'contrareembolso'
         });
     } catch (error) {
         console.error('Error al procesar contrareembolso:', error);
-        res.status(500).json({ 
-            success: false, 
-            message: error.message 
+        res.status(500).json({
+            success: false,
+            message: error.message
         });
     }
 });
@@ -698,7 +735,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
     try {
         console.log('=== RECIBIDA PETICIÓN A /api/create-checkout-session ===');
         console.log('Body:', req.body);
-        
+
         const { productos, total, cantidadTotal } = req.body;
 
         if (!productos || productos.length === 0) {
@@ -755,7 +792,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
             metadata: {
                 total: total.toString(),
                 cantidadTotal: cantidadTotal.toString(),
-                productos_json: JSON.stringify(productos)
+                // Guardar versión minimizada para evitar límite de 500 caracteres
+                productos_json: JSON.stringify(productos.map(p => ({
+                    id: p.id,
+                    c: p.cantidad,
+                    p: p.precioFinal || p.precio
+                })))
             },
             // Mensaje personalizado
             custom_text: {
