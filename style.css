@@ -765,7 +765,7 @@ body {
 }
 
 .hero-texto {
-    max-width: 800px;
+    max-width: 1000px;
     text-align: center;
     color: white;
     padding: 2rem;
@@ -781,6 +781,10 @@ body {
     color: white;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
     line-height: 1.1;
+    hyphens: none;
+    -webkit-hyphens: none;
+    -ms-hyphens: none;
+    white-space: nowrap;
 }
 
 .hero-subtitulo {
@@ -837,6 +841,7 @@ body {
         font-size: 2.2rem;
         letter-spacing: 0.5px;
         line-height: 1.2;
+        white-space: normal;
     }
 
     .hero-subtitulo {
@@ -7498,14 +7503,22 @@ body {
     font-weight: 700;
     color: #1d2336;
     margin-bottom: 0.5rem;
+    -webkit-hyphens: none;
+    hyphens: none;
+}
+
+@media (max-width: 768px) {
+    .conoce-productos-titulo {
+        font-size: 2rem;
+        padding: 0 1rem;
+    }
 }
 
 @media (max-width: 576px) {
     .conoce-productos-titulo {
-        font-size: 1.8rem;
-        /* Reducir tamaño en móvil */
+        font-size: 1.5rem;
+        line-height: 1.3;
         padding: 0 1rem;
-        /* Añadir padding para evitar bordes */
     }
 }
 
@@ -7590,4 +7603,184 @@ body {
     /* Siempre visible */
     top: auto;
     left: auto;
+}
+
+/* Estilos de la Sección Promocional Regalo */
+.oferta-gratis-section {
+    padding: 4rem 2rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--color-borde);
+    margin-top: 2rem;
+}
+
+.oferta-gratis-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4rem;
+    background-color: rgba(189, 221, 223, 0.2);
+    /* Color secundario con transparencia */
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.oferta-gratis-imagen {
+    flex: 1;
+    max-width: 400px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.imagen-regalo {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+    transition: transform 0.3s ease;
+}
+
+.etiqueta-gratis {
+    position: absolute;
+    top: -25px;
+    right: -25px;
+    background-color: var(--color-contador);
+    /* Eucalyptus */
+    color: white;
+    font-family: var(--fuente-titulos);
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(29, 129, 93, 0.3);
+    transform: rotate(15deg);
+    z-index: 10;
+    border: 1.5px solid white;
+    animation: latido 2s ease-in-out infinite;
+}
+
+@keyframes latido {
+    0% {
+        transform: rotate(15deg) scale(1);
+    }
+
+    50% {
+        transform: rotate(15deg) scale(1.1);
+    }
+
+    100% {
+        transform: rotate(15deg) scale(1);
+    }
+}
+
+.oferta-gratis-texto {
+    flex: 1;
+    text-align: left;
+}
+
+.oferta-titulo {
+    font-family: var(--fuente-titulos);
+    font-size: 2.5rem;
+    color: var(--color-texto-oscuro);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.oferta-descripcion {
+    font-family: var(--fuente-texto);
+    font-size: 1.1rem;
+    color: var(--storm-gray);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+}
+
+.oferta-descripcion strong {
+    color: var(--color-contador);
+    font-weight: 700;
+}
+
+.oferta-detalles ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2.5rem;
+}
+
+.oferta-detalles li {
+    font-size: 1rem;
+    color: var(--color-texto-oscuro);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.oferta-detalles li i {
+    color: var(--color-acento);
+}
+
+.oferta-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background-color: var(--color-texto-oscuro);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(29, 35, 54, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.oferta-btn:hover {
+    background-color: var(--color-acento);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(121, 170, 166, 0.4);
+}
+
+/* Responsive para Oferta Gratis */
+@media (max-width: 900px) {
+    .oferta-gratis-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem;
+        gap: 2rem;
+    }
+
+    .oferta-gratis-texto {
+        text-align: center;
+    }
+
+    .oferta-detalles ul {
+        display: inline-block;
+        text-align: left;
+    }
+
+    .etiqueta-gratis {
+        top: -20px;
+        right: -20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .oferta-titulo {
+        font-size: 1.8rem;
+    }
+
+    .etiqueta-gratis {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+        top: -25px;
+        right: -25px;
+    }
+
+    .oferta-gratis-section {
+        padding: 2rem 1rem;
+    }
 }
