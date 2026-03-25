@@ -48,6 +48,15 @@ function mostrarProducto(producto) {
     // Actualizar título de la página
     document.title = `${producto.nombre} | Nutrigan España`;
     document.getElementById('producto-titulo').textContent = `${producto.nombre} | Nutrigan España`;
+
+    // Informar a Google Analytics del producto específico visitado
+    if (typeof gtag === 'function') {
+        gtag('event', 'page_view', {
+            page_title: `${producto.nombre} | Nutrigan España`,
+            page_location: window.location.href,
+            page_path: window.location.pathname + window.location.search
+        });
+    }
     
     // Actualizar breadcrumb
     document.getElementById('breadcrumb-nombre').textContent = producto.nombre;
