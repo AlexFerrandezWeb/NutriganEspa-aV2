@@ -285,34 +285,34 @@
     <!-- Google Customer Reviews -->
     <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
     <script>
-        // Función de prueba para simular datos de pedido
-        function simularDatosPedido() {
-            const datosPrueba = {
-                pedidoId: 'TEST-' + Date.now().toString().slice(-6),
-                email: 'test@nutrigan.es',
-                productos: [
-                    {
-                        nombre: 'Bolutech Flash',
-                        gtin: '1234567890123',
-                        precio: 59.69,
-                        cantidad: 1
-                    }
-                ]
-            };
-            localStorage.setItem('ultimoPedido', JSON.stringify(datosPrueba));
-            console.log('Datos de prueba cargados:', datosPrueba);
-        }
+        // GA4 Purchase Event
+        function pushPurchaseEvent() {
+            const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
+            if (ultimoPedido && ultimoPedido.pedidoId) {
+                const ecommercePayload = {
+                    transaction_id: ultimoPedido.pedidoId,
+                    value: parseFloat(ultimoPedido.total) || 0,
+                    currency: 'EUR',
+                    items: ultimoPedido.productos ? ultimoPedido.productos.map((producto, index) => ({
+                        item_id: producto.gtin || `item_${index}`,
+                        item_name: producto.nombre,
+                        price: producto.precio,
+                        quantity: producto.cantidad
+                    })) : []
+                };
 
-        // Cargar datos de prueba si no hay datos reales
-        if (!localStorage.getItem('ultimoPedido')) {
-            simularDatosPedido();
-        }
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                    event: 'purchase',
+                    ecommerce: ecommercePayload
+                });
 
-        // Mostrar mensaje de desarrollo si estamos en localhost
-        if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
-            console.log('🔧 MODO DESARROLLO: Google Reviews puede no funcionar en localhost');
-            console.log('✅ En producción (www.xn--nutriganespaa-tkb.com) funcionará correctamente');
+                if (typeof gtag === 'function') {
+                    gtag('event', 'purchase', ecommercePayload);
+                }
+            }
         }
+        pushPurchaseEvent();
 
         window.renderOptIn = function () {
             console.log('Google API cargada, iniciando renderOptIn...');

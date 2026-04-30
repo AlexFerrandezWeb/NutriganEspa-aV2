@@ -420,6 +420,27 @@
             }
         }
     </style>
+    <script>
+        // GA4 Purchase Event
+        const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
+        if (ultimoPedido && ultimoPedido.pedidoId) {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'purchase',
+                'ecommerce': {
+                    'transaction_id': ultimoPedido.pedidoId,
+                    'value': parseFloat(ultimoPedido.total),
+                    'currency': 'EUR',
+                    'items': ultimoPedido.productos ? ultimoPedido.productos.map((producto, index) => ({
+                        'item_id': producto.gtin || `item_${index}`,
+                        'item_name': producto.nombre,
+                        'price': producto.precio,
+                        'quantity': producto.cantidad
+                    })) : []
+                }
+            });
+        }
+    </script>
 </head>
 <body>
     <header class="header" role="banner">
