@@ -439,6 +439,9 @@
                     })) : []
                 }
             });
+            
+            // Limpiar el pedido del localStorage para evitar duplicados en recargas
+            localStorage.removeItem('ultimoPedido');
         }
     </script>
 </head>

@@ -310,6 +310,9 @@
                 if (typeof gtag === 'function') {
                     gtag('event', 'purchase', ecommercePayload);
                 }
+
+                // Limpiar el pedido del localStorage para evitar duplicados en recargas
+                localStorage.removeItem('ultimoPedido');
             }
         }
         pushPurchaseEvent();
