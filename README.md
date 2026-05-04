@@ -111,7 +111,7 @@ Para habilitar los pagos, necesitarás:
 
 ## 📄 Licencia
 
-© 2025 Nutrigan España - Todos los derechos reservados
+© 2026 Nutrigan España - Todos los derechos reservados
 
 ## 🤝 Contribuciones
 

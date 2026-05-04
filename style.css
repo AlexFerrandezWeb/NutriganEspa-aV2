@@ -7784,3 +7784,44 @@ body {
         padding: 2rem 1rem;
     }
 }
+
+/* SVG Icon Styling */
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+.icon-shopping-cart {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.icon-search {
+    width: 1.1em;
+    height: 1.1em;
+}
+
+.icon-chevron-left,
+.icon-chevron-right {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.icon-menu {
+    width: 1.3em;
+    height: 1.3em;
+}
+
+.icon-times {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.icon-whatsapp {
+    width: 1.2em;
+    height: 1.2em;
+}
