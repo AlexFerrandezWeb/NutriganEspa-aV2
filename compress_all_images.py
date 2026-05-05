@@ -2,7 +2,7 @@ from PIL import Image
 import os
 import glob
 
-def compress_webp(input_path, output_path, quality=70, max_width=1920):
+def compress_webp(input_path, output_path, quality=50, max_width=1920):
     try:
         with Image.open(input_path) as img:
             # Convert to RGB if necessary
@@ -24,12 +24,13 @@ def compress_webp(input_path, output_path, quality=70, max_width=1920):
     except Exception as e:
         print(f"Error: {os.path.basename(input_path)}: {e}")
 
-# Compress ALL WebP images in assets folder
-print("Compressing all WebP images in assets/...\n")
+# Compress ALL WebP images in assets folder with aggressive quality (50)
+print("Compressing all WebP images with quality=50 for extreme optimization...\n")
 assets_path = 'c:/Proyectos/NutriganV2/assets/*.webp'
 count = 0
 for img_path in glob.glob(assets_path):
-    compress_webp(img_path, img_path, quality=70, max_width=1920)
+    compress_webp(img_path, img_path, quality=50, max_width=1920)
     count += 1
 
 print(f"\nTotal images processed: {count}")
+

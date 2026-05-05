@@ -62,6 +62,9 @@
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
     <link rel="dns-prefetch" href="//www.google-analytics.com">
 
+    <!-- Critical CSS inlineado para FCP rápido -->
+    <style>*{margin:0;padding:0;box-sizing:border-box;}html{font-size:16px;}body{font-family:'Open Sans',sans-serif;color:#333;background:#fff;line-height:1.6;}img{max-width:100%;height:auto;display:block;}.nav-principal{background:#fff;border-bottom:1px solid #eee;}.nav-superior{display:flex;justify-content:space-between;align-items:center;padding:1rem 2%;}.nav-logo{flex:1;text-align:center;}.nav-logo img{max-height:60px;}.nav-derecha{display:flex;align-items:center;}.carrito-container{margin-left:2rem;}.carrito-link{color:#333;text-decoration:none;}.carrito-contador{position:absolute;top:-8px;right:-8px;background:#e74c3c;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:12px;}.carrusel-container{position:relative;width:100%;max-width:1200px;margin:0 auto;}.carrusel-wrapper{display:flex;overflow:hidden;}.carrusel-slide{width:100%;flex-shrink:0;}.carrusel-imagen{width:100%;height:auto;object-fit:cover;}.hero-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:white;z-index:10;width:90%;max-width:600px;}.hero-titulo{font-size:2rem;font-weight:700;margin-bottom:1rem;text-shadow:2px 2px 4px rgba(0,0,0,0.7);}.hero-cta{display:inline-block;background:#e74c3c;color:white;padding:0.75rem 2rem;text-decoration:none;border-radius:4px;margin-top:1rem;font-weight:600;transition:background 0.3s;}.hero-cta:hover{background:#c0392b;}@media (max-width:768px){.nav-superior{flex-wrap:wrap;padding:0.75rem 2%;}.nav-logo{width:100%;order:2;padding:0.5rem 0;}.nav-menu-izquierda{order:3;}.hero-titulo{font-size:1.5rem;}.nav-derecha{order:1;width:100%;justify-content:space-between;}}</style>
+
     <link rel="stylesheet" href="style.min.css">
     <link rel="preload" href="reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="reset.css"></noscript>
@@ -97,7 +100,7 @@
             </ul>
             <div class="nav-logo">
                 <a href="index.html" class="logo-link">
-                    <img src="assets/logo_nutriganesp.png" alt="Logo Nutrigan España" class="logo">
+                    <img src="assets/logo_nutriganesp.png" alt="Logo Nutrigan España" class="logo" loading="lazy">
                 </a>
             </div>
             <div class="nav-derecha">
@@ -204,10 +207,10 @@
                     <img src="assets/Carrusel-PrepavelTonic.jpg" alt="Carrusel Prepavel Tonic" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-ReproRefresh.jpg" alt="Carrusel Repro Refresh" class="carrusel-imagen">
+                    <img src="assets/Carrusel-ReproRefresh.jpg" alt="Carrusel Repro Refresh" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-Vitality1.40.jpg" alt="Carrusel Vitality 1.40" class="carrusel-imagen">
+                    <img src="assets/Carrusel-Vitality1.40.jpg" alt="Carrusel Vitality 1.40" class="carrusel-imagen" loading="lazy">
                 </div>
             </div>
 
@@ -228,7 +231,7 @@
     <section class="oferta-gratis-section">
         <div class="oferta-gratis-container">
             <div class="oferta-gratis-imagen">
-                <img src="assets/aplicador_bolutech.jpeg" alt="Producto de Regalo" class="imagen-regalo">
+                <img src="assets/aplicador_bolutech.jpeg" alt="Producto de Regalo" class="imagen-regalo" loading="lazy">
                 <div class="etiqueta-gratis">¡GRATIS!</div>
             </div>
             <div class="oferta-gratis-texto">
@@ -249,7 +252,7 @@
             <div class="productos-grid">
                 <a href="producto.html?id=1" class="producto-item producto-link">
                     <div class="producto-imagen-container">
-                        <img src="assets/producto1.webp" alt="Suplemento para vacas" class="producto-imagen">
+                        <img src="assets/producto1.webp" alt="Suplemento para vacas" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Flash</h3>
                     <p class="producto-descripcion">Reducción del riesgo de hipocalcemia.</p>
@@ -259,7 +262,7 @@
 
                 <a href="producto.html?id=2" class="producto-item producto-link">
                     <div class="producto-imagen-container">
-                        <img src="assets/producto2.webp" alt="Suplemento para ovejas" class="producto-imagen">
+                        <img src="assets/producto2.webp" alt="Suplemento para ovejas" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Activ</h3>
                     <p class="producto-descripcion">Reducción de riesgo de hipofosfatemia. Compuesto de fosforo soluble
@@ -270,7 +273,7 @@
 
                 <a href="producto.html?id=3" class="producto-item producto-link">
                     <div class="producto-imagen-container">
-                        <img src="assets/producto3.webp" alt="Suplemento para cerdos" class="producto-imagen">
+                        <img src="assets/producto3.webp" alt="Suplemento para cerdos" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Heel</h3>
                     <p class="producto-descripcion">Bolo especifico de patas. Mejora la calidad del casco (casco blando)
@@ -339,7 +342,7 @@
                     <!-- Imágenes movidas aquí para que aparezcan antes del botón en responsive -->
                     <div class="quienes-somos-imagenes-movil">
                         <div class="quienes-somos-imagen">
-                            <img src="assets/sobreNosotros.webp" alt="Equipo Nutrigan España" class="quienes-somos-img">
+                            <img src="assets/sobreNosotros.webp" alt="Equipo Nutrigan España" class="quienes-somos-img" loading="lazy">
                         </div>
                         <div class="quienes-somos-imagen">
                             <img src="assets/sobreNosotros2.webp" alt="Instalaciones Nutrigan España"
@@ -354,7 +357,7 @@
                 <!-- Imágenes para escritorio -->
                 <div class="quienes-somos-imagenes">
                     <div class="quienes-somos-imagen">
-                        <img src="assets/sobreNosotros.webp" alt="Equipo Nutrigan España" class="quienes-somos-img">
+                        <img src="assets/sobreNosotros.webp" alt="Equipo Nutrigan España" class="quienes-somos-img" loading="lazy">
                     </div>
                     <div class="quienes-somos-imagen">
                         <img src="assets/sobreNosotros2.webp" alt="Instalaciones Nutrigan España"
@@ -375,7 +378,7 @@
             <div class="certificados-grid">
                 <div class="certificado-item">
                     <div class="certificado-imagen-container">
-                        <img src="assets/certificado1.webp" alt="Certificado de Calidad" class="certificado-imagen">
+                        <img src="assets/certificado1.webp" alt="Certificado de Calidad" class="certificado-imagen" loading="lazy">
                     </div>
                     <h3 class="certificado-nombre">PRO-09420141</h3>
                     <p class="certificado-descripcion">Ganadería libre de uso de antibióticos y desparasitante
@@ -384,7 +387,7 @@
 
                 <div class="certificado-item">
                     <div class="certificado-imagen-container">
-                        <img src="assets/certificado2.jpg" alt="Certificado ISO 14001" class="certificado-imagen">
+                        <img src="assets/certificado2.jpg" alt="Certificado ISO 14001" class="certificado-imagen" loading="lazy">
                     </div>
                     <h3 class="certificado-nombre">ISO 14067</h3>
                     <p class="certificado-descripcion">Alianza innovadora en la agricultura</p>
@@ -392,7 +395,7 @@
 
                 <div class="certificado-item">
                     <div class="certificado-imagen-container">
-                        <img src="assets/certificado3.jpg" alt="Certificado BRC" class="certificado-imagen">
+                        <img src="assets/certificado3.jpg" alt="Certificado BRC" class="certificado-imagen" loading="lazy">
                     </div>
                     <h3 class="certificado-nombre">Biopranaworls S.L.</h3>
                     <p class="certificado-descripcion">Biotecnología. Microorganismos para el tratamiento de los purines
@@ -401,7 +404,7 @@
 
                 <div class="certificado-item">
                     <div class="certificado-imagen-container">
-                        <img src="assets/certificado6.webp" alt="Certificado HACCP" class="certificado-imagen">
+                        <img src="assets/certificado6.webp" alt="Certificado HACCP" class="certificado-imagen" loading="lazy">
                     </div>
                     <h3 class="certificado-nombre">NEOLAIT®</h3>
                     <p class="certificado-descripcion">Distribuidor Oficial</p>
@@ -409,7 +412,7 @@
 
                 <div class="certificado-item">
                     <div class="certificado-imagen-container">
-                        <img src="assets/certificado4.webp" alt="Certificado BRC" class="certificado-imagen">
+                        <img src="assets/certificado4.webp" alt="Certificado BRC" class="certificado-imagen" loading="lazy">
                     </div>
                     <h3 class="certificado-nombre">Euro Dog®</h3>
                     <p class="certificado-descripcion">Distribuidor Oficial</p>
@@ -417,7 +420,7 @@
 
                 <div class="certificado-item">
                     <div class="certificado-imagen-container">
-                        <img src="assets/certificado5.webp" alt="Certificado BRC" class="certificado-imagen">
+                        <img src="assets/certificado5.webp" alt="Certificado BRC" class="certificado-imagen" loading="lazy">
                     </div>
                     <h3 class="certificado-nombre">Gav-All Feed®</h3>
                     <p class="certificado-descripcion">Distribuidor Oficial</p>
@@ -483,7 +486,7 @@
     <div id="modal-certificado" class="modal-certificado">
         <div class="modal-certificado-content">
             <span class="modal-certificado-close">&times;</span>
-            <img id="modal-certificado-imagen" src="" alt="Certificado">
+            <img id="modal-certificado-imagen" src="" alt="Certificado" loading="lazy">
             <div class="modal-certificado-info">
                 <h3 id="modal-certificado-titulo"></h3>
                 <p id="modal-certificado-descripcion"></p>
