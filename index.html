@@ -56,111 +56,15 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.xn--nutriganespaa-tkb.com/">
 
-    <!-- Datos Estructurados (Schema.org) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Nutrigan España",
-        "alternateName": "Nutrigan",
-        "url": "https://www.xn--nutriganespaa-tkb.com",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "https://www.xn--nutriganespaa-tkb.com/assets/logo_nutriganesp.webp",
-            "width": 200,
-            "height": 60
-        },
-        "image": "https://www.xn--nutriganespaa-tkb.com/assets/logo_nutriganesp.webp",
-        "description": "Nutrigan España - Suplementos nutricionales de alta calidad para ganado bovino, ovino y porcino. Productos veterinarios especializados con envío gratis. Mejora la salud y productividad de tu ganado.",
-        "slogan": "Nutrición animal de calidad para el bienestar de tu ganado",
-        "foundingDate": "2020",
-        "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "ES",
-            "addressRegion": "España"
-        },
-        "contactPoint": [
-            {
-                "@type": "ContactPoint",
-                "telephone": "+34-626-983-042",
-                "contactType": "customer service",
-                "availableLanguage": "Spanish",
-                "areaServed": "ES"
-            }
-        ],
-        "sameAs": [
-            "https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61554696603699/"
-        ],
-        "knowsAbout": [
-            "Suplementos nutricionales para ganado",
-            "Nutrición animal",
-            "Productos veterinarios",
-            "Ganado bovino",
-            "Ganado ovino",
-            "Ganado porcino",
-            "Bolutech",
-            "Blue Spray"
-        ],
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Suplementos Nutricionales para Ganado",
-            "itemListElement": [
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Product",
-                        "name": "Suplementos para Ganado Bovino"
-                    }
-                },
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Product",
-                        "name": "Suplementos para Ganado Ovino"
-                    }
-                },
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Product",
-                        "name": "Suplementos para Ganado Porcino"
-                    }
-                }
-            ]
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://www.xn--nutriganespaa-tkb.com/productos.html?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-
-    <!-- Datos Estructurados adicionales para el sitio web -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Nutrigan España",
-        "url": "https://www.xn--nutriganespaa-tkb.com",
-        "description": "Suplementos nutricionales de alta calidad para ganado bovino, ovino y porcino",
-        "inLanguage": "es-ES",
-        "isAccessibleForFree": true,
-        "publisher": {
-            "@type": "Organization",
-            "name": "Nutrigan España",
-            "url": "https://www.xn--nutriganespaa-tkb.com"
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://www.xn--nutriganespaa-tkb.com/productos.html?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
+    <!-- DNS Prefetch para recursos externos -->
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
 
     <link rel="stylesheet" href="style.min.css">
-    <link rel="stylesheet" href="reset.css">
+    <link rel="preload" href="reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="reset.css"></noscript>
     <link rel="preload" href="assets/icons.svg" as="image">
     <link rel="preload" href="assets/img-carrusel.webp" as="image">
     <!-- Font Awesome para iconos -->
@@ -588,6 +492,110 @@
     </div>
 
     <script defer src="main.js"></script>
+    
+    <!-- Datos Estructurados (Schema.org) - Movido al final para no bloquear render -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Nutrigan España",
+        "alternateName": "Nutrigan",
+        "url": "https://www.xn--nutriganespaa-tkb.com",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.xn--nutriganespaa-tkb.com/assets/logo_nutriganesp.webp",
+            "width": 200,
+            "height": 60
+        },
+        "image": "https://www.xn--nutriganespaa-tkb.com/assets/logo_nutriganesp.webp",
+        "description": "Nutrigan España - Suplementos nutricionales de alta calidad para ganado bovino, ovino y porcino. Productos veterinarios especializados con envío gratis. Mejora la salud y productividad de tu ganado.",
+        "slogan": "Nutrición animal de calidad para el bienestar de tu ganado",
+        "foundingDate": "2020",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ES",
+            "addressRegion": "España"
+        },
+        "contactPoint": [
+            {
+                "@type": "ContactPoint",
+                "telephone": "+34-626-983-042",
+                "contactType": "customer service",
+                "availableLanguage": "Spanish",
+                "areaServed": "ES"
+            }
+        ],
+        "sameAs": [
+            "https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61554696603699/"
+        ],
+        "knowsAbout": [
+            "Suplementos nutricionales para ganado",
+            "Nutrición animal",
+            "Productos veterinarios",
+            "Ganado bovino",
+            "Ganado ovino",
+            "Ganado porcino",
+            "Bolutech",
+            "Blue Spray"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Suplementos Nutricionales para Ganado",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Suplementos para Ganado Bovino"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Suplementos para Ganado Ovino"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Product",
+                        "name": "Suplementos para Ganado Porcino"
+                    }
+                }
+            ]
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.xn--nutriganespaa-tkb.com/productos.html?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
+    <!-- Datos Estructurados adicionales para el sitio web -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Nutrigan España",
+        "url": "https://www.xn--nutriganespaa-tkb.com",
+        "description": "Suplementos nutricionales de alta calidad para ganado bovino, ovino y porcino",
+        "inLanguage": "es-ES",
+        "isAccessibleForFree": true,
+        "publisher": {
+            "@type": "Organization",
+            "name": "Nutrigan España",
+            "url": "https://www.xn--nutriganespaa-tkb.com"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.xn--nutriganespaa-tkb.com/productos.html?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
     <script>
         // Actualizar contador del carrito
         document.addEventListener('DOMContentLoaded', function () {
