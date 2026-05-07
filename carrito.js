@@ -87,14 +87,16 @@ function crearItemCarrito(producto, index) {
     const cantidadMinima = producto.cantidadMinima || 1;
     
     itemDiv.innerHTML = `
-        <div class="carrito-item-imagen">
-            <img src="${producto.imagen}" alt="${producto.nombre}" loading="lazy">
-        </div>
-        <div class="carrito-item-info">
-            <h3 class="carrito-item-nombre">${producto.nombre}</h3>
-            <p class="carrito-item-descripcion">${producto.descripcion || 'Producto de nutrición animal'}</p>
-            ${cantidadMinima > 1 ? `<small class="cantidad-minima-info">Mínimo: ${cantidadMinima} unidades</small>` : ''}
-        </div>
+        <a href="producto.html?id=${producto.id}" class="carrito-item-enlace-completo">
+            <div class="carrito-item-imagen">
+                <img src="${producto.imagen}" alt="${producto.nombre}" loading="lazy">
+            </div>
+            <div class="carrito-item-info">
+                <h3 class="carrito-item-nombre">${producto.nombre}</h3>
+                <p class="carrito-item-descripcion">${producto.descripcion || 'Producto de nutrición animal'}</p>
+                ${cantidadMinima > 1 ? `<small class="cantidad-minima-info">Mínimo: ${cantidadMinima} unidades</small>` : ''}
+            </div>
+        </a>
         <div class="carrito-item-precios">
             <div class="carrito-item-precio-unitario">€${precioUnitario.toFixed(2)} c/u</div>
             <div class="carrito-item-precio-total">€${precioTotal.toFixed(2)}</div>

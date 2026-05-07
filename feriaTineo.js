@@ -6,6 +6,26 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Configurar datos de la galería
     const datosGaleria = {
+        'feria2026_1': {
+            titulo: 'Feria de Tineo 2026',
+            descripcion: 'Visitantes en nuestro stand de Nutrigan España durante la Feria de Tineo 2026.',
+            imagen: 'assets/feria2026_1.jpg'
+        },
+        'feria2026_2': {
+            titulo: 'Equipo Nutrigan 2026',
+            descripcion: 'Nuestro equipo celebrando otro año de éxito en la Feria de Tineo 2026.',
+            imagen: 'assets/feria2026_2.jpg'
+        },
+        'feria2026_3': {
+            titulo: 'Equipo en el Stand',
+            descripcion: 'Momentos especiales con el equipo de Nutrigan España en la Feria de Tineo 2026.',
+            imagen: 'assets/feria2026_3.jpg'
+        },
+        'feria2026_4': {
+            titulo: 'Stand Nutrigan 2026',
+            descripcion: 'Stand principal de Nutrigan España con toda nuestra gama de productos expuesta en la Feria de Tineo 2026.',
+            imagen: 'assets/feria2026_4.jpg'
+        },
         'feria1': {
             titulo: 'Feria de Tineo 2025',
             descripcion: 'Stand principal de Nutrigan España con todos nuestros productos de nutrición animal expuestos para los visitantes.',

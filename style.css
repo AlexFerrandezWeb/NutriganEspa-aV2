@@ -5621,9 +5621,12 @@ body {
 .logo-correos {
     width: 80px;
     height: auto;
-    margin-top: 0.5rem;
     opacity: 0.8;
     transition: opacity 0.3s ease;
+}
+
+.info-item--envio {
+    align-items: flex-end;
 }
 
 .logo-correos:hover {

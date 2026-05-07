@@ -13,6 +13,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feria de Tineo | Nutrigan España</title>
+    <style>
+        .galeria-año-separador {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 3rem 0 2rem;
+        }
+        .galeria-año-separador:first-child { margin-top: 0; }
+        .galeria-año-linea {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #2e7d32, transparent);
+            opacity: 0.4;
+        }
+        .galeria-año-titulo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2e7d32;
+            white-space: nowrap;
+            letter-spacing: 0.1em;
+            margin: 0;
+        }
+        .galeria-grid + .galeria-año-separador { margin-top: 4rem; }
+    </style>
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png">
     <link rel="apple-touch-icon" href="assets/favicon.png">
@@ -84,7 +108,7 @@
     <section class="feria-hero">
         <div class="feria-hero-container">
             <div class="feria-hero-content">
-                <h1 class="feria-hero-titulo">Feria de Tineo 2024</h1>
+                <h1 class="feria-hero-titulo">Feria de Tineo</h1>
                 <p class="feria-hero-subtitulo">Galería de fotos y vídeos de nuestra participación</p>
             </div>
         </div>
@@ -114,7 +138,133 @@
     <!-- Galería de Fotos y Vídeos -->
     <section class="galeria-section">
         <div class="galeria-container">
+
+            <!-- ===== 2026 ===== -->
+            <div class="galeria-año-separador">
+                <div class="galeria-año-linea"></div>
+                <h2 class="galeria-año-titulo">2026</h2>
+                <div class="galeria-año-linea"></div>
+            </div>
             <div class="galeria-grid">
+
+                <!-- Foto 1 - 2026 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria2026_1.jpg" alt="Feria de Tineo 2026" class="galeria-imagen" loading="lazy">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria2026_1')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Feria de Tineo 2026</h3>
+                        <p class="galeria-descripcion">Nuestro stand de Nutrigan España</p>
+                    </div>
+                </div>
+
+                <!-- Foto 2 - 2026 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria2026_2.jpg" alt="Equipo Nutrigan 2026" class="galeria-imagen" loading="lazy">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria2026_2')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Equipo Nutrigan 2026</h3>
+                        <p class="galeria-descripcion">Nuestro equipo celebrando en la Feria de Tineo</p>
+                    </div>
+                </div>
+
+                <!-- Foto 3 - 2026 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria2026_3.jpg" alt="Equipo en el Stand 2026" class="galeria-imagen" loading="lazy">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria2026_3')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Equipo en el Stand</h3>
+                        <p class="galeria-descripcion">Momentos especiales con el equipo de Nutrigan España</p>
+                    </div>
+                </div>
+
+                <!-- Foto 4 - 2026 -->
+                <div class="galeria-item" data-categoria="fotos stand">
+                    <div class="galeria-imagen-container">
+                        <img src="assets/feria2026_4.jpg" alt="Stand Nutrigan 2026" class="galeria-imagen" loading="lazy">
+                        <div class="galeria-overlay">
+                            <div class="galeria-overlay-content">
+                                <button class="galeria-btn-ver" onclick="abrirModal('feria2026_4')">
+                                    <i class="fas fa-expand"></i>
+                                    Ver más
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="galeria-imagen-info">
+                        <h3 class="galeria-titulo">Stand Nutrigan 2026</h3>
+                        <p class="galeria-descripcion">Stand principal de Nutrigan España en la feria</p>
+                    </div>
+                </div>
+
+                <!-- Vídeo 1 - 2026 -->
+                <div class="galeria-item" data-categoria="videos">
+                    <div class="galeria-video-container">
+                        <div class="galeria-video-wrapper">
+                            <video controls class="galeria-video-local">
+                                <source src="assets/explicacion_productos_feria.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de vídeo.
+                            </video>
+                        </div>
+                        <div class="galeria-video-info">
+                            <h3 class="galeria-titulo">Explicación de Productos</h3>
+                            <p class="galeria-descripcion">Presentación de nuestra gama de productos en la feria</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vídeo 2 - 2026 -->
+                <div class="galeria-item" data-categoria="videos">
+                    <div class="galeria-video-container">
+                        <div class="galeria-video-wrapper">
+                            <video controls class="galeria-video-local">
+                                <source src="assets/explicacion_uso_antibioticos.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de vídeo.
+                            </video>
+                        </div>
+                        <div class="galeria-video-info">
+                            <h3 class="galeria-titulo">Alternativas al uso de Antibióticos</h3>
+                            <p class="galeria-descripcion">Explicación sobre las alternativas al uso de antibióticos en la ganadería</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ===== 2025 ===== -->
+            <div class="galeria-año-separador">
+                <div class="galeria-año-linea"></div>
+                <h2 class="galeria-año-titulo">2025</h2>
+                <div class="galeria-año-linea"></div>
+            </div>
+            <div class="galeria-grid">
+
                 <!-- Foto 1 -->
                 <div class="galeria-item" data-categoria="fotos stand">
                     <div class="galeria-imagen-container">
@@ -210,7 +360,7 @@
                     </div>
                 </div>
 
-                <!-- Vídeo 4 - Feria 10 -->
+                <!-- Vídeo 2025 -->
                 <div class="galeria-item" data-categoria="videos">
                     <div class="galeria-video-container">
                         <div class="galeria-video-wrapper">
@@ -302,6 +452,7 @@
                         <p class="galeria-descripcion">Nuestro espacio en la Feria de Tineo</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
