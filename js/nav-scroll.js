@@ -141,6 +141,8 @@
     }
 
     window.addEventListener('scroll', function () {
+        // No cerrar si el foco está dentro del menú (evita cierre por zoom iOS en inputs)
+        if (menuMovil && menuMovil.contains(document.activeElement)) return;
         cerrarMenuSiAbierto();
         cerrarBuscador();
     }, { passive: true });
