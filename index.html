@@ -62,7 +62,15 @@
     <link rel="dns-prefetch" href="//www.googletagmanager.com">
     <link rel="dns-prefetch" href="//www.google-analytics.com">
 
-    <link rel="stylesheet" href="style.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .nav-buscador { max-height: 0 !important; overflow: hidden !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding: 0 !important; transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.3s ease !important; pointer-events: none; }
+        .nav-buscador.buscador-abierto { max-height: 70px !important; opacity: 1 !important; margin-top: 0.5rem !important; pointer-events: auto; }
+        .btn-lupa-buscar { background: none; border: none; cursor: pointer; padding: 0.4rem 0.6rem; font-size: 1.2rem; color: var(--color-texto-oscuro, #333); transition: color 0.2s; line-height: 1; }
+        .btn-lupa-buscar:hover, .btn-lupa-buscar.activo { color: var(--color-acento, #1d815d); }
+
+
+    </style>
     <link rel="preload" href="reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="reset.css"></noscript>
     <link rel="preload" href="assets/icons.svg" as="image">
@@ -101,6 +109,7 @@
                 </a>
             </div>
             <div class="nav-derecha">
+                <button class="btn-lupa-buscar" aria-label="Buscar" aria-expanded="false"><i class="fas fa-search"></i></button>
                 <div class="carrito-container">
                     <a href="carrito.html" class="carrito-link">
                         <i class="fas fa-shopping-cart"></i>
@@ -128,12 +137,17 @@
         </ul>
     </nav>
 
+    <!-- Banner envío gratis -->
+    <div class="banner-envio-gratis">
+        <span><i class="fas fa-truck"></i> Envío gratis a toda la península</span>
+    </div>
+
     <!-- Carrusel de imágenes -->
     <div class="carrusel-container">
         <!-- Texto hero superpuesto sobre el carrusel -->
         <div class="hero-overlay">
             <div class="hero-texto">
-                <h1 class="hero-titulo">SALUD Y SANIDAD ANIMAL,<br>FUTURO SOSTENIBLE</h1>
+                <h1 class="hero-titulo">Salud y Sanidad Animal.<br>Aseguramiento de su sostenibilidad.</h1>
                 <p class="hero-subtitulo">Suplementación nutricional de alta calidad para tu ganado. Protocolos
                     sanitarios en base a naturoterapia como alternativa a los antibioticos. </p>
                 <p class="hero-descripcion">Más de 30 años liderando la innovación en nutrición animal. Productos
@@ -252,8 +266,8 @@
                         <img src="assets/producto1.webp" alt="Suplemento para vacas" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Flash</h3>
-                    <p class="producto-descripcion">Reducción del riesgo de hipocalcemia.</p>
-                    <div class="producto-precio">€59.69</div>
+                    <p class="producto-descripcion">Reducción del riesgo de hipocalcemia. <strong>(3,50€/U)</strong></p>
+                    <div class="producto-precio">€70.00 <span class="precio-iva">IVA inc.</span></div>
                     <button class="producto-btn">Ver Detalles</button>
                 </a>
 
@@ -262,9 +276,8 @@
                         <img src="assets/producto2.webp" alt="Suplemento para ovejas" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Activ</h3>
-                    <p class="producto-descripcion">Reducción de riesgo de hipofosfatemia. Compuesto de fosforo soluble
-                        y flushing fosfórico. Terapia fosfocálcica.</p>
-                    <div class="producto-precio">€48.73</div>
+                    <p class="producto-descripcion">Reducción de riesgo de hipofosfatemia. Compuesto de fosforo soluble y flushing fosfórico. Terapia fosfocálcica. <strong>(5,82€/U)</strong></p>
+                    <div class="producto-precio">€58.20 <span class="precio-iva">IVA inc.</span></div>
                     <button class="producto-btn">Ver Detalles</button>
                 </a>
 
@@ -273,9 +286,8 @@
                         <img src="assets/producto3.webp" alt="Suplemento para cerdos" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Heel</h3>
-                    <p class="producto-descripcion">Bolo especifico de patas. Mejora la calidad del casco (casco blando)
-                        y el cimiento del mismo.</p>
-                    <div class="producto-precio">€84.41</div>
+                    <p class="producto-descripcion">Bolo especifico de patas. Mejora la calidad del casco (casco blando) y el cimiento del mismo. <strong>(8,58€/U)</strong></p>
+                    <div class="producto-precio">€85.80 <span class="precio-iva">IVA inc.</span></div>
                     <button class="producto-btn">Ver Detalles</button>
                 </a>
             </div>
@@ -676,9 +688,25 @@
     </div>
 
     <script src="js/cookies.min.js" defer></script>
+    <script src="js/nav-scroll.js" defer></script>
+    <script>
+        (function () {
+            var nav = document.querySelector('.nav-principal');
+            var banner = document.querySelector('.banner-envio-gratis');
+            var carrusel = document.querySelector('.carrusel-container');
+            function positionBanner() {
+                var navH = nav.offsetHeight;
+                banner.style.top = navH + 'px';
+                carrusel.style.marginTop = (navH + 36) + 'px';
+            }
+            positionBanner();
+            window.addEventListener('resize', positionBanner);
+        })();
+    </script>
 </body>
 
 </html>
+
 
 
 

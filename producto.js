@@ -74,12 +74,13 @@ function mostrarProducto(producto) {
             <div class="precio-info">
                 <small>Mínimo: ${producto.cantidadMinima} unidades</small>
             </div>
+            <span class="precio-iva">IVA inc.</span>
         `;
         // Establecer cantidad inicial al mínimo
         document.getElementById('cantidad-producto').value = producto.cantidadMinima;
         cantidadActual = producto.cantidadMinima;
     } else {
-        document.getElementById('producto-precio').textContent = `€${producto.precio.toFixed(2)}`;
+        document.getElementById('producto-precio').innerHTML = `€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
     }
     
     document.getElementById('producto-descripcion').innerHTML = `<p>${producto.descripcion}</p>`;

@@ -16,7 +16,15 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png">
     <link rel="apple-touch-icon" href="assets/favicon.png">
-    <link rel="stylesheet" href="style.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .nav-buscador { max-height: 0 !important; overflow: hidden !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding: 0 !important; transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.3s ease !important; pointer-events: none; }
+        .nav-buscador.buscador-abierto { max-height: 70px !important; opacity: 1 !important; margin-top: 0.5rem !important; pointer-events: auto; }
+        .btn-lupa-buscar { background: none; border: none; cursor: pointer; padding: 0.4rem 0.6rem; font-size: 1.2rem; color: var(--color-texto-oscuro, #333); transition: color 0.2s; line-height: 1; }
+        .btn-lupa-buscar:hover, .btn-lupa-buscar.activo { color: var(--color-acento, #1d815d); }
+
+
+    </style>
     <link rel="stylesheet" href="reset.css">
     <link rel="preload" href="assets/icons.svg" as="image">
     <!-- Font Awesome para iconos -->
@@ -53,6 +61,7 @@
                 </a>
             </div>
             <div class="nav-derecha">
+                <button class="btn-lupa-buscar" aria-label="Buscar" aria-expanded="false"><i class="fas fa-search"></i></button>
                 <div class="carrito-container">
                     <a href="carrito.html" class="carrito-link">
                         <i class="fas fa-shopping-cart"></i>
@@ -318,9 +327,11 @@
             }
         });
     </script>
+    <script src="js/nav-scroll.js" defer></script>
 </body>
 
 </html>
+
 
 
 

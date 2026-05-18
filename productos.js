@@ -33,8 +33,8 @@ async function cargarProductos() {
         // Verificar si hay búsqueda en la URL después de cargar productos
         verificarBusquedaURL();
         
-        // Si no hay búsqueda, mostrar todos los productos
-        if (!terminoBusqueda) {
+        // Si no hay búsqueda ni categoría activa, mostrar todos los productos
+        if (!terminoBusqueda && categoriaActiva === 'todos') {
             mostrarProductos(productos);
             actualizarContador(productos.length);
         }
@@ -145,7 +145,7 @@ function crearElementoProducto(producto) {
                 <span>${producto.etapa}</span>
             </div>
         </div>
-        <div class="producto-precio">€${producto.precio.toFixed(2)}</div>
+        <div class="producto-precio">€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span></div>
         <div class="producto-botones">
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles
@@ -644,27 +644,23 @@ function aplicarFiltros() {
 }
 
 
-// Función para verificar si hay búsqueda en la URL
+// Función para verificar si hay búsqueda o categoría en la URL
 function verificarBusquedaURL() {
     const urlParams = new URLSearchParams(window.location.search);
     const terminoBusquedaURL = urlParams.get('buscar');
-    
+    const categoriaURL = urlParams.get('categoria');
+
+    if (categoriaURL) {
+        filtrarProductos(categoriaURL);
+    }
+
     if (terminoBusquedaURL) {
-        console.log('Término de búsqueda encontrado en URL:', terminoBusquedaURL);
-        
-        // Establecer el término de búsqueda
         terminoBusqueda = terminoBusquedaURL.toLowerCase();
-        
-        // Rellenar el campo de búsqueda
         const buscadorInput = document.querySelector('.nav-buscador input[type="search"]');
         if (buscadorInput) {
             buscadorInput.value = terminoBusquedaURL;
         }
-        
-        // Aplicar la búsqueda
         aplicarFiltros();
-        
-        console.log('Búsqueda aplicada. Productos encontrados:', productosFiltrados.length);
     }
 }
 
