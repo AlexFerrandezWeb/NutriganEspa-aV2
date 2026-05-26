@@ -726,18 +726,37 @@ app.post('/api/create-checkout-session', async (req, res) => {
             });
         }
 
-        // Crear línea de productos para Stripe
-        const lineItems = productos.map(producto => ({
-            price_data: {
-                currency: 'eur',
-                product_data: {
-                    name: producto.nombre,
-                    images: [`https://www.xn--nutriganespaa-tkb.com/${producto.imagen}`]
+        // Obtener precios actuales de Supabase (nunca confiar en el precio del cliente)
+        const ids = productos.map(p => p.id);
+        const { data: productosActuales, error: sbError } = await supabaseAdmin
+            .from('productos')
+            .select('id, nombre, precio, precio_unitario, imagen')
+            .in('id', ids);
+
+        if (sbError || !productosActuales) {
+            return res.status(500).json({ success: false, message: 'Error al verificar precios' });
+        }
+
+        // Crear línea de productos para Stripe con precios de Supabase
+        const lineItems = productos.map(producto => {
+            const actual = productosActuales.find(p => p.id === producto.id);
+            if (!actual) throw new Error(`Producto ${producto.id} no encontrado`);
+            const precioUnitario = actual.precio_unitario ?? actual.precio;
+            const imagenUrl = actual.imagen && actual.imagen.startsWith('http')
+                ? actual.imagen
+                : `https://www.xn--nutriganespaa-tkb.com/${actual.imagen}`;
+            return {
+                price_data: {
+                    currency: 'eur',
+                    product_data: {
+                        name: actual.nombre,
+                        images: [imagenUrl]
+                    },
+                    unit_amount: Math.round(parseFloat(precioUnitario) * 100)
                 },
-                unit_amount: Math.round(producto.precio * 100) // Stripe usa centavos
-            },
-            quantity: producto.cantidad
-        }));
+                quantity: producto.cantidad
+            };
+        });
 
         // Crear sesión de checkout
         const session = await stripe.checkout.sessions.create({
@@ -783,14 +802,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
             customer_creation: 'always',
             // Metadatos del pedido
             metadata: {
-                total: total.toString(),
+                total: lineItems.reduce((sum, li) => sum + li.price_data.unit_amount * li.quantity, 0) / 100 + '',
                 cantidadTotal: cantidadTotal.toString(),
-                // Guardar versión minimizada para evitar límite de 500 caracteres
-                productos_json: JSON.stringify(productos.map(p => ({
-                    id: p.id,
-                    c: p.cantidad,
-                    p: p.precioFinal || p.precio
-                })))
+                productos_json: JSON.stringify(productos.map(p => {
+                    const actual = productosActuales.find(a => a.id === p.id);
+                    return { id: p.id, c: p.cantidad, p: parseFloat((actual?.precio_unitario ?? actual?.precio) || 0) };
+                }))
             },
             // Mensaje personalizado
             custom_text: {
