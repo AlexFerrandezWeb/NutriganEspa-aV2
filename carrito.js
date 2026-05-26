@@ -1,15 +1,14 @@
+// Supabase
+const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // JavaScript para la página del Carrito
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar el carrito
+document.addEventListener('DOMContentLoaded', async function() {
     inicializarCarrito();
-    
-    // Cargar productos del carrito desde localStorage
+    await sincronizarPreciosCarrito();
     cargarCarrito();
-    
-    // Actualizar la interfaz
     actualizarInterfazCarrito();
-    
-    // Configurar event listeners
     configurarEventListeners();
 });
 
@@ -33,6 +32,37 @@ function inicializarCarrito() {
     
     // Actualizar contador en el nav
     actualizarContadorCarrito();
+}
+
+// Sincroniza precio, nombre e imagen de cada item del carrito con Supabase
+async function sincronizarPreciosCarrito() {
+    if (carrito.length === 0) return;
+
+    const ids = carrito.map(p => p.id);
+    const { data, error } = await sb
+        .from('productos')
+        .select('id, nombre, precio, precio_unitario, imagen, stock')
+        .in('id', ids);
+
+    if (error || !data) return;
+
+    let actualizado = false;
+    carrito.forEach(item => {
+        const actual = data.find(p => p.id === item.id);
+        if (!actual) return;
+        if (item.precio !== parseFloat(actual.precio)) {
+            item.precio = parseFloat(actual.precio);
+            actualizado = true;
+        }
+        if (actual.precio_unitario !== null && item.precioUnitario !== parseFloat(actual.precio_unitario)) {
+            item.precioUnitario = parseFloat(actual.precio_unitario);
+            actualizado = true;
+        }
+        if (item.nombre !== actual.nombre) { item.nombre = actual.nombre; actualizado = true; }
+        if (item.imagen !== actual.imagen) { item.imagen = actual.imagen; actualizado = true; }
+    });
+
+    if (actualizado) localStorage.setItem('carrito', JSON.stringify(carrito));
 }
 
 // Función para cargar productos del carrito
