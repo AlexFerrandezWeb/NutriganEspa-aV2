@@ -31,6 +31,12 @@
         .caps-warning { display: none; align-items: center; gap: 5px; margin-top: 6px; font-size: 0.78rem; color: #b45309; }
         .caps-warning.visible { display: flex; }
 
+        @media (max-width: 480px) {
+            body { padding: 16px; align-items: flex-start; padding-top: 40px; }
+            .login-card { padding: 32px 24px; border-radius: 12px; }
+            .login-logo { width: 130px; }
+        }
+
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 8px; border: none; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.15s; width: 100%; }
         .btn:disabled { opacity: 0.55; cursor: not-allowed; }
         .btn-primary { background: #1d815d; color: white; }

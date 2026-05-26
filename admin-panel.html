@@ -21,8 +21,10 @@
 
         /* ── TOOLBAR ────────────────────────────────────────── */
         .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-        .search-input { border: 1px solid #ddd; border-radius: 8px; padding: 8px 14px; font-size: 0.875rem; width: 260px; outline: none; background: white; transition: border-color 0.15s; }
+        .search-wrap { position: relative; width: 260px; }
+        .search-input { border: 1px solid #ddd; border-radius: 8px; padding: 8px 14px; font-size: 0.875rem; width: 100%; outline: none; background: white; transition: border-color 0.15s; }
         .search-input:focus { border-color: #1d815d; }
+        .search-ph { display: none; }
         .product-count { color: #888; font-size: 0.82rem; margin-left: auto; }
 
         /* ── TABLE ──────────────────────────────────────────── */
@@ -51,6 +53,43 @@
         .btn-sm { padding: 5px 11px; font-size: 0.8rem; border-radius: 6px; }
         .btn-full { width: 100%; }
 
+        /* ── CONFIRM MODAL ──────────────────────────────────── */
+        .confirm-modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+            z-index: 400; display: flex; align-items: center; justify-content: center;
+            padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.18s ease;
+        }
+        .confirm-modal-backdrop.visible { opacity: 1; pointer-events: auto; }
+        .confirm-modal {
+            background: white; border-radius: 16px; padding: 32px 28px 24px;
+            width: 100%; max-width: 360px; box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+            transform: translateY(10px); transition: transform 0.18s ease;
+        }
+        .confirm-modal-backdrop.visible .confirm-modal { transform: translateY(0); }
+        .confirm-modal-icon {
+            width: 48px; height: 48px; border-radius: 50%; background: #fff5f5;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 1.35rem;
+        }
+        .confirm-modal h3 { text-align: center; font-size: 1.05rem; color: #1d4d35; margin-bottom: 8px; }
+        .confirm-modal p { text-align: center; color: #666; font-size: 0.875rem; margin-bottom: 24px; line-height: 1.5; }
+        .confirm-modal-actions { display: flex; gap: 10px; }
+        .confirm-modal-actions .btn { flex: 1; }
+
+        /* ── UNDO BUTTON (header) ────────────────────────────── */
+        .btn-undo {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.35); border-radius: 8px; padding: 5px 11px; cursor: not-allowed;
+            font-size: 0.78rem; font-weight: 500; font-family: inherit;
+            transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+        .btn-undo.visible {
+            background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.3);
+            color: white; cursor: pointer; pointer-events: auto;
+        }
+        .btn-undo.visible:hover { background: rgba(255,255,255,0.24); }
+        .btn-undo svg { flex-shrink: 0; }
+
         /* ── SIDE PANEL ─────────────────────────────────────── */
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 100; }
         .side-panel { position: fixed; top: 0; right: -580px; width: 560px; height: 100vh; background: white; z-index: 200; box-shadow: -6px 0 32px rgba(0,0,0,0.14); transition: right 0.3s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; }
@@ -65,14 +104,27 @@
         .form-section { margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid #f0f0f0; }
         .form-section:last-of-type { border-bottom: none; }
         .section-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1d815d; margin-bottom: 14px; }
+        .label-hint { font-weight: 400; color: #aaa; }
         .form-group { margin-bottom: 12px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         label { display: block; font-size: 0.82rem; font-weight: 500; margin-bottom: 5px; color: #555; }
-        input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea {
+        input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea, select {
             width: 100%; padding: 8px 11px; border: 1px solid #ddd; border-radius: 8px;
             font-size: 0.875rem; font-family: inherit; outline: none; transition: border-color 0.15s; background: white;
         }
-        input:focus, textarea:focus { border-color: #1d815d; box-shadow: 0 0 0 3px rgba(29,129,93,0.08); }
+        .categoria-chips { display: flex; flex-wrap: wrap; gap: 7px; padding: 4px 0; }
+        .categoria-chip { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .categoria-chip input[type="checkbox"] { display: none; }
+        .categoria-chip span {
+            padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500;
+            border: 1px solid #ddd; background: white; color: #666;
+            transition: all 0.15s; -webkit-user-select: none; user-select: none;
+        }
+        .categoria-chip input:checked + span {
+            background: #1d815d; border-color: #1d815d; color: white;
+        }
+        .categoria-chip span:hover { border-color: #1d815d; color: #1d815d; }
+        input:focus, textarea:focus, select:focus { border-color: #1d815d; box-shadow: 0 0 0 3px rgba(29,129,93,0.08); }
         textarea { resize: vertical; line-height: 1.5; }
         .check-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.875rem; color: #444; }
         .check-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #1d815d; cursor: pointer; }
@@ -98,12 +150,128 @@
         .success-msg { background: #e8f5f0; color: #1d6b4a; border-radius: 8px; padding: 10px 14px; font-size: 0.85rem; margin-bottom: 14px; border-left: 3px solid #1d815d; }
         .form-actions { display: flex; gap: 10px; justify-content: flex-end; padding-top: 16px; border-top: 1px solid #f0f0f0; margin-top: 8px; }
 
-        /* ── RESPONSIVE ─────────────────────────────────────── */
-        @media (max-width: 640px) {
+        /* ── RESPONSIVE — TABLET (≤ 960px) ─────────────────── */
+        @media (max-width: 960px) {
+            .header-title { display: none; }
+            .user-email { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .admin-main { padding: 20px; }
+            .search-wrap { width: 200px; }
+            .side-panel { width: 85%; right: -85%; }
+            .table-container { overflow-x: auto; }
+        }
+
+        /* ── RESPONSIVE — MOBILE (≤ 600px) ──────────────────── */
+        @media (max-width: 600px) {
+            .admin-header { padding: 0 14px; height: 52px; }
+            .header-logo { height: 28px; }
+            .user-email { display: none; }
+            .admin-main { padding: 12px; }
+
+            /* Toolbar */
+            .toolbar { gap: 8px; }
+            .search-wrap { flex: 1; min-width: 0; width: auto; }
+            .search-input { width: 100%; }
+            .product-count { width: 100%; margin-left: 0; text-align: right; font-size: 0.78rem; }
+
+            /* Placeholder animado del buscador */
+            .search-input::placeholder { color: transparent; }
+            .search-ph {
+                display: block;
+                position: absolute;
+                left: 14px; top: 50%; transform: translateY(-50%);
+                pointer-events: none;
+                color: #aaa;
+                font-size: 0.875rem;
+                overflow: hidden;
+                max-width: calc(100% - 42px);
+            }
+            .search-ph-inner {
+                display: inline-block;
+                white-space: nowrap;
+                animation: ph-scroll 5s ease-in-out infinite;
+            }
+            @keyframes ph-scroll {
+                0%,  20% { transform: translateX(0); }
+                80%, 100% { transform: translateX(var(--ph-dist, -80px)); }
+            }
+
+            /* Side panel */
             .side-panel { width: 100%; right: -100%; }
             .form-row { grid-template-columns: 1fr; }
-            .admin-main { padding: 16px; }
-            .header-title { display: none; }
+            .side-panel-body { padding: 16px; }
+            .form-actions { flex-direction: column-reverse; }
+            .form-actions .btn { width: 100%; }
+
+            /* Tabla → tarjetas */
+            .product-table,
+            .product-table tbody { display: block; }
+            .product-table thead { display: none; }
+            .product-table tbody tr {
+                display: block;
+                margin-bottom: 12px;
+                border: 1px solid #e8e8e8;
+                border-radius: 12px;
+                background: white;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            }
+            .product-table tbody tr:hover td { background: transparent; }
+            .product-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 9px 14px;
+                border-bottom: 1px solid #f3f3f3;
+                font-size: 0.875rem;
+                text-align: right;
+            }
+            .product-table td:last-child { border-bottom: none; }
+            .product-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #aaa;
+                font-size: 0.7rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                flex-shrink: 0;
+                margin-right: 12px;
+                text-align: left;
+            }
+
+            /* Imagen: banner ancho en la cabecera de la tarjeta */
+            .product-table td[data-label="Imagen"] {
+                display: block;
+                padding: 0;
+                border-bottom: 1px solid #f0f0f0;
+                text-align: center;
+            }
+            .product-table td[data-label="Imagen"]::before { display: none; }
+            .product-thumb {
+                display: block;
+                width: 100%;
+                height: 140px;
+                border-radius: 0;
+                border: none;
+                object-fit: contain;
+                object-position: center;
+                background: #f7f9f7;
+            }
+
+            /* Nombre: contenedor marquee */
+            .marquee-wrap { overflow: hidden; flex: 1; min-width: 0; text-align: right; }
+            .marquee-inner { display: inline-block; white-space: nowrap; }
+            .marquee-inner.scrolling {
+                animation: marquee-scroll var(--dur, 6s) ease-in-out infinite;
+            }
+            @keyframes marquee-scroll {
+                0%,  15% { transform: translateX(0); }
+                80%, 100% { transform: translateX(var(--dist, -60px)); }
+            }
+
+            /* Ocultar Dest. en móvil (ya aparece como badge en el nombre) */
+            .product-table td[data-label="Dest."] { display: none; }
+            .td-actions { justify-content: flex-end; }
+            .table-container { border-radius: 0; box-shadow: none; background: transparent; }
         }
     </style>
 </head>
@@ -115,15 +283,22 @@
         <span class="header-title">Panel de Administración</span>
     </div>
     <div class="header-right">
+        <button type="button" id="btn-undo" class="btn-undo" title="Deshacer último cambio">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+            Deshacer
+        </button>
         <span id="user-email" class="user-email"></span>
-        <button class="btn btn-secondary btn-sm" onclick="logout()">Cerrar sesión</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="logout()">Cerrar sesión</button>
     </div>
 </header>
 
 <main class="admin-main">
     <div class="toolbar">
-        <button class="btn btn-primary" onclick="openProductForm()">+ Añadir producto</button>
-        <input type="search" id="search-input" class="search-input" placeholder="Buscar por nombre o categoría..." oninput="filterProducts(this.value)">
+        <button type="button" class="btn btn-primary" onclick="openProductForm()">+ Añadir producto</button>
+        <div class="search-wrap">
+            <input type="search" id="search-input" class="search-input" placeholder="Buscar por nombre o categoría..." oninput="filterProducts(this.value)">
+            <span class="search-ph" aria-hidden="true"><span class="search-ph-inner">Buscar por nombre o categoría...</span></span>
+        </div>
         <span id="product-count" class="product-count"></span>
     </div>
 
@@ -151,10 +326,47 @@
      SIDE PANEL — FORMULARIO DE PRODUCTO
 ════════════════════════════════════════════════════════ -->
 <div id="overlay" class="overlay" hidden onclick="closeSidePanel()"></div>
+
+<!-- Modal de confirmación de eliminar producto -->
+<div id="delete-modal" class="confirm-modal-backdrop">
+    <div class="confirm-modal">
+        <h3>Eliminar producto</h3>
+        <p>¿Estás seguro que quieres eliminar este producto?<br><strong id="delete-modal-nombre"></strong></p>
+        <div class="confirm-modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="hideDeleteModal()">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="delete-modal-confirm">Sí, eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal cambios sin guardar -->
+<div id="discard-modal" class="confirm-modal-backdrop">
+    <div class="confirm-modal">
+        <h3>Cambios sin guardar</h3>
+        <p>Tienes cambios que no se han guardado. ¿Seguro que quieres cerrar sin guardar?</p>
+        <div class="confirm-modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="hideDiscardModal()">Seguir editando</button>
+            <button type="button" class="btn btn-danger" onclick="confirmDiscard()">Cerrar sin guardar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación de logout -->
+<div id="logout-modal" class="confirm-modal-backdrop">
+    <div class="confirm-modal">
+        <h3>Cerrar sesión</h3>
+        <p>¿Has revisado y comprobado todos los cambios de los productos? :)</p>
+        <div class="confirm-modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="hideLogoutModal()">Voy a echar otro vistazo</button>
+            <button type="button" class="btn btn-danger" onclick="doLogout()">Sí, salir</button>
+        </div>
+    </div>
+</div>
+
 <div id="side-panel" class="side-panel">
     <div class="side-panel-header">
         <h2 id="form-title">Añadir producto</h2>
-        <button class="btn-close" onclick="closeSidePanel()" title="Cerrar">✕</button>
+        <button type="button" class="btn-close" onclick="closeSidePanel()" title="Cerrar">✕</button>
     </div>
     <div class="side-panel-body">
         <form id="product-form" autocomplete="off">
@@ -175,6 +387,12 @@
                     <div class="form-group">
                         <label for="f-stock">Stock</label>
                         <input type="number" id="f-stock" min="0" value="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="f-precio-unitario">Precio unitario (€/u) <span class="label-hint">— aparece como "(X€/U)" en la tarjeta</span></label>
+                        <input type="number" id="f-precio-unitario" step="0.01" min="0" placeholder="5.82">
                     </div>
                 </div>
                 <div class="form-group">
@@ -198,8 +416,15 @@
                 <div class="section-title">Clasificación</div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="f-categoria">Categoría</label>
-                        <input type="text" id="f-categoria" placeholder="bovinos, ovinos...">
+                        <label>Categoría</label>
+                        <div class="categoria-chips">
+                            <label class="categoria-chip"><input type="checkbox" name="categoria" value="bovinos"><span>Bovinos</span></label>
+                            <label class="categoria-chip"><input type="checkbox" name="categoria" value="ovinos"><span>Ovinos</span></label>
+                            <label class="categoria-chip"><input type="checkbox" name="categoria" value="caprinos"><span>Caprinos</span></label>
+                            <label class="categoria-chip"><input type="checkbox" name="categoria" value="porcinos"><span>Porcinos</span></label>
+                            <label class="categoria-chip"><input type="checkbox" name="categoria" value="equinos"><span>Equinos</span></label>
+                            <label class="categoria-chip"><input type="checkbox" name="categoria" value="perros"><span>Perros</span></label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="f-especie">Especie</label>
@@ -319,6 +544,7 @@
     let editingId   = null;
     let tags        = { ingredientes: [], beneficios: [] };
     let imgFile     = null;
+    let isDirty     = false;
 
     // ── AUTH GUARD ────────────────────────────────────────────
     sb.auth.getSession().then(({ data: { session } }) => {
@@ -337,7 +563,29 @@
         }
     });
 
-    async function logout() {
+    // ── UNDO BUTTON ───────────────────────────────────────────
+    function showUndoBtn(undoFn) {
+        const btn = document.getElementById('btn-undo');
+        btn.classList.add('visible');
+        btn.onclick = async () => {
+            btn.classList.remove('visible');
+            btn.onclick = null;
+            await undoFn();
+        };
+    }
+    function hideUndoBtn() {
+        const btn = document.getElementById('btn-undo');
+        btn.classList.remove('visible');
+        btn.onclick = null;
+    }
+
+    function logout() {
+        document.getElementById('logout-modal').classList.add('visible');
+    }
+    function hideLogoutModal() {
+        document.getElementById('logout-modal').classList.remove('visible');
+    }
+    async function doLogout() {
         try {
             await sb.auth.signOut();
         } catch (e) {
@@ -383,25 +631,68 @@
 
         document.getElementById('product-tbody').innerHTML = list.map(p => `
             <tr>
-                <td><img src="${p.imagen || 'assets/logo_nutriganesp.png'}" alt="" class="product-thumb"
+                <td data-label="Imagen"><img src="${p.imagen || 'assets/logo_nutriganesp.png'}" alt="" class="product-thumb"
                      onerror="this.src='assets/logo_nutriganesp.png'"></td>
-                <td style="color:#aaa;font-size:0.8rem">${p.id}</td>
-                <td>
-                    <strong>${esc(p.nombre)}</strong>
-                    ${p.destacado ? '<span class="badge-dest">Destacado</span>' : ''}
-                    ${p.categoria ? `<br><span style="color:#aaa;font-size:0.76rem">${esc(p.categoria)}</span>` : ''}
-                </td>
-                <td style="white-space:nowrap">${parseFloat(p.precio).toFixed(2)} €</td>
-                <td class="${p.stock <= 10 ? 'stock-low' : ''}">${p.stock}</td>
-                <td style="text-align:center">${p.destacado ? '✅' : '—'}</td>
-                <td>
+                <td data-label="ID"><div class="td-val" style="color:#aaa;font-size:0.8rem">${p.id}</div></td>
+                <td data-label="Nombre"><div class="td-val">
+                    <div class="marquee-wrap">
+                        <span class="marquee-inner">
+                            <strong>${esc(p.nombre)}</strong>
+                            ${p.destacado ? '<span class="badge-dest">Destacado</span>' : ''}
+                        </span>
+                    </div>
+                    ${p.categoria ? `<span style="color:#aaa;font-size:0.76rem;display:block;text-align:right">${esc(p.categoria)}</span>` : ''}
+                </div></td>
+                <td data-label="Precio"><div class="td-val" style="white-space:nowrap">${parseFloat(p.precio).toFixed(2)} €</div></td>
+                <td data-label="Stock" class="${p.stock <= 10 ? 'stock-low' : ''}"><div class="td-val">${p.stock}</div></td>
+                <td data-label="Dest."><div class="td-val" style="text-align:center">${p.destacado ? '✅' : '—'}</div></td>
+                <td data-label="Acciones"><div class="td-val">
                     <div class="td-actions">
                         <button class="btn btn-sm btn-secondary" onclick="openProductForm(${p.id})">Editar</button>
                         <button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id}, '${esc(p.nombre).replace(/'/g,"\\'")}')">Eliminar</button>
                     </div>
-                </td>
+                </div></td>
             </tr>
         `).join('');
+
+        requestAnimationFrame(initMarquees);
+    }
+
+    function initSearchPlaceholder() {
+        const ph    = document.querySelector('.search-ph');
+        const inner = document.querySelector('.search-ph-inner');
+        const input = document.getElementById('search-input');
+        if (!ph || !inner || !input) return;
+
+        const overflow = inner.scrollWidth - ph.clientWidth;
+        if (overflow > 0) {
+            inner.style.setProperty('--ph-dist', `-${overflow}px`);
+        } else {
+            inner.style.animation = 'none';
+        }
+
+        const hide = () => ph.style.visibility = 'hidden';
+        const show = () => { if (!input.value) ph.style.visibility = 'visible'; };
+        input.addEventListener('focus', hide);
+        input.addEventListener('blur',  show);
+        input.addEventListener('input', () => ph.style.visibility = input.value ? 'hidden' : 'visible');
+    }
+
+    window.addEventListener('load', initSearchPlaceholder);
+
+    function initMarquees() {
+        document.querySelectorAll('.marquee-wrap').forEach(wrap => {
+            const inner = wrap.querySelector('.marquee-inner');
+            if (!inner) return;
+            inner.classList.remove('scrolling');
+            const overflow = inner.scrollWidth - wrap.clientWidth;
+            if (overflow > 4) {
+                const dur = Math.max(3, overflow / 35).toFixed(1);
+                inner.style.setProperty('--dist', `-${overflow}px`);
+                inner.style.setProperty('--dur', `${dur}s`);
+                inner.classList.add('scrolling');
+            }
+        });
     }
 
     function filterProducts(q) {
@@ -442,7 +733,10 @@
             document.getElementById('f-desc').value         = p.descripcion || '';
             document.getElementById('f-desc-full').value    = p.descripcion_completa || '';
             document.getElementById('f-destacado').checked  = p.destacado || false;
-            document.getElementById('f-categoria').value    = p.categoria || '';
+            const cats = (p.categoria || '').split(',').map(c => c.trim().toLowerCase());
+            document.querySelectorAll('input[name="categoria"]').forEach(cb => {
+                cb.checked = cats.includes(cb.value);
+            });
             document.getElementById('f-especie').value      = p.especie || '';
             document.getElementById('f-etapa').value        = p.etapa || '';
             document.getElementById('f-presentacion').value = p.presentacion || '';
@@ -453,6 +747,7 @@
             document.getElementById('f-temperatura').value  = p.temperatura || '';
             document.getElementById('f-ficha').value        = p.ficha_tecnica || '';
             document.getElementById('f-imagen-url').value   = p.imagen || '';
+            document.getElementById('f-precio-unitario').value = p.precio_unitario ?? '';
 
             tags.ingredientes = Array.isArray(p.ingredientes) ? [...p.ingredientes] : [];
             tags.beneficios   = Array.isArray(p.beneficios)   ? [...p.beneficios]   : [];
@@ -465,7 +760,11 @@
             document.getElementById('save-btn').textContent = 'Guardar producto';
         }
 
+        isDirty = false;
         openPanel();
+        // Marcar como sucio al primer cambio
+        document.getElementById('product-form').addEventListener('input',  () => { isDirty = true; }, { once: true });
+        document.getElementById('product-form').addEventListener('change', () => { isDirty = true; }, { once: true });
     }
 
     document.getElementById('product-form').addEventListener('submit', async e => {
@@ -489,9 +788,10 @@
                 descripcion:          document.getElementById('f-desc').value.trim(),
                 descripcion_completa: document.getElementById('f-desc-full').value.trim(),
                 precio:               parseFloat(document.getElementById('f-precio').value),
+                precio_unitario:      document.getElementById('f-precio-unitario').value !== '' ? parseFloat(document.getElementById('f-precio-unitario').value) : null,
                 stock:                parseInt(document.getElementById('f-stock').value) || 0,
                 destacado:            document.getElementById('f-destacado').checked,
-                categoria:            document.getElementById('f-categoria').value.trim(),
+                categoria:            [...document.querySelectorAll('input[name="categoria"]:checked')].map(cb => cb.value).join(','),
                 especie:              document.getElementById('f-especie').value.trim(),
                 etapa:                document.getElementById('f-etapa').value.trim(),
                 tiempo_liberacion:    document.getElementById('f-etapa').value.trim(),
@@ -509,7 +809,10 @@
             };
 
             let error;
-            if (editingId) {
+            const isEditing = !!editingId;
+            const previousData = isEditing ? { ...allProducts.find(p => p.id === editingId) } : null;
+
+            if (isEditing) {
                 ({ error } = await sb.from('productos').update(data).eq('id', editingId));
             } else {
                 const maxId = allProducts.length ? Math.max(...allProducts.map(p => p.id)) : 0;
@@ -519,13 +822,29 @@
 
             if (error) throw error;
 
-            document.getElementById('form-success').textContent = editingId
+            document.getElementById('form-success').textContent = isEditing
                 ? '✅ Producto actualizado correctamente.'
                 : '✅ Producto añadido correctamente.';
             document.getElementById('form-success').hidden = false;
+            isDirty = false;
 
             await loadProducts();
-            setTimeout(closePanel, 1500);
+            setTimeout(() => {
+                closePanel();
+                if (isEditing) {
+                    showUndoBtn(async () => {
+                        const { error } = await sb.from('productos').update(previousData).eq('id', previousData.id);
+                        if (error) alert('Error al revertir: ' + error.message);
+                        else await loadProducts();
+                    });
+                } else {
+                    showUndoBtn(async () => {
+                        const { error } = await sb.from('productos').delete().eq('id', data.id);
+                        if (error) alert('Error al revertir: ' + error.message);
+                        else await loadProducts();
+                    });
+                }
+            }, 1500);
 
         } catch (err) {
             document.getElementById('form-error').textContent = 'Error: ' + (err.message || 'No se pudo guardar.');
@@ -536,11 +855,25 @@
         }
     });
 
-    async function confirmDelete(id, nombre) {
-        if (!confirm(`¿Eliminar "${nombre}"?\n\nEsta acción no se puede deshacer.`)) return;
-        const { error } = await sb.from('productos').delete().eq('id', id);
-        if (error) { alert('Error al eliminar: ' + error.message); return; }
-        await loadProducts();
+    function confirmDelete(id, nombre) {
+        document.getElementById('delete-modal-nombre').textContent = nombre;
+        const modal = document.getElementById('delete-modal');
+        modal.classList.add('visible');
+        document.getElementById('delete-modal-confirm').onclick = async () => {
+            hideDeleteModal();
+            const snapshot = { ...allProducts.find(p => p.id === id) };
+            const { error } = await sb.from('productos').delete().eq('id', id);
+            if (error) { alert('Error al eliminar: ' + error.message); return; }
+            await loadProducts();
+            showUndoBtn(async () => {
+                const { error } = await sb.from('productos').insert(snapshot);
+                if (error) alert('Error al restaurar: ' + error.message);
+                else await loadProducts();
+            });
+        };
+    }
+    function hideDeleteModal() {
+        document.getElementById('delete-modal').classList.remove('visible');
     }
 
     // ── IMAGE UPLOAD ──────────────────────────────────────────
@@ -609,12 +942,28 @@
     }
 
     function closePanel() {
+        isDirty = false;
         document.getElementById('side-panel').classList.remove('open');
         document.getElementById('overlay').hidden = true;
         document.body.style.overflow = '';
     }
 
-    function closeSidePanel() { closePanel(); }
+    function closeSidePanel() {
+        if (isDirty) {
+            document.getElementById('discard-modal').classList.add('visible');
+        } else {
+            closePanel();
+        }
+    }
+
+    function hideDiscardModal() {
+        document.getElementById('discard-modal').classList.remove('visible');
+    }
+
+    function confirmDiscard() {
+        hideDiscardModal();
+        closePanel();
+    }
 
     // ── UTILS ─────────────────────────────────────────────────
     function esc(s) {

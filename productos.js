@@ -9,6 +9,8 @@ let productosFiltrados = [];
 let categoriaActiva = 'todos';
 let terminoBusqueda = '';
 
+const normalizarCategoria = c => c.toLowerCase() === 'caprino' ? 'caprinos' : c;
+
 // Elementos del DOM
 const filtrosBotones = document.getElementById('filtros-botones');
 const productosGrid = document.getElementById('productos-grid-catalogo');
@@ -42,7 +44,7 @@ async function cargarProductos() {
 
         // Derivar categorías únicas de los propios productos
         const categoriasSet = new Set(
-            productos.flatMap(p => (p.categoria || '').split(',').map(c => c.trim()).filter(Boolean))
+            productos.flatMap(p => (p.categoria || '').split(',').map(c => normalizarCategoria(c.trim())).filter(Boolean))
         );
         const categorias = [...categoriasSet].map(id => ({ id, nombre: obtenerNombreCategoria(id) }));
         generarFiltros(categorias);
@@ -72,9 +74,10 @@ function generarFiltros(categorias) {
     botonTodos.addEventListener('click', () => filtrarProductos('todos'));
     filtrosBotones.appendChild(botonTodos);
     
-    // Botones de categorías (excluye 'todas')
+    const categoriasExcluidas = ['todas', 'todo tipo de animales', 'todos los animales', 'todas las especies'];
+    // Botones de categorías
     categorias.forEach(categoria => {
-        if (categoria.id === 'todas') return;
+        if (categoriasExcluidas.includes(categoria.id.toLowerCase())) return;
         const boton = document.createElement('button');
         boton.className = 'filtro-btn';
         boton.setAttribute('data-categoria', categoria.id);
@@ -151,7 +154,10 @@ function crearElementoProducto(producto) {
             <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-imagen">
         </div>
         <h3 class="producto-nombre">${producto.nombre}</h3>
-        <p class="producto-descripcion">${producto.descripcion}</p>
+        <p class="producto-descripcion">
+            ${producto.descripcion}
+            ${producto.precio_unitario ? `<strong class="precio-por-unidad">(${parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',')}€/U)</strong>` : ''}
+        </p>
         <div class="producto-detalles">
             <div class="producto-especie">
                 <i class="fas fa-cow"></i>
@@ -629,11 +635,11 @@ function aplicarFiltros() {
     // Aplicar filtro de categoría
     if (categoriaActiva !== 'todos') {
         productosFiltradosTemp = productos.filter(producto => {
-            if (producto.categoria.includes(',')) {
-                const categoriasProducto = producto.categoria.split(',').map(cat => cat.trim());
-                return categoriasProducto.includes(categoriaActiva);
+            const cats = (producto.categoria || '').split(',').map(c => normalizarCategoria(c.trim()));
+            if (cats.length > 1) {
+                return cats.includes(categoriaActiva);
             } else {
-                return producto.categoria === categoriaActiva;
+                return cats[0] === categoriaActiva;
             }
         });
     }
