@@ -4,6 +4,13 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const { createClient } = require('@supabase/supabase-js');
+
+// Cliente Supabase con service role (solo backend, nunca en frontend)
+const supabaseAdmin = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+);
 
 // Verificar y mostrar las variables de entorno
 console.log('Configuración de entorno:');
@@ -44,100 +51,72 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Función para verificar si hay stock suficiente para los productos
-function verificarStock(productos) {
-    try {
-        console.log('🔍 Verificando stock de productos...');
+async function verificarStock(productos) {
+    console.log('🔍 Verificando stock de productos...');
 
-        // Leer el archivo de productos
-        const fs = require('fs');
-        const productosPath = path.join(__dirname, 'productos.json');
-        const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
+    const ids = productos.map(p => p.id);
+    const { data: productosDB, error } = await supabaseAdmin
+        .from('productos')
+        .select('id, nombre, stock')
+        .in('id', ids);
 
-        const productosSinStock = [];
+    if (error) throw error;
 
-        // Verificar stock de cada producto
-        productos.forEach(productoCarrito => {
-            const producto = productosData.productos.find(p => p.id === productoCarrito.id);
+    const productosSinStock = [];
 
-            if (producto) {
-                const cantidadSolicitada = parseInt(productoCarrito.cantidad);
-                const stockDisponible = parseInt(producto.stock);
+    productos.forEach(productoCarrito => {
+        const producto = (productosDB || []).find(p => p.id === productoCarrito.id);
+        const cantidadSolicitada = parseInt(productoCarrito.cantidad);
 
-                console.log(`📦 ${producto.nombre}: Stock disponible: ${stockDisponible}, Cantidad solicitada: ${cantidadSolicitada}`);
-
-                if (stockDisponible < cantidadSolicitada) {
-                    productosSinStock.push({
-                        nombre: producto.nombre,
-                        stockDisponible: stockDisponible,
-                        cantidadSolicitada: cantidadSolicitada
-                    });
-                }
-            } else {
-                productosSinStock.push({
-                    nombre: `Producto ID ${productoCarrito.id}`,
-                    stockDisponible: 0,
-                    cantidadSolicitada: productoCarrito.cantidad,
-                    error: 'Producto no encontrado'
-                });
+        if (producto) {
+            const stockDisponible = parseInt(producto.stock);
+            console.log(`📦 ${producto.nombre}: stock ${stockDisponible}, solicitado ${cantidadSolicitada}`);
+            if (stockDisponible < cantidadSolicitada) {
+                productosSinStock.push({ nombre: producto.nombre, stockDisponible, cantidadSolicitada });
             }
-        });
+        } else {
+            productosSinStock.push({
+                nombre: `Producto ID ${productoCarrito.id}`,
+                stockDisponible: 0,
+                cantidadSolicitada,
+                error: 'Producto no encontrado'
+            });
+        }
+    });
 
-        return productosSinStock;
-
-    } catch (error) {
-        console.error('❌ Error al verificar stock:', error);
-        throw error;
-    }
+    return productosSinStock;
 }
 
 // Función para reducir el stock de productos vendidos
 async function reducirStock(productosVendidos) {
-    try {
-        console.log('🔄 Reduciendo stock de productos vendidos...');
+    console.log('🔄 Reduciendo stock de productos vendidos...');
 
-        // Leer el archivo de productos
-        const fs = require('fs');
-        const productosPath = path.join(__dirname, 'productos.json');
-        const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
+    const ids = productosVendidos.map(p => p.id);
+    const { data: productosDB, error: fetchError } = await supabaseAdmin
+        .from('productos')
+        .select('id, nombre, stock')
+        .in('id', ids);
 
-        let stockActualizado = false;
+    if (fetchError) throw fetchError;
 
-        // Reducir stock de cada producto vendido
-        productosVendidos.forEach(productoVendido => {
-            const productoIndex = productosData.productos.findIndex(p => p.id === productoVendido.id);
+    for (const pVendido of productosVendidos) {
+        const pDB = (productosDB || []).find(p => p.id === pVendido.id);
+        if (!pDB) { console.error(`❌ Producto ID ${pVendido.id} no encontrado`); continue; }
 
-            if (productoIndex !== -1) {
-                const producto = productosData.productos[productoIndex];
-                const cantidadVendida = parseInt(productoVendido.cantidad);
-                const stockActual = parseInt(producto.stock);
+        const cantidadVendida = parseInt(pVendido.cantidad);
+        const stockActual = parseInt(pDB.stock);
+        const nuevoStock = Math.max(0, stockActual - cantidadVendida);
 
-                if (stockActual >= cantidadVendida) {
-                    producto.stock = stockActual - cantidadVendida;
-                    stockActualizado = true;
+        const { error } = await supabaseAdmin
+            .from('productos')
+            .update({ stock: nuevoStock })
+            .eq('id', pDB.id);
 
-                    console.log(`📦 Producto: ${producto.nombre}`);
-                    console.log(`   Stock anterior: ${stockActual}`);
-                    console.log(`   Cantidad vendida: ${cantidadVendida}`);
-                    console.log(`   Stock nuevo: ${producto.stock}`);
-                } else {
-                    console.error(`❌ Error: Stock insuficiente para ${producto.nombre}. Stock actual: ${stockActual}, Cantidad vendida: ${cantidadVendida}`);
-                }
-            } else {
-                console.error(`❌ Error: Producto con ID ${productoVendido.id} no encontrado`);
-            }
-        });
-
-        // Guardar los cambios si se actualizó algún stock
-        if (stockActualizado) {
-            fs.writeFileSync(productosPath, JSON.stringify(productosData, null, 2), 'utf8');
-            console.log('✅ Stock actualizado correctamente en productos.json');
+        if (error) {
+            console.error(`❌ Error actualizando stock de ${pDB.nombre}:`, error.message);
         } else {
-            console.log('ℹ️ No se actualizó ningún stock');
+            console.log(`✅ ${pDB.nombre}: stock ${stockActual} → ${nuevoStock}`);
         }
-
-    } catch (error) {
-        console.error('❌ Error al reducir stock:', error);
-        throw error;
     }
 }
 
@@ -628,35 +607,27 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
                 const productosMin = JSON.parse(session.metadata.productos_json);
                 console.log('Productos minimizados recibidos:', productosMin);
 
-                // Re-hidratar productos (recuperar información completa)
-                const fs = require('fs');
-                const path = require('path');
-                const productosPath = path.join(__dirname, 'productos.json');
-                const productosData = JSON.parse(fs.readFileSync(productosPath, 'utf8'));
+                // Re-hidratar productos desde Supabase
+                const minIds = productosMin.map(p => p.id);
+                const { data: productosDB } = await supabaseAdmin
+                    .from('productos')
+                    .select('id, nombre, imagen, precio')
+                    .in('id', minIds);
 
                 productos = productosMin.map(pMin => {
-                    const pFull = productosData.productos.find(p => p.id === pMin.id);
+                    const pFull = (productosDB || []).find(p => p.id === pMin.id);
                     if (pFull) {
-                        // Calcular precio final si no existe
-                        const precioBase = parseFloat(pFull.precio);
-
                         return {
                             ...pFull,
                             cantidad: pMin.c,
-                            precio: pMin.p, // Usar el precio guardado en la sesión por si cambió
+                            precio: pMin.p,
                             precioFinal: pMin.p,
-                            // Asegurar que la imagen tenga la ruta correcta si es relativa
-                            imagen: pFull.imagen.startsWith('http') ? pFull.imagen : `/assets/${path.basename(pFull.imagen)}`
-
+                            imagen: pFull.imagen && pFull.imagen.startsWith('http')
+                                ? pFull.imagen
+                                : `/assets/${require('path').basename(pFull.imagen || 'logo.png')}`
                         };
                     }
-                    return {
-                        id: pMin.id,
-                        nombre: 'Producto no encontrado (ID: ' + pMin.id + ')',
-                        precio: pMin.p,
-                        cantidad: pMin.c,
-                        imagen: '/assets/logo.png' // Imagen por defecto
-                    };
+                    return { id: pMin.id, nombre: `Producto ID ${pMin.id}`, precio: pMin.p, cantidad: pMin.c, imagen: '/assets/logo.png' };
                 });
 
                 console.log('Productos re-hidratados:', productos.length);
@@ -746,7 +717,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         }
 
         // Verificar stock antes de crear la sesión de checkout
-        const productosSinStock = verificarStock(productos);
+        const productosSinStock = await verificarStock(productos);
         if (productosSinStock.length > 0) {
             return res.status(400).json({
                 success: false,
@@ -842,6 +813,28 @@ app.post('/api/create-checkout-session', async (req, res) => {
             message: 'Error al crear sesión de pago'
         });
     }
+});
+
+// Endpoint para obtener todos los productos desde Supabase
+app.get('/api/productos', async (req, res) => {
+    const { data, error } = await supabaseAdmin
+        .from('productos')
+        .select('*')
+        .order('id', { ascending: true });
+
+    if (error) return res.status(500).json({ success: false, message: error.message });
+    res.json({ success: true, productos: data });
+});
+
+app.get('/api/productos/:id', async (req, res) => {
+    const { data, error } = await supabaseAdmin
+        .from('productos')
+        .select('*')
+        .eq('id', parseInt(req.params.id))
+        .single();
+
+    if (error) return res.status(404).json({ success: false, message: 'Producto no encontrado' });
+    res.json({ success: true, producto: data });
 });
 
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
