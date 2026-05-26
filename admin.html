@@ -3,124 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin — Nutrigan España</title>
+    <title>Admin — Nutrigan España</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="icon" href="assets/favicon.png">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; font-size: 14px; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; font-size: 14px; }
 
-        /* ── LOGIN ─────────────────────────────────────────── */
-        #login-screen { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
         .login-card { background: white; border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 420px; box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
         .login-logo { display: block; width: 160px; margin: 0 auto 24px; }
         .login-card h1 { text-align: center; font-size: 1.3rem; color: #1d4d35; margin-bottom: 8px; }
         .login-subtitle { text-align: center; color: #888; font-size: 0.85rem; margin-bottom: 32px; }
 
-        /* ── ADMIN LAYOUT ───────────────────────────────────── */
-        #admin-panel { min-height: 100vh; display: flex; flex-direction: column; }
-        .admin-header { background: #1d4d35; color: white; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; height: 60px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); flex-shrink: 0; }
-        .header-left { display: flex; align-items: center; gap: 14px; }
-        .header-logo { height: 36px; object-fit: contain; }
-        .header-title { font-size: 1rem; font-weight: 600; opacity: 0.95; }
-        .header-right { display: flex; align-items: center; gap: 14px; }
-        .user-email { font-size: 0.8rem; opacity: 0.75; }
-        .admin-main { padding: 28px; flex: 1; max-width: 1400px; width: 100%; margin: 0 auto; }
-
-        /* ── TOOLBAR ────────────────────────────────────────── */
-        .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-        .search-input { border: 1px solid #ddd; border-radius: 8px; padding: 8px 14px; font-size: 0.875rem; width: 260px; outline: none; background: white; transition: border-color 0.15s; }
-        .search-input:focus { border-color: #1d815d; }
-        .product-count { color: #888; font-size: 0.82rem; margin-left: auto; }
-
-        /* ── TABLE ──────────────────────────────────────────── */
-        .table-container { background: white; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.07); overflow: hidden; }
-        .product-table { width: 100%; border-collapse: collapse; }
-        .product-table thead { background: #f8f9fa; }
-        .product-table th { padding: 11px 16px; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #888; border-bottom: 1px solid #eee; white-space: nowrap; }
-        .product-table td { padding: 11px 16px; border-bottom: 1px solid #f2f2f2; vertical-align: middle; }
-        .product-table tr:last-child td { border-bottom: none; }
-        .product-table tr:hover td { background: #f9fffc; }
-        .product-thumb { width: 44px; height: 44px; object-fit: contain; border-radius: 6px; border: 1px solid #eee; background: #fafafa; }
-        .badge-dest { background: #e8f5f0; color: #1d815d; font-size: 0.68rem; padding: 2px 7px; border-radius: 10px; vertical-align: middle; margin-left: 6px; font-weight: 600; }
-        .td-actions { white-space: nowrap; display: flex; gap: 6px; }
-        .stock-low { color: #e53e3e; font-weight: 700; }
-        .loading-state, .empty-state { padding: 60px 24px; text-align: center; color: #aaa; font-size: 0.9rem; }
-
-        /* ── BUTTONS ────────────────────────────────────────── */
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 16px; border-radius: 8px; border: none; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.15s; line-height: 1.2; }
-        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-        .btn-primary { background: #1d815d; color: white; }
-        .btn-primary:hover:not(:disabled) { background: #16694c; }
-        .btn-secondary { background: #f0f2f5; color: #444; }
-        .btn-secondary:hover:not(:disabled) { background: #e2e5e9; }
-        .btn-danger { background: #fff2f2; color: #c53030; }
-        .btn-danger:hover:not(:disabled) { background: #ffe0e0; }
-        .btn-sm { padding: 5px 11px; font-size: 0.8rem; border-radius: 6px; }
-        .btn-full { width: 100%; }
-
-        /* ── SIDE PANEL ─────────────────────────────────────── */
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 100; }
-        .side-panel { position: fixed; top: 0; right: -580px; width: 560px; height: 100vh; background: white; z-index: 200; box-shadow: -6px 0 32px rgba(0,0,0,0.14); transition: right 0.3s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; }
-        .side-panel.open { right: 0; }
-        .side-panel-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; border-bottom: 1px solid #eee; flex-shrink: 0; background: #fafafa; }
-        .side-panel-header h2 { font-size: 1.05rem; color: #1d4d35; font-weight: 700; }
-        .btn-close { background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #888; padding: 4px 8px; border-radius: 6px; line-height: 1; }
-        .btn-close:hover { background: #eee; color: #333; }
-        .side-panel-body { flex: 1; overflow-y: auto; padding: 24px; }
-
-        /* ── FORM ───────────────────────────────────────────── */
-        .form-section { margin-bottom: 26px; padding-bottom: 22px; border-bottom: 1px solid #f0f0f0; }
-        .form-section:last-of-type { border-bottom: none; }
-        .section-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1d815d; margin-bottom: 14px; }
         .form-group { margin-bottom: 12px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         label { display: block; font-size: 0.82rem; font-weight: 500; margin-bottom: 5px; color: #555; }
-        input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea {
+        input[type="email"], input[type="password"], input[type="text"].pass-input {
             width: 100%; padding: 8px 11px; border: 1px solid #ddd; border-radius: 8px;
             font-size: 0.875rem; font-family: inherit; outline: none; transition: border-color 0.15s; background: white;
         }
-        input:focus, textarea:focus { border-color: #1d815d; box-shadow: 0 0 0 3px rgba(29,129,93,0.08); }
-        textarea { resize: vertical; line-height: 1.5; }
-        .check-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.875rem; color: #444; }
-        .check-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #1d815d; cursor: pointer; }
+        input:focus { border-color: #1d815d; box-shadow: 0 0 0 3px rgba(29,129,93,0.08); }
 
-        /* ── TAGS (ingredientes/beneficios) ─────────────────── */
-        .tag-box { border: 1px solid #ddd; border-radius: 8px; padding: 8px 10px; background: white; }
-        .tags-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; min-height: 22px; }
-        .tag { display: inline-flex; align-items: center; gap: 4px; background: #e8f5f0; color: #1d815d; font-size: 0.78rem; padding: 3px 9px; border-radius: 12px; }
-        .tag-rm { background: none; border: none; cursor: pointer; color: #1d815d; font-size: 1rem; line-height: 1; padding: 0 0 0 2px; opacity: 0.6; }
-        .tag-rm:hover { opacity: 1; }
-        .tag-add-row { display: flex; gap: 7px; }
-        .tag-add-row input { border: none; outline: none; flex: 1; font-size: 0.85rem; padding: 3px 2px; }
+        .pass-wrap { position: relative; }
+        .pass-wrap input { padding-right: 40px; }
+        .pass-toggle { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #aaa; padding: 2px; line-height: 1; font-size: 1rem; }
+        .pass-toggle:hover { color: #555; }
+        .hidden { display: none; }
+        .caps-warning { display: none; align-items: center; gap: 5px; margin-top: 6px; font-size: 0.78rem; color: #b45309; }
+        .caps-warning.visible { display: flex; }
 
-        /* ── IMAGE ──────────────────────────────────────────── */
-        .img-preview-wrap { width: 120px; height: 120px; border: 2px dashed #ddd; border-radius: 10px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; background: #fafafa; }
-        .img-preview { width: 100%; height: 100%; object-fit: contain; }
-        .no-img-msg { color: #ccc; font-size: 0.8rem; }
-        .upload-area { border: 2px dashed #ddd; border-radius: 8px; padding: 18px; text-align: center; cursor: pointer; transition: all 0.15s; color: #888; font-size: 0.85rem; }
-        .upload-area:hover { border-color: #1d815d; background: #f6fffb; color: #1d815d; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 8px; border: none; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.15s; width: 100%; }
+        .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+        .btn-primary { background: #1d815d; color: white; }
+        .btn-primary:hover:not(:disabled) { background: #16694c; }
 
-        /* ── MESSAGES ───────────────────────────────────────── */
         .error-msg { background: #fff2f2; color: #c53030; border-radius: 8px; padding: 10px 14px; font-size: 0.85rem; margin-bottom: 14px; border-left: 3px solid #e53e3e; }
-        .success-msg { background: #e8f5f0; color: #1d6b4a; border-radius: 8px; padding: 10px 14px; font-size: 0.85rem; margin-bottom: 14px; border-left: 3px solid #1d815d; }
-        .form-actions { display: flex; gap: 10px; justify-content: flex-end; padding-top: 16px; border-top: 1px solid #f0f0f0; margin-top: 8px; }
-
-        /* ── RESPONSIVE ─────────────────────────────────────── */
-        @media (max-width: 640px) {
-            .side-panel { width: 100%; right: -100%; }
-            .form-row { grid-template-columns: 1fr; }
-            .admin-main { padding: 16px; }
-            .header-title { display: none; }
-        }
     </style>
 </head>
 <body>
-
-<!-- ═══════════════════════════════════════════════════════
-     LOGIN
-════════════════════════════════════════════════════════ -->
-<div id="login-screen">
     <div class="login-card">
         <img src="assets/logo_nutriganesp.png" alt="Nutrigan España" class="login-logo">
         <h1>Panel de Administración</h1>
@@ -133,241 +52,31 @@
             </div>
             <div class="form-group" style="margin-bottom:24px">
                 <label for="inp-pass">Contraseña</label>
-                <input type="password" id="inp-pass" required placeholder="••••••••" autocomplete="current-password">
+                <div class="pass-wrap">
+                    <input type="password" id="inp-pass" class="pass-input" required placeholder="••••••••" autocomplete="current-password">
+                    <button type="button" class="pass-toggle" onclick="togglePass()" title="Mostrar/ocultar contraseña" aria-label="Mostrar contraseña">
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <svg id="eye-off-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    </button>
+                </div>
+                <div id="caps-warning" class="caps-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Bloq Mayús activado
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-full" id="login-btn">Entrar</button>
+            <button type="submit" class="btn btn-primary" id="login-btn">Entrar</button>
         </form>
     </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════
-     ADMIN PANEL
-════════════════════════════════════════════════════════ -->
-<div id="admin-panel" hidden>
-    <header class="admin-header">
-        <div class="header-left">
-            <img src="assets/logo_nutriganesp.png" alt="Logo" class="header-logo">
-            <span class="header-title">Panel de Administración</span>
-        </div>
-        <div class="header-right">
-            <span id="user-email" class="user-email"></span>
-            <button class="btn btn-secondary btn-sm" onclick="logout()">Cerrar sesión</button>
-        </div>
-    </header>
-
-    <main class="admin-main">
-        <div class="toolbar">
-            <button class="btn btn-primary" onclick="openProductForm()">+ Añadir producto</button>
-            <input type="search" id="search-input" class="search-input" placeholder="Buscar por nombre o categoría..." oninput="filterProducts(this.value)">
-            <span id="product-count" class="product-count"></span>
-        </div>
-
-        <div class="table-container">
-            <div id="loading" class="loading-state">Cargando productos...</div>
-            <table class="product-table" id="product-table" hidden>
-                <thead>
-                    <tr>
-                        <th>Imagen</th>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Dest.</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody id="product-tbody"></tbody>
-            </table>
-            <div id="empty-state" class="empty-state" hidden>No hay productos. ¡Añade el primero!</div>
-        </div>
-    </main>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════
-     SIDE PANEL — FORMULARIO DE PRODUCTO
-════════════════════════════════════════════════════════ -->
-<div id="overlay" class="overlay" hidden onclick="closeSidePanel()"></div>
-<div id="side-panel" class="side-panel">
-    <div class="side-panel-header">
-        <h2 id="form-title">Añadir producto</h2>
-        <button class="btn-close" onclick="closeSidePanel()" title="Cerrar">✕</button>
-    </div>
-    <div class="side-panel-body">
-        <form id="product-form" autocomplete="off">
-            <input type="hidden" id="f-id">
-
-            <!-- BÁSICO -->
-            <div class="form-section">
-                <div class="section-title">Información básica</div>
-                <div class="form-group">
-                    <label for="f-nombre">Nombre *</label>
-                    <input type="text" id="f-nombre" required placeholder="Bolutech® Flash">
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="f-precio">Precio (€) *</label>
-                        <input type="number" id="f-precio" step="0.01" min="0" required placeholder="70.00">
-                    </div>
-                    <div class="form-group">
-                        <label for="f-stock">Stock</label>
-                        <input type="number" id="f-stock" min="0" value="0">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="f-desc">Descripción corta</label>
-                    <textarea id="f-desc" rows="2" placeholder="Descripción breve visible en la tienda..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="f-desc-full">Descripción completa</label>
-                    <textarea id="f-desc-full" rows="4" placeholder="Descripción detallada del producto..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="check-label">
-                        <input type="checkbox" id="f-destacado">
-                        Mostrar como producto destacado en la página principal
-                    </label>
-                </div>
-            </div>
-
-            <!-- CLASIFICACIÓN -->
-            <div class="form-section">
-                <div class="section-title">Clasificación</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="f-categoria">Categoría</label>
-                        <input type="text" id="f-categoria" placeholder="bovinos, ovinos...">
-                    </div>
-                    <div class="form-group">
-                        <label for="f-especie">Especie</label>
-                        <input type="text" id="f-especie" placeholder="Vacas en periparto">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="f-etapa">Tiempo de liberación</label>
-                        <input type="text" id="f-etapa" placeholder="90 Minutos">
-                    </div>
-                    <div class="form-group">
-                        <label for="f-presentacion">Presentación</label>
-                        <input type="text" id="f-presentacion" placeholder="Caja de 20 bolos">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="f-peso">Peso/Volumen</label>
-                        <input type="text" id="f-peso" placeholder="150g">
-                    </div>
-                    <div class="form-group">
-                        <label for="f-formato">Formato</label>
-                        <input type="text" id="f-formato" placeholder="Bolus de liberación controlada">
-                    </div>
-                </div>
-            </div>
-
-            <!-- INGREDIENTES Y BENEFICIOS -->
-            <div class="form-section">
-                <div class="section-title">Ingredientes y beneficios</div>
-                <div class="form-group">
-                    <label>Ingredientes</label>
-                    <div class="tag-box">
-                        <div id="ingredientes-list" class="tags-list"></div>
-                        <div class="tag-add-row">
-                            <input type="text" id="inp-ingrediente" placeholder="Ej: Calcio, Fósforo...">
-                            <button type="button" class="btn btn-sm btn-secondary" onclick="addTag('ingredientes')">+ Añadir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Beneficios</label>
-                    <div class="tag-box">
-                        <div id="beneficios-list" class="tags-list"></div>
-                        <div class="tag-add-row">
-                            <input type="text" id="inp-beneficio" placeholder="Ej: Reduce el riesgo de...">
-                            <button type="button" class="btn btn-sm btn-secondary" onclick="addTag('beneficios')">+ Añadir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="f-composicion">Composición</label>
-                    <textarea id="f-composicion" rows="2" placeholder="Calcio 25%, Fósforo 15%..."></textarea>
-                </div>
-            </div>
-
-            <!-- TÉCNICO -->
-            <div class="form-section">
-                <div class="section-title">Información técnica</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="f-certificaciones">Certificaciones</label>
-                        <input type="text" id="f-certificaciones" placeholder="ISO 9001, GMP">
-                    </div>
-                    <div class="form-group">
-                        <label for="f-temperatura">Temperatura</label>
-                        <input type="text" id="f-temperatura" placeholder="5°C - 25°C">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="f-ficha">URL Ficha Técnica (PDF)</label>
-                    <input type="text" id="f-ficha" placeholder="assets/fichas-tecnicas/producto.pdf">
-                </div>
-            </div>
-
-            <!-- IMAGEN -->
-            <div class="form-section">
-                <div class="section-title">Imagen del producto</div>
-                <div class="img-preview-wrap">
-                    <img id="img-preview" src="" alt="" class="img-preview" hidden onerror="this.hidden=true;document.getElementById('no-img').hidden=false">
-                    <span id="no-img" class="no-img-msg">Sin imagen</span>
-                </div>
-                <div class="form-group">
-                    <label for="f-imagen-url">URL de imagen</label>
-                    <input type="text" id="f-imagen-url" placeholder="https://... o assets/producto1.webp" oninput="previewUrl(this.value)">
-                </div>
-                <div class="form-group">
-                    <label>O subir nueva imagen desde tu ordenador</label>
-                    <div class="upload-area" onclick="document.getElementById('f-img-file').click()">
-                        <span id="upload-lbl">📁 Haz clic para seleccionar imagen (JPG, PNG, WEBP)</span>
-                        <input type="file" id="f-img-file" accept="image/*" hidden onchange="onFileSelect(this)">
-                    </div>
-                </div>
-            </div>
-
-            <!-- ACCIONES -->
-            <div id="form-error" class="error-msg" hidden></div>
-            <div id="form-success" class="success-msg" hidden></div>
-            <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="closeSidePanel()">Cancelar</button>
-                <button type="submit" class="btn btn-primary" id="save-btn">Guardar producto</button>
-            </div>
-        </form>
-    </div>
-</div>
 
 <script>
-    // ── CONFIG ────────────────────────────────────────────────
     const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
     const { createClient } = window.supabase;
     const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // ── STATE ─────────────────────────────────────────────────
-    let allProducts = [];
-    let editingId   = null;
-    let tags        = { ingredientes: [], beneficios: [] };
-    let imgFile     = null;
-
-    // ── AUTH ──────────────────────────────────────────────────
-    sb.auth.onAuthStateChange((event, session) => {
-        const user = session?.user ?? null;
-        if (user) {
-            document.getElementById('user-email').textContent = user.email;
-            document.getElementById('login-screen').hidden = true;
-            document.getElementById('admin-panel').hidden  = false;
-            loadProducts();
-        } else {
-            document.getElementById('login-screen').hidden = false;
-            document.getElementById('admin-panel').hidden  = true;
-        }
+    // Si ya hay sesión activa, ir directo al panel
+    sb.auth.getSession().then(({ data: { session } }) => {
+        if (session) window.location.href = 'admin-panel.html';
     });
 
     document.getElementById('login-form').addEventListener('submit', async e => {
@@ -388,291 +97,22 @@
             err.hidden = false;
             btn.disabled = false;
             btn.textContent = 'Entrar';
-        }
-    });
-
-    async function logout() {
-        try {
-            await sb.auth.signOut();
-        } catch (e) {
-            console.error('Error al cerrar sesión:', e);
-        } finally {
-            window.location.reload();
-        }
-    }
-
-    // ── LOAD PRODUCTS ─────────────────────────────────────────
-    async function loadProducts() {
-        document.getElementById('loading').hidden       = false;
-        document.getElementById('product-table').hidden = true;
-        document.getElementById('empty-state').hidden   = true;
-
-        const { data, error } = await sb
-            .from('productos')
-            .select('id, nombre, precio, stock, destacado, imagen, categoria')
-            .order('id', { ascending: true });
-
-        if (error) {
-            document.getElementById('loading').textContent = 'Error al cargar: ' + error.message;
-            return;
-        }
-
-        allProducts = data || [];
-        renderProducts(allProducts);
-    }
-
-    function renderProducts(list) {
-        document.getElementById('loading').hidden = true;
-
-        if (!list.length) {
-            document.getElementById('empty-state').hidden   = false;
-            document.getElementById('product-table').hidden = true;
-            document.getElementById('product-count').textContent = '';
-            return;
-        }
-
-        document.getElementById('product-table').hidden = false;
-        document.getElementById('empty-state').hidden   = true;
-        document.getElementById('product-count').textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
-
-        document.getElementById('product-tbody').innerHTML = list.map(p => `
-            <tr>
-                <td><img src="${p.imagen || 'assets/logo_nutriganesp.png'}" alt="" class="product-thumb"
-                     onerror="this.src='assets/logo_nutriganesp.png'"></td>
-                <td style="color:#aaa;font-size:0.8rem">${p.id}</td>
-                <td>
-                    <strong>${esc(p.nombre)}</strong>
-                    ${p.destacado ? '<span class="badge-dest">Destacado</span>' : ''}
-                    ${p.categoria ? `<br><span style="color:#aaa;font-size:0.76rem">${esc(p.categoria)}</span>` : ''}
-                </td>
-                <td style="white-space:nowrap">${parseFloat(p.precio).toFixed(2)} €</td>
-                <td class="${p.stock <= 10 ? 'stock-low' : ''}">${p.stock}</td>
-                <td style="text-align:center">${p.destacado ? '✅' : '—'}</td>
-                <td>
-                    <div class="td-actions">
-                        <button class="btn btn-sm btn-secondary" onclick="openProductForm(${p.id})">Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id}, '${esc(p.nombre).replace(/'/g,"\\'")}')">Eliminar</button>
-                    </div>
-                </td>
-            </tr>
-        `).join('');
-    }
-
-    function filterProducts(q) {
-        const lq = q.toLowerCase();
-        renderProducts(allProducts.filter(p =>
-            p.nombre.toLowerCase().includes(lq) ||
-            (p.categoria || '').toLowerCase().includes(lq)
-        ));
-    }
-
-    // ── PRODUCT FORM ──────────────────────────────────────────
-    async function openProductForm(id = null) {
-        editingId = id;
-        tags = { ingredientes: [], beneficios: [] };
-        imgFile = null;
-
-        document.getElementById('product-form').reset();
-        document.getElementById('f-id').value = '';
-        document.getElementById('form-error').hidden   = true;
-        document.getElementById('form-success').hidden = true;
-        document.getElementById('img-preview').hidden  = true;
-        document.getElementById('no-img').hidden       = false;
-        document.getElementById('upload-lbl').textContent = '📁 Haz clic para seleccionar imagen (JPG, PNG, WEBP)';
-        renderTags('ingredientes');
-        renderTags('beneficios');
-
-        if (id) {
-            document.getElementById('form-title').textContent = 'Editar producto';
-            document.getElementById('save-btn').textContent = 'Guardar cambios';
-
-            const { data: p, error } = await sb.from('productos').select('*').eq('id', id).single();
-            if (error || !p) { alert('No se pudo cargar el producto'); return; }
-
-            document.getElementById('f-id').value           = p.id;
-            document.getElementById('f-nombre').value       = p.nombre || '';
-            document.getElementById('f-precio').value       = p.precio || '';
-            document.getElementById('f-stock').value        = p.stock ?? 0;
-            document.getElementById('f-desc').value         = p.descripcion || '';
-            document.getElementById('f-desc-full').value    = p.descripcion_completa || '';
-            document.getElementById('f-destacado').checked  = p.destacado || false;
-            document.getElementById('f-categoria').value    = p.categoria || '';
-            document.getElementById('f-especie').value      = p.especie || '';
-            document.getElementById('f-etapa').value        = p.etapa || '';
-            document.getElementById('f-presentacion').value = p.presentacion || '';
-            document.getElementById('f-peso').value         = p.peso || '';
-            document.getElementById('f-formato').value      = p.formato || '';
-            document.getElementById('f-composicion').value  = p.composicion || '';
-            document.getElementById('f-certificaciones').value = p.certificaciones || '';
-            document.getElementById('f-temperatura').value  = p.temperatura || '';
-            document.getElementById('f-ficha').value        = p.ficha_tecnica || '';
-            document.getElementById('f-imagen-url').value   = p.imagen || '';
-
-            tags.ingredientes = Array.isArray(p.ingredientes) ? [...p.ingredientes] : [];
-            tags.beneficios   = Array.isArray(p.beneficios)   ? [...p.beneficios]   : [];
-            renderTags('ingredientes');
-            renderTags('beneficios');
-
-            if (p.imagen) previewUrl(p.imagen);
         } else {
-            document.getElementById('form-title').textContent = 'Añadir producto';
-            document.getElementById('save-btn').textContent = 'Guardar producto';
-        }
-
-        openPanel();
-    }
-
-    document.getElementById('product-form').addEventListener('submit', async e => {
-        e.preventDefault();
-        const btn = document.getElementById('save-btn');
-        btn.disabled = true;
-        btn.textContent = 'Guardando...';
-        document.getElementById('form-error').hidden   = true;
-        document.getElementById('form-success').hidden = true;
-
-        try {
-            let imageUrl = document.getElementById('f-imagen-url').value.trim();
-
-            if (imgFile) {
-                const uploaded = await uploadImage(imgFile);
-                if (uploaded) imageUrl = uploaded;
-            }
-
-            const data = {
-                nombre:               document.getElementById('f-nombre').value.trim(),
-                descripcion:          document.getElementById('f-desc').value.trim(),
-                descripcion_completa: document.getElementById('f-desc-full').value.trim(),
-                precio:               parseFloat(document.getElementById('f-precio').value),
-                stock:                parseInt(document.getElementById('f-stock').value) || 0,
-                destacado:            document.getElementById('f-destacado').checked,
-                categoria:            document.getElementById('f-categoria').value.trim(),
-                especie:              document.getElementById('f-especie').value.trim(),
-                etapa:                document.getElementById('f-etapa').value.trim(),
-                tiempo_liberacion:    document.getElementById('f-etapa').value.trim(),
-                presentacion:         document.getElementById('f-presentacion').value.trim(),
-                peso:                 document.getElementById('f-peso').value.trim(),
-                formato:              document.getElementById('f-formato').value.trim(),
-                ingredientes:         tags.ingredientes,
-                beneficios:           tags.beneficios,
-                composicion:          document.getElementById('f-composicion').value.trim(),
-                certificaciones:      document.getElementById('f-certificaciones').value.trim(),
-                temperatura:          document.getElementById('f-temperatura').value.trim(),
-                ficha_tecnica:        document.getElementById('f-ficha').value.trim(),
-                imagen:               imageUrl,
-                moneda:               'EUR'
-            };
-
-            let error;
-            if (editingId) {
-                ({ error } = await sb.from('productos').update(data).eq('id', editingId));
-            } else {
-                const maxId = allProducts.length ? Math.max(...allProducts.map(p => p.id)) : 0;
-                data.id = maxId + 1;
-                ({ error } = await sb.from('productos').insert(data));
-            }
-
-            if (error) throw error;
-
-            document.getElementById('form-success').textContent = editingId
-                ? '✅ Producto actualizado correctamente.'
-                : '✅ Producto añadido correctamente.';
-            document.getElementById('form-success').hidden = false;
-
-            await loadProducts();
-            setTimeout(closePanel, 1500);
-
-        } catch (err) {
-            document.getElementById('form-error').textContent = 'Error: ' + (err.message || 'No se pudo guardar.');
-            document.getElementById('form-error').hidden = false;
-        } finally {
-            btn.disabled = false;
-            btn.textContent = editingId ? 'Guardar cambios' : 'Guardar producto';
+            window.location.href = 'admin-panel.html';
         }
     });
 
-    async function confirmDelete(id, nombre) {
-        if (!confirm(`¿Eliminar "${nombre}"?\n\nEsta acción no se puede deshacer.`)) return;
-        const { error } = await sb.from('productos').delete().eq('id', id);
-        if (error) { alert('Error al eliminar: ' + error.message); return; }
-        await loadProducts();
-    }
+    document.getElementById('inp-pass').addEventListener('keyup', e => {
+        const caps = e.getModifierState && e.getModifierState('CapsLock');
+        document.getElementById('caps-warning').classList.toggle('visible', caps);
+    });
 
-    // ── IMAGE UPLOAD ──────────────────────────────────────────
-    async function uploadImage(file) {
-        const ext  = file.name.split('.').pop().toLowerCase();
-        const path = `producto_${Date.now()}.${ext}`;
-        const { error } = await sb.storage.from('imagenes').upload(path, file, { upsert: false });
-        if (error) { console.error('Upload error:', error); return null; }
-        const { data: { publicUrl } } = sb.storage.from('imagenes').getPublicUrl(path);
-        return publicUrl;
-    }
-
-    function onFileSelect(input) {
-        const file = input.files[0];
-        if (!file) return;
-        imgFile = file;
-        document.getElementById('upload-lbl').textContent = `📎 ${file.name}`;
-        const reader = new FileReader();
-        reader.onload = ev => { showPreview(ev.target.result); };
-        reader.readAsDataURL(file);
-    }
-
-    function previewUrl(url) {
-        if (!url) { document.getElementById('img-preview').hidden = true; document.getElementById('no-img').hidden = false; return; }
-        showPreview(url);
-    }
-
-    function showPreview(src) {
-        const el = document.getElementById('img-preview');
-        el.src = src;
-        el.hidden = false;
-        document.getElementById('no-img').hidden = true;
-    }
-
-    // ── TAGS ──────────────────────────────────────────────────
-    function addTag(type) {
-        const inputId = type === 'ingredientes' ? 'inp-ingrediente' : 'inp-beneficio';
-        const inp = document.getElementById(inputId);
-        const val = inp.value.trim();
-        if (!val) return;
-        tags[type].push(val);
-        inp.value = '';
-        renderTags(type);
-    }
-
-    function removeTag(type, idx) {
-        tags[type].splice(idx, 1);
-        renderTags(type);
-    }
-
-    function renderTags(type) {
-        const listId = type === 'ingredientes' ? 'ingredientes-list' : 'beneficios-list';
-        document.getElementById(listId).innerHTML = tags[type]
-            .map((t, i) => `<span class="tag">${esc(t)}<button type="button" class="tag-rm" onclick="removeTag('${type}',${i})">×</button></span>`)
-            .join('');
-    }
-
-    document.getElementById('inp-ingrediente').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addTag('ingredientes'); } });
-    document.getElementById('inp-beneficio').addEventListener('keydown',   e => { if (e.key === 'Enter') { e.preventDefault(); addTag('beneficios'); } });
-
-    // ── PANEL ─────────────────────────────────────────────────
-    function openPanel() {
-        document.getElementById('side-panel').classList.add('open');
-        document.getElementById('overlay').hidden = false;
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closePanel() {
-        document.getElementById('side-panel').classList.remove('open');
-        document.getElementById('overlay').hidden = true;
-        document.body.style.overflow = '';
-    }
-
-    function closeSidePanel() { closePanel(); }
-
-    // ── UTILS ─────────────────────────────────────────────────
-    function esc(s) {
-        return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    function togglePass() {
+        const inp = document.getElementById('inp-pass');
+        const show = inp.type === 'password';
+        inp.type = show ? 'text' : 'password';
+        document.getElementById('eye-icon').classList.toggle('hidden', !show);
+        document.getElementById('eye-off-icon').classList.toggle('hidden', show);
     }
 </script>
 </body>

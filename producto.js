@@ -1,17 +1,29 @@
+// Supabase
+const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // JavaScript para la página individual del producto
 document.addEventListener('DOMContentLoaded', function() {
-    // Obtener ID del producto de la URL
     const urlParams = new URLSearchParams(window.location.search);
     const productoId = urlParams.get('id');
-    
+
     if (productoId) {
         cargarProducto(productoId);
     } else {
         mostrarError('No se ha especificado un producto');
     }
-    
-    // Configurar event listeners
+
     configurarEventListeners();
+});
+
+// Recargar si el navegador restaura la página desde bfcache (botón atrás)
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productoId = urlParams.get('id');
+        if (productoId) cargarProducto(productoId);
+    }
 });
 
 // Variables globales
@@ -21,14 +33,14 @@ let cantidadActual = 1;
 // Función para cargar el producto
 async function cargarProducto(id) {
     try {
-        const response = await fetch('productos.json');
-        if (!response.ok) {
-            throw new Error('Error al cargar los productos');
-        }
-        
-        const data = await response.json();
-        const producto = data.productos.find(p => p.id == id);
-        
+        const { data: producto, error } = await sb
+            .from('productos')
+            .select('*')
+            .eq('id', parseInt(id))
+            .single();
+
+        if (error) throw error;
+
         if (producto) {
             productoActual = producto;
             mostrarProducto(producto);
@@ -36,7 +48,7 @@ async function cargarProducto(id) {
         } else {
             mostrarError('Producto no encontrado');
         }
-        
+
     } catch (error) {
         console.error('Error:', error);
         mostrarError('Error al cargar el producto. Por favor, recarga la página.');
@@ -68,17 +80,17 @@ function mostrarProducto(producto) {
     document.getElementById('producto-titulo-detalle').textContent = producto.nombre;
     
     // Manejar precio unitario y cantidad mínima
-    if (producto.cantidadMinima && producto.cantidadMinima > 1) {
+    if (producto.cantidad_minima && producto.cantidad_minima > 1) {
         document.getElementById('producto-precio').innerHTML = `
-            <span class="precio-unitario">€${producto.precioUnitario.toFixed(2)} <small>/unidad</small></span>
+            <span class="precio-unitario">€${producto.precio_unitario.toFixed(2)} <small>/unidad</small></span>
             <div class="precio-info">
-                <small>Mínimo: ${producto.cantidadMinima} unidades</small>
+                <small>Mínimo: ${producto.cantidad_minima} unidades</small>
             </div>
             <span class="precio-iva">IVA inc.</span>
         `;
         // Establecer cantidad inicial al mínimo
-        document.getElementById('cantidad-producto').value = producto.cantidadMinima;
-        cantidadActual = producto.cantidadMinima;
+        document.getElementById('cantidad-producto').value = producto.cantidad_minima;
+        cantidadActual = producto.cantidad_minima;
     } else {
         document.getElementById('producto-precio').innerHTML = `€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
     }
@@ -87,7 +99,7 @@ function mostrarProducto(producto) {
     
     // Actualizar características
     document.getElementById('producto-especie').textContent = producto.especie;
-    document.getElementById('producto-tiempo-liberacion').textContent = producto.tiempoLiberacion;
+    document.getElementById('producto-tiempo-liberacion').textContent = producto.tiempo_liberacion;
     
     // Actualizar presentación
     document.getElementById('producto-presentacion-texto').textContent = producto.presentacion || '-';
@@ -178,18 +190,17 @@ function cambiarImagenPrincipal(src) {
 // Función para cargar productos relacionados
 async function cargarProductosRelacionados(categoria, productoId) {
     try {
-        const response = await fetch('productos.json');
-        if (!response.ok) {
-            throw new Error('Error al cargar los productos');
-        }
-        
-        const data = await response.json();
-        const productosRelacionados = data.productos
-            .filter(p => p.categoria === categoria && p.id != productoId)
-            .slice(0, 4);
-        
-        mostrarProductosRelacionados(productosRelacionados);
-        
+        const { data, error } = await sb
+            .from('productos')
+            .select('id, nombre, descripcion, precio, imagen, categoria, especie, etapa, stock, destacado')
+            .eq('categoria', categoria)
+            .neq('id', parseInt(productoId))
+            .limit(4);
+
+        if (error) throw error;
+
+        mostrarProductosRelacionados(data || []);
+
     } catch (error) {
         console.error('Error:', error);
     }
@@ -314,8 +325,8 @@ function añadirAlCarrito() {
     
     // Calcular precio total basado en precio unitario si existe
     let precioTotal = productoActual.precio;
-    if (productoActual.precioUnitario && productoActual.cantidadMinima) {
-        precioTotal = productoActual.precioUnitario * cantidadActual;
+    if (productoActual.precio_unitario && productoActual.cantidad_minima) {
+        precioTotal = productoActual.precio_unitario * cantidadActual;
     }
     
     const productoCarrito = {
@@ -323,8 +334,8 @@ function añadirAlCarrito() {
         nombre: productoActual.nombre,
         descripcion: productoActual.descripcion,
         precio: precioTotal,
-        precioUnitario: productoActual.precioUnitario || productoActual.precio,
-        cantidadMinima: productoActual.cantidadMinima || 1,
+        precioUnitario: productoActual.precio_unitario || productoActual.precio,
+        cantidadMinima: productoActual.cantidad_minima || 1,
         imagen: productoActual.imagen,
         cantidad: cantidadActual
     };
@@ -522,25 +533,24 @@ async function verFichaTecnica() {
     
     if (productoId) {
         try {
-            // Cargar el JSON para obtener la ficha técnica
-            const response = await fetch('productos.json');
-            if (!response.ok) {
-                throw new Error('Error al cargar los productos');
-            }
-            
-            const data = await response.json();
-            const producto = data.productos.find(p => p.id == productoId);
+            // Cargar el producto para obtener la ficha técnica
+            const { data: producto, error: fichaError } = await sb
+                .from('productos')
+                .select('ficha_tecnica')
+                .eq('id', parseInt(productoId))
+                .single();
+            if (fichaError) throw fichaError;
             console.log('Producto encontrado:', producto);
-            
-            if (producto && producto.fichaTecnica) {
+
+            if (producto && producto.ficha_tecnica) {
                 try {
                     // Verificar que el recurso exista antes de abrir
-                    const headResp = await fetch(producto.fichaTecnica, { method: 'HEAD' });
+                    const headResp = await fetch(producto.ficha_tecnica, { method: 'HEAD' });
                     if (headResp.ok) {
-                        console.log('Abriendo ficha técnica:', producto.fichaTecnica);
-                        window.open(producto.fichaTecnica, '_blank');
+                        console.log('Abriendo ficha técnica:', producto.ficha_tecnica);
+                        window.open(producto.ficha_tecnica, '_blank');
                     } else {
-                        console.warn('Ficha técnica no encontrada (HEAD no OK):', producto.fichaTecnica);
+                        console.warn('Ficha técnica no encontrada (HEAD no OK):', producto.ficha_tecnica);
                         mostrarNotificacion('Ficha técnica no disponible', 'error');
                     }
                 } catch (e) {

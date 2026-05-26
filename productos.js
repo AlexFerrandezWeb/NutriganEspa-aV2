@@ -1,3 +1,8 @@
+// Supabase
+const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // Variables globales
 let productos = [];
 let productosFiltrados = [];
@@ -12,33 +17,45 @@ const productosContador = document.getElementById('productos-contador-texto');
 // Inicializar la página
 document.addEventListener('DOMContentLoaded', function() {
     cargarProductos();
-    actualizarContadorCarrito(); // Inicializar contador
-    inicializarBuscador(); // Inicializar funcionalidad de búsqueda
+    actualizarContadorCarrito();
+    inicializarBuscador();
 });
 
-// Función para cargar productos desde el JSON
+// Recargar productos si el navegador restaura la página desde bfcache (botón atrás)
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        cargarProductos();
+    }
+});
+
+// Función para cargar productos desde Supabase
 async function cargarProductos() {
     try {
-        const response = await fetch('productos.json');
-        if (!response.ok) {
-            throw new Error('Error al cargar los productos');
-        }
-        
-        const data = await response.json();
-        productos = data.productos;
-        
-        // Generar filtros dinámicamente
-        generarFiltros(data.categorias);
-        
+        const { data, error } = await sb
+            .from('productos')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) throw error;
+
+        productos = data;
+
+        // Derivar categorías únicas de los propios productos
+        const categoriasSet = new Set(
+            productos.flatMap(p => (p.categoria || '').split(',').map(c => c.trim()).filter(Boolean))
+        );
+        const categorias = [...categoriasSet].map(id => ({ id, nombre: obtenerNombreCategoria(id) }));
+        generarFiltros(categorias);
+
         // Verificar si hay búsqueda en la URL después de cargar productos
         verificarBusquedaURL();
-        
+
         // Si no hay búsqueda ni categoría activa, mostrar todos los productos
         if (!terminoBusqueda && categoriaActiva === 'todos') {
             mostrarProductos(productos);
             actualizarContador(productos.length);
         }
-        
+
     } catch (error) {
         console.error('Error:', error);
         mostrarError('Error al cargar los productos. Por favor, recarga la página.');
@@ -145,7 +162,7 @@ function crearElementoProducto(producto) {
                 <span>${producto.etapa}</span>
             </div>
         </div>
-        <div class="producto-precio">€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span></div>
+        <div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>
         <div class="producto-botones">
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles
