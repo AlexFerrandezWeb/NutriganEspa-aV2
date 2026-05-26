@@ -66,6 +66,7 @@ async function cargarProductos() {
 
 // Función para generar los filtros dinámicamente
 function generarFiltros(categorias) {
+    filtrosBotones.innerHTML = '';
     // Botón "Todos"
     const botonTodos = document.createElement('button');
     botonTodos.className = 'filtro-btn activo';
