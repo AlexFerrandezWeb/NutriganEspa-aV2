@@ -21,7 +21,7 @@
         #admin-panel { min-height: 100vh; display: flex; flex-direction: column; }
         .admin-header { background: #1d4d35; color: white; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; height: 60px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); flex-shrink: 0; }
         .header-left { display: flex; align-items: center; gap: 14px; }
-        .header-logo { height: 32px; filter: brightness(0) invert(1); }
+        .header-logo { height: 36px; object-fit: contain; }
         .header-title { font-size: 1rem; font-weight: 600; opacity: 0.95; }
         .header-right { display: flex; align-items: center; gap: 14px; }
         .user-email { font-size: 0.8rem; opacity: 0.75; }
@@ -392,7 +392,13 @@
     });
 
     async function logout() {
-        await sb.auth.signOut();
+        try {
+            await sb.auth.signOut();
+        } catch (e) {
+            console.error('Error al cerrar sesión:', e);
+        } finally {
+            window.location.reload();
+        }
     }
 
     // ── LOAD PRODUCTS ─────────────────────────────────────────
