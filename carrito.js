@@ -54,10 +54,6 @@ async function sincronizarPreciosCarrito() {
             item.precio = parseFloat(actual.precio);
             actualizado = true;
         }
-        if (actual.precio_unitario !== null && item.precioUnitario !== parseFloat(actual.precio_unitario)) {
-            item.precioUnitario = parseFloat(actual.precio_unitario);
-            actualizado = true;
-        }
         if (item.nombre !== actual.nombre) { item.nombre = actual.nombre; actualizado = true; }
         if (item.imagen !== actual.imagen) { item.imagen = actual.imagen; actualizado = true; }
     });
@@ -111,9 +107,8 @@ function crearItemCarrito(producto, index) {
     itemDiv.className = 'carrito-item';
     itemDiv.setAttribute('data-index', index);
     
-    // Usar precioUnitario si existe, sino usar precio
-    const precioUnitario = producto.precioUnitario || producto.precio;
-    const precioTotal = precioUnitario * producto.cantidad;
+    const precioUnitario = producto.precio;
+    const precioTotal = producto.precio * producto.cantidad;
     const cantidadMinima = producto.cantidadMinima || 1;
     
     itemDiv.innerHTML = `
@@ -160,10 +155,6 @@ function cambiarCantidad(index, cambio) {
         
         if (nuevaCantidad >= cantidadMinima && nuevaCantidad <= 99) {
             producto.cantidad = nuevaCantidad;
-            // Recalcular precio total si tiene precio unitario
-            if (producto.precioUnitario) {
-                producto.precio = producto.precioUnitario * nuevaCantidad;
-            }
             guardarCarrito();
             cargarCarrito();
         }
@@ -181,25 +172,13 @@ function actualizarCantidad(index, nuevaCantidad) {
     
     if (cantidad >= cantidadMinima && cantidad <= 99) {
         producto.cantidad = cantidad;
-        // Recalcular precio total si tiene precio unitario
-        if (producto.precioUnitario) {
-            producto.precio = producto.precioUnitario * cantidad;
-        }
         guardarCarrito();
         cargarCarrito();
     } else {
-        // Si la cantidad no es válida, restaurar el valor anterior
         const input = document.querySelector(`[data-index="${index}"] .cantidad-input`);
-        if (input) {
-            input.value = producto.cantidad;
-        }
-        
-        // Si es menor al mínimo, establecer al mínimo
+        if (input) input.value = producto.cantidad;
         if (cantidad < cantidadMinima) {
             producto.cantidad = cantidadMinima;
-            if (producto.precioUnitario) {
-                producto.precio = producto.precioUnitario * cantidadMinima;
-            }
             guardarCarrito();
             cargarCarrito();
         }
@@ -250,10 +229,8 @@ function actualizarResumenCarrito() {
     const cantidadTotalElement = document.getElementById('carrito-cantidad-total');
     const btnProcederPago = document.getElementById('btn-proceder-pago');
     
-    // Calcular subtotal usando precio unitario si existe
     const subtotal = carrito.reduce((total, producto) => {
-        const precioUnitario = producto.precioUnitario || producto.precio;
-        return total + (precioUnitario * producto.cantidad);
+        return total + (producto.precio * producto.cantidad);
     }, 0);
     
     // Calcular envío (siempre gratuito)

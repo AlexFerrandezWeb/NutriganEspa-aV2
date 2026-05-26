@@ -730,7 +730,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         const ids = productos.map(p => p.id);
         const { data: productosActuales, error: sbError } = await supabaseAdmin
             .from('productos')
-            .select('id, nombre, precio, precio_unitario, imagen')
+            .select('id, nombre, precio, imagen')
             .in('id', ids);
 
         if (sbError || !productosActuales) {
@@ -741,7 +741,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         const lineItems = productos.map(producto => {
             const actual = productosActuales.find(p => p.id === producto.id);
             if (!actual) throw new Error(`Producto ${producto.id} no encontrado`);
-            const precioUnitario = actual.precio_unitario ?? actual.precio;
+            const precioUnitario = actual.precio;
             const imagenUrl = actual.imagen && actual.imagen.startsWith('http')
                 ? actual.imagen
                 : `https://www.xn--nutriganespaa-tkb.com/${actual.imagen}`;
@@ -806,7 +806,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 cantidadTotal: cantidadTotal.toString(),
                 productos_json: JSON.stringify(productos.map(p => {
                     const actual = productosActuales.find(a => a.id === p.id);
-                    return { id: p.id, c: p.cantidad, p: parseFloat((actual?.precio_unitario ?? actual?.precio) || 0) };
+                    return { id: p.id, c: p.cantidad, p: parseFloat(actual?.precio || 0) };
                 }))
             },
             // Mensaje personalizado
