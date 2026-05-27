@@ -41,6 +41,7 @@ async function cargarProductos() {
         if (error) throw error;
 
         productos = data;
+        inyectarSchemaItemList(productos);
 
         // Derivar categorías únicas de los propios productos
         const categoriasSet = new Set(
@@ -686,6 +687,65 @@ function verificarBusquedaURL() {
         }
         aplicarFiltros();
     }
+}
+
+function inyectarSchemaItemList(productosData) {
+    const existente = document.getElementById('schema-productos');
+    if (existente) existente.remove();
+
+    const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        'name': 'Catálogo de Productos - Nutrigan España',
+        'url': 'https://www.xn--nutriganespaa-tkb.com/productos.html',
+        'itemListElement': productosData.map((producto, index) => ({
+            '@type': 'ListItem',
+            'position': index + 1,
+            'item': {
+                '@type': 'Product',
+                'name': producto.nombre,
+                'description': producto.descripcion,
+                'image': producto.imagen,
+                'url': `https://www.xn--nutriganespaa-tkb.com/producto.html?id=${producto.id}`,
+                'brand': { '@type': 'Brand', 'name': 'Nutrigan España' },
+                'offers': {
+                    '@type': 'Offer',
+                    'priceCurrency': 'EUR',
+                    'price': parseFloat(producto.precio).toFixed(2),
+                    'priceValidUntil': '2027-12-31',
+                    'itemCondition': 'https://schema.org/NewCondition',
+                    'availability': producto.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                    'url': `https://www.xn--nutriganespaa-tkb.com/producto.html?id=${producto.id}`,
+                    'seller': { '@type': 'Organization', 'name': 'Nutrigan España' },
+                    'shippingDetails': {
+                        '@type': 'OfferShippingDetails',
+                        'shippingRate': { '@type': 'MonetaryAmount', 'value': '0', 'currency': 'EUR' },
+                        'shippingDestination': { '@type': 'DefinedRegion', 'addressCountry': 'ES' },
+                        'deliveryTime': {
+                            '@type': 'ShippingDeliveryTime',
+                            'handlingTime': { '@type': 'QuantitativeValue', 'minValue': 0, 'maxValue': 1, 'unitCode': 'DAY' },
+                            'transitTime': { '@type': 'QuantitativeValue', 'minValue': 5, 'maxValue': 10, 'unitCode': 'DAY' }
+                        }
+                    },
+                    'hasMerchantReturnPolicy': {
+                        '@type': 'MerchantReturnPolicy',
+                        'applicableCountry': 'ES',
+                        'returnPolicyCategory': 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                        'merchantReturnDays': 14,
+                        'returnMethod': 'https://schema.org/ReturnByMail',
+                        'returnFees': 'https://schema.org/ReturnFeesCustomerResponsibility',
+                        'merchantReturnLink': 'https://www.xn--nutriganespaa-tkb.com/politica-devoluciones.html'
+                    }
+                }
+            }
+        }))
+    };
+
+    const script = document.createElement('script');
+    script.id = 'schema-productos';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schema);
+    document.head.appendChild(script);
 }
 
 // Exportar funciones para uso global
