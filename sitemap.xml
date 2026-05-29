@@ -30,23 +30,237 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Páginas de productos individuales -->
+  <!-- Productos individuales -->
   <url>
     <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=1</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
   <url>
     <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=2</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
   <url>
     <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=3</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=4</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=6</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=8</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=9</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=10</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=11</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=14</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=15</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=16</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=17</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=18</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=19</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=20</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=21</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=22</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=23</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=24</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=25</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=26</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=27</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=28</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=29</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=30</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=31</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=32</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=33</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=34</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=35</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=36</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=37</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=38</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=39</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=40</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=41</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=42</loc>
+    <lastmod>2026-05-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.xn--nutriganespaa-tkb.com/producto.html?id=43</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -59,28 +273,24 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://www.xn--nutriganespaa-tkb.com/politica-privacidad.html</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://www.xn--nutriganespaa-tkb.com/politica-cookies.html</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://www.xn--nutriganespaa-tkb.com/terminos-condiciones.html</loc>
     <lastmod>2026-05-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://www.xn--nutriganespaa-tkb.com/politica-devoluciones.html</loc>
     <lastmod>2026-05-29</lastmod>
