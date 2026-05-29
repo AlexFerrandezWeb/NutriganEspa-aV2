@@ -879,6 +879,67 @@ app.get('/docs/:filename', (req, res) => {
     res.redirect(301, '/assets/fichas-tecnicas/' + req.params.filename);
 });
 
+// Sitemap dinámico generado desde Supabase
+const BASE_URL = 'https://www.xn--nutriganespaa-tkb.com';
+const STATIC_PAGES = [
+    { url: '/',                        changefreq: 'weekly',  priority: '1.0' },
+    { url: '/productos.html',          changefreq: 'weekly',  priority: '0.9' },
+    { url: '/sobreNosotros.html',      changefreq: 'monthly', priority: '0.8' },
+    { url: '/feriaTineo.html',         changefreq: 'monthly', priority: '0.7' },
+    { url: '/aviso-legal.html',        changefreq: 'yearly',  priority: '0.3' },
+    { url: '/politica-privacidad.html',changefreq: 'yearly',  priority: '0.3' },
+    { url: '/politica-cookies.html',   changefreq: 'yearly',  priority: '0.3' },
+    { url: '/terminos-condiciones.html',changefreq: 'yearly', priority: '0.3' },
+    { url: '/politica-devoluciones.html',changefreq: 'yearly',priority: '0.3' },
+];
+
+let sitemapCache = { xml: null, expiresAt: 0 };
+
+app.get('/sitemap.xml', async (req, res) => {
+    const now = Date.now();
+    if (sitemapCache.xml && now < sitemapCache.expiresAt) {
+        res.setHeader('Content-Type', 'application/xml');
+        return res.send(sitemapCache.xml);
+    }
+
+    const { data: productos, error } = await supabaseAdmin
+        .from('productos')
+        .select('id, updated_at')
+        .order('id', { ascending: true });
+
+    if (error) return res.status(500).send('Error generando sitemap');
+
+    const today = new Date().toISOString().split('T')[0];
+
+    const staticUrls = STATIC_PAGES.map(p => `
+  <url>
+    <loc>${BASE_URL}${p.url}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${p.changefreq}</changefreq>
+    <priority>${p.priority}</priority>
+  </url>`).join('');
+
+    const productUrls = productos.map(p => {
+        const lastmod = p.updated_at ? p.updated_at.split('T')[0] : today;
+        return `
+  <url>
+    <loc>${BASE_URL}/producto.html?id=${p.id}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+    }).join('');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${staticUrls}${productUrls}
+</urlset>`;
+
+    sitemapCache = { xml, expiresAt: now + 60 * 60 * 1000 };
+
+    res.setHeader('Content-Type', 'application/xml');
+    res.send(xml);
+});
+
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
 app.use(express.static(path.join(__dirname)));
 
