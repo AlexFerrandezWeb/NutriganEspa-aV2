@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fs = require('fs');
 const nodemailer = require('nodemailer');
 const { createClient } = require('@supabase/supabase-js');
 
@@ -872,6 +873,43 @@ app.get('/api/productos/:id', async (req, res) => {
 
     if (error) return res.status(404).json({ success: false, message: 'Producto no encontrado' });
     res.json({ success: true, producto: data });
+});
+
+// Servir producto.html con meta tags inyectados server-side desde Supabase
+const productoTemplate = fs.readFileSync(path.join(__dirname, 'producto.html'), 'utf8');
+
+app.get('/producto.html', async (req, res) => {
+    const id = parseInt(req.query.id);
+
+    if (!id || isNaN(id)) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(productoTemplate);
+    }
+
+    const { data: producto, error } = await supabaseAdmin
+        .from('productos')
+        .select('id, nombre, descripcion')
+        .eq('id', id)
+        .single();
+
+    if (error || !producto) {
+        return res.status(404).send('<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Producto no encontrado | Nutrigan España</title></head><body><h1>Producto no encontrado</h1><a href="/productos.html">Ver todos los productos</a></body></html>');
+    }
+
+    const title = `${producto.nombre} | Nutrigan España`;
+    const description = producto.descripcion
+        .replace(/<[^>]*>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .substring(0, 155);
+    const canonical = `https://www.xn--nutriganespaa-tkb.com/producto.html?id=${id}`;
+
+    const html = productoTemplate
+        .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${title}</title>`)
+        .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', `<meta name="description" content="${description}">\n    <link rel="canonical" href="${canonical}">`);
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(html);
 });
 
 // Redirigir URLs antiguas /docs/*.pdf a la ubicación actual /assets/fichas-tecnicas/*.pdf
