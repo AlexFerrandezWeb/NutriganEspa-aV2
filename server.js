@@ -854,6 +854,11 @@ app.get('/api/productos/:id', async (req, res) => {
     res.json({ success: true, producto: data });
 });
 
+// Redirigir URLs antiguas /docs/*.pdf a la ubicación actual /assets/fichas-tecnicas/*.pdf
+app.get('/docs/:filename', (req, res) => {
+    res.redirect(301, '/assets/fichas-tecnicas/' + req.params.filename);
+});
+
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
 app.use(express.static(path.join(__dirname)));
 
