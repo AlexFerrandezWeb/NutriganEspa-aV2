@@ -254,6 +254,26 @@ async function enviarCorreoPedido(pedido) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Redirigir a la URL canónica: HTTPS + www
+app.use((req, res, next) => {
+    const host = req.headers.host || '';
+    const proto = req.headers['x-forwarded-proto'] || req.protocol;
+    const isWww = host.startsWith('www.');
+    const isHttps = proto === 'https';
+
+    if (!isWww || !isHttps) {
+        const canonical = 'https://www.' + host.replace(/^www\./, '') + req.url;
+        return res.redirect(301, canonical);
+    }
+
+    // Redirigir /index.html → /
+    if (req.path === '/index.html') {
+        return res.redirect(301, '/');
+    }
+
+    next();
+});
+
 // Middleware adicional para manejar preflight requests
 app.options('*', (req, res) => {
     console.log('=== PETICIÓN OPTIONS (PREFLIGHT) ===');
