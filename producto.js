@@ -618,7 +618,7 @@ function inyectarSchemaProducto(producto) {
                 '@type': 'MerchantReturnPolicy',
                 'applicableCountry': 'ES',
                 'returnPolicyCategory': 'https://schema.org/MerchantReturnFiniteReturnWindow',
-                'merchantReturnDays': 14,
+                'merchantReturnDays': 30,
                 'returnMethod': 'https://schema.org/ReturnByMail',
                 'returnFees': 'https://schema.org/ReturnFeesCustomerResponsibility',
                 'merchantReturnLink': 'https://www.xn--nutriganespaa-tkb.com/politica-devoluciones.html'

@@ -875,6 +875,22 @@ app.get('/api/productos/:id', async (req, res) => {
     res.json({ success: true, producto: data });
 });
 
+// Helpers compartidos por SSR y feed de Google Shopping
+function escapeHtml(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function resolveImageUrl(imagen) {
+    if (!imagen) return '';
+    if (imagen.startsWith('http')) return imagen;
+    const clean = imagen.startsWith('/') ? imagen : '/' + imagen;
+    return `https://www.xn--nutriganespaa-tkb.com${clean}`;
+}
+
 // Servir producto.html con meta tags inyectados server-side desde Supabase
 const productoTemplate = fs.readFileSync(path.join(__dirname, 'producto.html'), 'utf8');
 
@@ -888,7 +904,7 @@ app.get('/producto.html', async (req, res) => {
 
     const { data: producto, error } = await supabaseAdmin
         .from('productos')
-        .select('id, nombre, descripcion')
+        .select('id, nombre, descripcion, descripcion_completa, imagen, precio, stock, especie, etapa, categoria')
         .eq('id', id)
         .single();
 
@@ -897,16 +913,75 @@ app.get('/producto.html', async (req, res) => {
     }
 
     const title = `${producto.nombre} | Nutrigan España`;
-    const description = producto.descripcion
+    const rawDesc = (producto.descripcion_completa || producto.descripcion || '')
         .replace(/<[^>]*>/g, '')
         .replace(/\s+/g, ' ')
-        .trim()
-        .substring(0, 155);
+        .trim();
+    const description = rawDesc.substring(0, 155);
     const canonical = `https://www.xn--nutriganespaa-tkb.com/producto.html?id=${id}`;
+    const imageUrl = resolveImageUrl(producto.imagen);
+    const disponibilidad = (parseInt(producto.stock) || 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+    const precio = parseFloat(producto.precio || 0).toFixed(2);
+
+    const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        'name': producto.nombre,
+        'description': rawDesc.substring(0, 500) || description,
+        'image': imageUrl,
+        'url': canonical,
+        'brand': { '@type': 'Brand', 'name': 'Nutrigan España' },
+        'offers': {
+            '@type': 'Offer',
+            'priceCurrency': 'EUR',
+            'price': precio,
+            'priceValidUntil': '2027-12-31',
+            'itemCondition': 'https://schema.org/NewCondition',
+            'availability': disponibilidad,
+            'url': canonical,
+            'seller': { '@type': 'Organization', 'name': 'Nutrigan España' },
+            'shippingDetails': {
+                '@type': 'OfferShippingDetails',
+                'shippingRate': { '@type': 'MonetaryAmount', 'value': '0', 'currency': 'EUR' },
+                'shippingDestination': { '@type': 'DefinedRegion', 'addressCountry': 'ES' },
+                'deliveryTime': {
+                    '@type': 'ShippingDeliveryTime',
+                    'handlingTime': { '@type': 'QuantitativeValue', 'minValue': 0, 'maxValue': 1, 'unitCode': 'DAY' },
+                    'transitTime': { '@type': 'QuantitativeValue', 'minValue': 5, 'maxValue': 10, 'unitCode': 'DAY' }
+                }
+            },
+            'hasMerchantReturnPolicy': {
+                '@type': 'MerchantReturnPolicy',
+                'applicableCountry': 'ES',
+                'returnPolicyCategory': 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                'merchantReturnDays': 30,
+                'returnMethod': 'https://schema.org/ReturnByMail',
+                'returnFees': 'https://schema.org/ReturnFeesCustomerResponsibility',
+                'merchantReturnLink': 'https://www.xn--nutriganespaa-tkb.com/politica-devoluciones.html'
+            }
+        }
+    };
+
+    const seoTags = `<meta name="description" content="${escapeHtml(description)}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="${canonical}">
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="${canonical}">
+    <meta property="og:title" content="${escapeHtml(title)}">
+    <meta property="og:description" content="${escapeHtml(description)}">
+    <meta property="og:image" content="${escapeHtml(imageUrl)}">
+    <meta property="og:site_name" content="Nutrigan España">
+    <meta property="og:locale" content="es_ES">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="${canonical}">
+    <meta property="twitter:title" content="${escapeHtml(title)}">
+    <meta property="twitter:description" content="${escapeHtml(description)}">
+    <meta property="twitter:image" content="${escapeHtml(imageUrl)}">
+    <script type="application/ld+json">${JSON.stringify(schema)}</script>`;
 
     const html = productoTemplate
-        .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${title}</title>`)
-        .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', `<meta name="description" content="${description}">\n    <link rel="canonical" href="${canonical}">`);
+        .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
+        .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', seoTags);
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(html);
@@ -1048,6 +1123,7 @@ app.get('/productos-google.xml', async (req, res) => {
         <g:service>Estándar</g:service>
         <g:price>0.00 EUR</g:price>
       </g:shipping>
+      <g:return_policy_label>devolucion_30_dias</g:return_policy_label>
       ${p.especie ? `<g:custom_label_0>${escapeXml(p.especie)}</g:custom_label_0>` : ''}
       ${p.etapa ? `<g:custom_label_1>${escapeXml(p.etapa)}</g:custom_label_1>` : ''}
       ${p.categoria ? `<g:custom_label_2>${escapeXml(p.categoria)}</g:custom_label_2>` : ''}

@@ -13,9 +13,10 @@ Disallow: /DEPLOYMENT.md
 Disallow: /GUIA_PRODUCCION.md
 Disallow: /README.md
 Disallow: /clear-cache.html
-Disallow: /tatus
+Disallow: /status
 Disallow: /admin.html
 Disallow: /admin-panel.html
 
 # Sitemap
 Sitemap: https://www.xn--nutriganespaa-tkb.com/sitemap.xml
+Sitemap: https://www.xn--nutriganespaa-tkb.com/productos-google.xml
