@@ -917,6 +917,11 @@ app.get('/docs/:filename', (req, res) => {
     res.redirect(301, '/assets/fichas-tecnicas/' + req.params.filename);
 });
 
+// Redirigir página de galería antigua a productos
+app.get('/galeria.html', (req, res) => {
+    res.redirect(301, '/productos.html');
+});
+
 // Sitemap dinámico generado desde Supabase
 const BASE_URL = 'https://www.xn--nutriganespaa-tkb.com';
 const STATIC_PAGES = [
