@@ -217,6 +217,10 @@
             background-color: #45a049;
         }
 
+        .google-reviews-widget {
+            margin-top: 2rem;
+        }
+
         .resumen-pedido {
             background-color: #f8f9fa;
             padding: 2rem;
@@ -478,6 +482,8 @@
         </div>
 
         <a href="/index.html" class="exito-boton">Volver al inicio</a>
+
+        <div id="google-reviews-widget" class="google-reviews-widget"></div>
     </main>
 
     <script>
@@ -489,8 +495,7 @@
             if (sessionId) {
                 try {
                     console.log('SessionId obtenido:', sessionId);
-                    // Usar endpoint real de Stripe
-                    const url = `http://localhost:3000/api/pedido/${sessionId}`;
+                    const url = `/api/pedido/${sessionId}`;
                     console.log('URL de petición:', url);
                     
                     // Obtener información del pedido desde el servidor
@@ -512,7 +517,12 @@
                             minute: '2-digit'
                         });
                         document.getElementById('emailCliente').textContent = pedido.customer_email || 'No proporcionado';
-                        
+
+                        window.googleReviewsData = {
+                            orderId: sessionId,
+                            email: pedido.customer_email || ''
+                        };
+
                         // Mostrar resumen del pedido
                         mostrarResumenPedido(pedido);
                         
@@ -628,6 +638,35 @@
             resumenPedido.style.display = 'block';
         }
     </script>
+
+    <!-- Google Customer Reviews -->
+    <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+    <script>
+        window.renderOptIn = function() {
+            window.gapi.load('surveyoptin', function() {
+                const data = window.googleReviewsData || {};
+                const orderId = data.orderId || 'PED' + Date.now().toString().slice(-6);
+                const email = data.email || '';
+                const today = new Date();
+                const deliveryDate = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+                try {
+                    window.gapi.surveyoptin.render(
+                        {
+                            "merchant_id": 5663326184,
+                            "order_id": orderId,
+                            "email": email,
+                            "delivery_country": "ES",
+                            "estimated_delivery_date": deliveryDate
+                        },
+                        document.getElementById('google-reviews-widget')
+                    );
+                } catch (e) {
+                    console.error('Google Reviews error:', e);
+                }
+            });
+        };
+    </script>
 </body>
-</html> 
+</html>
 
