@@ -983,6 +983,94 @@ app.get('/sitemap.xml', async (req, res) => {
     res.send(xml);
 });
 
+// Google Shopping Feed dinámico generado desde Supabase
+let googleFeedCache = { xml: null, expiresAt: 0 };
+
+function escapeXml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+}
+
+function buildImageUrl(imagen) {
+    if (!imagen) return '';
+    if (imagen.startsWith('http')) return imagen;
+    const clean = imagen.startsWith('/') ? imagen : '/' + imagen;
+    return `${BASE_URL}${clean}`;
+}
+
+function buildProductType(producto) {
+    const parts = [producto.especie, producto.etapa, producto.categoria].filter(Boolean);
+    return parts.length ? parts.join(' > ') : 'Nutrición Animal';
+}
+
+app.get('/productos-google.xml', async (req, res) => {
+    const now = Date.now();
+    if (googleFeedCache.xml && now < googleFeedCache.expiresAt) {
+        res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+        return res.send(googleFeedCache.xml);
+    }
+
+    const { data: productos, error } = await supabaseAdmin
+        .from('productos')
+        .select('id, nombre, descripcion, descripcion_completa, precio, imagen, categoria, especie, etapa, presentacion, peso, stock')
+        .order('id', { ascending: true });
+
+    if (error) return res.status(500).send('Error generando feed de productos');
+
+    const items = productos.map(p => {
+        const disponibilidad = (parseInt(p.stock) || 0) > 0 ? 'in stock' : 'out of stock';
+        const rawDesc = p.descripcion_completa || p.descripcion || '';
+        const descripcion = escapeXml(rawDesc.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().substring(0, 5000));
+        const imageUrl = buildImageUrl(p.imagen);
+        const productType = escapeXml(buildProductType(p));
+
+        return `
+    <item>
+      <g:id>${p.id}</g:id>
+      <g:title>${escapeXml(p.nombre)}</g:title>
+      <g:description>${descripcion}</g:description>
+      <g:link>${BASE_URL}/producto.html?id=${p.id}</g:link>
+      <g:image_link>${escapeXml(imageUrl)}</g:image_link>
+      <g:brand>Nutrigan</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>${disponibilidad}</g:availability>
+      <g:price>${parseFloat(p.precio).toFixed(2)} EUR</g:price>
+      <g:google_product_category>Animals &amp; Pet Supplies &gt; Farm &amp; Ranch &gt; Livestock Supplies</g:google_product_category>
+      <g:product_type>${productType}</g:product_type>
+      <g:mpn>SKU-${p.id}</g:mpn>
+      <g:shipping>
+        <g:country>ES</g:country>
+        <g:service>Estándar</g:service>
+        <g:price>0.00 EUR</g:price>
+      </g:shipping>
+      ${p.especie ? `<g:custom_label_0>${escapeXml(p.especie)}</g:custom_label_0>` : ''}
+      ${p.etapa ? `<g:custom_label_1>${escapeXml(p.etapa)}</g:custom_label_1>` : ''}
+      ${p.categoria ? `<g:custom_label_2>${escapeXml(p.categoria)}</g:custom_label_2>` : ''}
+      ${p.peso ? `<g:custom_label_3>${escapeXml(p.peso)}</g:custom_label_3>` : ''}
+    </item>`;
+    }).join('');
+
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>Nutrigan España - Productos de Nutrición Animal</title>
+    <link>${BASE_URL}</link>
+    <description>Suplementos nutricionales de alta calidad para ganado bovino, ovino, caprino y porcino</description>
+${items}
+  </channel>
+</rss>`;
+
+    googleFeedCache = { xml, expiresAt: now + 60 * 60 * 1000 };
+
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+    res.send(xml);
+});
+
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
 app.use(express.static(path.join(__dirname)));
 
