@@ -460,10 +460,9 @@ function mostrarConfirmacionPedido(pedido) {
             month: 'long',
             day: 'numeric'
         }),
-        total: total.toFixed(2),
-        productos: carrito.length,
+        total: pedido.resumen.total.toFixed(2),
         email: pedido.cliente.email,
-        productos: carrito.map(producto => ({
+        productos: pedido.productos.map(producto => ({
             nombre: producto.nombre,
             gtin: producto.gtin || '',
             precio: producto.precio,

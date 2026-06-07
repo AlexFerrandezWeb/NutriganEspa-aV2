@@ -12,6 +12,14 @@ services:
         sync: false
       - key: STRIPE_PUBLIC_KEY
         sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASS
+        sync: false
     healthCheckPath: /api/test
     # Configuración adicional para Render
     autoDeploy: true

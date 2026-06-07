@@ -257,7 +257,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Redirigir a la URL canónica: HTTPS + www
 app.use((req, res, next) => {
+    // Las rutas de API nunca se redirigen (evita romper POST con redirect 301)
+    if (req.path.startsWith('/api/')) return next();
+
     const host = req.headers.host || '';
+
+    // El dominio de Render no necesita redirección www
+    if (host.includes('onrender.com')) {
+        if (req.path === '/index.html') return res.redirect(301, '/');
+        return next();
+    }
+
     const proto = req.headers['x-forwarded-proto'] || req.protocol;
     const isWww = host.startsWith('www.');
     const isHttps = proto === 'https';
