@@ -3,6 +3,16 @@ const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+function escHTML(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 // Variables globales
 let productos = [];
 let productosFiltrados = [];
@@ -153,21 +163,24 @@ function crearElementoProducto(producto) {
         <div class="producto-imagen-container">
             ${badgeDestacado}
             ${badgeStock}
-            <img src="${producto.imagen}" alt="${producto.nombre}" class="producto-imagen">
+            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="producto-imagen">
         </div>
-        <h3 class="producto-nombre">${producto.nombre}</h3>
+        <h3 class="producto-nombre">${escHTML(producto.nombre)}</h3>
         <p class="producto-descripcion">
-            ${producto.descripcion}
-            ${producto.precio_unitario ? `<strong class="precio-por-unidad">(${parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',')}€/U)</strong>` : ''}
+            ${producto.descripcion || ''}
         </p>
+        <div class="producto-unidad-info">
+            ${producto.precio_unitario ? `<span class="precio-por-unidad">(${parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',')}€/U)</span>` : ''}
+            ${producto.presentacion ? `<span class="producto-presentacion-info">${escHTML(producto.presentacion)}</span>` : ''}
+        </div>
         <div class="producto-detalles">
             <div class="producto-especie">
                 <i class="fas fa-cow"></i>
-                <span>${producto.especie}</span>
+                <span>${escHTML(producto.especie)}</span>
             </div>
             <div class="producto-etapa">
                 <i class="fas fa-clock"></i>
-                <span>${producto.etapa}</span>
+                <span>${escHTML(producto.etapa)}</span>
             </div>
         </div>
         <div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>
@@ -175,10 +188,10 @@ function crearElementoProducto(producto) {
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles
             </button>
-            ${producto.id !== 24 ? `<button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id})">
+            <button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id})">
                 <i class="fas fa-shopping-cart"></i>
                 Añadir al Carrito
-            </button>` : ''}
+            </button>
         </div>
     `;
     
@@ -314,7 +327,7 @@ function crearEfectoVueloCarrito(producto) {
     const elementoFlotante = document.createElement('div');
     elementoFlotante.className = 'producto-volando';
     elementoFlotante.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
+        <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
     `;
     
     // Estilos del elemento flotante
@@ -475,58 +488,58 @@ function mostrarModalDetalles(producto) {
     modal.innerHTML = `
         <div class="modal-contenido">
             <div class="modal-header">
-                <h2>${producto.nombre}</h2>
+                <h2>${escHTML(producto.nombre)}</h2>
                 <button class="modal-cerrar" onclick="cerrarModal()">
                     ×
                 </button>
             </div>
             <div class="modal-body">
                 <div class="modal-imagen">
-                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}">
                 </div>
                 <div class="modal-info">
                     <div class="modal-precio">€${producto.precio.toFixed(2)}</div>
-                    <p class="modal-descripcion">${producto.descripcionCompleta}</p>
-                    
+                    <p class="modal-descripcion">${escHTML(producto.descripcionCompleta)}</p>
+
                     <div class="modal-detalles">
                         <div class="detalle-item">
-                            <strong>Especie:</strong> ${producto.especie}
+                            <strong>Especie:</strong> ${escHTML(producto.especie)}
                         </div>
                         <div class="detalle-item">
-                            <strong>Etapa:</strong> ${producto.etapa}
+                            <strong>Etapa:</strong> ${escHTML(producto.etapa)}
                         </div>
                         <div class="detalle-item">
-                            <strong>Tiempo de liberación:</strong> ${producto.tiempoLiberacion}
+                            <strong>Tiempo de liberación:</strong> ${escHTML(producto.tiempoLiberacion)}
                         </div>
                         <div class="detalle-item">
-                            <strong>Presentación:</strong> ${producto.presentacion}
+                            <strong>Presentación:</strong> ${escHTML(producto.presentacion)}
                         </div>
                         <div class="detalle-item">
-                            <strong>Peso:</strong> ${producto.peso}
+                            <strong>Peso:</strong> ${escHTML(producto.peso)}
                         </div>
                     </div>
-                    
+
                     <div class="modal-ingredientes">
                         <h4>Ingredientes principales:</h4>
                         <div class="ingredientes-lista">
-                            ${producto.ingredientes.map(ing => `<span class="ingrediente-tag">${ing}</span>`).join('')}
+                            ${(producto.ingredientes || []).map(ing => `<span class="ingrediente-tag">${escHTML(ing)}</span>`).join('')}
                         </div>
                     </div>
-                    
+
                     <div class="modal-beneficios">
                         <h4>Beneficios:</h4>
                         <ul>
-                            ${producto.beneficios.map(beneficio => `<li>${beneficio}</li>`).join('')}
+                            ${(producto.beneficios || []).map(beneficio => `<li>${escHTML(beneficio)}</li>`).join('')}
                         </ul>
                     </div>
-                    
+
                     <div class="modal-stock">
-                        <strong>Stock disponible:</strong> ${producto.stock} unidades
+                        <strong>Stock disponible:</strong> ${parseInt(producto.stock) || 0} unidades
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-btn-contactar" onclick="contactarWhatsApp('${producto.nombre}')">
+                <button class="modal-btn-contactar" onclick="contactarWhatsApp('${escHTML(producto.nombre)}')">
                     <i class="fab fa-whatsapp"></i>
                     Consultar por WhatsApp
                 </button>

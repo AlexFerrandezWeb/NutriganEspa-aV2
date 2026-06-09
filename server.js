@@ -262,6 +262,9 @@ app.use((req, res, next) => {
 
     const host = req.headers.host || '';
 
+    // Localhost no necesita redirección (desarrollo local)
+    if (host.includes('localhost') || host.includes('127.0.0.1')) return next();
+
     // El dominio de Render no necesita redirección www
     if (host.includes('onrender.com')) {
         if (req.path === '/index.html') return res.redirect(301, '/');
@@ -663,8 +666,27 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
 
                 console.log('Productos re-hidratados:', productos.length);
 
-                // Reducir stock de los productos vendidos
-                await reducirStock(productos);
+                // Comprobar idempotencia: evitar reducción de stock duplicada si el endpoint
+                // se llama más de una vez con el mismo session_id.
+                // Requiere tabla en Supabase: CREATE TABLE pedidos_procesados (
+                //   id BIGSERIAL PRIMARY KEY,
+                //   stripe_session_id TEXT UNIQUE NOT NULL,
+                //   created_at TIMESTAMPTZ DEFAULT NOW()
+                // );
+                const { data: yaProcessado } = await supabaseAdmin
+                    .from('pedidos_procesados')
+                    .select('id')
+                    .eq('stripe_session_id', sessionId)
+                    .maybeSingle();
+
+                if (!yaProcessado) {
+                    await reducirStock(productos);
+                    await supabaseAdmin
+                        .from('pedidos_procesados')
+                        .insert({ stripe_session_id: sessionId });
+                } else {
+                    console.log('⚠️ Pedido ya procesado anteriormente, omitiendo reducción de stock:', sessionId);
+                }
             } catch (e) {
                 console.error('Error al parsear/hidratar productos:', e);
             }

@@ -26,6 +26,7 @@
     "stripe": "^14.7.0"
   },
   "devDependencies": {
+    "playwright": "^1.60.0",
     "sass": "^1.93.2"
   }
 }

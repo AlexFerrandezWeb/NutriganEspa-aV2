@@ -3,6 +3,16 @@ const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+function escHTML(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 // JavaScript para la página del Carrito
 document.addEventListener('DOMContentLoaded', async function() {
     inicializarCarrito();
@@ -114,11 +124,11 @@ function crearItemCarrito(producto, index) {
     itemDiv.innerHTML = `
         <a href="producto.html?id=${producto.id}" class="carrito-item-enlace-completo">
             <div class="carrito-item-imagen">
-                <img src="${producto.imagen}" alt="${producto.nombre}" loading="lazy">
+                <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" loading="lazy">
             </div>
             <div class="carrito-item-info">
-                <h3 class="carrito-item-nombre">${producto.nombre}</h3>
-                <p class="carrito-item-descripcion">${producto.descripcion || 'Producto de nutrición animal'}</p>
+                <h3 class="carrito-item-nombre">${escHTML(producto.nombre)}</h3>
+                <p class="carrito-item-descripcion">${escHTML(producto.descripcion || 'Producto de nutrición animal')}</p>
                 ${cantidadMinima > 1 ? `<small class="cantidad-minima-info">Mínimo: ${cantidadMinima} unidades</small>` : ''}
             </div>
         </a>

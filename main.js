@@ -289,6 +289,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Función para inicializar el buscador en la página inicio
 function inicializarBuscadorInicio() {
+    // En productos.html, productos.js maneja la búsqueda inline sin recarga
+    if (document.getElementById('productos-grid-catalogo')) return;
+
     const buscadorForm = document.querySelector('.nav-buscador');
     const buscadorInput = document.querySelector('.nav-buscador input[type="search"]');
 

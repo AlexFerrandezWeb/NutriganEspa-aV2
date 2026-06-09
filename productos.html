@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -41,7 +41,7 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="shortcut icon" type="image/png" href="assets/favicon.png">
     <link rel="apple-touch-icon" href="assets/favicon.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <style>
         .nav-buscador { max-height: 0 !important; overflow: hidden !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding: 0 !important; transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.3s ease !important; pointer-events: none; }
         .nav-buscador.buscador-abierto { max-height: 70px !important; opacity: 1 !important; margin-top: 0.5rem !important; pointer-events: auto; }
@@ -95,9 +95,9 @@
                 </div>
             </div>
         </div>
-        <form class="nav-buscador" action="#" method="get" role="search">
+        <form class="nav-buscador" action="productos.html" method="get" role="search">
             <div class="buscador-input-container">
-                <input type="search" name="q" placeholder="Buscar..." aria-label="Buscar">
+                <input type="search" name="buscar" placeholder="Buscar..." aria-label="Buscar">
                 <div class="buscador-texto-dinamico">
                     <span class="buscador-texto-actual">Bolutech Flash</span>
                     <span class="buscador-texto-siguiente">Bolutech Activ</span>
@@ -124,6 +124,62 @@
             </div>
         </div>
     </header>
+
+    <!-- Guía de selección de producto -->
+    <section class="guia-selector-section">
+        <div class="guia-selector-container">
+            <h2 class="guia-selector-titulo">¿Qué bolo necesita mi ganado?</h2>
+            <p class="guia-selector-subtitulo">Selecciona el problema de tu explotación y te indicamos qué producto usar</p>
+
+            <div class="guia-selector-grid">
+
+                <div class="guia-selector-card">
+                    <div class="guia-selector-icono"><i class="fas fa-cow"></i></div>
+                    <h3 class="guia-selector-problema">Hipocalcemia / Fiebre de leche</h3>
+                    <p class="guia-selector-desc">Vacas caídas o con debilidad muscular en el periparto. Mayor riesgo en vacas de alta producción y multíparas.</p>
+                    <a href="producto.html?id=1" class="guia-selector-btn">Ver Bolutech Flash →</a>
+                </div>
+
+                <div class="guia-selector-card">
+                    <div class="guia-selector-icono"><i class="fas fa-shoe-prints"></i></div>
+                    <h3 class="guia-selector-problema">Cojeras / Problemas de pezuñas</h3>
+                    <p class="guia-selector-desc">Casco blando, dermatitis digital o laminitis que reducen la producción y el bienestar animal.</p>
+                    <a href="producto.html?id=3" class="guia-selector-btn">Ver Bolutech Heel →</a>
+                </div>
+
+                <div class="guia-selector-card">
+                    <div class="guia-selector-icono"><i class="fas fa-bolt"></i></div>
+                    <h3 class="guia-selector-problema">Cetosis / Acetonemia post-parto</h3>
+                    <p class="guia-selector-desc">Vacas con bajo consumo de materia seca, pérdida de condición corporal y caída de producción en las primeras semanas post-parto.</p>
+                    <a href="producto.html?id=4" class="guia-selector-btn">Ver Bolutech Prepalac →</a>
+                </div>
+
+                <div class="guia-selector-card">
+                    <div class="guia-selector-icono"><i class="fas fa-tint"></i></div>
+                    <h3 class="guia-selector-problema">Hipofosfatemia / Síndrome de vaca caída</h3>
+                    <p class="guia-selector-desc">Vacas con debilidad post-parto sin respuesta al calcio, dificultad para levantarse o en recuperación de esfuerzo físico.</p>
+                    <a href="producto.html?id=2" class="guia-selector-btn">Ver Bolutech Activ →</a>
+                </div>
+
+                <div class="guia-selector-card">
+                    <div class="guia-selector-icono"><i class="fas fa-leaf"></i></div>
+                    <h3 class="guia-selector-problema">Ganadería ecológica / Certificación ECO</h3>
+                    <p class="guia-selector-desc">Necesitas un bolo nutricional compatible con producción ecológica certificada, sin comprometer los resultados.</p>
+                    <a href="producto.html?id=16" class="guia-selector-btn">Ver Dietevit ECO →</a>
+                </div>
+
+                <div class="guia-selector-card">
+                    <div class="guia-selector-icono"><i class="fas fa-band-aid"></i></div>
+                    <h3 class="guia-selector-problema">Heridas / Úlceras / Lesiones cutáneas</h3>
+                    <p class="guia-selector-desc">Desinfección y cicatrización de heridas en ganado y mascotas. Sin antibióticos y sin tiempo de espera para leche o carne.</p>
+                    <a href="producto.html?id=17" class="guia-selector-btn">Ver Blue Spray →</a>
+                </div>
+
+            </div>
+
+            <p class="guia-selector-duda">¿Tienes dudas sobre qué producto usar? <a href="https://wa.me/34626983042?text=Hola,%20necesito%20ayuda%20para%20elegir%20el%20producto%20adecuado%20para%20mi%20ganado" target="_blank" rel="noopener noreferrer">Consúltanos por WhatsApp</a> — Javier te asesora sin compromiso.</p>
+        </div>
+    </section>
 
     <!-- Sección de Productos -->
     <section class="productos-catalogo-section">

@@ -3,6 +3,16 @@ const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+function escHTML(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 // JavaScript para la página individual del producto
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -82,8 +92,9 @@ function mostrarProducto(producto) {
     
     // Manejar precio unitario y cantidad mínima
     if (producto.cantidad_minima && producto.cantidad_minima > 1) {
+        const precioUnitario = producto.precio_unitario || (producto.precio / producto.cantidad_minima);
         document.getElementById('producto-precio').innerHTML = `
-            <span class="precio-unitario">€${producto.precio_unitario.toFixed(2)} <small>/unidad</small></span>
+            <span class="precio-unitario">€${precioUnitario.toFixed(2)} <small>/unidad</small></span>
             <div class="precio-info">
                 <small>Mínimo: ${producto.cantidad_minima} unidades</small>
             </div>
@@ -96,7 +107,11 @@ function mostrarProducto(producto) {
         document.getElementById('producto-precio').innerHTML = `€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
     }
     
-    document.getElementById('producto-descripcion').innerHTML = `<p>${producto.descripcion}</p>`;
+    const descP = document.createElement('p');
+    descP.textContent = (producto.descripcion || '').replace(/<[^>]*>/g, '');
+    const descContainer = document.getElementById('producto-descripcion');
+    descContainer.innerHTML = '';
+    descContainer.appendChild(descP);
     
     // Actualizar características
     document.getElementById('producto-especie').textContent = producto.especie;
@@ -223,9 +238,9 @@ function mostrarProductosRelacionados(productos) {
         item.onclick = () => window.location.href = `producto.html?id=${producto.id}`;
         
         item.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" class="relacionado-imagen">
+            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="relacionado-imagen">
             <div class="relacionado-info">
-                <h4 class="relacionado-nombre">${producto.nombre}</h4>
+                <h4 class="relacionado-nombre">${escHTML(producto.nombre)}</h4>
                 <p class="relacionado-precio">€${producto.precio.toFixed(2)}</p>
             </div>
         `;
@@ -261,7 +276,7 @@ function cambiarCantidad(cambio) {
     const nuevaCantidad = valorActual + cambio;
     
     // Obtener cantidad mínima del producto actual
-    const cantidadMinima = productoActual?.cantidadMinima || 1;
+    const cantidadMinima = productoActual?.cantidad_minima || 1;
     const cantidadMaxima = productoActual?.stock || 99;
     
     if (nuevaCantidad >= cantidadMinima && nuevaCantidad <= cantidadMaxima) {
@@ -276,7 +291,7 @@ function actualizarCantidad() {
     const cantidad = parseInt(input.value);
     
     // Obtener cantidad mínima del producto actual
-    const cantidadMinima = productoActual?.cantidadMinima || 1;
+    const cantidadMinima = productoActual?.cantidad_minima || 1;
     const cantidadMaxima = productoActual?.stock || 99;
     
     if (cantidad >= cantidadMinima && cantidad <= cantidadMaxima) {
@@ -299,7 +314,7 @@ function actualizarBotonesCantidad() {
     const cantidadMenos = document.getElementById('cantidad-menos');
     const cantidadMas = document.getElementById('cantidad-mas');
     
-    const cantidadMinima = productoActual?.cantidadMinima || 1;
+    const cantidadMinima = productoActual?.cantidad_minima || 1;
     const cantidadMaxima = productoActual?.stock || 99;
     
     cantidadMenos.disabled = cantidadActual <= cantidadMinima;
