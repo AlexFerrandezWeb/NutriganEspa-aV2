@@ -3059,7 +3059,10 @@ body {
     }
 
     .productos-grid-catalogo .producto-detalles {
-        display: none;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.4rem;
     }
 
     .productos-grid-catalogo .producto-botones {
