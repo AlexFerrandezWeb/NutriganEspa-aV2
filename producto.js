@@ -259,13 +259,13 @@ function actualizarEstadoBotones(producto) {
     const sinStock = producto.stock <= 0;
     
     btnAñadir.disabled = sinStock;
-    btnComprar.disabled = false; // El botón "Ver Carrito" siempre está disponible
+    btnComprar.disabled = sinStock;
     cantidadMenos.disabled = sinStock;
     cantidadMas.disabled = sinStock;
-    
+
     if (sinStock) {
         btnAñadir.textContent = 'Sin Stock';
-        // No cambiar el texto del botón "Ver Carrito"
+        btnComprar.textContent = 'Sin Stock';
     }
 }
 
@@ -378,10 +378,64 @@ function añadirAlCarrito() {
     activarEfectoPulso();
 }
 
-// Función para ver carrito
-function comprarAhora() {
-    // Redirigir directamente al carrito
-    window.location.href = 'carrito.html';
+// Función para comprar ahora (checkout directo en Stripe)
+async function comprarAhora() {
+    if (!productoActual || productoActual.stock <= 0) {
+        mostrarNotificacion('Producto no disponible', 'error');
+        return;
+    }
+
+    actualizarCantidad();
+
+    const btn = document.getElementById('btn-comprar-ahora');
+    const textoOriginal = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+    btn.disabled = true;
+
+    try {
+        const precioUnitario = productoActual.precio_unitario || productoActual.precio;
+        const precioFinal = precioUnitario * cantidadActual;
+
+        const datosCarrito = {
+            productos: [{
+                id: productoActual.id,
+                nombre: productoActual.nombre,
+                precio: precioFinal,
+                precioUnitario: precioUnitario,
+                cantidadMinima: productoActual.cantidad_minima || 1,
+                imagen: productoActual.imagen,
+                cantidad: cantidadActual
+            }],
+            total: precioFinal,
+            cantidadTotal: cantidadActual,
+            timestamp: new Date().toISOString()
+        };
+
+        const response = await fetch('https://nutrigan-web.onrender.com/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(datosCarrito)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `Error del servidor: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            throw new Error('No se recibió URL de checkout');
+        }
+
+    } catch (error) {
+        console.error('Error al procesar el pago:', error);
+        mostrarNotificacion('Error al procesar el pago. Por favor, inténtalo de nuevo.', 'error');
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+    }
 }
 
 // Función para actualizar contador del carrito
