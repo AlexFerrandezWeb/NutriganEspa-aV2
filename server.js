@@ -926,31 +926,41 @@ function resolveImageUrl(imagen) {
 // Servir producto.html con meta tags inyectados server-side desde Supabase
 const productoTemplate = fs.readFileSync(path.join(__dirname, 'producto.html'), 'utf8');
 
-app.get('/producto.html', async (req, res) => {
-    const id = parseInt(req.query.id);
+const PRODUCT_BASE = 'https://www.xn--nutriganespaa-tkb.com';
+const NOT_FOUND_HTML = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><title>Producto no encontrado | Nutrigan España</title></head><body><h1>Producto no encontrado</h1><a href="/productos.html">Ver todos los productos</a></body></html>';
 
-    if (!id || isNaN(id)) {
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        return res.send(productoTemplate);
-    }
+// Convierte el nombre de un producto en un slug estable para URLs limpias.
+// Quita ®/acentos, así el slug no cambia aunque el nombre los lleve o no.
+function slugify(str) {
+    return String(str || '')
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[®™©]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
 
-    const { data: producto, error } = await supabaseAdmin
-        .from('productos')
-        .select('id, nombre, descripcion, descripcion_completa, imagen, precio, stock, especie, etapa, categoria')
-        .eq('id', id)
-        .single();
+// Cache slug -> id (60 min) para resolver /producto/:slug sin columna slug en BD
+let slugMapCache = { map: null, expiresAt: 0 };
+async function getSlugMap() {
+    const now = Date.now();
+    if (slugMapCache.map && now < slugMapCache.expiresAt) return slugMapCache.map;
+    const { data, error } = await supabaseAdmin.from('productos').select('id, nombre');
+    if (error || !data) throw error || new Error('No se pudo cargar el índice de productos');
+    const map = new Map();
+    data.forEach(p => map.set(slugify(p.nombre), p.id));
+    slugMapCache = { map, expiresAt: now + 60 * 60 * 1000 };
+    return map;
+}
 
-    if (error || !producto) {
-        return res.status(404).send('<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Producto no encontrado | Nutrigan España</title></head><body><h1>Producto no encontrado</h1><a href="/productos.html">Ver todos los productos</a></body></html>');
-    }
-
+// Genera el HTML del producto con meta tags + JSON-LD inyectados server-side
+function renderProductoHtml(producto, canonical) {
     const title = `${producto.nombre} | Nutrigan España`;
     const rawDesc = (producto.descripcion_completa || producto.descripcion || '')
         .replace(/<[^>]*>/g, '')
         .replace(/\s+/g, ' ')
         .trim();
     const description = rawDesc.substring(0, 155);
-    const canonical = `https://www.xn--nutriganespaa-tkb.com/producto.html?id=${id}`;
     const imageUrl = resolveImageUrl(producto.imagen);
     const disponibilidad = (parseInt(producto.stock) || 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
     const precio = parseFloat(producto.precio || 0).toFixed(2);
@@ -962,6 +972,8 @@ app.get('/producto.html', async (req, res) => {
         'description': rawDesc.substring(0, 500) || description,
         'image': imageUrl,
         'url': canonical,
+        'sku': String(producto.id),
+        'mpn': `SKU-${producto.id}`,
         'brand': { '@type': 'Brand', 'name': 'Nutrigan España' },
         'offers': {
             '@type': 'Offer',
@@ -994,6 +1006,16 @@ app.get('/producto.html', async (req, res) => {
         }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+            { '@type': 'ListItem', 'position': 1, 'name': 'Inicio', 'item': 'https://www.xn--nutriganespaa-tkb.com/' },
+            { '@type': 'ListItem', 'position': 2, 'name': 'Productos', 'item': 'https://www.xn--nutriganespaa-tkb.com/productos.html' },
+            { '@type': 'ListItem', 'position': 3, 'name': producto.nombre, 'item': canonical }
+        ]
+    };
+
     const seoTags = `<meta name="description" content="${escapeHtml(description)}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="${canonical}">
@@ -1009,14 +1031,67 @@ app.get('/producto.html', async (req, res) => {
     <meta property="twitter:title" content="${escapeHtml(title)}">
     <meta property="twitter:description" content="${escapeHtml(description)}">
     <meta property="twitter:image" content="${escapeHtml(imageUrl)}">
-    <script type="application/ld+json">${JSON.stringify(schema)}</script>`;
+    <script>window.__PRODUCTO_ID__=${parseInt(producto.id)};</script>
+    <script type="application/ld+json">${JSON.stringify(schema)}</script>
+    <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
 
-    const html = productoTemplate
+    return productoTemplate
         .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
         .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', seoTags);
+}
 
+// URL antigua /producto.html?id= -> 301 a la URL limpia /producto/<slug> (consolida SEO)
+app.get('/producto.html', async (req, res) => {
+    const id = parseInt(req.query.id);
+
+    if (!id || isNaN(id)) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(productoTemplate);
+    }
+
+    const { data: producto, error } = await supabaseAdmin
+        .from('productos')
+        .select('nombre')
+        .eq('id', id)
+        .single();
+
+    if (error || !producto) {
+        return res.status(404).send(NOT_FOUND_HTML);
+    }
+
+    return res.redirect(301, '/producto/' + slugify(producto.nombre));
+});
+
+// URL limpia /producto/<slug>
+app.get('/producto/:slug', async (req, res) => {
+    const slug = req.params.slug;
+
+    let map;
+    try {
+        map = await getSlugMap();
+    } catch (e) {
+        console.error('Error cargando índice de slugs:', e);
+        return res.status(500).send('Error al cargar el producto');
+    }
+
+    const id = map.get(slug);
+    if (!id) return res.status(404).send(NOT_FOUND_HTML);
+
+    const { data: producto, error } = await supabaseAdmin
+        .from('productos')
+        .select('id, nombre, descripcion, descripcion_completa, imagen, precio, stock, especie, etapa, categoria')
+        .eq('id', id)
+        .single();
+
+    if (error || !producto) return res.status(404).send(NOT_FOUND_HTML);
+
+    // Si el slug pedido no es el canónico (p. ej. nombre cambiado), redirigir al actual
+    const canonicalSlug = slugify(producto.nombre);
+    if (slug !== canonicalSlug) return res.redirect(301, '/producto/' + canonicalSlug);
+
+    const canonical = `${PRODUCT_BASE}/producto/${canonicalSlug}`;
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.send(html);
+    res.send(renderProductoHtml(producto, canonical));
 });
 
 // Redirigir URLs antiguas /docs/*.pdf a la ubicación actual /assets/fichas-tecnicas/*.pdf
@@ -1054,7 +1129,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
     const { data: productos, error } = await supabaseAdmin
         .from('productos')
-        .select('id, updated_at')
+        .select('id, nombre, updated_at')
         .order('id', { ascending: true });
 
     if (error) return res.status(500).send('Error generando sitemap');
@@ -1073,7 +1148,7 @@ app.get('/sitemap.xml', async (req, res) => {
         const lastmod = p.updated_at ? p.updated_at.split('T')[0] : today;
         return `
   <url>
-    <loc>${BASE_URL}/producto.html?id=${p.id}</loc>
+    <loc>${BASE_URL}/producto/${slugify(p.nombre)}</loc>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -1141,7 +1216,7 @@ app.get('/productos-google.xml', async (req, res) => {
       <g:id>${p.id}</g:id>
       <g:title>${escapeXml(p.nombre)}</g:title>
       <g:description>${descripcion}</g:description>
-      <g:link>${BASE_URL}/producto.html?id=${p.id}</g:link>
+      <g:link>${BASE_URL}/producto/${slugify(p.nombre)}</g:link>
       <g:image_link>${escapeXml(imageUrl)}</g:image_link>
       <g:brand>Nutrigan</g:brand>
       <g:condition>new</g:condition>

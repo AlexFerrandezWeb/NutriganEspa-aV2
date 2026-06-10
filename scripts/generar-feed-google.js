@@ -54,6 +54,15 @@ function obtenerGoogleCategory(producto) {
   return DEFAULT_GOOGLE_CATEGORY;
 }
 
+function slugify(str) {
+  return String(str || '')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[®™©]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function construirProductType(producto) {
   const partes = [
     producto?.categoria,
@@ -112,7 +121,7 @@ function generarItem(producto) {
 
   const titulo = escapeXml(limpiarEspacios(producto.nombre || `Producto ${id}`));
   const descripcion = escapeXml(obtenerDescripcion(producto));
-  const link = escapeXml(`${BASE_URL}/producto.html?id=${id}`);
+  const link = escapeXml(`${BASE_URL}/producto/${slugify(producto.nombre)}`);
   const imageLink = escapeXml(obtenerImagen(producto));
   const brand = escapeXml(producto?.marca || DEFAULT_BRAND);
   const condition = 'new';

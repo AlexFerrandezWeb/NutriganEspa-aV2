@@ -13,10 +13,26 @@ function escHTML(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Genera el slug de una URL limpia a partir del nombre (igual que server.js)
+function slugify(str) {
+    return String(str || '')
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[®™©]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+// Obtiene el id del producto: desde ?id= (URL antigua) o desde el id
+// que el servidor inyecta al servir la URL limpia /producto/<slug>.
+function obtenerProductoId() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id') || window.__PRODUCTO_ID__ || null;
+}
+
 // JavaScript para la página individual del producto
 document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productoId = urlParams.get('id');
+    const productoId = obtenerProductoId();
 
     if (productoId) {
         cargarProducto(productoId);
@@ -30,8 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Recargar si el navegador restaura la página desde bfcache (botón atrás)
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const productoId = urlParams.get('id');
+        const productoId = obtenerProductoId();
         if (productoId) cargarProducto(productoId);
     }
 });
@@ -235,7 +250,7 @@ function mostrarProductosRelacionados(productos) {
     productos.forEach(producto => {
         const item = document.createElement('div');
         item.className = 'relacionado-item';
-        item.onclick = () => window.location.href = `producto.html?id=${producto.id}`;
+        item.onclick = () => window.location.href = `/producto/${slugify(producto.nombre)}`;
         
         item.innerHTML = `
             <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="relacionado-imagen">
@@ -596,9 +611,8 @@ function configurarEventListeners() {
 async function verFichaTecnica() {
     console.log('Función verFichaTecnica llamada');
     
-    // Obtener ID del producto de la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productoId = urlParams.get('id');
+    // Obtener ID del producto (URL limpia o ?id= antiguo)
+    const productoId = (productoActual && productoActual.id) || obtenerProductoId();
     console.log('Producto ID:', productoId);
     
     if (productoId) {
@@ -649,6 +663,13 @@ function volverAProductos() {
 }
 
 function inyectarSchemaProducto(producto) {
+    // El servidor (server.js) ya inyecta el Product schema server-side al servir
+    // /producto.html?id=. Si ya existe, no duplicar el marcado.
+    const yaInyectadoPorServidor = Array.from(
+        document.querySelectorAll('script[type="application/ld+json"]')
+    ).some(s => s.textContent && s.textContent.includes('"@type":"Product"'));
+    if (yaInyectadoPorServidor) return;
+
     const existente = document.getElementById('schema-producto');
     if (existente) existente.remove();
 
@@ -663,6 +684,8 @@ function inyectarSchemaProducto(producto) {
         'description': producto.descripcion,
         'image': producto.imagen,
         'url': window.location.href,
+        'sku': String(producto.id),
+        'mpn': `SKU-${producto.id}`,
         'brand': { '@type': 'Brand', 'name': 'Nutrigan España' },
         'offers': {
             '@type': 'Offer',

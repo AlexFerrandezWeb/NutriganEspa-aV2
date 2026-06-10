@@ -13,6 +13,16 @@ function escHTML(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Genera el slug de una URL limpia a partir del nombre (igual que server.js)
+function slugify(str) {
+    return String(str || '')
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[®™©]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 // Variables globales
 let productos = [];
 let productosFiltrados = [];
@@ -150,7 +160,7 @@ function mostrarProductos(productosAMostrar) {
 function crearElementoProducto(producto) {
     const productoLink = document.createElement('a');
     productoLink.className = 'producto-item producto-link';
-    productoLink.href = `producto.html?id=${producto.id}`;
+    productoLink.href = `/producto/${slugify(producto.nombre)}`;
     productoLink.setAttribute('data-categoria', producto.categoria);
     
     // Badge de destacado si es necesario
@@ -261,8 +271,11 @@ function obtenerNombreCategoriaProducto(categoriaString) {
 
 // Función para ver detalles del producto
 function verDetallesProducto(productoId) {
-    // Redirigir a la página individual del producto
-    window.location.href = `producto.html?id=${productoId}`;
+    // Redirigir a la página individual del producto (URL limpia)
+    const producto = productos.find(p => p.id == productoId);
+    window.location.href = producto
+        ? `/producto/${slugify(producto.nombre)}`
+        : `producto.html?id=${productoId}`;
 }
 
 // Función para añadir producto al carrito
@@ -719,7 +732,7 @@ function inyectarSchemaItemList(productosData) {
                 'name': producto.nombre,
                 'description': producto.descripcion,
                 'image': producto.imagen,
-                'url': `https://www.xn--nutriganespaa-tkb.com/producto.html?id=${producto.id}`,
+                'url': `https://www.xn--nutriganespaa-tkb.com/producto/${slugify(producto.nombre)}`,
                 'brand': { '@type': 'Brand', 'name': 'Nutrigan España' },
                 'offers': {
                     '@type': 'Offer',
@@ -728,7 +741,7 @@ function inyectarSchemaItemList(productosData) {
                     'priceValidUntil': '2027-12-31',
                     'itemCondition': 'https://schema.org/NewCondition',
                     'availability': producto.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-                    'url': `https://www.xn--nutriganespaa-tkb.com/producto.html?id=${producto.id}`,
+                    'url': `https://www.xn--nutriganespaa-tkb.com/producto/${slugify(producto.nombre)}`,
                     'seller': { '@type': 'Organization', 'name': 'Nutrigan España' },
                     'shippingDetails': {
                         '@type': 'OfferShippingDetails',

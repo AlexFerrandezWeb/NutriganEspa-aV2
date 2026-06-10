@@ -248,24 +248,8 @@ document.addEventListener('DOMContentLoaded', function () {
         new Carousel(container);
     });
 
-    // Manejar clicks en productos destacados
-    const productoLinks = document.querySelectorAll('.producto-link');
-    productoLinks.forEach(link => {
-        link.addEventListener('click', function (e) {
-            // Prevenir el comportamiento por defecto del enlace
-            e.preventDefault();
-
-            // Obtener el ID del producto desde la URL
-            const href = this.getAttribute('href');
-            const urlParams = new URLSearchParams(href.split('?')[1]);
-            const productId = urlParams.get('id');
-
-            // Redirigir a la página del producto con el ID
-            if (productId) {
-                window.location.href = `producto.html?id=${productId}`;
-            }
-        });
-    });
+    // Los productos destacados usan enlaces nativos (<a href="/producto/<slug>">),
+    // por lo que no se intercepta el click: la navegación la maneja el navegador.
 
     // Texto dinámico del buscador
     const buscadorTextoDinamico = document.querySelector('.buscador-texto-dinamico');

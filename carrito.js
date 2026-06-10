@@ -13,6 +13,16 @@ function escHTML(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Genera el slug de una URL limpia a partir del nombre (igual que server.js)
+function slugify(str) {
+    return String(str || '')
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[®™©]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
 // JavaScript para la página del Carrito
 document.addEventListener('DOMContentLoaded', async function() {
     inicializarCarrito();
@@ -122,7 +132,7 @@ function crearItemCarrito(producto, index) {
     const cantidadMinima = producto.cantidadMinima || 1;
     
     itemDiv.innerHTML = `
-        <a href="producto.html?id=${producto.id}" class="carrito-item-enlace-completo">
+        <a href="/producto/${slugify(producto.nombre)}" class="carrito-item-enlace-completo">
             <div class="carrito-item-imagen">
                 <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" loading="lazy">
             </div>
