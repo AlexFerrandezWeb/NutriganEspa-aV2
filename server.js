@@ -1056,7 +1056,9 @@ app.get('/producto.html', async (req, res) => {
         .single();
 
     if (error || !producto) {
-        return res.status(404).send(NOT_FOUND_HTML);
+        // Producto descatalogado (id ya no existe): 301 al catálogo en vez de 404,
+        // así recuperamos la visita de Google y damos mejor UX.
+        return res.redirect(301, '/productos.html');
     }
 
     return res.redirect(301, '/producto/' + slugify(producto.nombre));
