@@ -1077,7 +1077,10 @@ app.get('/producto/:slug', async (req, res) => {
     }
 
     const id = map.get(slug);
-    if (!id) return res.status(404).send(NOT_FOUND_HTML);
+    // Slug inexistente (producto retirado/descatalogado, o URL vieja que Google tiene
+    // indexada): 301 al catálogo en vez de 404, igual que /producto.html?id=<retirado>.
+    // Así recuperamos la visita y damos mejor UX. Ver commit 70d42de.
+    if (!id) return res.redirect(301, '/productos.html');
 
     const { data: producto, error } = await supabaseAdmin
         .from('productos')
@@ -1104,6 +1107,55 @@ app.get('/docs/:filename', (req, res) => {
 // Redirigir página de galería antigua a productos
 app.get('/galeria.html', (req, res) => {
     res.redirect(301, '/productos.html');
+});
+
+// Servir /productos.html inyectando un índice de enlaces a todas las fichas de
+// producto. El catálogo visible se renderiza con JS (Supabase), así que en el HTML
+// puro no hay enlaces internos a los productos y Google tarda en rastrearlos
+// (aparecían en GSC como "Descubierta: actualmente sin indexar"). Este bloque da
+// un enlace real y crawleable a cada producto. Caché 60 min, como el sitemap.
+const PRODUCTOS_HTML_TEMPLATE = fs.readFileSync(path.join(__dirname, 'productos.html'), 'utf8');
+let productosHtmlCache = { html: null, expiresAt: 0 };
+
+app.get('/productos.html', async (req, res) => {
+    const now = Date.now();
+    if (productosHtmlCache.html && now < productosHtmlCache.expiresAt) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(productosHtmlCache.html);
+    }
+
+    let bloque = '';
+    try {
+        const { data: productos, error } = await supabaseAdmin
+            .from('productos')
+            .select('nombre')
+            .order('nombre', { ascending: true });
+
+        if (!error && productos && productos.length) {
+            const items = productos
+                .map(p => `<li><a href="/producto/${slugify(p.nombre)}">${escapeXml(p.nombre)}</a></li>`)
+                .join('');
+            bloque = `<nav class="productos-indice-seo" aria-label="Todos nuestros productos">
+      <style>
+        .productos-indice-seo{max-width:1200px;margin:0 auto;padding:2.5em 1.5em;border-top:1px solid #eee}
+        .productos-indice-seo h2{font-size:1.2em;font-weight:bold;color:#444;margin-bottom:1em}
+        .productos-indice-seo ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.4em}
+        .productos-indice-seo a{display:inline;color:#666;text-decoration:none;font-size:.95em;line-height:1.5}
+        .productos-indice-seo a:hover{color:#E67E22;text-decoration:underline}
+      </style>
+      <h2>Todos nuestros productos</h2>
+      <ul>${items}</ul>
+    </nav>`;
+        }
+    } catch (e) {
+        console.error('No se pudo generar el índice SEO de productos:', e.message);
+    }
+
+    const html = PRODUCTOS_HTML_TEMPLATE.replace('<!--PRODUCTOS_SEO_LINKS-->', bloque);
+    productosHtmlCache = { html, expiresAt: now + 60 * 60 * 1000 };
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(html);
 });
 
 // Sitemap dinámico generado desde Supabase
