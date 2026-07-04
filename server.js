@@ -1138,12 +1138,12 @@ app.get('/productos.html', async (req, res) => {
             bloque = `<section class="productos-indice-seo" aria-label="Índice de todos los productos">
       <style>
         .productos-indice-seo{width:100%;max-width:1160px;box-sizing:border-box;margin:0 auto;padding:3.5em 1.5em 4em;border-top:1px solid #ececec}
-        .productos-indice-seo__titulo{font-size:1.4em;font-weight:700;color:#3a3a3a;text-align:center;margin:0 0 .35em}
+        .productos-indice-seo__titulo{font-size:1.4em;font-weight:700;color:#1d2336;text-align:center;margin:0 0 .35em}
         .productos-indice-seo__sub{font-size:.92em;color:#9a9a9a;text-align:center;margin:0 auto 2em;max-width:520px}
         .productos-indice-seo__lista{column-width:230px;column-gap:2.5em;list-style:none;padding:0;margin:0}
         .productos-indice-seo__lista li{break-inside:avoid;margin:0 0 .7em}
         .productos-indice-seo__lista a{display:inline-block;color:#555;text-decoration:none;font-size:.92em;line-height:1.35;border-bottom:1px solid transparent;transition:color .2s ease,border-color .2s ease}
-        .productos-indice-seo__lista a:hover{color:#E67E22;border-bottom-color:#E67E22}
+        .productos-indice-seo__lista a:hover{color:#1d815d;border-bottom-color:#1d815d}
         @media(max-width:560px){.productos-indice-seo{padding:2.5em 1.2em 3em}.productos-indice-seo__lista{column-width:auto;columns:1}}
       </style>
       <h2 class="productos-indice-seo__titulo">Todos nuestros productos</h2>
