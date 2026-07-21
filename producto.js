@@ -68,6 +68,9 @@ async function cargarProducto(id) {
 
         if (producto) {
             productoActual = producto;
+            if (window.NutriganGA) {
+                NutriganGA.verProducto(producto);
+            }
             mostrarProducto(producto);
             inyectarSchemaProducto(producto);
             cargarProductosRelacionados(producto.categoria, id);
@@ -385,10 +388,14 @@ function añadirAlCarrito() {
     
     // Guardar carrito
     localStorage.setItem('carrito', JSON.stringify(carrito));
-    
+
+    if (window.NutriganGA) {
+        NutriganGA.anadirAlCarrito(productoCarrito, cantidadActual);
+    }
+
     // Actualizar contador del carrito
     actualizarContadorCarrito();
-    
+
     // Activar efecto de pulso
     activarEfectoPulso();
 }
@@ -440,6 +447,9 @@ async function comprarAhora() {
         const data = await response.json();
 
         if (data.url) {
+            if (window.NutriganGA) {
+                NutriganGA.iniciarCheckout(datosCarrito.productos, datosCarrito.total);
+            }
             window.location.href = data.url;
         } else {
             throw new Error('No se recibió URL de checkout');

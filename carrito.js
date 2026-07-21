@@ -523,7 +523,11 @@ function añadirAlCarrito(producto) {
     // Guardar y actualizar
     guardarCarrito();
     actualizarContadorCarrito();
-    
+
+    if (window.NutriganGA) {
+        NutriganGA.anadirAlCarrito(producto, producto.cantidad || 1);
+    }
+
     // Mostrar notificación
     mostrarNotificacion('Producto añadido al carrito');
 }
@@ -633,6 +637,9 @@ async function enviarCarritoARender() {
         
         // Redirigir a la URL de checkout de Stripe
         if (data.url) {
+            if (window.NutriganGA) {
+                NutriganGA.iniciarCheckout(datosCarrito.productos, datosCarrito.total);
+            }
             window.location.href = data.url;
         } else {
             throw new Error('No se recibió URL de checkout');

@@ -230,6 +230,7 @@
 
     <!-- Scripts -->
     <script defer src="main.js"></script>
+    <script src="js/analytics.js"></script>
     <script>
         // Mostrar información del pedido desde localStorage
         document.addEventListener('DOMContentLoaded', function () {
@@ -266,34 +267,32 @@
     <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
     <script>
         // GA4 Purchase Event
+        // Dos caminos llegan aquí:
+        //  - Stripe, que vuelve con ?session_id=... y sin datos en localStorage
+        //    (el carrito se vació al salir). Los importes salen del pedido que
+        //    NutriganGA guardó justo antes de redirigir a la pasarela.
+        //  - Contrareembolso, que sí deja el pedido completo en 'ultimoPedido'.
         function pushPurchaseEvent() {
+            if (!window.NutriganGA) return;
+
+            const sessionId = new URLSearchParams(window.location.search).get('session_id');
             const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
-            if (ultimoPedido && ultimoPedido.pedidoId) {
-                const ecommercePayload = {
-                    transaction_id: ultimoPedido.pedidoId,
-                    value: parseFloat(ultimoPedido.total) || 0,
-                    currency: 'EUR',
-                    items: ultimoPedido.productos ? ultimoPedido.productos.map((producto, index) => ({
-                        item_id: producto.gtin || `item_${index}`,
-                        item_name: producto.nombre,
-                        price: producto.precio,
-                        quantity: producto.cantidad
-                    })) : []
+
+            const transactionId = sessionId || ultimoPedido.pedidoId;
+            if (!transactionId) return;
+
+            let datos = null;
+            if (!sessionId && ultimoPedido.productos) {
+                datos = {
+                    items: NutriganGA.aItems(ultimoPedido.productos),
+                    total: parseFloat(ultimoPedido.total) || 0
                 };
-
-                window.dataLayer = window.dataLayer || [];
-                window.dataLayer.push({
-                    event: 'purchase',
-                    ecommerce: ecommercePayload
-                });
-
-                if (typeof gtag === 'function') {
-                    gtag('event', 'purchase', ecommercePayload);
-                }
-
-                // Limpiar el pedido del localStorage para evitar duplicados en recargas
-                localStorage.removeItem('ultimoPedido');
             }
+
+            // Sin `datos`, registrarCompra reconstruye el pedido desde
+            // 'pedidoPendiente'. El antiduplicados va por transaction_id, así que
+            // recargar la página no vuelve a contar la conversión.
+            NutriganGA.registrarCompra(transactionId, datos);
         }
         pushPurchaseEvent();
 

@@ -425,30 +425,8 @@
             }
         }
     </style>
-    <script>
-        // GA4 Purchase Event
-        const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
-        if (ultimoPedido && ultimoPedido.pedidoId) {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                'event': 'purchase',
-                'ecommerce': {
-                    'transaction_id': ultimoPedido.pedidoId,
-                    'value': parseFloat(ultimoPedido.total),
-                    'currency': 'EUR',
-                    'items': ultimoPedido.productos ? ultimoPedido.productos.map((producto, index) => ({
-                        'item_id': producto.gtin || `item_${index}`,
-                        'item_name': producto.nombre,
-                        'price': producto.precio,
-                        'quantity': producto.cantidad
-                    })) : []
-                }
-            });
-            
-            // Limpiar el pedido del localStorage para evitar duplicados en recargas
-            localStorage.removeItem('ultimoPedido');
-        }
-    </script>
+    <!-- El purchase se envía más abajo, cuando el pedido llega del servidor -->
+    <script src="js/analytics.js"></script>
 </head>
 <body>
     <header class="header" role="banner">
@@ -525,7 +503,16 @@
 
                         // Mostrar resumen del pedido
                         mostrarResumenPedido(pedido);
-                        
+
+                        // GA4 purchase con los datos reales del pedido. El importe
+                        // es el cobrado por Stripe, no el calculado en el navegador.
+                        if (window.NutriganGA) {
+                            NutriganGA.registrarCompra(sessionId, {
+                                items: NutriganGA.aItems(pedido.productos),
+                                total: parseFloat(pedido.total) || 0
+                            });
+                        }
+
                         // Guardar los datos del pedido para poder recargar en resize
                         window.pedidoData = pedido;
                         
