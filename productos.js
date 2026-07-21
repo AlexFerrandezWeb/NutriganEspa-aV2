@@ -326,7 +326,11 @@ function añadirAlCarrito(id) {
     // Guardar carrito
     localStorage.setItem('carrito', JSON.stringify(carrito));
     console.log('Carrito guardado en localStorage');
-    
+
+    if (window.NutriganGA) {
+        NutriganGA.anadirAlCarrito(producto, 1);
+    }
+
     // Actualizar contador del carrito después de la animación
     setTimeout(() => {
         actualizarContadorCarrito();

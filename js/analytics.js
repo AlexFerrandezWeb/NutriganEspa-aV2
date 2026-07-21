@@ -151,8 +151,30 @@
             return true;
         },
 
+        // Clic en el botón de WhatsApp. Es un lead de contacto, no una venta,
+        // así que va como evento propio (candidato a evento clave en GA4).
+        clicWhatsapp: function (origen) {
+            enviar('whatsapp_click', {
+                link_url: 'https://wa.me/34626983042',
+                origen: origen || 'desconocido'
+            });
+        },
+
         // Expuesto para las páginas de éxito que ya tienen sus propios datos
         // de pedido en localStorage (contrareembolso).
         aItems: aItems
     };
+
+    // Captura los clics de WhatsApp en toda la web mediante delegación en
+    // document, para no depender del orden de carga ni instrumentar cada botón.
+    // Cubre tanto el botón flotante (.whatsapp-float) como cualquier enlace wa.me.
+    document.addEventListener('click', function (evento) {
+        const enlace = evento.target.closest('a[href*="wa.me"], .whatsapp-float');
+        if (!enlace) return;
+
+        const origen = enlace.classList.contains('whatsapp-float')
+            ? 'boton_flotante'
+            : 'enlace';
+        window.NutriganGA.clicWhatsapp(origen);
+    });
 })();
