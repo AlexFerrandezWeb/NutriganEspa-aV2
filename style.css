@@ -4162,15 +4162,15 @@ body {
     animation: bounceIn 0.8s ease-out;
 }
 
-/* Hero sin imagen para página de gracias */
+/* Hero sin imagen para página de gracias — verde de marca (eucalyptus). */
 .carrusel-container:has(.gracias-icon) {
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    background: linear-gradient(135deg, #1d815d 0%, #14603f 100%);
     min-height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 0;
-    padding-top: 0;
+    padding: 3rem 1rem;
 }
 
 .carrusel-container:has(.gracias-icon) .hero-overlay {
@@ -4186,6 +4186,48 @@ body {
     max-width: 800px;
     padding: 2rem;
     margin-top: 0;
+}
+
+/* Check en blanco: el círculo queda blanco y el tick deja ver el verde del hero. */
+.carrusel-container:has(.gracias-icon) .gracias-icon {
+    color: #ffffff;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
+}
+
+/* CTA sólido blanco sobre el verde, para máximo contraste. */
+.carrusel-container:has(.gracias-icon) .hero-cta {
+    background: #ffffff;
+    color: #1d815d;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.carrusel-container:has(.gracias-icon) .hero-cta:hover {
+    background: #eef6f2;
+    color: #14603f;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+/* Títulos de las secciones de gracias: line-height holgado para que no se
+   solapen al partirse en dos líneas en móvil. */
+.pedido-titulo,
+.google-reviews-titulo,
+.contacto-titulo {
+    line-height: 1.2;
+}
+
+@media (max-width: 576px) {
+    .carrusel-container:has(.gracias-icon) {
+        min-height: 0;
+        padding: 2.5rem 1rem;
+    }
+
+    .carrusel-container:has(.gracias-icon) .gracias-icon {
+        font-size: 3.2rem;
+    }
+
+    .carrusel-container:has(.gracias-icon) .hero-texto {
+        padding: 1rem;
+    }
 }
 
 @keyframes bounceIn {

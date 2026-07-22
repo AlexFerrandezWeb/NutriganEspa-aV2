@@ -8,6 +8,23 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+      // Consent Mode v2 — por defecto todo denegado hasta que el usuario acepte en el banner de cookies.
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+      // Si el usuario ya dio su consentimiento en una visita anterior, lo restauramos.
+      if (document.cookie.indexOf('cookiesAceptadas=true') !== -1) {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage': 'granted'
+        });
+      }
       gtag('config', 'G-2ZN5E3WV35');
     </script>
     <meta charset="UTF-8">
@@ -27,7 +44,12 @@
         .btn-lupa-buscar { background: none; border: none; cursor: pointer; padding: 0.4rem 0.6rem; font-size: 1.2rem; color: var(--color-texto-oscuro, #333); transition: color 0.2s; line-height: 1; }
         .btn-lupa-buscar:hover, .btn-lupa-buscar.activo { color: var(--color-acento, #1d815d); }
 
-
+        /* La sección de reseñas de Google arranca oculta; el JS la muestra solo si
+           Google llega a inyectar el widget (evita la tarjeta blanca vacía). */
+        .google-reviews-section { display: none; }
+        .google-reviews-section.reviews-activa { display: block; }
+        /* Mientras el widget está vacío no debe verse su tarjeta blanca. */
+        .google-reviews-widget:empty { min-height: 0; padding: 0; background: none; box-shadow: none; }
     </style>
     <link rel="stylesheet" href="reset.css">
     <link rel="preload" href="assets/icons.svg" as="image">
@@ -83,17 +105,13 @@
                 </button>
             </div>
         </form>
-    </nav>
-
-    <!-- Menú móvil -->
-    <div class="menu-izquierda-movil" id="menu-izquierda-movil">
-        <ul class="menu-movil-lista">
+        <ul class="menu-izquierda" id="menu-izquierda-movil">
             <li><a href="index.html">Inicio</a></li>
             <li><a href="productos.html">Productos</a></li>
             <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
             <li><a href="feriaTineo.html">Feria Tineo</a></li>
         </ul>
-    </div>
+    </nav>
 
     <!-- Hero Section -->
     <div class="carrusel-container">
@@ -144,9 +162,7 @@
         <div class="google-reviews-container">
             <h2 class="google-reviews-titulo">¿Cómo fue su experiencia?</h2>
             <p class="google-reviews-descripcion">Su opinión es muy importante para nosotros. ¡Ayúdenos a mejorar!</p>
-            <div id="google-reviews-widget" class="google-reviews-widget">
-                <!-- El widget de Google se cargará aquí -->
-            </div>
+            <div id="google-reviews-widget" class="google-reviews-widget"></div>
         </div>
     </section>
 
@@ -231,74 +247,85 @@
     <!-- Scripts -->
     <script defer src="main.js"></script>
     <script src="js/analytics.js"></script>
-    <script>
-        // Mostrar información del pedido desde localStorage
-        document.addEventListener('DOMContentLoaded', function () {
-            const pedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
-            const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-
-            // Mostrar número de pedido
-            if (pedido.numero) {
-                document.getElementById('numero-pedido').textContent = pedido.numero;
-            }
-
-            // Mostrar fecha
-            if (pedido.fecha) {
-                document.getElementById('fecha-pedido').textContent = pedido.fecha;
-            }
-
-            // Calcular y mostrar total
-            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-            document.getElementById('total-pedido').textContent = total.toFixed(2) + ' €';
-
-            // Limpiar carrito después de la compra
-            localStorage.removeItem('carrito');
-            localStorage.removeItem('ultimoPedido');
-
-            // Actualizar contador del carrito
-            const cartCount = document.getElementById('nav-cart-count');
-            if (cartCount) {
-                cartCount.textContent = '0';
-            }
-        });
-    </script>
+    <!-- El resumen del pedido (nº, fecha, total) se pinta desde procesarPedido() más
+         abajo, que dispone de los datos reales tanto en contrareembolso como en tarjeta. -->
 
     <!-- Google Customer Reviews -->
     <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
     <script>
-        // Procesado del pedido al aterrizar en la página de gracias.
+        // === Datos del pedido: fuente única para el resumen y para la reseña de Google ===
         // Dos caminos llegan aquí:
-        //  - Stripe (tarjeta): vuelve con ?session_id=... Hay que avisar al
-        //    servidor para que descuente stock y envíe el email de aviso, porque
-        //    en este flujo no se disparaban: la compra solo quedaba en Stripe.
-        //  - Contrareembolso: deja el pedido en 'ultimoPedido' y su stock/email
-        //    se gestionan por su propia vía; aquí solo registramos el purchase.
+        //  - Stripe (tarjeta): vuelve con ?session_id=... Pedimos el pedido real al
+        //    servidor, que además descuenta stock y envía el email de aviso.
+        //  - Contrareembolso: el pedido queda en 'ultimoPedido' (localStorage).
         const API_BASE = 'https://nutrigan-web.onrender.com';
+
+        // Promesa que se resuelve con los datos del pedido en cuanto están listos,
+        // para que Google Reviews use el email y el pedido REALES (no un placeholder).
+        let resolverDatos;
+        const datosPedidoListos = new Promise(function (res) { resolverDatos = res; });
+
+        function pintarResumen(datos) {
+            if (datos.numero) document.getElementById('numero-pedido').textContent = datos.numero;
+            if (datos.fecha) document.getElementById('fecha-pedido').textContent = datos.fecha;
+            if (typeof datos.total === 'number') {
+                document.getElementById('total-pedido').textContent = datos.total.toFixed(2) + ' €';
+            }
+        }
+
+        function formatearFecha(iso) {
+            try {
+                return new Date(iso).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+            } catch (e) { return ''; }
+        }
+
+        function limpiarCarrito() {
+            localStorage.removeItem('carrito');
+            const contador = document.getElementById('carrito-contador');
+            if (contador) contador.textContent = '0';
+        }
 
         async function procesarPedido() {
             const sessionId = new URLSearchParams(window.location.search).get('session_id');
 
-            // Contrareembolso: sin sesión de Stripe.
+            // --- Contrareembolso: los datos ya están en localStorage ---
             if (!sessionId) {
                 const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
+                const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+                const total = ultimoPedido.total != null
+                    ? parseFloat(ultimoPedido.total)
+                    : carrito.reduce(function (s, i) { return s + (i.precio * i.cantidad); }, 0);
+                const datos = {
+                    numero: ultimoPedido.numero,
+                    fecha: ultimoPedido.fecha,
+                    total: total || 0,
+                    orderId: ultimoPedido.pedidoId || '',
+                    email: ultimoPedido.email || '',
+                    productos: ultimoPedido.productos || []
+                };
+                pintarResumen(datos);
+                resolverDatos(datos);
+
                 if (window.NutriganGA && ultimoPedido.pedidoId) {
                     NutriganGA.registrarCompra(ultimoPedido.pedidoId, {
                         items: NutriganGA.aItems(ultimoPedido.productos || []),
-                        total: parseFloat(ultimoPedido.total) || 0
+                        total: datos.total
                     });
                 }
+                limpiarCarrito();
+                localStorage.removeItem('ultimoPedido');
                 return;
             }
 
-            // Evitar reprocesar en cada recarga: el email del servidor no es
-            // idempotente (el descuento de stock sí lo es por su lado). Si la
-            // llamada falla, no marcamos el pedido y se reintenta al recargar.
+            // --- Tarjeta (Stripe): pedimos el pedido real al servidor ---
+            // No reprocesar en cada recarga: el email del servidor no es idempotente
+            // (el stock sí lo es por su lado). Si falla, no lo marcamos y se reintenta.
             const notificados = JSON.parse(localStorage.getItem('pedidosNotificados') || '[]');
             let pedido = null;
 
             if (notificados.indexOf(sessionId) === -1) {
                 try {
-                    const resp = await fetch(`${API_BASE}/api/pedido/${sessionId}`);
+                    const resp = await fetch(API_BASE + '/api/pedido/' + sessionId);
                     const data = await resp.json();
                     if (data && data.success) {
                         pedido = data.pedido;
@@ -310,79 +337,93 @@
                 }
             }
 
-            // Purchase de GA4 con los datos reales de Stripe si los tenemos; si no
-            // (recarga o fallo de red), registrarCompra lo reconstruye desde
-            // 'pedidoPendiente'. El antiduplicados va por session_id.
+            const datos = pedido ? {
+                numero: '#' + String(sessionId).slice(-8).toUpperCase(),
+                fecha: pedido.fecha ? formatearFecha(pedido.fecha) : '',
+                total: parseFloat(pedido.total) || 0,
+                orderId: sessionId,
+                email: pedido.customer_email || '',
+                productos: pedido.productos || []
+            } : { orderId: sessionId, email: '', productos: [], total: 0 };
+
+            pintarResumen(datos);
+            resolverDatos(datos);
+            limpiarCarrito();
+
+            // Purchase de GA4 con los datos reales de Stripe (antiduplicados por session_id).
             if (window.NutriganGA) {
-                const datos = pedido ? {
+                NutriganGA.registrarCompra(sessionId, pedido ? {
                     items: NutriganGA.aItems(pedido.productos || []),
-                    total: parseFloat(pedido.total) || 0
-                } : null;
-                NutriganGA.registrarCompra(sessionId, datos);
+                    total: datos.total
+                } : null);
             }
         }
         procesarPedido();
 
+        // === Google Customer Reviews ===
+        // La sección arranca oculta (CSS) y solo se muestra si Google inyecta el widget
+        // de verdad, así nunca se ve una tarjeta blanca vacía cuando el opt-in no está.
         window.renderOptIn = function () {
-            console.log('Google API cargada, iniciando renderOptIn...');
-            window.gapi.load('surveyoptin', function () {
-                console.log('Survey opt-in cargado, obteniendo datos...');
-                // Obtener datos del pedido desde localStorage
-                const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
-                const orderId = ultimoPedido.pedidoId || 'PED' + Date.now().toString().slice(-6);
-                const customerEmail = ultimoPedido.email || 'cliente@nutrigan.es';
+            window.gapi.load('surveyoptin', async function () {
+                // Esperar los datos reales del pedido (máx. 8s por si el fetch tarda).
+                const datos = await Promise.race([
+                    datosPedidoListos,
+                    new Promise(function (r) { setTimeout(function () { r(null); }, 8000); })
+                ]);
+                // Sin email real no tiene sentido pedir la reseña: dejamos la sección oculta.
+                if (!datos || !datos.email) return;
 
-                console.log('Datos para Google Reviews:', {
-                    merchant_id: 5663326184,
-                    order_id: orderId,
-                    email: customerEmail,
-                    delivery_country: "ES",
-                    estimated_delivery_date: getEstimatedDeliveryDate(),
-                    products: getProductsForGoogleReviews(ultimoPedido.productos || [])
-                });
+                const widget = document.getElementById('google-reviews-widget');
+                const seccion = document.querySelector('.google-reviews-section');
+
+                // Mostramos la sección para que Google pueda renderizar dentro de un
+                // contenedor visible; si en 4s no ha pintado nada, la volvemos a ocultar.
+                seccion.classList.add('reviews-activa');
+                const revisar = setTimeout(function () {
+                    if (!widget.querySelector('*')) seccion.classList.remove('reviews-activa');
+                }, 4000);
 
                 try {
-                    window.gapi.surveyoptin.render(
-                        {
-                            // REQUIRED FIELDS
-                            "merchant_id": 5663326184,
-                            "order_id": orderId,
-                            "email": customerEmail,
-                            "delivery_country": "ES",
-                            "estimated_delivery_date": getEstimatedDeliveryDate(),
-
-                            // OPTIONAL FIELDS
-                            "products": getProductsForGoogleReviews(ultimoPedido.productos || [])
-                        },
-                        document.getElementById('google-reviews-widget')
-                    );
-                    console.log('Google Reviews widget renderizado exitosamente');
+                    const params = {
+                        'merchant_id': 5663326184,
+                        'order_id': datos.orderId || ('PED' + Date.now().toString().slice(-6)),
+                        'email': datos.email,
+                        'delivery_country': 'ES',
+                        'estimated_delivery_date': getEstimatedDeliveryDate()
+                    };
+                    // 'products' es opcional: solo lo enviamos con GTINs válidos para
+                    // no provocar errores de validación en Google.
+                    const productos = getProductsForGoogleReviews(datos.productos || []);
+                    if (productos.length) params.products = productos;
+                    window.gapi.surveyoptin.render(params, widget);
                 } catch (error) {
                     console.error('Error al renderizar Google Reviews:', error);
-                    // Mostrar mensaje alternativo si Google no funciona
-                    document.getElementById('google-reviews-widget').innerHTML =
-                        '<p style="text-align: center; color: #666; padding: 20px;">Gracias por su compra. Su opinión es muy importante para nosotros.</p>';
+                    clearTimeout(revisar);
+                    seccion.classList.remove('reviews-activa');
                 }
-
             });
-        }
+        };
 
-        // Función para calcular la fecha estimada de entrega (5-10 días laborables)
+        // Fecha estimada de entrega (~7 días laborables de media).
         function getEstimatedDeliveryDate() {
             const today = new Date();
-            const deliveryDays = 7; // Promedio de 7 días
-            const deliveryDate = new Date(today.getTime() + (deliveryDays * 24 * 60 * 60 * 1000));
-            return deliveryDate.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+            const deliveryDate = new Date(today.getTime() + (7 * 24 * 60 * 60 * 1000));
+            return deliveryDate.toISOString().split('T')[0]; // YYYY-MM-DD
         }
 
-        // Función para obtener productos en formato Google Reviews
+        // Productos en el formato que espera Google Reviews. Solo los que tienen un
+        // GTIN válido (8-14 dígitos); el resto se omiten para no romper la validación.
         function getProductsForGoogleReviews(productos) {
-            return productos.map(producto => ({
-                "gtin": producto.gtin || "",
-                "name": producto.nombre || "",
-                "category": "Suplementos Nutricionales",
-                "brand": "Nutrigan"
-            }));
+            return (productos || [])
+                .filter(function (p) { return /^\d{8,14}$/.test(String(p.gtin || '')); })
+                .map(function (p) {
+                    return {
+                        'gtin': String(p.gtin),
+                        'name': p.nombre || '',
+                        'category': 'Suplementos Nutricionales',
+                        'brand': 'Nutrigan'
+                    };
+                });
         }
     </script>
     <script src="js/nav-scroll.js" defer></script>
