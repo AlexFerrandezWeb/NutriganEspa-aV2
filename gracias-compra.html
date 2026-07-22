@@ -266,35 +266,62 @@
     <!-- Google Customer Reviews -->
     <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
     <script>
-        // GA4 Purchase Event
+        // Procesado del pedido al aterrizar en la página de gracias.
         // Dos caminos llegan aquí:
-        //  - Stripe, que vuelve con ?session_id=... y sin datos en localStorage
-        //    (el carrito se vació al salir). Los importes salen del pedido que
-        //    NutriganGA guardó justo antes de redirigir a la pasarela.
-        //  - Contrareembolso, que sí deja el pedido completo en 'ultimoPedido'.
-        function pushPurchaseEvent() {
-            if (!window.NutriganGA) return;
+        //  - Stripe (tarjeta): vuelve con ?session_id=... Hay que avisar al
+        //    servidor para que descuente stock y envíe el email de aviso, porque
+        //    en este flujo no se disparaban: la compra solo quedaba en Stripe.
+        //  - Contrareembolso: deja el pedido en 'ultimoPedido' y su stock/email
+        //    se gestionan por su propia vía; aquí solo registramos el purchase.
+        const API_BASE = 'https://nutrigan-web.onrender.com';
 
+        async function procesarPedido() {
             const sessionId = new URLSearchParams(window.location.search).get('session_id');
-            const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
 
-            const transactionId = sessionId || ultimoPedido.pedidoId;
-            if (!transactionId) return;
-
-            let datos = null;
-            if (!sessionId && ultimoPedido.productos) {
-                datos = {
-                    items: NutriganGA.aItems(ultimoPedido.productos),
-                    total: parseFloat(ultimoPedido.total) || 0
-                };
+            // Contrareembolso: sin sesión de Stripe.
+            if (!sessionId) {
+                const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
+                if (window.NutriganGA && ultimoPedido.pedidoId) {
+                    NutriganGA.registrarCompra(ultimoPedido.pedidoId, {
+                        items: NutriganGA.aItems(ultimoPedido.productos || []),
+                        total: parseFloat(ultimoPedido.total) || 0
+                    });
+                }
+                return;
             }
 
-            // Sin `datos`, registrarCompra reconstruye el pedido desde
-            // 'pedidoPendiente'. El antiduplicados va por transaction_id, así que
-            // recargar la página no vuelve a contar la conversión.
-            NutriganGA.registrarCompra(transactionId, datos);
+            // Evitar reprocesar en cada recarga: el email del servidor no es
+            // idempotente (el descuento de stock sí lo es por su lado). Si la
+            // llamada falla, no marcamos el pedido y se reintenta al recargar.
+            const notificados = JSON.parse(localStorage.getItem('pedidosNotificados') || '[]');
+            let pedido = null;
+
+            if (notificados.indexOf(sessionId) === -1) {
+                try {
+                    const resp = await fetch(`${API_BASE}/api/pedido/${sessionId}`);
+                    const data = await resp.json();
+                    if (data && data.success) {
+                        pedido = data.pedido;
+                        notificados.push(sessionId);
+                        localStorage.setItem('pedidosNotificados', JSON.stringify(notificados.slice(-20)));
+                    }
+                } catch (e) {
+                    console.warn('No se pudo notificar el pedido al servidor:', e);
+                }
+            }
+
+            // Purchase de GA4 con los datos reales de Stripe si los tenemos; si no
+            // (recarga o fallo de red), registrarCompra lo reconstruye desde
+            // 'pedidoPendiente'. El antiduplicados va por session_id.
+            if (window.NutriganGA) {
+                const datos = pedido ? {
+                    items: NutriganGA.aItems(pedido.productos || []),
+                    total: parseFloat(pedido.total) || 0
+                } : null;
+                NutriganGA.registrarCompra(sessionId, datos);
+            }
         }
-        pushPurchaseEvent();
+        procesarPedido();
 
         window.renderOptIn = function () {
             console.log('Google API cargada, iniciando renderOptIn...');
