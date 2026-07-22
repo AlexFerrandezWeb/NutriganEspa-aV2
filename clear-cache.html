@@ -7,6 +7,23 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+      // Consent Mode v2 — por defecto todo denegado hasta que el usuario acepte en el banner de cookies.
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+      // Si el usuario ya dio su consentimiento en una visita anterior, lo restauramos.
+      if (document.cookie.indexOf('cookiesAceptadas=true') !== -1) {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage': 'granted'
+        });
+      }
       gtag('config', 'G-2ZN5E3WV35');
     </script>
     <meta charset="UTF-8">
@@ -105,7 +122,7 @@
         <div class="step">
             <h3>Paso 4: Verificar que funciona</h3>
             <p>Ve a <a href="/carrito.html" target="_blank">carrito.html</a> y prueba el proceso de pago.</p>
-            <p>En la consola del navegador (F12) deberías ver URLs como <code>/api/crear-sesion-stripe</code> (sin localhost).</p>
+            <p>En la consola del navegador (F12) deberías ver URLs como <code>/api/create-checkout-session</code> (sin localhost).</p>
         </div>
 
         <div class="success">

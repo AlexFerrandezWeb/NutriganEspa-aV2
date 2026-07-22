@@ -8,6 +8,23 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
+      // Consent Mode v2 — por defecto todo denegado hasta que el usuario acepte en el banner de cookies.
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+      // Si el usuario ya dio su consentimiento en una visita anterior, lo restauramos.
+      if (document.cookie.indexOf('cookiesAceptadas=true') !== -1) {
+        gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage': 'granted'
+        });
+      }
       gtag('config', 'G-2ZN5E3WV35');
     </script>
     <meta charset="UTF-8">
