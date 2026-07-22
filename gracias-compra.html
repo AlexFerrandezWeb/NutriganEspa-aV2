@@ -138,11 +138,11 @@
                 <div class="pedido-details">
                     <div class="pedido-item">
                         <span class="pedido-label">Número de Pedido:</span>
-                        <span class="pedido-value" id="numero-pedido">#NUT-2025-001</span>
+                        <span class="pedido-value" id="numero-pedido">—</span>
                     </div>
                     <div class="pedido-item">
                         <span class="pedido-label">Fecha:</span>
-                        <span class="pedido-value" id="fecha-pedido">29 de septiembre de 2025</span>
+                        <span class="pedido-value" id="fecha-pedido">—</span>
                     </div>
                     <div class="pedido-item">
                         <span class="pedido-label">Estado:</span>
@@ -150,7 +150,7 @@
                     </div>
                     <div class="pedido-item">
                         <span class="pedido-label">Total:</span>
-                        <span class="pedido-value pedido-total" id="total-pedido">0,00 €</span>
+                        <span class="pedido-value pedido-total" id="total-pedido">—</span>
                     </div>
                 </div>
             </div>
@@ -291,26 +291,29 @@
             // --- Contrareembolso: los datos ya están en localStorage ---
             if (!sessionId) {
                 const ultimoPedido = JSON.parse(localStorage.getItem('ultimoPedido') || '{}');
-                const carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-                const total = ultimoPedido.total != null
-                    ? parseFloat(ultimoPedido.total)
-                    : carrito.reduce(function (s, i) { return s + (i.precio * i.cantidad); }, 0);
-                const datos = {
-                    numero: ultimoPedido.numero,
-                    fecha: ultimoPedido.fecha,
-                    total: total || 0,
-                    orderId: ultimoPedido.pedidoId || '',
-                    email: ultimoPedido.email || '',
-                    productos: ultimoPedido.productos || []
-                };
-                pintarResumen(datos);
-                resolverDatos(datos);
 
-                if (window.NutriganGA && ultimoPedido.pedidoId) {
-                    NutriganGA.registrarCompra(ultimoPedido.pedidoId, {
-                        items: NutriganGA.aItems(ultimoPedido.productos || []),
-                        total: datos.total
-                    });
+                // Solo es un pedido real si trae su pedidoId. Una visita directa a la
+                // página (sin comprar) no debe mostrar datos de ejemplo: se dejan los "—".
+                if (ultimoPedido.pedidoId) {
+                    const datos = {
+                        numero: ultimoPedido.numero,
+                        fecha: ultimoPedido.fecha,
+                        total: parseFloat(ultimoPedido.total) || 0,
+                        orderId: ultimoPedido.pedidoId,
+                        email: ultimoPedido.email || '',
+                        productos: ultimoPedido.productos || []
+                    };
+                    pintarResumen(datos);
+                    resolverDatos(datos);
+
+                    if (window.NutriganGA) {
+                        NutriganGA.registrarCompra(ultimoPedido.pedidoId, {
+                            items: NutriganGA.aItems(ultimoPedido.productos || []),
+                            total: datos.total
+                        });
+                    }
+                } else {
+                    resolverDatos(null); // sin pedido no hay reseña que ofrecer
                 }
                 limpiarCarrito();
                 localStorage.removeItem('ultimoPedido');
@@ -318,8 +321,9 @@
             }
 
             // --- Tarjeta (Stripe): pedimos el pedido real al servidor ---
-            // No reprocesar en cada recarga: el email del servidor no es idempotente
-            // (el stock sí lo es por su lado). Si falla, no lo marcamos y se reintenta.
+            // No reprocesar en cada recarga: el endpoint reenvía el email (no es
+            // idempotente; el stock sí lo es por su lado). Por eso, tras la primera
+            // vez, mostramos el resumen desde una caché local en lugar de re-pedirlo.
             const notificados = JSON.parse(localStorage.getItem('pedidosNotificados') || '[]');
             let pedido = null;
 
@@ -337,24 +341,40 @@
                 }
             }
 
-            const datos = pedido ? {
-                numero: '#' + String(sessionId).slice(-8).toUpperCase(),
-                fecha: pedido.fecha ? formatearFecha(pedido.fecha) : '',
-                total: parseFloat(pedido.total) || 0,
-                orderId: sessionId,
-                email: pedido.customer_email || '',
-                productos: pedido.productos || []
-            } : { orderId: sessionId, email: '', productos: [], total: 0 };
+            let datos = null;
+            if (pedido) {
+                datos = {
+                    numero: '#' + String(sessionId).slice(-8).toUpperCase(),
+                    fecha: pedido.fecha ? formatearFecha(pedido.fecha) : '',
+                    total: parseFloat(pedido.total) || 0,
+                    orderId: sessionId,
+                    email: pedido.customer_email || '',
+                    productos: pedido.productos || []
+                };
+                // Guardar el resumen para poder mostrarlo al recargar sin re-llamar.
+                try {
+                    localStorage.setItem('resumenTarjeta', JSON.stringify({
+                        sessionId: sessionId, numero: datos.numero, fecha: datos.fecha, total: datos.total
+                    }));
+                } catch (e) { /* localStorage lleno o bloqueado: no es crítico */ }
+            } else {
+                // Recarga (ya notificado o fallo de red): recuperar el resumen cacheado.
+                let cache = null;
+                try { cache = JSON.parse(localStorage.getItem('resumenTarjeta') || 'null'); } catch (e) {}
+                if (cache && cache.sessionId === sessionId) {
+                    datos = { numero: cache.numero, fecha: cache.fecha, total: cache.total, orderId: sessionId, email: '', productos: [] };
+                }
+            }
 
-            pintarResumen(datos);
-            resolverDatos(datos);
+            if (datos) pintarResumen(datos);
+            resolverDatos(datos); // null si no hay pedido → sin reseña
             limpiarCarrito();
 
             // Purchase de GA4 con los datos reales de Stripe (antiduplicados por session_id).
             if (window.NutriganGA) {
                 NutriganGA.registrarCompra(sessionId, pedido ? {
                     items: NutriganGA.aItems(pedido.productos || []),
-                    total: datos.total
+                    total: parseFloat(pedido.total) || 0
                 } : null);
             }
         }
