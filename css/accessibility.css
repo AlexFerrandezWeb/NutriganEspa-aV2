@@ -13,11 +13,6 @@
     border: 0;
 }
 
-/* Estilos para pago-exitoso.html */
-.resumen-pedido-hidden {
-    display: none;
-}
-
 /* Corrección para Safari iOS - prefijo webkit para hyphens */
 .producto-nombre {
     -webkit-hyphens: auto;

@@ -51,7 +51,7 @@ GET https://nutrigan-web.onrender.com/api/test
 
 ### Crear Sesión de Stripe
 ```
-POST https://nutrigan-web.onrender.com/api/crear-sesion-stripe
+POST https://nutrigan-web.onrender.com/api/create-checkout-session
 Content-Type: application/json
 
 {

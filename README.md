@@ -91,7 +91,7 @@ Para habilitar los pagos, necesitarás:
 - **Inicio** (`index.html`) - Página principal con productos destacados
 - **Productos** (`producto.html`) - Detalles de productos individuales
 - **Carrito** (`carrito.html`) - Gestión del carrito de compras
-- **Pago Exitoso** (`pago-exitoso.html`) - Confirmación de pedido
+- **Gracias por tu compra** (`gracias-compra.html`) - Confirmación de pedido
 - **Galería** (`galeria.html`) - Imágenes de eventos y productos
 
 ## 🔒 Seguridad

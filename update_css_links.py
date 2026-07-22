@@ -11,7 +11,6 @@ html_files = [
     'galeria.html',
     'carrito.html',
     'gracias-compra.html',
-    'pago-exitoso.html',
     'politica-cookies.html',
     'politica-privacidad.html',
     'politica-devoluciones.html',
