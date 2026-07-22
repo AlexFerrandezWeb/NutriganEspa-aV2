@@ -50,6 +50,21 @@
         .google-reviews-section.reviews-activa { display: block; }
         /* Mientras el widget está vacío no debe verse su tarjeta blanca. */
         .google-reviews-widget:empty { min-height: 0; padding: 0; background: none; box-shadow: none; }
+
+        /* Botón "Déjanos tu reseña en Google" */
+        .resena-google-section { padding: 3.5rem 1.5rem; background: #ffffff; text-align: center; }
+        .resena-google-container { max-width: 640px; margin: 0 auto; }
+        .resena-google-estrellas { color: #fbbc04; font-size: 2rem; letter-spacing: 5px; margin-bottom: 1rem; }
+        .resena-google-titulo { font-family: 'Montserrat Alternates', sans-serif; font-size: 1.9rem; font-weight: 700; color: var(--color-texto-oscuro, #1d2336); line-height: 1.2; margin: 0 0 0.75rem; }
+        .resena-google-texto { font-family: 'Open Sans', sans-serif; color: var(--storm-gray, #6d7489); font-size: 1.05rem; line-height: 1.6; margin: 0 0 1.75rem; }
+        .resena-google-btn { display: inline-flex; align-items: center; gap: 0.6rem; background: #1d815d; color: #ffffff; font-family: 'Montserrat Alternates', sans-serif; font-weight: 700; font-size: 1.05rem; padding: 0.9rem 2.2rem; border-radius: 50px; text-decoration: none; box-shadow: 0 6px 18px rgba(29, 129, 93, 0.3); transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+        .resena-google-btn:hover { background: #14603f; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(29, 129, 93, 0.4); }
+        .resena-google-btn i { font-size: 1.2rem; }
+        @media (max-width: 576px) {
+            .resena-google-section { padding: 2.5rem 1.2rem; }
+            .resena-google-titulo { font-size: 1.5rem; }
+            .resena-google-btn { width: 100%; justify-content: center; }
+        }
     </style>
     <link rel="stylesheet" href="reset.css">
     <link rel="preload" href="assets/icons.svg" as="image">
@@ -154,6 +169,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Deja tu reseña en Google (ficha del negocio) -->
+    <section class="resena-google-section">
+        <div class="resena-google-container">
+            <div class="resena-google-estrellas" aria-hidden="true">★★★★★</div>
+            <h2 class="resena-google-titulo">¿Te ha gustado tu experiencia?</h2>
+            <p class="resena-google-texto">Tu opinión nos ayuda muchísimo y ayuda a otros ganaderos a
+                confiar en nosotros. Solo te llevará un minuto. ¡Gracias!</p>
+            <a href="https://g.page/r/CZnIqu98M2vBEBM/review" class="resena-google-btn" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-google" aria-hidden="true"></i> Déjanos tu reseña en Google
+            </a>
         </div>
     </section>
 
