@@ -51,19 +51,52 @@
         /* Mientras el widget está vacío no debe verse su tarjeta blanca. */
         .google-reviews-widget:empty { min-height: 0; padding: 0; background: none; box-shadow: none; }
 
-        /* Botón "Déjanos tu reseña en Google" */
-        .resena-google-section { padding: 3.5rem 1.5rem; background: #ffffff; text-align: center; }
-        .resena-google-container { max-width: 640px; margin: 0 auto; }
-        .resena-google-estrellas { color: #fbbc04; font-size: 2rem; letter-spacing: 5px; margin-bottom: 1rem; }
-        .resena-google-titulo { font-family: 'Montserrat Alternates', sans-serif; font-size: 1.9rem; font-weight: 700; color: var(--color-texto-oscuro, #1d2336); line-height: 1.2; margin: 0 0 0.75rem; }
-        .resena-google-texto { font-family: 'Open Sans', sans-serif; color: var(--storm-gray, #6d7489); font-size: 1.05rem; line-height: 1.6; margin: 0 0 1.75rem; }
-        .resena-google-btn { display: inline-flex; align-items: center; gap: 0.6rem; background: #1d815d; color: #ffffff; font-family: 'Montserrat Alternates', sans-serif; font-weight: 700; font-size: 1.05rem; padding: 0.9rem 2.2rem; border-radius: 50px; text-decoration: none; box-shadow: 0 6px 18px rgba(29, 129, 93, 0.3); transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
-        .resena-google-btn:hover { background: #14603f; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(29, 129, 93, 0.4); }
-        .resena-google-btn i { font-size: 1.2rem; }
+        /* ===== Página de gracias compacta: que el pedido y la reseña se vean sin scroll ===== */
+        /* Hero más bajo (antes ocupaba 50vh). */
+        .carrusel-container:has(.gracias-icon) { height: auto; min-height: 0; padding: 2.25rem 1rem; }
+        .carrusel-container:has(.gracias-icon) .gracias-icon { font-size: 3rem; margin-bottom: 0.75rem; }
+        .carrusel-container:has(.gracias-icon) .hero-texto { padding: 0.5rem 1rem; }
+        .carrusel-container:has(.gracias-icon) .hero-titulo { font-size: 2.4rem; margin-bottom: 0.4rem; }
+        .carrusel-container:has(.gracias-icon) .hero-subtitulo { margin-bottom: 0; }
+
+        /* Info del pedido: menos aire para que quede pegada al hero. */
+        .pedido-info { padding: 2rem 0; }
+        .pedido-content { padding: 1.75rem 2rem; }
+        .pedido-titulo { font-size: 1.5rem; margin-bottom: 1.25rem; }
+        .pedido-details { gap: 0.4rem; }
+        .pedido-item { padding: 0.6rem 0; }
+
+        /* ===== Bloque social post-compra: reseña de Google + seguir en Facebook ===== */
+        .post-compra-social { padding: 2rem 1.5rem 2.5rem; background: #ffffff; }
+        .post-compra-container { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+        .social-card { border-radius: 16px; padding: 1.75rem 1.5rem; text-align: center; border: 1px solid #e9ecef; background: #fbfcfb; display: flex; flex-direction: column; align-items: center; }
+        .social-card-estrellas { color: #fbbc04; font-size: 1.6rem; letter-spacing: 4px; margin-bottom: 0.5rem; }
+        .social-card-icono { color: #1877f2; font-size: 2rem; margin-bottom: 0.5rem; line-height: 1; }
+        .social-card-titulo { font-family: 'Montserrat Alternates', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--color-texto-oscuro, #1d2336); line-height: 1.2; margin: 0 0 0.5rem; }
+        .social-card-texto { font-family: 'Open Sans', sans-serif; color: var(--storm-gray, #6d7489); font-size: 0.95rem; line-height: 1.5; margin: 0 0 1.25rem; }
+        .social-btn { margin-top: auto; display: inline-flex; align-items: center; gap: 0.55rem; color: #ffffff; font-family: 'Montserrat Alternates', sans-serif; font-weight: 700; font-size: 1rem; padding: 0.8rem 1.8rem; border-radius: 50px; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; }
+        .social-btn i { font-size: 1.1rem; }
+        .social-btn--google { background: #1d815d; box-shadow: 0 6px 18px rgba(29, 129, 93, 0.3); }
+        .social-btn--google:hover { background: #14603f; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(29, 129, 93, 0.4); }
+        .social-btn--facebook { background: #1877f2; box-shadow: 0 6px 18px rgba(24, 119, 242, 0.3); }
+        .social-btn--facebook:hover { background: #0f5ecb; transform: translateY(-2px); box-shadow: 0 10px 26px rgba(24, 119, 242, 0.4); }
+
+        /* Botón secundario "Volver al inicio" al final de la página. */
+        .volver-inicio-section { padding: 0 1.5rem 2.5rem; text-align: center; background: #ffffff; }
+        .volver-inicio-btn { display: inline-flex; align-items: center; gap: 0.55rem; font-family: 'Montserrat Alternates', sans-serif; font-weight: 700; font-size: 1rem; color: #1d815d; background: transparent; border: 2px solid #1d815d; padding: 0.75rem 2rem; border-radius: 50px; text-decoration: none; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+        .volver-inicio-btn:hover { background: #1d815d; color: #ffffff; transform: translateY(-2px); }
+        .volver-inicio-btn i { font-size: 0.9rem; }
+
+        @media (max-width: 640px) {
+            .post-compra-container { grid-template-columns: 1fr; gap: 1rem; }
+            .social-btn { width: 100%; justify-content: center; }
+        }
         @media (max-width: 576px) {
-            .resena-google-section { padding: 2.5rem 1.2rem; }
-            .resena-google-titulo { font-size: 1.5rem; }
-            .resena-google-btn { width: 100%; justify-content: center; }
+            .carrusel-container:has(.gracias-icon) { padding: 1.75rem 1rem; }
+            .carrusel-container:has(.gracias-icon) .gracias-icon { font-size: 2.6rem; }
+            .carrusel-container:has(.gracias-icon) .hero-titulo { font-size: 1.9rem; }
+            .pedido-info { padding: 1.5rem 0; }
+            .social-card-titulo { font-size: 1.15rem; }
         }
     </style>
     <link rel="stylesheet" href="reset.css">
@@ -138,9 +171,6 @@
                 </div>
                 <h1 class="hero-titulo">¡GRACIAS POR SU COMPRA!</h1>
                 <p class="hero-subtitulo">Su pedido ha sido procesado correctamente</p>
-                <p class="hero-descripcion">Hemos recibido su pedido y lo estamos procesando. En breve recibirá un email
-                    del recibo con todos los detalles.</p>
-                <a href="index.html" class="hero-cta">VOLVER AL INICIO</a>
             </div>
         </div>
     </div>
@@ -172,16 +202,25 @@
         </div>
     </section>
 
-    <!-- Deja tu reseña en Google (ficha del negocio) -->
-    <section class="resena-google-section">
-        <div class="resena-google-container">
-            <div class="resena-google-estrellas" aria-hidden="true">★★★★★</div>
-            <h2 class="resena-google-titulo">¿Te ha gustado tu experiencia?</h2>
-            <p class="resena-google-texto">Tu opinión nos ayuda muchísimo y ayuda a otros ganaderos a
-                confiar en nosotros. Solo te llevará un minuto. ¡Gracias!</p>
-            <a href="https://g.page/r/CZnIqu98M2vBEBM/review" class="resena-google-btn" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-google" aria-hidden="true"></i> Déjanos tu reseña en Google
-            </a>
+    <!-- Post-compra: reseña en Google + seguir en Facebook -->
+    <section class="post-compra-social">
+        <div class="post-compra-container">
+            <div class="social-card">
+                <div class="social-card-estrellas" aria-hidden="true">★★★★★</div>
+                <h2 class="social-card-titulo">¿Te ha gustado tu experiencia?</h2>
+                <p class="social-card-texto">Tu reseña ayuda a otros ganaderos a confiar en nosotros. Solo un minuto.</p>
+                <a href="https://g.page/r/CZnIqu98M2vBEBM/review" class="social-btn social-btn--google" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-google" aria-hidden="true"></i> Reseña en Google
+                </a>
+            </div>
+            <div class="social-card">
+                <div class="social-card-icono" aria-hidden="true"><i class="fab fa-facebook"></i></div>
+                <h2 class="social-card-titulo">Síguenos en Facebook</h2>
+                <p class="social-card-texto">Consejos de nutrición animal, novedades y ofertas para tu ganado.</p>
+                <a href="https://www.facebook.com/p/Nutrigan-Espa%C3%B1a-61554696603699/" class="social-btn social-btn--facebook" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook-f" aria-hidden="true"></i> Seguir en Facebook
+                </a>
+            </div>
         </div>
     </section>
 
@@ -194,31 +233,12 @@
         </div>
     </section>
 
-    <!-- Información de Contacto -->
-    <section class="contacto-pedido">
-        <div class="contacto-container">
-            <div class="contacto-content">
-                <h2 class="contacto-titulo">¿Necesita Ayuda?</h2>
-                <p class="contacto-descripcion">Si tiene alguna pregunta sobre su pedido o necesita asistencia, no dude
-                    en contactarnos.</p>
-                <div class="contacto-info">
-                    <div class="contacto-item">
-                        <i class="fas fa-phone"></i>
-                        <span>+34 626 983 042</span>
-                    </div>
-                    <div class="contacto-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>javiernutrigan@gmail.com</span>
-                    </div>
-                    <div class="contacto-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>C/El Cortin n°63, El Crucero - Tineo 33877 (Asturias)</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Volver al inicio -->
+    <section class="volver-inicio-section">
+        <a href="index.html" class="volver-inicio-btn">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Volver al inicio
+        </a>
     </section>
-
 
     <!-- Footer -->
     <footer class="footer">
