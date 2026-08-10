@@ -40,6 +40,13 @@
         .product-table tr:hover td { background: #f9fffc; }
         .product-thumb { width: 44px; height: 44px; object-fit: contain; border-radius: 6px; border: 1px solid #eee; background: #fafafa; }
         .badge-dest { background: #e8f5f0; color: #1d815d; font-size: 0.68rem; padding: 2px 7px; border-radius: 10px; vertical-align: middle; margin-left: 6px; font-weight: 600; }
+        /* Producto marcado como no disponible: se ve en el listado sin tener que abrirlo */
+        .badge-agotado { background: #fff2e0; color: #b35309; font-size: 0.68rem; padding: 2px 7px; border-radius: 10px; vertical-align: middle; margin-left: 6px; font-weight: 700; border: 1px solid #f3d3ab; }
+        tr.row-agotado { background: #fffaf4; }
+        tr.row-agotado .product-thumb { opacity: 0.5; filter: grayscale(0.7); }
+        tr.row-agotado td { color: #9a9a9a; }
+        tr.row-agotado strong { color: #6b6b6b; }
+        .count-agotados { color: #b35309; font-weight: 600; }
         .td-actions { white-space: nowrap; display: flex; gap: 6px; }
         .stock-low { color: #e53e3e; font-weight: 700; }
         .loading-state, .empty-state { padding: 60px 24px; text-align: center; color: #aaa; font-size: 0.9rem; }
@@ -616,7 +623,7 @@
 
         const { data, error } = await sb
             .from('productos')
-            .select('id, nombre, precio, stock, destacado, imagen, categoria')
+            .select('id, nombre, precio, stock, destacado, disponible, imagen, categoria')
             .order('id', { ascending: true });
 
         if (error) {
@@ -640,10 +647,13 @@
 
         document.getElementById('product-table').hidden = false;
         document.getElementById('empty-state').hidden   = true;
-        document.getElementById('product-count').textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
+        const nAgotados = list.filter(p => p.disponible === false).length;
+        document.getElementById('product-count').innerHTML =
+            `${list.length} producto${list.length !== 1 ? 's' : ''}` +
+            (nAgotados ? ` · <span class="count-agotados">${nAgotados} agotado${nAgotados !== 1 ? 's' : ''}</span>` : '');
 
         document.getElementById('product-tbody').innerHTML = list.map(p => `
-            <tr>
+            <tr class="${p.disponible === false ? 'row-agotado' : ''}">
                 <td data-label="Imagen"><img src="${p.imagen || 'assets/logo_nutriganesp.png'}" alt="" class="product-thumb"
                      onerror="this.src='assets/logo_nutriganesp.png'"></td>
                 <td data-label="ID"><div class="td-val" style="color:#aaa;font-size:0.8rem">${p.id}</div></td>
@@ -651,6 +661,7 @@
                     <div class="marquee-wrap">
                         <span class="marquee-inner">
                             <strong>${esc(p.nombre)}</strong>
+                            ${p.disponible === false ? '<span class="badge-agotado">Agotado</span>' : ''}
                             ${p.destacado ? '<span class="badge-dest">Destacado</span>' : ''}
                         </span>
                     </div>
