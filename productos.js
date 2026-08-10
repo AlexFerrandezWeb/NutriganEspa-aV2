@@ -203,7 +203,9 @@ function crearElementoProducto(producto, indice = 0) {
                 <span>${escHTML(producto.etapa)}</span>
             </div>
         </div>
-        <div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>
+        <div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span>
+            <span class="producto-envio-gratis"><i class="fas fa-truck"></i>Envío gratis</span>
+        </div>
         <div class="producto-botones">
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles

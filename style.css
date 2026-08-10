@@ -8766,3 +8766,38 @@ body {
         font-size: 0.85rem;
     }
 }
+
+/* Distintivo "Envío gratis" en las tarjetas del catálogo.
+   El envío es gratuito siempre (shipping 0 € en Stripe), pero hasta ahora no se
+   decía hasta la ficha o el carrito. Va bajo el precio, que es donde el usuario
+   está valorando el coste, y reutiliza el verde y el icono de camión del
+   .banner-envio-gratis para no introducir un lenguaje visual nuevo. */
+.producto-envio-gratis {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    padding: 0.22rem 0.6rem;
+    border-radius: 20px;
+    background: #eaf5ef;
+    color: #1d815d;
+    font-family: var(--fuente-texto);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.producto-envio-gratis i {
+    font-size: 0.75rem;
+}
+
+@media (max-width: 576px) {
+    .producto-envio-gratis {
+        font-size: 0.68rem;
+        padding: 0.18rem 0.5rem;
+        margin-top: 0.4rem;
+    }
+}
