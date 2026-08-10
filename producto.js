@@ -146,10 +146,21 @@ function mostrarProducto(producto) {
     // Actualizar presentación
     document.getElementById('producto-presentacion-texto').textContent = producto.presentacion || '-';
     
-    // Actualizar imagen principal
+    // Imagen principal. El servidor ya la inyecta con su src real en
+    // renderProductoHtml(), asi que aqui solo se toca si de verdad difiere: volver a
+    // asignar el mismo src reinicia la descarga de la imagen LCP y tira por tierra
+    // la ventaja de haberla inyectado. Se comparan URLs absolutas ya resueltas
+    // porque el src del atributo es relativo y el de la propiedad no.
     const imagenPrincipal = document.getElementById('producto-imagen-principal');
-    imagenPrincipal.src = producto.imagen;
-    imagenPrincipal.alt = producto.nombre;
+    if (producto.imagen) {
+        const deseada = new URL(producto.imagen, document.baseURI).href;
+        if (imagenPrincipal.src !== deseada) {
+            imagenPrincipal.src = deseada;
+        }
+    }
+    if (imagenPrincipal.alt !== producto.nombre) {
+        imagenPrincipal.alt = producto.nombre;
+    }
     
     // Actualizar badges
     actualizarBadges(producto);

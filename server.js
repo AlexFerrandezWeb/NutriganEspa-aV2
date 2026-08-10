@@ -738,6 +738,21 @@ function resolveImageUrl(imagen) {
     return `https://www.xn--nutriganespaa-tkb.com${clean}`;
 }
 
+// Ruta para el atributo src de la imagen principal. A diferencia de resolveImageUrl
+// -que devuelve URL absoluta porque og:image y schema.org la necesitan asi- aqui
+// interesa una ruta relativa a la raiz: evita forzar peticiones al host canonico
+// si alguien llega por otro dominio.
+//
+// Si el producto no tiene imagen se cae al logo, que pesa 8,6 KB, en vez de dejar
+// un src roto o vacio.
+const IMAGEN_DE_RESERVA = '/assets/logo_nutrigan-nav.webp';
+
+function resolveImageSrc(imagen) {
+    if (!imagen) return IMAGEN_DE_RESERVA;
+    if (imagen.startsWith('http')) return imagen;
+    return imagen.startsWith('/') ? imagen : '/' + imagen;
+}
+
 // Recorta la meta description sin partir palabras. Antes se hacía substring(0, 155)
 // en seco y en Google se leían cortes a media palabra (p. ej. "...Ap").
 // Deja hueco para la elipsis y limpia la puntuación que quede colgando al final.
@@ -864,9 +879,22 @@ function renderProductoHtml(producto, canonical) {
     <script type="application/ld+json">${JSON.stringify(schema)}</script>
     <script type="application/ld+json">${JSON.stringify(breadcrumbSchema)}</script>`;
 
+    // Imagen principal con el src ya puesto. Es el elemento LCP de la ficha: si se
+    // deja vacio para que lo rellene el JS tras consultar Supabase, el navegador no
+    // puede empezar la descarga hasta que ese viaje termina y el fetchpriority="high"
+    // no sirve de nada. La ruta sale de la misma columna `imagen` que alimentan la
+    // web y el feed de Google, asi que no se reintroduce ningun desfase.
+    const imgPrincipal = '<img id="producto-imagen-principal"'
+        + ` src="${escapeHtml(resolveImageSrc(producto.imagen))}"`
+        + ` alt="${escapeHtml(producto.nombre)}"`
+        + ' class="imagen-principal" fetchpriority="high" decoding="async">';
+
     return productoTemplate
         .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
-        .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', seoTags);
+        .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', seoTags)
+        // Por id y no por la cadena completa: asi el reemplazo aguanta si algun dia
+        // cambian los atributos de la etiqueta en producto.html.
+        .replace(/<img id="producto-imagen-principal"[^>]*>/, imgPrincipal);
 }
 
 // URL antigua /producto.html?id= -> 301 a la URL limpia /producto/<slug> (consolida SEO)
