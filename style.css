@@ -8801,3 +8801,56 @@ body {
         margin-top: 0.4rem;
     }
 }
+
+/* Métodos de pago aceptados + sello de seguridad, junto al botón de pago.
+   Los logos son iconos de marca de Font Awesome, que ya se carga en estas
+   páginas: cero peso añadido frente a incrustar SVG de las marcas.
+   Solo Visa, Mastercard y Amex: son las que esta cuenta de Stripe procesa y
+   las que se usan en España. Discover, JCB, UnionPay y Diners se aceptan
+   técnicamente pero saturarían sin aportar nada aquí. */
+.resumen-pago-seguro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 1.25rem;
+    /* margin-bottom propio: .resumen-info no trae margen superior, antes se lo
+       daba el bloque de botones y ahora esta tira queda en medio. */
+    margin-bottom: 1.35rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid #ececec;
+}
+
+.pago-metodos {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    line-height: 1;
+}
+
+.pago-metodos i {
+    font-size: 1.45rem;
+    line-height: 1;
+}
+
+/* Colores oficiales de cada marca, a tamaño pequeño: se reconocen al instante
+   sin dominar la tarjeta. */
+.pago-metodos .fa-cc-visa { color: #1a1f71; }
+.pago-metodos .fa-cc-mastercard { color: #eb001b; }
+.pago-metodos .fa-cc-amex { color: #016fd0; }
+
+.pago-sello {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--fuente-texto);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--color-storm-gray, #6d7489);
+    letter-spacing: 0.01em;
+}
+
+.pago-sello i {
+    color: #1d815d;
+    font-size: 0.8rem;
+}

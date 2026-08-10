@@ -176,6 +176,23 @@
                                 </a>
                             </div>
 
+                            <!-- Métodos de pago aceptados + sello de seguridad. Los logos son
+                                 iconos de Font Awesome, que ya se carga en esta página: no
+                                 añaden ni un byte. Solo las marcas que Stripe procesa de
+                                 verdad en esta cuenta (comprobado en el checkout real). -->
+                            <div class="resumen-pago-seguro">
+                                <div class="pago-metodos">
+                                    <span class="visually-hidden">Aceptamos Visa, Mastercard y American Express</span>
+                                    <i class="fab fa-cc-visa" aria-hidden="true"></i>
+                                    <i class="fab fa-cc-mastercard" aria-hidden="true"></i>
+                                    <i class="fab fa-cc-amex" aria-hidden="true"></i>
+                                </div>
+                                <span class="pago-sello">
+                                    <i class="fas fa-lock" aria-hidden="true"></i>
+                                    Pago seguro con Stripe
+                                </span>
+                            </div>
+
                             <div class="resumen-info">
                                 <div class="info-item info-item--envio">
                                     <i class="fas fa-truck"></i>
