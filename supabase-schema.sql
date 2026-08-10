@@ -29,6 +29,10 @@ CREATE TABLE IF NOT EXISTS productos (
   temperatura        TEXT,
   ficha_tecnica      TEXT,
   stock              INTEGER DEFAULT 0,
+  -- Disponibilidad de cara al cliente. Es la ÚNICA fuente de verdad para
+  -- decidir si un producto se puede comprar y qué manda el feed de Google.
+  -- No se lleva inventario real, así que `stock` ya no decide nada visible.
+  disponible         BOOLEAN NOT NULL DEFAULT true,
   destacado          BOOLEAN DEFAULT false,
   created_at         TIMESTAMPTZ DEFAULT NOW(),
   updated_at         TIMESTAMPTZ DEFAULT NOW()
@@ -48,6 +52,16 @@ CREATE TRIGGER productos_updated_at
   BEFORE UPDATE ON productos
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at();
+
+
+-- 1.b MIGRACIONES SOBRE BASES YA CREADAS
+-- =====================================================
+-- Idempotentes: se pueden volver a ejecutar sin romper nada.
+
+-- Campo `disponible` (marcar agotados sin tocar código ni declarar cantidad).
+-- IMPORTANTE: hay que ejecutarlo ANTES de desplegar el código que lo consulta,
+-- porque los SELECT que piden la columna fallan con 42703 si todavía no existe.
+ALTER TABLE productos ADD COLUMN IF NOT EXISTS disponible BOOLEAN NOT NULL DEFAULT true;
 
 
 -- 2. ROW LEVEL SECURITY (RLS)

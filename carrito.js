@@ -13,6 +13,14 @@ function escHTML(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Disponibilidad de cara al cliente (misma regla que estaDisponible() en server.js).
+// El !== false es deliberado: un dato ausente o nulo cuenta como disponible, para
+// no esconder productos por un problema de datos. Quien de verdad impide cobrar un
+// agotado es verificarStock() en el servidor, no esto.
+function estaDisponible(producto) {
+    return producto && producto.disponible !== false;
+}
+
 // Genera el slug de una URL limpia a partir del nombre (igual que server.js)
 function slugify(str) {
     return String(str || '')
@@ -61,7 +69,7 @@ async function sincronizarPreciosCarrito() {
     const ids = carrito.map(p => p.id);
     const { data, error } = await sb
         .from('productos')
-        .select('id, nombre, precio, precio_unitario, imagen, stock')
+        .select('id, nombre, precio, precio_unitario, imagen, stock, disponible')
         .in('id', ids);
 
     if (error || !data) return;
@@ -76,6 +84,10 @@ async function sincronizarPreciosCarrito() {
         }
         if (item.nombre !== actual.nombre) { item.nombre = actual.nombre; actualizado = true; }
         if (item.imagen !== actual.imagen) { item.imagen = actual.imagen; actualizado = true; }
+        // Un producto puede haberse marcado como agotado despues de anadirlo al
+        // carrito. Lo reflejamos aqui para avisar antes de que llegue al pago.
+        const disponibleAhora = estaDisponible(actual);
+        if (item.disponible !== disponibleAhora) { item.disponible = disponibleAhora; actualizado = true; }
     });
 
     if (actualizado) localStorage.setItem('carrito', JSON.stringify(carrito));
@@ -140,6 +152,7 @@ function crearItemCarrito(producto, index) {
                 <h3 class="carrito-item-nombre">${escHTML(producto.nombre)}</h3>
                 <p class="carrito-item-descripcion">${escHTML(producto.descripcion || 'Producto de nutrición animal')}</p>
                 ${cantidadMinima > 1 ? `<small class="cantidad-minima-info">Mínimo: ${cantidadMinima} unidades</small>` : ''}
+                ${!estaDisponible(producto) ? '<small class="carrito-item-agotado">Agotado temporalmente — retíralo para continuar</small>' : ''}
             </div>
         </a>
         <div class="carrito-item-precios">
@@ -268,8 +281,14 @@ function actualizarResumenCarrito() {
     totalElement.textContent = `€${total.toFixed(2)}`;
     cantidadTotalElement.textContent = `${cantidadTotal} producto${cantidadTotal !== 1 ? 's' : ''}`;
     
-    // Habilitar/deshabilitar botón de proceder al pago
-    btnProcederPago.disabled = carrito.length === 0;
+    // Habilitar/deshabilitar botón de proceder al pago. Se bloquea tambien si
+    // algun producto se marco como agotado mientras estaba en el carrito; el
+    // servidor lo rechazaria igualmente, pero asi el aviso llega antes.
+    const hayAgotados = carrito.some(p => !estaDisponible(p));
+    btnProcederPago.disabled = carrito.length === 0 || hayAgotados;
+    btnProcederPago.title = hayAgotados
+        ? 'Hay productos agotados en tu carrito. Retíralos para continuar.'
+        : '';
     
     // Actualizar contador en el nav
     actualizarContadorCarrito();

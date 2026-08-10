@@ -51,6 +51,16 @@ const transporter = nodemailer.createTransport({
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Disponibilidad de cara al cliente. Manda la columna `disponible` de Supabase;
+// el `stock` numérico ya no decide nada visible porque no se lleva inventario real.
+//
+// El `!== false` es deliberado: si la columna llegara nula o el producto viniera
+// sin ese campo, se considera disponible. Preferimos fallar hacia "se puede
+// comprar" antes que esconder el catálogo entero por un problema de datos.
+function estaDisponible(producto) {
+    return producto && producto.disponible !== false;
+}
+
 // Función para verificar si hay stock suficiente para los productos
 async function verificarStock(productos) {
     console.log('🔍 Verificando stock de productos...');
@@ -58,7 +68,7 @@ async function verificarStock(productos) {
     const ids = productos.map(p => p.id);
     const { data: productosDB, error } = await supabaseAdmin
         .from('productos')
-        .select('id, nombre, stock')
+        .select('id, nombre, stock, disponible')
         .in('id', ids);
 
     if (error) throw error;
@@ -70,6 +80,19 @@ async function verificarStock(productos) {
         const cantidadSolicitada = parseInt(productoCarrito.cantidad);
 
         if (producto) {
+            // Un producto marcado como agotado se rechaza aquí, en el servidor,
+            // antes de crear la sesión de pago. Deshabilitar el botón en el
+            // navegador no basta: un carrito guardado en localStorage hace días
+            // llega igual hasta el checkout con el producto ya retirado.
+            if (!estaDisponible(producto)) {
+                console.log(`🚫 ${producto.nombre}: marcado como NO disponible`);
+                productosSinStock.push({
+                    nombre: producto.nombre,
+                    error: 'Agotado temporalmente'
+                });
+                return;
+            }
+
             const stockDisponible = parseInt(producto.stock);
             console.log(`📦 ${producto.nombre}: stock ${stockDisponible}, solicitado ${cantidadSolicitada}`);
             if (stockDisponible < cantidadSolicitada) {
@@ -534,30 +557,12 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
     }
 });
 
-// Endpoint para procesar contrareembolso
-app.post('/api/procesar-contrareembolso', async (req, res) => {
-    try {
-        const { direccion, ciudad, codigoPostal, amount } = req.body;
-
-        // Aquí implementarías la lógica para procesar el contrareembolso
-        // Por ejemplo, crear un pedido en tu sistema con estado "pendiente de pago"
-
-        const pedidoId = 'CR' + Date.now().toString().slice(-6);
-
-        res.json({
-            success: true,
-            message: 'Pedido creado correctamente',
-            pedidoId: pedidoId,
-            metodoPago: 'contrareembolso'
-        });
-    } catch (error) {
-        console.error('Error al procesar contrareembolso:', error);
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
-});
+// El contrareembolso se retiro como metodo de pago. Aqui vivia
+// POST /api/procesar-contrareembolso, que ademas nunca llego a implementarse:
+// devolvia un pedidoId inventado sin registrar el pedido ni avisar por email,
+// y ningun frontend lo llamaba. Eliminado para no dejar una ruta publica que
+// aparenta crear pedidos. Si algun dia se recupera el contrareembolso, hay que
+// escribirlo de cero contra Supabase + el envio de correo, como hace Stripe.
 
 // Endpoint para crear sesión de checkout de Stripe
 app.post('/api/create-checkout-session', async (req, res) => {
@@ -786,7 +791,7 @@ function renderProductoHtml(producto, canonical) {
         .trim();
     const description = recortarDescripcion(rawDesc, 155);
     const imageUrl = resolveImageUrl(producto.imagen);
-    const disponibilidad = (parseInt(producto.stock) || 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+    const disponibilidad = estaDisponible(producto) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
     const precio = parseFloat(producto.precio || 0).toFixed(2);
 
     const schema = {
@@ -908,7 +913,7 @@ app.get('/producto/:slug', async (req, res) => {
 
     const { data: producto, error } = await supabaseAdmin
         .from('productos')
-        .select('id, nombre, descripcion, descripcion_completa, imagen, precio, stock, especie, etapa, categoria')
+        .select('id, nombre, descripcion, descripcion_completa, imagen, precio, stock, disponible, especie, etapa, categoria')
         .eq('id', id)
         .single();
 
@@ -1081,13 +1086,13 @@ app.get('/productos-google.xml', async (req, res) => {
 
     const { data: productos, error } = await supabaseAdmin
         .from('productos')
-        .select('id, nombre, descripcion, descripcion_completa, precio, imagen, categoria, especie, etapa, presentacion, peso, stock')
+        .select('id, nombre, descripcion, descripcion_completa, precio, imagen, categoria, especie, etapa, presentacion, peso, stock, disponible')
         .order('id', { ascending: true });
 
     if (error) return res.status(500).send('Error generando feed de productos');
 
     const items = productos.map(p => {
-        const disponibilidad = (parseInt(p.stock) || 0) > 0 ? 'in stock' : 'out of stock';
+        const disponibilidad = estaDisponible(p) ? 'in stock' : 'out of stock';
         const rawDesc = p.descripcion_completa || p.descripcion || '';
         const descripcion = escapeXml(rawDesc.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().substring(0, 5000));
         const imageUrl = buildImageUrl(p.imagen);

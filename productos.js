@@ -13,6 +13,14 @@ function escHTML(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Disponibilidad de cara al cliente (misma regla que estaDisponible() en server.js).
+// El !== false es deliberado: un dato ausente o nulo cuenta como disponible, para
+// no esconder productos por un problema de datos. Quien de verdad impide cobrar un
+// agotado es verificarStock() en el servidor, no esto.
+function estaDisponible(producto) {
+    return producto && producto.disponible !== false;
+}
+
 // Genera el slug de una URL limpia a partir del nombre (igual que server.js)
 function slugify(str) {
     return String(str || '')
@@ -166,8 +174,9 @@ function crearElementoProducto(producto, indice = 0) {
     // Badge de destacado si es necesario
     const badgeDestacado = producto.destacado ? '<span class="producto-badge-destacado">Destacado</span>' : '';
     
-    // Badge de stock
-    const badgeStock = producto.stock < 10 ? '<span class="producto-badge-stock">Stock bajo</span>' : '';
+    // Badge de agotado (lo marca la columna `disponible`, no el stock numerico)
+    const agotado = !estaDisponible(producto);
+    const badgeStock = agotado ? '<span class="producto-badge-agotado">Agotado</span>' : '';
     
     productoLink.innerHTML = `
         <div class="producto-imagen-container">
@@ -199,9 +208,9 @@ function crearElementoProducto(producto, indice = 0) {
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles
             </button>
-            <button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id})">
+            <button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id})" ${agotado ? 'disabled' : ''}>
                 <i class="fas fa-shopping-cart"></i>
-                Añadir al Carrito
+                ${agotado ? 'Agotado' : 'Añadir al Carrito'}
             </button>
         </div>
     `;
@@ -745,7 +754,7 @@ function inyectarSchemaItemList(productosData) {
                     'price': parseFloat(producto.precio).toFixed(2),
                     'priceValidUntil': '2027-12-31',
                     'itemCondition': 'https://schema.org/NewCondition',
-                    'availability': producto.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                    'availability': estaDisponible(producto) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
                     'url': `https://www.xn--nutriganespaa-tkb.com/producto/${slugify(producto.nombre)}`,
                     'seller': { '@type': 'Organization', 'name': 'Nutrigan España' },
                     'shippingDetails': {

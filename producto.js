@@ -13,6 +13,14 @@ function escHTML(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Disponibilidad de cara al cliente (misma regla que estaDisponible() en server.js).
+// El !== false es deliberado: un dato ausente o nulo cuenta como disponible, para
+// no esconder productos por un problema de datos. Quien de verdad impide cobrar un
+// agotado es verificarStock() en el servidor, no esto.
+function estaDisponible(producto) {
+    return producto && producto.disponible !== false;
+}
+
 // Genera el slug de una URL limpia a partir del nombre (igual que server.js)
 function slugify(str) {
     return String(str || '')
@@ -167,10 +175,10 @@ function actualizarBadges(producto) {
         badgesContainer.appendChild(badge);
     }
     
-    if (producto.stock < 10) {
+    if (!estaDisponible(producto)) {
         const badge = document.createElement('span');
-        badge.className = 'producto-badge producto-badge-stock';
-        badge.textContent = 'Stock bajo';
+        badge.className = 'producto-badge producto-badge-agotado';
+        badge.textContent = 'Agotado';
         badgesContainer.appendChild(badge);
     }
 }
@@ -226,7 +234,7 @@ async function cargarProductosRelacionados(categoria, productoId) {
     try {
         const { data, error } = await sb
             .from('productos')
-            .select('id, nombre, descripcion, precio, imagen, categoria, especie, etapa, stock, destacado')
+            .select('id, nombre, descripcion, precio, imagen, categoria, especie, etapa, stock, disponible, destacado')
             .eq('categoria', categoria)
             .neq('id', parseInt(productoId))
             .limit(4);
@@ -255,11 +263,14 @@ function mostrarProductosRelacionados(productos) {
         item.className = 'relacionado-item';
         item.onclick = () => window.location.href = `/producto/${slugify(producto.nombre)}`;
         
+        const agotado = !estaDisponible(producto);
+        if (agotado) item.classList.add('relacionado-agotado');
+
         item.innerHTML = `
-            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="relacionado-imagen">
+            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="relacionado-imagen" loading="lazy" decoding="async">
             <div class="relacionado-info">
                 <h4 class="relacionado-nombre">${escHTML(producto.nombre)}</h4>
-                <p class="relacionado-precio">€${producto.precio.toFixed(2)}</p>
+                <p class="relacionado-precio">€${producto.precio.toFixed(2)}${agotado ? ' <span class="etiqueta-agotado">Agotado</span>' : ''}</p>
             </div>
         `;
         
@@ -274,16 +285,16 @@ function actualizarEstadoBotones(producto) {
     const cantidadMenos = document.getElementById('cantidad-menos');
     const cantidadMas = document.getElementById('cantidad-mas');
     
-    const sinStock = producto.stock <= 0;
-    
-    btnAñadir.disabled = sinStock;
-    btnComprar.disabled = sinStock;
-    cantidadMenos.disabled = sinStock;
-    cantidadMas.disabled = sinStock;
+    const agotado = !estaDisponible(producto);
 
-    if (sinStock) {
-        btnAñadir.textContent = 'Sin Stock';
-        btnComprar.textContent = 'Sin Stock';
+    btnAñadir.disabled = agotado;
+    btnComprar.disabled = agotado;
+    cantidadMenos.disabled = agotado;
+    cantidadMas.disabled = agotado;
+
+    if (agotado) {
+        btnAñadir.textContent = 'Agotado';
+        btnComprar.textContent = 'Agotado';
     }
 }
 
@@ -341,8 +352,8 @@ function actualizarBotonesCantidad() {
 
 // Función para añadir al carrito
 function añadirAlCarrito() {
-    if (!productoActual || productoActual.stock <= 0) {
-        mostrarNotificacion('Producto no disponible', 'error');
+    if (!productoActual || !estaDisponible(productoActual)) {
+        mostrarNotificacion('Producto agotado temporalmente', 'error');
         return;
     }
     
@@ -402,8 +413,8 @@ function añadirAlCarrito() {
 
 // Función para comprar ahora (checkout directo en Stripe)
 async function comprarAhora() {
-    if (!productoActual || productoActual.stock <= 0) {
-        mostrarNotificacion('Producto no disponible', 'error');
+    if (!productoActual || !estaDisponible(productoActual)) {
+        mostrarNotificacion('Producto agotado temporalmente', 'error');
         return;
     }
 
@@ -683,7 +694,7 @@ function inyectarSchemaProducto(producto) {
     const existente = document.getElementById('schema-producto');
     if (existente) existente.remove();
 
-    const disponibilidad = producto.stock > 0
+    const disponibilidad = estaDisponible(producto)
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock';
 

@@ -129,6 +129,7 @@
         textarea { resize: vertical; line-height: 1.5; }
         .check-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.875rem; color: #444; }
         .check-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #1d815d; cursor: pointer; }
+        .check-hint { display: block; margin: 4px 0 0 24px; font-size: 0.78rem; color: #888; line-height: 1.4; }
 
         /* ── TAGS (ingredientes/beneficios) ─────────────────── */
         .tag-box { border: 1px solid #ddd; border-radius: 8px; padding: 8px 10px; background: white; }
@@ -409,6 +410,15 @@
                         <input type="checkbox" id="f-destacado">
                         Mostrar como producto destacado en la página principal
                     </label>
+                </div>
+                <div class="form-group">
+                    <label class="check-label">
+                        <input type="checkbox" id="f-disponible" checked>
+                        Disponible para la venta
+                    </label>
+                    <small class="check-hint">Si lo desmarcas, el producto aparece como
+                        «Agotado», no se puede comprar y el feed de Google pasa a
+                        «out of stock» (tarda hasta 1&nbsp;hora en reflejarse).</small>
                 </div>
             </div>
 
@@ -734,6 +744,8 @@
             document.getElementById('f-desc').value         = p.descripcion || '';
             document.getElementById('f-desc-full').value    = p.descripcion_completa || '';
             document.getElementById('f-destacado').checked  = p.destacado || false;
+            // !== false: un producto sin el campo (o con null) cuenta como disponible
+            document.getElementById('f-disponible').checked = p.disponible !== false;
             const cats = (p.categoria || '').split(',').map(c => c.trim().toLowerCase());
             document.querySelectorAll('input[name="categoria"]').forEach(cb => {
                 cb.checked = cats.includes(cb.value);
@@ -792,6 +804,7 @@
                 precio_unitario:      document.getElementById('f-precio-unitario').value !== '' ? parseFloat(document.getElementById('f-precio-unitario').value) : null,
                 stock:                parseInt(document.getElementById('f-stock').value) || 0,
                 destacado:            document.getElementById('f-destacado').checked,
+                disponible:           document.getElementById('f-disponible').checked,
                 categoria:            [...document.querySelectorAll('input[name="categoria"]:checked')].map(cb => cb.value).join(','),
                 especie:              document.getElementById('f-especie').value.trim(),
                 etapa:                document.getElementById('f-etapa').value.trim(),

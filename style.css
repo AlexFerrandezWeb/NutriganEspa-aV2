@@ -3007,7 +3007,7 @@ body {
     }
 
     .productos-grid-catalogo .producto-badge-destacado,
-    .productos-grid-catalogo .producto-badge-stock {
+    .productos-grid-catalogo .producto-badge-agotado {
         font-size: 0.55rem;
         padding: 0.15rem 0.45rem;
         top: 6px;
@@ -3018,7 +3018,7 @@ body {
         right: 6px;
     }
 
-    .productos-grid-catalogo .producto-badge-stock {
+    .productos-grid-catalogo .producto-badge-agotado {
         left: 6px;
     }
 
@@ -3167,7 +3167,7 @@ body {
 }
 
 .producto-badge-destacado,
-.producto-badge-stock {
+.producto-badge-agotado {
     position: absolute;
     top: 10px;
     padding: 0.3rem 0.8rem;
@@ -3185,7 +3185,7 @@ body {
     color: #8b6914;
 }
 
-.producto-badge-stock {
+.producto-badge-agotado {
     left: 10px;
     background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
     color: white;
@@ -6667,7 +6667,7 @@ body {
     color: white;
 }
 
-.producto-badge-stock {
+.producto-badge-agotado {
     background: linear-gradient(45deg, #ffa726, #ff9800);
     color: white;
 }
@@ -7172,6 +7172,34 @@ body {
 
 .relacionado-info {
     padding: 1.5rem;
+}
+
+/* Producto marcado como no disponible (columna `disponible` en Supabase) */
+.relacionado-agotado .relacionado-imagen {
+    opacity: 0.45;
+    filter: grayscale(0.6);
+}
+
+.etiqueta-agotado {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 10px;
+    background: #ff9800;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+.carrito-item-agotado {
+    display: block;
+    margin-top: 0.35rem;
+    color: #d84315;
+    font-size: 0.78rem;
+    font-weight: 600;
 }
 
 .relacionado-nombre {
