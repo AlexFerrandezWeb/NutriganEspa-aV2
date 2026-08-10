@@ -650,9 +650,14 @@ app.post('/api/create-checkout-session', async (req, res) => {
             shipping_address_collection: {
                 allowed_countries: ['ES']
             },
-            // Configuración de campos de facturación
-            billing_address_collection: 'required',
-            // Configuración de teléfono
+            // Facturación en 'auto': Stripe ya recoge la dirección de envío justo arriba
+            // y ofrece "usar la misma para facturación". Con 'required' se pintaba un
+            // segundo bloque de ~6 campos duplicados, un punto claro de abandono.
+            billing_address_collection: 'auto',
+            // Teléfono: se mantiene obligatorio a propósito. Stripe Checkout no permite
+            // pedirlo como opcional (o se recoge y es obligatorio, o no se pide), y el
+            // reparto de Correos Express a explotaciones rurales necesita contacto para
+            // coordinar la entrega. Un campo de más compensa frente a entregas fallidas.
             phone_number_collection: {
                 enabled: true
             },
@@ -728,6 +733,20 @@ function resolveImageUrl(imagen) {
     return `https://www.xn--nutriganespaa-tkb.com${clean}`;
 }
 
+// Recorta la meta description sin partir palabras. Antes se hacía substring(0, 155)
+// en seco y en Google se leían cortes a media palabra (p. ej. "...Ap").
+// Deja hueco para la elipsis y limpia la puntuación que quede colgando al final.
+function recortarDescripcion(texto, max = 155) {
+    const limpio = String(texto || '').trim();
+    if (limpio.length <= max) return limpio;
+
+    const corte = limpio.slice(0, max - 1);
+    const ultimoEspacio = corte.lastIndexOf(' ');
+    const base = ultimoEspacio > 0 ? corte.slice(0, ultimoEspacio) : corte;
+
+    return base.replace(/[\s.,;:¡!¿?()\[\]/\-–—]+$/, '') + '…';
+}
+
 // Servir producto.html con meta tags inyectados server-side desde Supabase
 const productoTemplate = fs.readFileSync(path.join(__dirname, 'producto.html'), 'utf8');
 
@@ -765,7 +784,7 @@ function renderProductoHtml(producto, canonical) {
         .replace(/<[^>]*>/g, '')
         .replace(/\s+/g, ' ')
         .trim();
-    const description = rawDesc.substring(0, 155);
+    const description = recortarDescripcion(rawDesc, 155);
     const imageUrl = resolveImageUrl(producto.imagen);
     const disponibilidad = (parseInt(producto.stock) || 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
     const precio = parseFloat(producto.precio || 0).toFixed(2);

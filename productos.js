@@ -141,8 +141,8 @@ function mostrarProductos(productosAMostrar) {
         return;
     }
     
-    productosAMostrar.forEach(producto => {
-        const productoElement = crearElementoProducto(producto);
+    productosAMostrar.forEach((producto, indice) => {
+        const productoElement = crearElementoProducto(producto, indice);
         productosGrid.appendChild(productoElement);
     });
     
@@ -157,7 +157,7 @@ function mostrarProductos(productosAMostrar) {
 }
 
 // Función para crear el elemento HTML de un producto
-function crearElementoProducto(producto) {
+function crearElementoProducto(producto, indice = 0) {
     const productoLink = document.createElement('a');
     productoLink.className = 'producto-item producto-link';
     productoLink.href = `/producto/${slugify(producto.nombre)}`;
@@ -173,7 +173,8 @@ function crearElementoProducto(producto) {
         <div class="producto-imagen-container">
             ${badgeDestacado}
             ${badgeStock}
-            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="producto-imagen">
+            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="producto-imagen"
+                 ${indice < 4 ? 'loading="eager"' : 'loading="lazy"'} decoding="async">
         </div>
         <h3 class="producto-nombre">${escHTML(producto.nombre)}</h3>
         <p class="producto-descripcion">
