@@ -14,7 +14,9 @@
         /* ── ADMIN LAYOUT ───────────────────────────────────── */
         .admin-header { background: #1d4d35; color: white; display: flex; justify-content: space-between; align-items: center; padding: 0 28px; height: 60px; box-shadow: 0 2px 8px rgba(0,0,0,0.25); flex-shrink: 0; }
         .header-left { display: flex; align-items: center; gap: 14px; }
-        .header-logo { height: 36px; object-fit: contain; }
+        /* width:auto por lo mismo que en admin.html: sin el, el ancho del
+           atributo (586) crea una caja enorme y deja un hueco en la cabecera. */
+        .header-logo { height: 36px; width: auto; object-fit: contain; }
         .header-title { font-size: 1rem; font-weight: 600; opacity: 0.95; }
         .header-right { display: flex; align-items: center; gap: 14px; }
         .user-email { font-size: 0.8rem; opacity: 0.75; }
