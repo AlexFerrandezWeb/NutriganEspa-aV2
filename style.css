@@ -8629,7 +8629,7 @@ body {
     /* Alto real de la barra (contenido + padding + borde superior), medido. El
        hueco del footer y el desplazamiento del botón de WhatsApp salen de aquí
        para que no se descuadren si algún día cambia el padding de la barra. */
-    --altura-barra-pago: 70px;
+    --altura-barra-pago: 96px;
     /* Holgura extra: sin ella el copyright del footer quedaba justo a ras de la
        barra, rozándola. */
     --holgura-barra-pago: 1rem;
@@ -8645,16 +8645,65 @@ body {
        (10000): mientras el banner esté visible debe tapar la barra, igual que tapa
        el resto de la página. */
     z-index: 1600;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    /* En columna: micro-línea de pago seguro arriba, total + botón debajo */
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
     background: #ffffff;
     border-top: 1px solid #e9ecef;
     box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
-    padding: 0.7rem 1rem;
+    padding: 0.5rem 1rem 0.6rem;
     /* Respeta el notch/barra gestual de los móviles modernos */
-    padding-bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px));
     transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+/* Micro-línea superior: métodos aceptados + sello, en el momento del clic.
+   Deliberadamente discreta para no competir con el total ni con el botón. */
+.barra-movil-pago {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    line-height: 1;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.barra-movil-pago i.fa-cc-visa,
+.barra-movil-pago i.fa-cc-mastercard,
+.barra-movil-pago i.fa-cc-amex {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+.barra-movil-pago .fa-cc-visa { color: #1a1f71; }
+.barra-movil-pago .fa-cc-mastercard { color: #eb001b; }
+.barra-movil-pago .fa-cc-amex { color: #016fd0; }
+
+.barra-movil-sello {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-left: 0.25rem;
+    font-family: var(--fuente-texto);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-storm-gray, #6d7489);
+}
+
+.barra-movil-sello i {
+    color: #1d815d;
+    font-size: 0.72rem;
+}
+
+/* Fila principal: total a un lado, botón al otro */
+.barra-movil-fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
 }
 
 /* Se repliega cuando el botón "Proceder al Pago" del resumen ya está en pantalla:
