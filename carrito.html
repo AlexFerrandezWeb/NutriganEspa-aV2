@@ -221,6 +221,20 @@
     </div>
 
 
+    <!-- Barra de pago fija (solo móvil). Cuelga del body y no de .carrito-contenido
+         porque un position:fixed dentro de un ancestro con transform dejaría de ser
+         relativo al viewport. La clase .visible la pone carrito.js. -->
+    <div class="carrito-barra-movil" id="carrito-barra-movil">
+        <div class="barra-movil-total">
+            <span class="barra-movil-etiqueta" id="barra-movil-etiqueta">Total</span>
+            <span class="barra-movil-importe" id="barra-movil-importe">€0.00</span>
+        </div>
+        <button class="barra-movil-btn" id="btn-pagar-movil" type="button">
+            <i class="fas fa-credit-card"></i>
+            <span class="barra-movil-btn-texto">Proceder al Pago</span>
+        </button>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">

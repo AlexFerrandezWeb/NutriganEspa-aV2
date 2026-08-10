@@ -8613,3 +8613,147 @@ body {
     text-decoration: underline;
 }
 
+
+/* ========================================
+   BARRA DE PAGO FIJA — SOLO MÓVIL (carrito)
+   ========================================
+   En móvil el .carrito-grid pasa a una columna, así que el bloque .carrito-resumen
+   (con "Proceder al Pago") queda debajo de toda la lista: con 3-4 artículos el botón
+   está fuera de pantalla. Esta barra lo mantiene siempre accesible.
+
+   Oculta por defecto en TODOS los tamaños; solo se muestra si el JS le pone .visible
+   Y además estamos por debajo de 768px, que es justo donde el grid colapsa. Así no
+   parpadea antes de que cargue el JS ni aparece nunca en escritorio. */
+
+:root {
+    /* Alto real de la barra (contenido + padding + borde superior), medido. El
+       hueco del footer y el desplazamiento del botón de WhatsApp salen de aquí
+       para que no se descuadren si algún día cambia el padding de la barra. */
+    --altura-barra-pago: 70px;
+    /* Holgura extra: sin ella el copyright del footer quedaba justo a ras de la
+       barra, rozándola. */
+    --holgura-barra-pago: 1rem;
+}
+
+.carrito-barra-movil {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* Por encima del botón de WhatsApp (1500), por debajo del banner de cookies
+       (10000): mientras el banner esté visible debe tapar la barra, igual que tapa
+       el resto de la página. */
+    z-index: 1600;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #ffffff;
+    border-top: 1px solid #e9ecef;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    padding: 0.7rem 1rem;
+    /* Respeta el notch/barra gestual de los móviles modernos */
+    padding-bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
+}
+
+.barra-movil-total {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    min-width: 0;
+}
+
+.barra-movil-etiqueta {
+    font-size: 0.72rem;
+    color: var(--color-storm-gray, #8a8a8a);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.barra-movil-importe {
+    font-family: var(--fuente-titulos);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-texto-oscuro, #1d2336);
+}
+
+/* Aviso cuando hay agotados: en móvil el usuario no ve el mensaje de la línea del
+   producto sin hacer scroll, así que se lo decimos aquí. */
+.carrito-barra-movil.tiene-agotados .barra-movil-etiqueta,
+.carrito-barra-movil.tiene-agotados .barra-movil-importe {
+    color: #d84315;
+}
+
+.carrito-barra-movil.tiene-agotados .barra-movil-importe {
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.25;
+    /* Sin esto el navegador partía "productos" como "produc-tos" y el aviso se
+       comía tres líneas, descuadrando el alto de la barra. */
+    -webkit-hyphens: none;
+    hyphens: none;
+    overflow-wrap: normal;
+}
+
+/* Mismo lenguaje visual que .btn-proceder-pago */
+.barra-movil-btn {
+    background: linear-gradient(45deg, var(--color-contador), var(--color-acento));
+    color: white;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    font-family: var(--fuente-titulos);
+    font-size: 0.92rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: opacity 0.25s ease, transform 0.15s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(29, 129, 93, 0.3);
+}
+
+.barra-movil-btn:active {
+    transform: scale(0.97);
+}
+
+.barra-movil-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 768px) {
+    .carrito-barra-movil.visible {
+        display: flex;
+    }
+
+    /* Hueco para que la barra no tape el final del contenido ni el footer */
+    body.con-barra-pago .footer {
+        padding-bottom: calc(var(--altura-barra-pago) + var(--holgura-barra-pago) + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* El botón de WhatsApp vive en bottom:30px y se plantaría justo encima del
+       botón de pagar. Se sube por encima de la barra en lugar de ocultarlo: una
+       duda de última hora resuelta por WhatsApp puede cerrar la venta. */
+    body.con-barra-pago .whatsapp-float {
+        bottom: calc(var(--altura-barra-pago) + 16px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+@media (max-width: 380px) {
+    /* Pantallas muy estrechas: el importe y el botón no caben con el texto largo */
+    .barra-movil-btn {
+        padding: 0.8rem 1.1rem;
+        font-size: 0.85rem;
+    }
+
+    .barra-movil-btn-texto {
+        font-size: 0.85rem;
+    }
+}

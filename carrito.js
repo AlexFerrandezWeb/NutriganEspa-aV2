@@ -254,14 +254,24 @@ function cerrarModalConfirmacion() {
     productoAEliminar = null;
 }
 
+// Los dos botones que disparan el pago: el del resumen lateral (escritorio) y el
+// de la barra fija (móvil). Se devuelven juntos para que el estado -deshabilitado,
+// spinner de "Procesando..."- se aplique siempre a los dos y no haya uno que se
+// quede desincronizado segun el tamano de pantalla.
+function botonesPago() {
+    return [
+        document.getElementById('btn-proceder-pago'),
+        document.getElementById('btn-pagar-movil'),
+    ].filter(Boolean);
+}
+
 // Función para actualizar resumen del carrito
 function actualizarResumenCarrito() {
     const subtotalElement = document.getElementById('subtotal');
     const envioElement = document.getElementById('envio');
     const totalElement = document.getElementById('total');
     const cantidadTotalElement = document.getElementById('carrito-cantidad-total');
-    const btnProcederPago = document.getElementById('btn-proceder-pago');
-    
+
     const subtotal = carrito.reduce((total, producto) => {
         return total + (producto.precio * producto.cantidad);
     }, 0);
@@ -285,13 +295,48 @@ function actualizarResumenCarrito() {
     // algun producto se marco como agotado mientras estaba en el carrito; el
     // servidor lo rechazaria igualmente, pero asi el aviso llega antes.
     const hayAgotados = carrito.some(p => !estaDisponible(p));
-    btnProcederPago.disabled = carrito.length === 0 || hayAgotados;
-    btnProcederPago.title = hayAgotados
+    const bloqueado = carrito.length === 0 || hayAgotados;
+    const aviso = hayAgotados
         ? 'Hay productos agotados en tu carrito. Retíralos para continuar.'
         : '';
-    
+
+    botonesPago().forEach(btn => {
+        btn.disabled = bloqueado;
+        btn.title = aviso;
+    });
+
+    actualizarBarraMovil(total, hayAgotados);
+
     // Actualizar contador en el nav
     actualizarContadorCarrito();
+}
+
+// Refleja el estado del carrito en la barra fija de móvil. La barra solo se muestra
+// si hay algo que pagar; el CSS se encarga de que ademas nunca aparezca en escritorio.
+function actualizarBarraMovil(total, hayAgotados) {
+    const barra = document.getElementById('carrito-barra-movil');
+    if (!barra) return;
+
+    const visible = carrito.length > 0;
+    barra.classList.toggle('visible', visible);
+    barra.classList.toggle('tiene-agotados', hayAgotados);
+    // La clase en el body da el hueco del footer y sube el botón de WhatsApp,
+    // para que ninguno de los dos quede debajo de la barra.
+    document.body.classList.toggle('con-barra-pago', visible);
+
+    const etiqueta = document.getElementById('barra-movil-etiqueta');
+    const importe = document.getElementById('barra-movil-importe');
+    if (!etiqueta || !importe) return;
+
+    if (hayAgotados) {
+        // Texto corto a propósito: en pantallas de 360-390px el hueco de la barra
+        // deja unos 120px, y un mensaje más largo se parte en tres líneas.
+        etiqueta.textContent = 'Agotado';
+        importe.textContent = 'Revisa tu carrito';
+    } else {
+        etiqueta.textContent = 'Total';
+        importe.textContent = `€${total.toFixed(2)}`;
+    }
 }
 
 // Función para actualizar contador del carrito en el nav
@@ -349,6 +394,16 @@ function configurarEventListeners() {
                 // Enviar datos del carrito a tu backend de Render
                 enviarCarritoARender();
             }
+        });
+    }
+
+    // El botón de la barra móvil reenvía al de escritorio en lugar de repetir la
+    // llamada: así la lógica de pago sigue viviendo en un único sitio. Si el botón
+    // está deshabilitado (carrito vacío o con agotados), .click() no hace nada.
+    const btnPagarMovil = document.getElementById('btn-pagar-movil');
+    if (btnPagarMovil && btnProcederPago) {
+        btnPagarMovil.addEventListener('click', function() {
+            btnProcederPago.click();
         });
     }
 }
@@ -444,14 +499,17 @@ function getApiUrl(endpoint) {
 
 // Función para enviar carrito a Render
 async function enviarCarritoARender() {
-    const btnProcederPago = document.getElementById('btn-proceder-pago');
-    const btnPagarTexto = btnProcederPago.querySelector('span') || btnProcederPago;
-    
-    // Mostrar estado de procesamiento
-    const textoOriginal = btnProcederPago.innerHTML;
-    btnProcederPago.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
-    btnProcederPago.disabled = true;
-    
+    // El estado se aplica a los dos botones (resumen de escritorio y barra móvil).
+    // Antes iba solo al de escritorio, que en móvil está oculto: el usuario tocaba
+    // "Proceder al Pago" y no veía ninguna reacción mientras se llamaba a Stripe.
+    const botones = botonesPago();
+    const textosOriginales = botones.map(b => b.innerHTML);
+
+    botones.forEach(b => {
+        b.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+        b.disabled = true;
+    });
+
     try {
         // Preparar datos del carrito
         const datosCarrito = {
@@ -481,6 +539,13 @@ async function enviarCarritoARender() {
             if (errorData.productosSinStock) {
                 // Manejar error de stock insuficiente
                 mostrarErrorStock(errorData.productosSinStock);
+                // Restaurar los botones antes de salir: sin esto se quedaban
+                // clavados en "Procesando..." y deshabilitados para siempre, con
+                // lo que el usuario ya no podía reintentar sin recargar.
+                botones.forEach((b, i) => {
+                    b.innerHTML = textosOriginales[i];
+                    b.disabled = false;
+                });
                 return;
             }
             throw new Error(`Error del servidor: ${response.status}`);
@@ -504,9 +569,11 @@ async function enviarCarritoARender() {
         // Mostrar error al usuario
         mostrarErrorPago('Error al procesar el pago. Por favor, inténtalo de nuevo.');
         
-        // Restaurar botón
-        btnProcederPago.innerHTML = textoOriginal;
-        btnProcederPago.disabled = false;
+        // Restaurar ambos botones a su texto y estado previos
+        botones.forEach((b, i) => {
+            b.innerHTML = textosOriginales[i];
+            b.disabled = false;
+        });
     }
 }
 
