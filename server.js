@@ -1141,11 +1141,24 @@ ${items}
     res.send(xml);
 });
 
-// backups/ guarda copias históricas de la hoja de estilos. Se conservan en el
-// repositorio pero no deben servirse: express.static(__dirname) publica todo el
-// árbol de forma recursiva, así que mover un fichero a una subcarpeta NO lo saca
-// de la web, solo le cambia la URL. Este guardia va antes del static para ganarle.
-app.use('/backups', (req, res) => res.status(404).send('No encontrado'));
+// Ficheros que viven en el repositorio pero no deben servirse por HTTP.
+// express.static(__dirname) publica TODO el árbol de forma recursiva, así que sin
+// este guardia quedan descargables (lo estuvieron): mover algo a una subcarpeta no
+// lo saca de la web, solo le cambia la URL. Va antes del static para ganarle.
+//
+// Ninguno se usa desde el navegador. Los scripts de Node que leen productos.json
+// (migrate-to-supabase.js, test-fix.js) lo hacen con fs.readFileSync, que lee del
+// disco y no pasa por Express, así que siguen funcionando igual.
+const RUTAS_PRIVADAS = [
+    '/backups',              // copias históricas de la hoja de estilos
+    '/scripts',              // utilidades de mantenimiento (feed, imágenes, SEO)
+    '/server.js',            // lógica de negocio y superficie de API
+    '/supabase-schema.sql',  // esquema de la base de datos
+    '/productos.json',       // catálogo histórico previo a Supabase
+];
+RUTAS_PRIVADAS.forEach(ruta => {
+    app.use(ruta, (req, res) => res.status(404).send('No encontrado'));
+});
 
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
 app.use(express.static(path.join(__dirname)));
