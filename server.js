@@ -1141,6 +1141,12 @@ ${items}
     res.send(xml);
 });
 
+// backups/ guarda copias históricas de la hoja de estilos. Se conservan en el
+// repositorio pero no deben servirse: express.static(__dirname) publica todo el
+// árbol de forma recursiva, así que mover un fichero a una subcarpeta NO lo saca
+// de la web, solo le cambia la URL. Este guardia va antes del static para ganarle.
+app.use('/backups', (req, res) => res.status(404).send('No encontrado'));
+
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
 app.use(express.static(path.join(__dirname)));
 
