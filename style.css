@@ -8654,6 +8654,15 @@ body {
     padding: 0.7rem 1rem;
     /* Respeta el notch/barra gestual de los móviles modernos */
     padding-bottom: calc(0.7rem + env(safe-area-inset-bottom, 0px));
+    transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+/* Se repliega cuando el botón "Proceder al Pago" del resumen ya está en pantalla:
+   sin esto se veían dos botones idénticos a la vez, uno encima del otro. */
+.carrito-barra-movil.replegada {
+    transform: translateY(120%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .barra-movil-total {

@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     cargarCarrito();
     actualizarInterfazCarrito();
     configurarEventListeners();
+    observarBotonResumen();
 });
 
 // Variables globales
@@ -309,6 +310,30 @@ function actualizarResumenCarrito() {
 
     // Actualizar contador en el nav
     actualizarContadorCarrito();
+}
+
+// Repliega la barra fija cuando el botón de pago del resumen ya está a la vista,
+// para no enseñar dos botones idénticos a la vez.
+//
+// El rootMargin recorta la franja inferior de la pantalla con la altura de la propia
+// barra: así el botón del resumen solo cuenta como "visible" cuando ha subido por
+// encima de la barra, y no en el momento en que asoma justo por detrás de ella.
+function observarBotonResumen() {
+    const barra = document.getElementById('carrito-barra-movil');
+    const btnResumen = document.getElementById('btn-proceder-pago');
+    if (!barra || !btnResumen || !('IntersectionObserver' in window)) return;
+
+    const alturaBarra = 90; // alto de la barra (70px) + un margen de respeto
+
+    const observador = new IntersectionObserver(([entrada]) => {
+        barra.classList.toggle('replegada', entrada.isIntersecting);
+    }, {
+        root: null,
+        rootMargin: `0px 0px -${alturaBarra}px 0px`,
+        threshold: 0,
+    });
+
+    observador.observe(btnResumen);
 }
 
 // Refleja el estado del carrito en la barra fija de móvil. La barra solo se muestra
