@@ -66,3 +66,19 @@ temp/
 # Backup files
 *.backup
 *.bak
+
+# Capturas de trabajo en la raiz (no forman parte del sitio)
+/card_detalles.png
+/detalles_mobile.png
+/producto_desc.png
+/producto_mobile.png
+/producto_mobile2.png
+/real_productos.png
+/single_col.png
+
+# Copias de seguridad que generan los scripts antes de escribir en Supabase.
+# Se conservan en local para poder revertir, pero no deben desplegarse.
+scripts/*backup*.json
+
+# Ajustes locales de Claude Code
+.claude/
