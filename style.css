@@ -3040,7 +3040,9 @@ body {
         margin-top: 0;
         margin-bottom: 0.2rem;
         flex-wrap: wrap;
-        min-height: 2.8rem;
+        /* El bloque pasa a tener tres filas (unidad, presentación y envío
+           gratis), asi que el suelo que alinea las tarjetas sube una fila. */
+        min-height: 4.1rem;
     }
 
     .productos-grid-catalogo .precio-por-unidad {
@@ -8818,15 +8820,16 @@ body {
 
 /* Distintivo "Envío gratis" en las tarjetas del catálogo.
    El envío es gratuito siempre (shipping 0 € en Stripe), pero hasta ahora no se
-   decía hasta la ficha o el carrito. Va bajo el precio, que es donde el usuario
-   está valorando el coste, y reutiliza el verde y el icono de camión del
-   .banner-envio-gratis para no introducir un lenguaje visual nuevo. */
+   decía hasta la ficha o el carrito. Va en .producto-unidad-info, como una fila
+   más bajo la presentación, para que el usuario lo lea junto al resto de
+   condiciones y no separado al final de la tarjeta. Reutiliza el verde y el
+   icono de camión del .banner-envio-gratis para no introducir un lenguaje
+   visual nuevo. */
 .producto-envio-gratis {
     display: flex;
     width: fit-content;
     align-items: center;
     gap: 0.35rem;
-    margin-top: 0.5rem;
     padding: 0.22rem 0.6rem;
     border-radius: 20px;
     background: #eaf5ef;
@@ -8847,7 +8850,6 @@ body {
     .producto-envio-gratis {
         font-size: 0.68rem;
         padding: 0.18rem 0.5rem;
-        margin-top: 0.4rem;
     }
 }
 

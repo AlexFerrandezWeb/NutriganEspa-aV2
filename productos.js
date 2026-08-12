@@ -192,6 +192,7 @@ function crearElementoProducto(producto, indice = 0) {
         <div class="producto-unidad-info">
             ${producto.precio_unitario ? `<span class="precio-por-unidad">(${parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',')}€/U)</span>` : ''}
             ${producto.presentacion ? `<span class="producto-presentacion-info">${escHTML(producto.presentacion)}</span>` : ''}
+            <span class="producto-envio-gratis"><i class="fas fa-truck"></i>Envío gratis</span>
         </div>
         <div class="producto-detalles">
             <div class="producto-especie">
@@ -203,9 +204,7 @@ function crearElementoProducto(producto, indice = 0) {
                 <span>${escHTML(producto.etapa)}</span>
             </div>
         </div>
-        <div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span>
-            <span class="producto-envio-gratis"><i class="fas fa-truck"></i>Envío gratis</span>
-        </div>
+        <div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>
         <div class="producto-botones">
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles
