@@ -8468,9 +8468,11 @@ body {
 }
 
 @media (max-width: 576px) {
+    /* En móvil la sección arranca pegada al banner verde de la cabecera: con
+       1.2rem el título se leía como parte del banner. */
     .guia-selector-section {
         margin-top: 136px;
-        padding: 1.2rem 0 2rem;
+        padding: 2.4rem 0 2.75rem;
     }
 
     .guia-selector-grid {
@@ -8496,12 +8498,17 @@ body {
     padding: 0 1.5rem;
 }
 
+/* reset.css aplica hyphens:auto a todo el sitio y aquí partía el titular
+   ("¿Qué bolo necesita mi ga-nado?"), que es justo lo que el usuario tiene que
+   leer de un vistazo. */
 .guia-selector-titulo {
     text-align: center;
     font-size: 1.55rem;
     font-weight: 800;
     color: #1a3a2a;
     margin-bottom: 0.4rem;
+    -webkit-hyphens: none;
+    hyphens: none;
 }
 
 .guia-selector-subtitulo {
@@ -8509,6 +8516,30 @@ body {
     color: #555;
     font-size: 0.96rem;
     margin-bottom: 2rem;
+    -webkit-hyphens: none;
+    hyphens: none;
+}
+
+/* Este bloque va detrás de las reglas base a propósito: las media queries no
+   suman especificidad, así que un @media anterior no las ganaría. */
+@media (max-width: 576px) {
+    .guia-selector-titulo {
+        font-size: 1.25rem;
+        line-height: 1.35;
+        margin-bottom: 0.6rem;
+        /* Reparte las dos líneas en vez de dejar "ganado?" solo abajo. */
+        text-wrap: balance;
+    }
+
+    .guia-selector-subtitulo {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        /* Ancho de lectura: a todo lo ancho el subtítulo llegaba al borde. */
+        max-width: 21rem;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2.25rem;
+    }
 }
 
 .guia-selector-grid {
