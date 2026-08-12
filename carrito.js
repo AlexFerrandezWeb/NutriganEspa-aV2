@@ -318,6 +318,19 @@ function actualizarResumenCarrito() {
 // El rootMargin recorta la franja inferior de la pantalla con la altura de la propia
 // barra: así el botón del resumen solo cuenta como "visible" cuando ha subido por
 // encima de la barra, y no en el momento en que asoma justo por detrás de ella.
+// Marca en el body si la barra está ocupando de verdad el borde inferior, que no
+// es lo mismo que "hay productos en el carrito": con .replegada la barra sale de
+// pantalla. De aquí cuelga la posición del botón de WhatsApp, que solo debe
+// apartarse mientras la barra se vea; el resto del tiempo vuelve a donde está en
+// las demás páginas.
+function sincronizarBarraALaVista() {
+    const barra = document.getElementById('carrito-barra-movil');
+    if (!barra) return;
+
+    const aLaVista = barra.classList.contains('visible') && !barra.classList.contains('replegada');
+    document.body.classList.toggle('barra-pago-a-la-vista', aLaVista);
+}
+
 function observarBotonResumen() {
     const barra = document.getElementById('carrito-barra-movil');
     const btnResumen = document.getElementById('btn-proceder-pago');
@@ -327,6 +340,7 @@ function observarBotonResumen() {
 
     const observador = new IntersectionObserver(([entrada]) => {
         barra.classList.toggle('replegada', entrada.isIntersecting);
+        sincronizarBarraALaVista();
     }, {
         root: null,
         rootMargin: `0px 0px -${alturaBarra}px 0px`,
@@ -345,9 +359,10 @@ function actualizarBarraMovil(total, hayAgotados) {
     const visible = carrito.length > 0;
     barra.classList.toggle('visible', visible);
     barra.classList.toggle('tiene-agotados', hayAgotados);
-    // La clase en el body da el hueco del footer y sube el botón de WhatsApp,
-    // para que ninguno de los dos quede debajo de la barra.
+    // Esta clase reserva el hueco del footer mientras haya algo que pagar. El
+    // botón de WhatsApp no cuelga de aquí, sino de .barra-pago-a-la-vista.
     document.body.classList.toggle('con-barra-pago', visible);
+    sincronizarBarraALaVista();
 
     const etiqueta = document.getElementById('barra-movil-etiqueta');
     const importe = document.getElementById('barra-movil-importe');

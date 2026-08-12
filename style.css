@@ -8840,8 +8840,12 @@ body {
 
     /* El botón de WhatsApp vive en bottom:30px y se plantaría justo encima del
        botón de pagar. Se sube por encima de la barra en lugar de ocultarlo: una
-       duda de última hora resuelta por WhatsApp puede cerrar la venta. */
-    body.con-barra-pago .whatsapp-float {
+       duda de última hora resuelta por WhatsApp puede cerrar la venta.
+       Cuelga de .barra-pago-a-la-vista y no de .con-barra-pago: cuando la barra
+       se repliega (el botón de pagar del resumen ya está en pantalla) no hay
+       nada que esquivar, y el botón vuelve a su sitio de siempre. La transición
+       de .whatsapp-float hace que suba y baje acompañando a la barra. */
+    body.barra-pago-a-la-vista .whatsapp-float {
         bottom: calc(var(--altura-barra-pago) + 16px + env(safe-area-inset-bottom, 0px));
     }
 }
