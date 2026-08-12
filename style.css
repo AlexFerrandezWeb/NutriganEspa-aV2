@@ -8672,16 +8672,11 @@ body {
     border-bottom: 1px solid #f0f0f0;
 }
 
-.barra-movil-pago i.fa-cc-visa,
-.barra-movil-pago i.fa-cc-mastercard,
-.barra-movil-pago i.fa-cc-amex {
-    font-size: 1.15rem;
-    line-height: 1;
+/* En la barra fija el espacio es escaso: los mismos logotipos, más pequeños. */
+.barra-movil-pago .pago-logo {
+    width: 30px;
+    height: 19px;
 }
-
-.barra-movil-pago .fa-cc-visa { color: #1a1f71; }
-.barra-movil-pago .fa-cc-mastercard { color: #eb001b; }
-.barra-movil-pago .fa-cc-amex { color: #016fd0; }
 
 .barra-movil-sello {
     display: flex;
@@ -8854,8 +8849,9 @@ body {
 }
 
 /* Métodos de pago aceptados + sello de seguridad, junto al botón de pago.
-   Los logos son iconos de marca de Font Awesome, que ya se carga en estas
-   páginas: cero peso añadido frente a incrustar SVG de las marcas.
+   Los logos son SVG en línea (sprite <symbol> definido en cada página): los
+   glifos de Font Awesome son monocromos, traen el logotipo antiguo de
+   Mastercard y recortan el de Amex.
    Solo Visa, Mastercard y Amex: son las que esta cuenta de Stripe procesa y
    las que se usan en España. Discover, JCB, UnionPay y Diners se aceptan
    técnicamente pero saturarían sin aportar nada aquí. */
@@ -8879,16 +8875,24 @@ body {
     line-height: 1;
 }
 
-.pago-metodos i {
-    font-size: 1.45rem;
-    line-height: 1;
+/* El sprite solo guarda las definiciones: no debe ocupar sitio ni empujar al
+   resto del bloque. */
+.pago-logos-sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
 }
 
-/* Colores oficiales de cada marca, a tamaño pequeño: se reconocen al instante
-   sin dominar la tarjeta. */
-.pago-metodos .fa-cc-visa { color: #1a1f71; }
-.pago-metodos .fa-cc-mastercard { color: #eb001b; }
-.pago-metodos .fa-cc-amex { color: #016fd0; }
+/* Los logotipos van en su proporción real (3:2, la de una tarjeta) para que
+   ninguno se recorte, a tamaño pequeño: se reconocen al instante sin dominar
+   la tarjeta. */
+.pago-logo {
+    display: block;
+    flex-shrink: 0;
+    width: 38px;
+    height: 24px;
+}
 
 .pago-sello {
     display: flex;
