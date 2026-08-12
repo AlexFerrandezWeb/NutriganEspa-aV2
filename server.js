@@ -1105,6 +1105,50 @@ function buildProductType(producto) {
     return parts.length ? parts.join(' > ') : 'Nutrición Animal';
 }
 
+const LIMITE_DESCRIPCION_FEED = 5000; // máximo que admite g:description
+
+function limpiarTexto(valor) {
+    return String(valor || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+// Google empareja lo que busca el usuario contra el texto de <g:description>, así
+// que ahí tiene que ir todo lo que describe el producto. Beneficios, ingredientes,
+// composición y certificaciones ya estaban escritos en Supabase y se pintan en la
+// ficha, pero no salían hacia el feed: se añaden detrás de la descripción como
+// frases normales, que es como Google espera leerlas (ni listas ni marcado).
+function construirDescripcionFeed(producto) {
+    const lista = campo => (Array.isArray(producto[campo]) ? producto[campo] : [])
+        .map(limpiarTexto)
+        .filter(Boolean);
+
+    // Las cadenas sueltas ya vienen separadas por comas desde el panel, así que se
+    // copian tal cual; solo se les pone el punto final si no lo traen.
+    const frase = (etiqueta, campo) => {
+        const texto = limpiarTexto(producto[campo]);
+        if (!texto) return '';
+        return `${etiqueta}: ${texto}${/[.!?]$/.test(texto) ? '' : '.'}`;
+    };
+
+    const partes = [limpiarTexto(producto.descripcion_completa || producto.descripcion)];
+
+    const beneficios = lista('beneficios');
+    if (beneficios.length) partes.push(`Beneficios: ${beneficios.join('; ')}.`);
+
+    const ingredientes = lista('ingredientes');
+    if (ingredientes.length) partes.push(`Ingredientes: ${ingredientes.join(', ')}.`);
+
+    partes.push(frase('Composición', 'composicion'));
+    partes.push(frase('Certificaciones', 'certificaciones'));
+
+    const texto = partes.filter(Boolean).join(' ');
+    if (texto.length <= LIMITE_DESCRIPCION_FEED) return texto;
+
+    // Se corta por palabra: partir una a la mitad se lo traga Google tal cual.
+    const recorte = texto.slice(0, LIMITE_DESCRIPCION_FEED);
+    const ultimoEspacio = recorte.lastIndexOf(' ');
+    return (ultimoEspacio > 0 ? recorte.slice(0, ultimoEspacio) : recorte).trim();
+}
+
 app.get('/productos-google.xml', async (req, res) => {
     const now = Date.now();
     if (googleFeedCache.xml && now < googleFeedCache.expiresAt) {
@@ -1114,15 +1158,14 @@ app.get('/productos-google.xml', async (req, res) => {
 
     const { data: productos, error } = await supabaseAdmin
         .from('productos')
-        .select('id, nombre, descripcion, descripcion_completa, precio, imagen, categoria, especie, etapa, presentacion, peso, stock, disponible')
+        .select('id, nombre, descripcion, descripcion_completa, beneficios, ingredientes, composicion, certificaciones, precio, imagen, categoria, especie, etapa, presentacion, peso, stock, disponible')
         .order('id', { ascending: true });
 
     if (error) return res.status(500).send('Error generando feed de productos');
 
     const items = productos.map(p => {
         const disponibilidad = estaDisponible(p) ? 'in stock' : 'out of stock';
-        const rawDesc = p.descripcion_completa || p.descripcion || '';
-        const descripcion = escapeXml(rawDesc.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().substring(0, 5000));
+        const descripcion = escapeXml(construirDescripcionFeed(p));
         const imageUrl = buildImageUrl(p.imagen);
         const productType = escapeXml(buildProductType(p));
 
