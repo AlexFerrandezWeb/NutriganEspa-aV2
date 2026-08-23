@@ -9447,3 +9447,19 @@ body {
     text-decoration: line-through;
     text-decoration-thickness: 2px;
 }
+
+
+/* --- Precio por unidad con el normal tachado ---
+   Sustituye al precio por unidad de siempre, no se anade debajo: con los dos a
+   la vez la tarjeta daba dos precios por unidad distintos sin relacionarlos. */
+.precio-unidad-antes {
+    margin-right: 0.35rem;
+    color: var(--color-storm-gray, #6d7489);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+}
+
+.precio-unidad-ahora {
+    font-weight: 700;
+    color: #c41f34;
+}

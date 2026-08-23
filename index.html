@@ -355,7 +355,14 @@
                         <img src="assets/producto1.webp" alt="Suplemento para vacas" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Flash</h3>
-                    <p class="producto-descripcion">Reducción del riesgo de hipocalcemia. <strong>(3,50€/U)</strong></p>
+                    <p class="producto-descripcion">Reducción del riesgo de hipocalcemia.
+                        <!-- Precio por unidad con el normal tachado. Sustituye al
+                             "(3,50€/U)" de siempre en vez de sumarse a él: con los dos
+                             a la vez la tarjeta daba dos precios por unidad distintos.
+                             main.js repone el de data-unidad-normal al caducar. -->
+                        <strong data-promo-producto="1" data-unidad-normal="(3,50€/U)">
+                            <span class="precio-unidad-antes">3,50€/U</span><span class="precio-unidad-ahora">2,90€/U</span>
+                        </strong></p>
                     <!-- Precio de oferta. Va escrito en el HTML como el resto de la
                          tarjeta, que en esta rejilla es estatica; main.js lo devuelve al
                          precio de data-precio-normal cuando la promocion caduque. El
@@ -366,11 +373,7 @@
                         <span class="producto-precio-antes">€70.00</span>
                         <span class="producto-precio-ahora">€58.00</span>
                         <span class="precio-iva">IVA inc.</span>
-                        <span class="producto-precio-condicion">desde 2 cajas</span>
-                    </div>
-                    <div class="producto-promo" data-promo-producto="1">
-                        <span class="producto-promo-precio">2,90&nbsp;€/U</span>
-                        <span class="producto-promo-condicion">ahorras 12&nbsp;€ en cada caja</span>
+                        <span class="producto-precio-condicion">desde 2 cajas &middot; ahorras 12&nbsp;€ en cada caja</span>
                     </div>
                     <button class="producto-btn">Ver producto</button>
                 </a>

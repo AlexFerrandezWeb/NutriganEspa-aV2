@@ -319,22 +319,21 @@ function inicializarBuscadorInicio() {
 document.addEventListener('DOMContentLoaded', function () {
     if (!window.NutriganPromos) return;
 
-    // Oferta escrita a mano en las tarjetas de la portada: fuera en cuanto
-    // caduque. Se hace aquí y no en cada página porque en el resto del sitio las
-    // tarjetas las genera JS, que ya consulta la regla.
-    document.querySelectorAll('.producto-promo[data-promo-producto]').forEach(function (etiqueta) {
-        var id = parseInt(etiqueta.dataset.promoProducto, 10);
-        if (!window.NutriganPromos.promocionDe(id)) etiqueta.remove();
-    });
-
-    // El precio tachado vuelve al normal. No basta con quitar el tachado: hay
-    // que reponer el importe, o la tarjeta se quedaría anunciando el rebajado.
-    document.querySelectorAll('.producto-precio[data-promo-producto]').forEach(function (precio) {
-        var id = parseInt(precio.dataset.promoProducto, 10);
-        if (window.NutriganPromos.promocionDe(id)) return;
+    // Oferta escrita a mano en la tarjeta de la portada: al caducar hay que
+    // reponer los importes normales, no basta con quitar el tachado o la
+    // tarjeta se quedaría anunciando el rebajado. Se hace aquí y no en cada
+    // página porque en el resto del sitio las tarjetas las genera JS, que ya
+    // consulta la regla.
+    document.querySelectorAll('[data-promo-producto][data-precio-normal]').forEach(function (precio) {
+        if (window.NutriganPromos.promocionDe(parseInt(precio.dataset.promoProducto, 10))) return;
         precio.classList.remove('producto-precio--promo');
         precio.innerHTML = precio.dataset.precioNormal +
             ' <span class="precio-iva">IVA inc.</span>';
+    });
+
+    document.querySelectorAll('[data-promo-producto][data-unidad-normal]').forEach(function (unidad) {
+        if (window.NutriganPromos.promocionDe(parseInt(unidad.dataset.promoProducto, 10))) return;
+        unidad.textContent = unidad.dataset.unidadNormal;
     });
 
     var bloque = document.getElementById('promo-destacada');

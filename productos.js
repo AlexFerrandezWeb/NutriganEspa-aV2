@@ -175,12 +175,16 @@ function precioDelProducto(producto) {
     return `<div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>`;
 }
 
-// Etiqueta de oferta de la tarjeta. El precio de Supabase sigue siendo el de la
-// caja suelta; esto solo avisa de que a partir de N cajas sale mas barato. Si no
-// hay promocion vigente devuelve cadena vacia y la tarjeta queda como estaba.
-function promoDelProducto(id) {
-    if (!window.NutriganPromos) return '';
-    return window.NutriganPromos.etiquetaTarjetaHTML(window.NutriganPromos.promocionDe(id));
+// Precio por unidad de la tarjeta. Con promocion vigente se tacha el normal y se
+// ensena el rebajado en su lugar, no debajo: con los dos a la vez la tarjeta
+// daba dos precios por unidad distintos sin relacionarlos.
+function precioUnidadDelProducto(producto) {
+    if (!producto.precio_unitario) return '';
+    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto.id);
+    if (promo) {
+        return `<span class="precio-por-unidad precio-por-unidad--promo">${window.NutriganPromos.precioUnidadTachadoHTML(promo)}</span>`;
+    }
+    return `<span class="precio-por-unidad">(${parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',')}€/U)</span>`;
 }
 
 // Función para crear el elemento HTML de un producto
@@ -209,7 +213,7 @@ function crearElementoProducto(producto, indice = 0) {
             ${producto.descripcion || ''}
         </p>
         <div class="producto-unidad-info">
-            ${producto.precio_unitario ? `<span class="precio-por-unidad">(${parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',')}€/U)</span>` : ''}
+            ${precioUnidadDelProducto(producto)}
             ${producto.presentacion ? `<span class="producto-presentacion-info">${escHTML(producto.presentacion)}</span>` : ''}
             <span class="producto-envio-gratis"><i class="fas fa-truck"></i>Envío gratis</span>
         </div>
@@ -224,7 +228,6 @@ function crearElementoProducto(producto, indice = 0) {
             </div>
         </div>
         ${precioDelProducto(producto)}
-        ${promoDelProducto(producto.id)}
         <div class="producto-botones">
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles

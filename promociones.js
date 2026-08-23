@@ -181,6 +181,24 @@
         return '€' + parseFloat(n).toFixed(2);
     }
 
+    /** "3,50€/U" — el formato del precio por unidad que ya usan las tarjetas. */
+    function formatoUnidadSitio(n) {
+        return parseFloat(n).toFixed(2).replace('.', ',') + '€/U';
+    }
+
+    /**
+     * Precio por unidad con el normal tachado al lado.
+     *
+     * Sustituye al precio por unidad de siempre en vez de anadirse debajo: con
+     * los dos a la vez la tarjeta ensenaba 3,50 €/U arriba y 2,90 €/U abajo sin
+     * relacionarlos, y eso confunde mas de lo que informa.
+     */
+    function precioUnidadTachadoHTML(promo) {
+        if (!promo) return '';
+        return '<span class="precio-unidad-antes">' + formatoUnidadSitio(promo.precioUnidadNormal) + '</span>' +
+            '<span class="precio-unidad-ahora">' + formatoUnidadSitio(promo.precioUnidadPromo) + '</span>';
+    }
+
     /**
      * Precio de la caja con el normal tachado al lado.
      *
@@ -194,7 +212,8 @@
         return '<span class="producto-precio-antes">' + formatoPrecioSitio(promo.precioCajaNormal) + '</span>' +
             '<span class="producto-precio-ahora">' + formatoPrecioSitio(promo.precioCajaPromo) + '</span>' +
             '<span class="precio-iva">IVA inc.</span>' +
-            '<span class="producto-precio-condicion">desde ' + promo.cajasMinimas + ' cajas</span>';
+            '<span class="producto-precio-condicion">desde ' + promo.cajasMinimas +
+            ' cajas &middot; ahorras ' + formatoEuros(promo.descuentoPorCaja) + ' en cada caja</span>';
     }
 
     /** Etiqueta compacta para las tarjetas del catalogo y de la portada. */
@@ -238,6 +257,8 @@
         formatoEuros: formatoEuros,
         diaDeFin: diaDeFin,
         formatoPrecioSitio: formatoPrecioSitio,
+        formatoUnidadSitio: formatoUnidadSitio,
+        precioUnidadTachadoHTML: precioUnidadTachadoHTML,
         precioConTachadoHTML: precioConTachadoHTML,
         etiquetaTarjetaHTML: etiquetaTarjetaHTML,
         cajaFichaHTML: cajaFichaHTML
