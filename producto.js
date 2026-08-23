@@ -132,6 +132,17 @@ function mostrarProducto(producto) {
     } else {
         document.getElementById('producto-precio').innerHTML = `€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
     }
+
+    // Oferta vigente, si la hay. El precio de arriba sigue siendo el de la caja
+    // suelta a proposito: el descuento exige un minimo de cajas, asi que lo que
+    // corresponde es anunciarlo aparte y no tachar un precio que si se paga
+    // cuando se compra una sola.
+    const cajaPromo = document.getElementById('producto-promo');
+    if (cajaPromo && window.NutriganPromos) {
+        cajaPromo.innerHTML = window.NutriganPromos.cajaFichaHTML(
+            window.NutriganPromos.promocionDe(producto.id)
+        );
+    }
     
     const descP = document.createElement('p');
     descP.textContent = (producto.descripcion || '').replace(/<[^>]*>/g, '');

@@ -356,6 +356,14 @@
                     <h3 class="producto-nombre">Bolutech Flash</h3>
                     <p class="producto-descripcion">Reducción del riesgo de hipocalcemia. <strong>(3,50€/U)</strong></p>
                     <div class="producto-precio">€70.00 <span class="precio-iva">IVA inc.</span></div>
+                    <!-- Etiqueta de la oferta. Va escrita en el HTML como el resto de la
+                         tarjeta, que en esta rejilla es estatica; la retira main.js cuando
+                         la promocion caduque. El texto es el mismo que genera
+                         NutriganPromos.etiquetaTarjetaHTML() para el catalogo. -->
+                    <div class="producto-promo" data-promo-producto="1">
+                        <span class="producto-promo-precio">2,90&nbsp;€/U</span>
+                        <span class="producto-promo-condicion">desde 2 cajas &middot; ahorras 12&nbsp;€ por caja</span>
+                    </div>
                     <button class="producto-btn">Ver producto</button>
                 </a>
 

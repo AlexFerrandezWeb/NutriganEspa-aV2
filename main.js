@@ -309,7 +309,7 @@ function inicializarBuscadorInicio() {
 }
 
 /**
- * Bloque de oferta de la home: contador de lo que queda y retirada al caducar.
+ * Ofertas de la home: contador de lo que queda y retirada de todo al caducar.
  *
  * Los importes están escritos en el HTML para que los lea el buscador sin
  * ejecutar JavaScript, así que sin esto el 1 de enero la portada seguiría
@@ -317,8 +317,18 @@ function inicializarBuscadorInicio() {
  * a promociones.js, la misma regla que usan el carrito y el servidor.
  */
 document.addEventListener('DOMContentLoaded', function () {
+    if (!window.NutriganPromos) return;
+
+    // Etiquetas de oferta escritas a mano en las tarjetas de la portada: fuera
+    // en cuanto caduquen. Se hace aquí y no en cada página porque en el resto
+    // del sitio las tarjetas las genera JS, que ya consulta la regla.
+    document.querySelectorAll('.producto-promo[data-promo-producto]').forEach(function (etiqueta) {
+        var id = parseInt(etiqueta.dataset.promoProducto, 10);
+        if (!window.NutriganPromos.promocionDe(id)) etiqueta.remove();
+    });
+
     var bloque = document.getElementById('promo-destacada');
-    if (!bloque || !window.NutriganPromos) return;
+    if (!bloque) return;
 
     var productoId = parseInt(bloque.dataset.promoProducto, 10);
     var promo = window.NutriganPromos.promocionDe(productoId);

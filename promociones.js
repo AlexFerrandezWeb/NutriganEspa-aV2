@@ -23,6 +23,7 @@
             // Euros que se descuentan por cada caja (0,60 € por bolo x 20 bolos).
             descuentoPorCaja: 12.00,
             unidadesPorCaja: 20,
+            unidad: 'bolo',
             precioCajaNormal: 70.00,
             precioUnidadNormal: 3.50,
             precioCajaPromo: 58.00,
@@ -147,6 +148,64 @@
         };
     }
 
+    /* --------------------------------------------------------------------
+       Presentacion
+       Los textos de la oferta se escriben aqui y no en cada pagina: aparecen
+       en la portada, en el catalogo y en la ficha, y con tres copias acabarian
+       diciendo tres cosas distintas en cuanto cambie una cifra.
+       -------------------------------------------------------------------- */
+
+    /** 2.9 -> "2,90 €"; 12 -> "12 €" (sin decimales muertos). */
+    function formatoEuros(n) {
+        var s = parseFloat(n).toFixed(2).replace('.', ',');
+        if (s.slice(-3) === ',00') s = s.slice(0, -3);
+        return s + ' €';
+    }
+
+    var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+                 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+    /**
+     * "31 de diciembre" a partir de la fecha de fin.
+     * Se lee de la propia cadena ISO en vez de con toLocaleDateString sobre un
+     * Date: la promo acaba a las 23:59 de la noche, y a quien tenga el
+     * navegador en un huso por delante el Date le daria ya el dia siguiente.
+     */
+    function diaDeFin(promo) {
+        var partes = String(promo.hasta).slice(0, 10).split('-');
+        return parseInt(partes[2], 10) + ' de ' + MESES[parseInt(partes[1], 10) - 1];
+    }
+
+    /** Etiqueta compacta para las tarjetas del catalogo y de la portada. */
+    function etiquetaTarjetaHTML(promo) {
+        if (!promo) return '';
+        return '<div class="producto-promo">' +
+            '<span class="producto-promo-precio">' + formatoEuros(promo.precioUnidadPromo) + '/U</span>' +
+            '<span class="producto-promo-condicion">desde ' + promo.cajasMinimas +
+            ' cajas &middot; ahorras ' + formatoEuros(promo.descuentoPorCaja) + ' por caja</span>' +
+            '</div>';
+    }
+
+    /** Recuadro completo para la ficha de producto, con las condiciones. */
+    function cajaFichaHTML(promo) {
+        if (!promo) return '';
+        return '<div class="producto-promo-ficha">' +
+            '<p class="producto-promo-ficha-titulo">' +
+            '<i class="fas fa-tag" aria-hidden="true"></i> Oferta hasta el ' + diaDeFin(promo) +
+            '</p>' +
+            '<p class="producto-promo-ficha-cuerpo">' +
+            'Llevando <strong>' + promo.cajasMinimas + ' cajas o más</strong>, la caja sale a ' +
+            '<strong>' + formatoEuros(promo.precioCajaPromo) + '</strong> ' +
+            '(' + formatoEuros(promo.precioUnidadPromo) + ' por ' + promo.unidad + ') en vez de ' +
+            formatoEuros(promo.precioCajaNormal) + '.' +
+            '</p>' +
+            '<p class="producto-promo-ficha-ahorro">' +
+            'Ahorras <strong>' + formatoEuros(promo.descuentoPorCaja) + ' en cada caja</strong>. ' +
+            'El descuento se aplica solo en el carrito.' +
+            '</p>' +
+            '</div>';
+    }
+
     var api = {
         PROMOCIONES: PROMOCIONES,
         promocionDe: promocionDe,
@@ -154,7 +213,11 @@
         descuentoDeLinea: descuentoDeLinea,
         descuentoDeCarrito: descuentoDeCarrito,
         loQueFaltaParaLaPromo: loQueFaltaParaLaPromo,
-        tiempoRestante: tiempoRestante
+        tiempoRestante: tiempoRestante,
+        formatoEuros: formatoEuros,
+        diaDeFin: diaDeFin,
+        etiquetaTarjetaHTML: etiquetaTarjetaHTML,
+        cajaFichaHTML: cajaFichaHTML
     };
 
     if (typeof module !== 'undefined' && module.exports) {
