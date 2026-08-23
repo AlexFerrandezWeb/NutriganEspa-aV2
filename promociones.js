@@ -216,16 +216,6 @@
             ' cajas &middot; ahorras ' + formatoEuros(promo.descuentoPorCaja) + ' en cada caja</span>';
     }
 
-    /** Etiqueta compacta para las tarjetas del catalogo y de la portada. */
-    function etiquetaTarjetaHTML(promo) {
-        if (!promo) return '';
-        return '<div class="producto-promo">' +
-            '<span class="producto-promo-precio">' + formatoEuros(promo.precioUnidadPromo) + '/U</span>' +
-            '<span class="producto-promo-condicion">ahorras ' +
-            formatoEuros(promo.descuentoPorCaja) + ' en cada caja</span>' +
-            '</div>';
-    }
-
     /** Recuadro completo para la ficha de producto, con las condiciones. */
     function cajaFichaHTML(promo) {
         if (!promo) return '';
@@ -260,7 +250,6 @@
         formatoUnidadSitio: formatoUnidadSitio,
         precioUnidadTachadoHTML: precioUnidadTachadoHTML,
         precioConTachadoHTML: precioConTachadoHTML,
-        etiquetaTarjetaHTML: etiquetaTarjetaHTML,
         cajaFichaHTML: cajaFichaHTML
     };
 
