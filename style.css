@@ -9394,3 +9394,56 @@ body {
         font-size: 0.92rem;
     }
 }
+
+
+/* --- Precio con el normal tachado (tarjetas y ficha) ---
+   La condición viaja pegada al importe: el precio rebajado sólo se paga a
+   partir del mínimo de cajas, y suelto engañaría a quien compre una sola,
+   además de no cuadrar con el precio que publica el feed de Shopping. */
+/* En bloque y no en flex a proposito: asi hereda la alineacion de cada sitio
+   —centrada en las tarjetas, a la izquierda en la ficha— en vez de imponer una
+   que descuadra en la otra. */
+.producto-precio--promo {
+    display: block;
+}
+
+.producto-precio-antes {
+    margin-right: 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-storm-gray, #6d7489);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+.producto-precio-ahora {
+    font-family: var(--fuente-titulos);
+    font-weight: 700;
+    color: #c41f34;
+    /* Hereda el cuerpo de .producto-precio para no descuadrar con las demás
+       tarjetas de la rejilla, que siguen con el precio normal. */
+    font-size: inherit;
+}
+
+/* El marcado de la promo se genera sin espacios entre etiquetas, asi que el
+   "IVA inc." necesita su propia separacion; en el precio normal la da el
+   espacio en blanco de la plantilla. */
+.producto-precio--promo .precio-iva {
+    margin-left: 0.35rem;
+}
+
+.producto-precio-condicion {
+    display: block;
+    margin-top: 0.1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-storm-gray, #6d7489);
+}
+
+/* El tachado del bloque grande de la portada, sobre fondo oscuro. */
+.promo-destacada-tachado {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}

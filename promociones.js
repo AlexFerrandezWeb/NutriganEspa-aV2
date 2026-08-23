@@ -176,13 +176,34 @@
         return parseInt(partes[2], 10) + ' de ' + MESES[parseInt(partes[1], 10) - 1];
     }
 
+    /** "€70.00" — el formato que ya usan las tarjetas y la ficha del sitio. */
+    function formatoPrecioSitio(n) {
+        return '€' + parseFloat(n).toFixed(2);
+    }
+
+    /**
+     * Precio de la caja con el normal tachado al lado.
+     *
+     * La condicion viaja pegada al precio y no en una nota aparte: el importe
+     * rebajado solo se paga desde N cajas, y ensenarlo suelto seria a la vez
+     * enganoso para quien compre una sola y una discrepancia de precio frente
+     * al feed de Google Shopping, que publica el de la caja suelta.
+     */
+    function precioConTachadoHTML(promo) {
+        if (!promo) return '';
+        return '<span class="producto-precio-antes">' + formatoPrecioSitio(promo.precioCajaNormal) + '</span>' +
+            '<span class="producto-precio-ahora">' + formatoPrecioSitio(promo.precioCajaPromo) + '</span>' +
+            '<span class="precio-iva">IVA inc.</span>' +
+            '<span class="producto-precio-condicion">desde ' + promo.cajasMinimas + ' cajas</span>';
+    }
+
     /** Etiqueta compacta para las tarjetas del catalogo y de la portada. */
     function etiquetaTarjetaHTML(promo) {
         if (!promo) return '';
         return '<div class="producto-promo">' +
             '<span class="producto-promo-precio">' + formatoEuros(promo.precioUnidadPromo) + '/U</span>' +
-            '<span class="producto-promo-condicion">desde ' + promo.cajasMinimas +
-            ' cajas &middot; ahorras ' + formatoEuros(promo.descuentoPorCaja) + ' por caja</span>' +
+            '<span class="producto-promo-condicion">ahorras ' +
+            formatoEuros(promo.descuentoPorCaja) + ' en cada caja</span>' +
             '</div>';
     }
 
@@ -194,14 +215,14 @@
             '<i class="fas fa-tag" aria-hidden="true"></i> Oferta hasta el ' + diaDeFin(promo) +
             '</p>' +
             '<p class="producto-promo-ficha-cuerpo">' +
-            'Llevando <strong>' + promo.cajasMinimas + ' cajas o más</strong>, la caja sale a ' +
-            '<strong>' + formatoEuros(promo.precioCajaPromo) + '</strong> ' +
-            '(' + formatoEuros(promo.precioUnidadPromo) + ' por ' + promo.unidad + ') en vez de ' +
-            formatoEuros(promo.precioCajaNormal) + '.' +
+            'Los <strong>' + formatoEuros(promo.precioCajaPromo) + ' por caja</strong> ' +
+            '(' + formatoEuros(promo.precioUnidadPromo) + ' por ' + promo.unidad + ') se aplican ' +
+            'llevando <strong>' + promo.cajasMinimas + ' cajas o más</strong>. ' +
+            'Con una sola caja, ' + formatoEuros(promo.precioCajaNormal) + '.' +
             '</p>' +
             '<p class="producto-promo-ficha-ahorro">' +
             'Ahorras <strong>' + formatoEuros(promo.descuentoPorCaja) + ' en cada caja</strong>. ' +
-            'El descuento se aplica solo en el carrito.' +
+            'El descuento se aplica en el carrito.' +
             '</p>' +
             '</div>';
     }
@@ -216,6 +237,8 @@
         tiempoRestante: tiempoRestante,
         formatoEuros: formatoEuros,
         diaDeFin: diaDeFin,
+        formatoPrecioSitio: formatoPrecioSitio,
+        precioConTachadoHTML: precioConTachadoHTML,
         etiquetaTarjetaHTML: etiquetaTarjetaHTML,
         cajaFichaHTML: cajaFichaHTML
     };

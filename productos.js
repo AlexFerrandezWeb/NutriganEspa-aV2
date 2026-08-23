@@ -164,6 +164,17 @@ function mostrarProductos(productosAMostrar) {
     }
 }
 
+// Linea de precio de la tarjeta. Con promocion vigente sale el precio de la caja
+// tachado junto al rebajado y la condicion al lado; sin ella, el precio de
+// siempre y la tarjeta queda exactamente como estaba.
+function precioDelProducto(producto) {
+    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto.id);
+    if (promo) {
+        return `<div class="producto-precio producto-precio--promo">${window.NutriganPromos.precioConTachadoHTML(promo)}</div>`;
+    }
+    return `<div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>`;
+}
+
 // Etiqueta de oferta de la tarjeta. El precio de Supabase sigue siendo el de la
 // caja suelta; esto solo avisa de que a partir de N cajas sale mas barato. Si no
 // hay promocion vigente devuelve cadena vacia y la tarjeta queda como estaba.
@@ -212,7 +223,7 @@ function crearElementoProducto(producto, indice = 0) {
                 <span>${escHTML(producto.etapa)}</span>
             </div>
         </div>
-        <div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>
+        ${precioDelProducto(producto)}
         ${promoDelProducto(producto.id)}
         <div class="producto-botones">
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">

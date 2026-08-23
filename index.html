@@ -253,7 +253,8 @@
                 </p>
 
                 <p class="promo-destacada-caja">
-                    Caja de 20 bolos a <strong>58&nbsp;&euro;</strong> en vez de 70&nbsp;&euro;:
+                    Caja de 20 bolos a <strong>58&nbsp;&euro;</strong> en vez de
+                    <span class="promo-destacada-tachado">70&nbsp;&euro;</span>:
                     <strong>ahorras 12&nbsp;&euro; en cada caja</strong>.
                 </p>
 
@@ -355,14 +356,21 @@
                     </div>
                     <h3 class="producto-nombre">Bolutech Flash</h3>
                     <p class="producto-descripcion">Reducción del riesgo de hipocalcemia. <strong>(3,50€/U)</strong></p>
-                    <div class="producto-precio">€70.00 <span class="precio-iva">IVA inc.</span></div>
-                    <!-- Etiqueta de la oferta. Va escrita en el HTML como el resto de la
-                         tarjeta, que en esta rejilla es estatica; la retira main.js cuando
-                         la promocion caduque. El texto es el mismo que genera
-                         NutriganPromos.etiquetaTarjetaHTML() para el catalogo. -->
+                    <!-- Precio de oferta. Va escrito en el HTML como el resto de la
+                         tarjeta, que en esta rejilla es estatica; main.js lo devuelve al
+                         precio de data-precio-normal cuando la promocion caduque. El
+                         marcado es el mismo que generan precioConTachadoHTML() y
+                         etiquetaTarjetaHTML() para el catalogo. -->
+                    <div class="producto-precio producto-precio--promo"
+                         data-promo-producto="1" data-precio-normal="€70.00">
+                        <span class="producto-precio-antes">€70.00</span>
+                        <span class="producto-precio-ahora">€58.00</span>
+                        <span class="precio-iva">IVA inc.</span>
+                        <span class="producto-precio-condicion">desde 2 cajas</span>
+                    </div>
                     <div class="producto-promo" data-promo-producto="1">
                         <span class="producto-promo-precio">2,90&nbsp;€/U</span>
-                        <span class="producto-promo-condicion">desde 2 cajas &middot; ahorras 12&nbsp;€ por caja</span>
+                        <span class="producto-promo-condicion">ahorras 12&nbsp;€ en cada caja</span>
                     </div>
                     <button class="producto-btn">Ver producto</button>
                 </a>

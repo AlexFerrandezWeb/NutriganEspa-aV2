@@ -319,12 +319,22 @@ function inicializarBuscadorInicio() {
 document.addEventListener('DOMContentLoaded', function () {
     if (!window.NutriganPromos) return;
 
-    // Etiquetas de oferta escritas a mano en las tarjetas de la portada: fuera
-    // en cuanto caduquen. Se hace aquí y no en cada página porque en el resto
-    // del sitio las tarjetas las genera JS, que ya consulta la regla.
+    // Oferta escrita a mano en las tarjetas de la portada: fuera en cuanto
+    // caduque. Se hace aquí y no en cada página porque en el resto del sitio las
+    // tarjetas las genera JS, que ya consulta la regla.
     document.querySelectorAll('.producto-promo[data-promo-producto]').forEach(function (etiqueta) {
         var id = parseInt(etiqueta.dataset.promoProducto, 10);
         if (!window.NutriganPromos.promocionDe(id)) etiqueta.remove();
+    });
+
+    // El precio tachado vuelve al normal. No basta con quitar el tachado: hay
+    // que reponer el importe, o la tarjeta se quedaría anunciando el rebajado.
+    document.querySelectorAll('.producto-precio[data-promo-producto]').forEach(function (precio) {
+        var id = parseInt(precio.dataset.promoProducto, 10);
+        if (window.NutriganPromos.promocionDe(id)) return;
+        precio.classList.remove('producto-precio--promo');
+        precio.innerHTML = precio.dataset.precioNormal +
+            ' <span class="precio-iva">IVA inc.</span>';
     });
 
     var bloque = document.getElementById('promo-destacada');

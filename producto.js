@@ -133,15 +133,23 @@ function mostrarProducto(producto) {
         document.getElementById('producto-precio').innerHTML = `€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
     }
 
-    // Oferta vigente, si la hay. El precio de arriba sigue siendo el de la caja
-    // suelta a proposito: el descuento exige un minimo de cajas, asi que lo que
-    // corresponde es anunciarlo aparte y no tachar un precio que si se paga
-    // cuando se compra una sola.
+    // Oferta vigente, si la hay.
+    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto.id);
+
+    // Con promocion, la cabecera pasa a ensenar el precio de la caja tachado
+    // junto al rebajado. La condicion ("desde 2 cajas") va pegada al importe y
+    // no en una nota aparte: el precio rebajado solo se paga a partir de ese
+    // minimo, y suelto seria enganoso para quien compre una sola caja ademas de
+    // no cuadrar con el feed de Shopping, que publica el de la caja suelta.
+    const contenedorPrecio = document.getElementById('producto-precio');
+    if (promo && contenedorPrecio) {
+        contenedorPrecio.classList.add('producto-precio--promo');
+        contenedorPrecio.innerHTML = window.NutriganPromos.precioConTachadoHTML(promo);
+    }
+
     const cajaPromo = document.getElementById('producto-promo');
     if (cajaPromo && window.NutriganPromos) {
-        cajaPromo.innerHTML = window.NutriganPromos.cajaFichaHTML(
-            window.NutriganPromos.promocionDe(producto.id)
-        );
+        cajaPromo.innerHTML = window.NutriganPromos.cajaFichaHTML(promo);
     }
     
     const descP = document.createElement('p');
