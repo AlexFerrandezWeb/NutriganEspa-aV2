@@ -9169,9 +9169,16 @@ body {
     box-shadow: 0 12px 26px rgba(29, 129, 93, 0.55);
 }
 
+.promo-destacada-vigencia-texto {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .promo-destacada-vigencia {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin: 1.1rem 0 0;
     font-size: 0.88rem;
@@ -9266,4 +9273,37 @@ body {
         width: 100%;
         padding: 1rem 1rem;
     }
+
+    /* El contador baja a su propia línea. Pegado a la fecha rompía la frase por
+       la mitad y además caía justo debajo del botón flotante de WhatsApp.
+       En columna en vez de flex-basis:100% para que la pastilla conserve su
+       ancho y no se estire de lado a lado. */
+    .promo-destacada-vigencia {
+        flex-direction: column;
+        gap: 0.55rem;
+    }
+}
+
+/* Contador de lo que queda de promoción (lo rellena main.js). */
+.promo-destacada-cuenta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    background-color: rgba(255, 209, 102, 0.15);
+    border: 1px solid rgba(255, 209, 102, 0.4);
+    color: #ffd166;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+}
+
+/* Últimas 24 horas: el contador pasa a horas/minutos/segundos y se pinta en
+   rojo, que es cuando la urgencia es de verdad. */
+.promo-destacada-cuenta--final {
+    background-color: rgba(215, 38, 61, 0.2);
+    border-color: rgba(215, 38, 61, 0.55);
+    color: #ff8f9c;
+    /* Ancho fijo por dígito: sin esto el segundero baila al cambiar de cifra. */
+    font-variant-numeric: tabular-nums;
 }

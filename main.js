@@ -309,19 +309,61 @@ function inicializarBuscadorInicio() {
 }
 
 /**
- * Retira el bloque de oferta de la home cuando la promoción caduca.
+ * Bloque de oferta de la home: contador de lo que queda y retirada al caducar.
  *
  * Los importes están escritos en el HTML para que los lea el buscador sin
  * ejecutar JavaScript, así que sin esto el 1 de enero la portada seguiría
- * anunciando un descuento que el carrito ya no aplica. La fecha se consulta a
- * promociones.js, la misma regla que usan el carrito y el servidor.
+ * anunciando un descuento que el carrito ya no aplica. Las fechas se consultan
+ * a promociones.js, la misma regla que usan el carrito y el servidor.
  */
 document.addEventListener('DOMContentLoaded', function () {
     var bloque = document.getElementById('promo-destacada');
     if (!bloque || !window.NutriganPromos) return;
 
     var productoId = parseInt(bloque.dataset.promoProducto, 10);
-    if (!window.NutriganPromos.promocionDe(productoId)) {
+    var promo = window.NutriganPromos.promocionDe(productoId);
+    if (!promo) {
         bloque.remove();
+        return;
+    }
+
+    var contador = document.getElementById('promo-destacada-cuenta');
+    if (!contador) return;
+
+    function dosDigitos(n) {
+        return n < 10 ? '0' + n : String(n);
+    }
+
+    // Mientras falten meses se cuenta en días y se calcula una sola vez al
+    // cargar; sólo en las últimas 24 horas se pasa al segundero, que es cuando
+    // la urgencia es real. Un contador al segundo faltando cuatro meses parece
+    // un reclamo inventado y repinta la portada sin ganar nada.
+    function pintar() {
+        var queda = window.NutriganPromos.tiempoRestante(promo);
+
+        if (!queda) {
+            bloque.remove();
+            return false;
+        }
+
+        if (queda.modo === 'dias') {
+            contador.textContent = queda.dias === 1
+                ? 'Queda 1 día'
+                : 'Quedan ' + queda.dias + ' días';
+            contador.hidden = false;
+            return false;
+        }
+
+        contador.textContent = 'Termina en ' + dosDigitos(queda.horas) + ':' +
+            dosDigitos(queda.minutos) + ':' + dosDigitos(queda.segundos);
+        contador.classList.add('promo-destacada-cuenta--final');
+        contador.hidden = false;
+        return true;
+    }
+
+    if (pintar()) {
+        var tic = setInterval(function () {
+            if (!pintar()) clearInterval(tic);
+        }, 1000);
     }
 });

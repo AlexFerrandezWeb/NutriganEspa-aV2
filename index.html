@@ -267,8 +267,16 @@
                 </a>
 
                 <p class="promo-destacada-vigencia">
-                    <i class="fas fa-clock" aria-hidden="true"></i>
-                    Válida hasta el 31 de diciembre de 2026
+                    <span class="promo-destacada-vigencia-texto">
+                        <i class="fas fa-clock" aria-hidden="true"></i>
+                        Válida hasta el 31 de diciembre de 2026
+                    </span>
+                    <!-- Lo rellena main.js. Nace oculto para que quien tenga el
+                         JavaScript desactivado no vea un hueco vacío: la fecha
+                         de arriba ya dice lo mismo sin contador. Sin aria-live
+                         a propósito, para que el segundero de las últimas horas
+                         no se lea en voz alta una vez por segundo. -->
+                    <span class="promo-destacada-cuenta" id="promo-destacada-cuenta" hidden></span>
                 </p>
             </div>
         </div>

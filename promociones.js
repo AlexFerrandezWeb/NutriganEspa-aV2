@@ -115,13 +115,46 @@
         };
     }
 
+    /**
+     * Lo que queda de promoción, para el contador de la home.
+     *
+     * Devuelve además `modo`, que decide cómo pintarlo: mientras falte más de un
+     * día se cuenta en días y basta con calcularlo al cargar la página; en las
+     * últimas 24 horas se pasa a horas/minutos/segundos y ahí sí tiene sentido
+     * refrescarlo cada segundo. Un contador al segundo faltando meses parece un
+     * reclamo falso y obliga a repintar sin motivo.
+     *
+     * El corte va en 24 horas y no más arriba para que el segundero nunca pase
+     * de 23:59:59: un "37:59:55" se lee como 37 minutos.
+     *
+     * Los días se redondean hacia arriba porque la promoción vale hasta el
+     * final del último día: el 31 por la mañana todavía "queda 1 día".
+     */
+    function tiempoRestante(promo, ahora) {
+        if (!promo) return null;
+        var t = (ahora instanceof Date ? ahora : new Date()).getTime();
+        var restante = new Date(promo.hasta).getTime() - t;
+        if (restante <= 0) return null;
+
+        var segundos = Math.floor(restante / 1000);
+        return {
+            ms: restante,
+            modo: restante > 24 * 3600 * 1000 ? 'dias' : 'cuentaAtras',
+            dias: Math.ceil(restante / 86400000),
+            horas: Math.floor(segundos / 3600),
+            minutos: Math.floor((segundos % 3600) / 60),
+            segundos: segundos % 60
+        };
+    }
+
     var api = {
         PROMOCIONES: PROMOCIONES,
         promocionDe: promocionDe,
         promocionesVigentes: promocionesVigentes,
         descuentoDeLinea: descuentoDeLinea,
         descuentoDeCarrito: descuentoDeCarrito,
-        loQueFaltaParaLaPromo: loQueFaltaParaLaPromo
+        loQueFaltaParaLaPromo: loQueFaltaParaLaPromo,
+        tiempoRestante: tiempoRestante
     };
 
     if (typeof module !== 'undefined' && module.exports) {
