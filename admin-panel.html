@@ -6,6 +6,9 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Panel Admin — Nutrigan España</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Misma regla que aplica la tienda, para que el resumen en vivo diga
+         exactamente lo que va a ver el cliente final. -->
+    <script src="promociones.js"></script>
     <link rel="icon" href="assets/favicon-nutrigan.png">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -126,7 +129,7 @@
         .form-group { margin-bottom: 12px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         label { display: block; font-size: 0.82rem; font-weight: 500; margin-bottom: 5px; color: #555; }
-        input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea, select {
+        input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], textarea, select {
             width: 100%; padding: 8px 11px; border: 1px solid #ddd; border-radius: 8px;
             font-size: 0.875rem; font-family: inherit; outline: none; transition: border-color 0.15s; background: white;
         }
@@ -147,6 +150,15 @@
         .check-label { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.875rem; color: #444; }
         .check-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #1d815d; cursor: pointer; }
         .check-hint { display: block; margin: 4px 0 0 24px; font-size: 0.78rem; color: #888; line-height: 1.4; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .section-hint { margin: -8px 0 14px; font-size: 0.78rem; color: #888; line-height: 1.45; }
+
+        /* Resumen en vivo de la oferta: enseña lo que va a ver el cliente final
+           mientras se teclean las cifras, para no tener que ir a la web a
+           comprobarlo. En rojo cuando la oferta no se va a aplicar. */
+        .promo-resumen { margin-top: 4px; padding: 10px 12px; border-radius: 8px; font-size: 0.82rem; line-height: 1.5; }
+        .promo-resumen.ok { background: #e8f5f0; color: #17654a; border: 1px solid #b8ded1; }
+        .promo-resumen.mal { background: #fdecee; color: #a3182b; border: 1px solid #f2c2c8; }
 
         /* ── TAGS (ingredientes/beneficios) ─────────────────── */
         .tag-box { border: 1px solid #ddd; border-radius: 8px; padding: 8px 10px; background: white; }
@@ -438,6 +450,30 @@
                         «Agotado», no se puede comprar y el feed de Google pasa a
                         «out of stock» (tarda hasta 1&nbsp;hora en reflejarse).</small>
                 </div>
+            </div>
+
+            <!-- OFERTA -->
+            <div class="form-section">
+                <div class="section-title">Oferta por volumen</div>
+                <p class="section-hint">Descuento por llevar varias cajas. Se anuncia en la portada,
+                    en el catálogo y en la ficha, y se aplica solo en el carrito. Deja los tres campos
+                    vacíos si este producto no tiene oferta. El precio de arriba no se toca: sigue
+                    siendo el de una caja suelta, que es lo que se paga por debajo del mínimo.</p>
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label for="f-promo-cajas">A partir de (cajas)</label>
+                        <input type="number" id="f-promo-cajas" min="1" step="1" placeholder="2">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-promo-descuento">Descuento por caja (€)</label>
+                        <input type="number" id="f-promo-descuento" min="0" step="0.01" placeholder="12.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-promo-hasta">Válida hasta</label>
+                        <input type="date" id="f-promo-hasta">
+                    </div>
+                </div>
+                <div class="promo-resumen" id="promo-resumen" hidden></div>
             </div>
 
             <!-- CLASIFICACIÓN -->
@@ -736,6 +772,105 @@
         ));
     }
 
+    // ── OFERTA POR VOLUMEN ────────────────────────────────────
+    // Los tres campos se guardan tal cual en las columnas promo_* de Supabase.
+    // Quien decide si la oferta se aplica es promociones.js, la misma regla que
+    // usan la tienda y el cobro: aquí no se duplica el criterio, se consulta.
+
+    function campoPromo(id) {
+        const v = document.getElementById(id).value.trim();
+        return v === '' ? null : v;
+    }
+
+    /** Los tres valores del formulario, en el formato en que viajan a Supabase. */
+    function datosPromoDelFormulario() {
+        const cajas = campoPromo('f-promo-cajas');
+        const descuento = campoPromo('f-promo-descuento');
+        return {
+            promo_cajas_minimas: cajas === null ? null : parseInt(cajas, 10),
+            promo_descuento_caja: descuento === null ? null : parseFloat(descuento),
+            promo_hasta: campoPromo('f-promo-hasta')
+        };
+    }
+
+    /**
+     * Por qué una oferta a medio rellenar no se va a aplicar.
+     *
+     * Devuelve null si está bien. Estos mensajes existen porque la regla ignora
+     * en silencio una oferta inválida: sin esto, el cliente guardaría un
+     * descuento mayor que el precio y no entendería por qué la web no lo enseña.
+     */
+    function problemaDeLaPromo(promo, precio) {
+        const rellenos = [promo.promo_cajas_minimas, promo.promo_descuento_caja, promo.promo_hasta]
+            .filter(v => v !== null && v !== '' && !Number.isNaN(v));
+        if (rellenos.length === 0) return null;          // sin oferta, correcto
+        if (rellenos.length < 3) return 'Rellena los tres campos para que la oferta se aplique.';
+        if (!(promo.promo_cajas_minimas >= 1)) return 'El mínimo tiene que ser de 1 caja o más.';
+        if (!(promo.promo_descuento_caja > 0)) return 'El descuento por caja tiene que ser mayor que 0 €.';
+        if (!(precio > 0)) return 'Pon primero el precio del producto.';
+        if (promo.promo_descuento_caja >= precio) {
+            return 'El descuento (' + promo.promo_descuento_caja.toFixed(2).replace('.', ',') +
+                ' €) no puede llegar al precio de la caja (' + precio.toFixed(2).replace('.', ',') +
+                ' €): la caja quedaría gratis o a precio negativo.';
+        }
+        return null;
+    }
+
+    /**
+     * Resumen en vivo de lo que va a ver el cliente final.
+     * Se calcula con la misma función que la tienda, así que si aquí pone 58 €
+     * es que en la web va a poner 58 €.
+     */
+    function actualizarResumenPromo() {
+        const caja = document.getElementById('promo-resumen');
+        if (!caja) return;
+
+        const precio = parseFloat(document.getElementById('f-precio').value);
+        const precioUnitario = parseFloat(document.getElementById('f-precio-unitario').value);
+        const datos = datosPromoDelFormulario();
+
+        const problema = problemaDeLaPromo(datos, precio);
+        if (problema) {
+            caja.className = 'promo-resumen mal';
+            caja.textContent = problema;
+            caja.hidden = false;
+            return;
+        }
+
+        if (datos.promo_hasta === null) { caja.hidden = true; return; }
+
+        const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(
+            Object.assign({ id: editingId, precio: precio, precio_unitario: precioUnitario }, datos)
+        );
+
+        // Datos válidos pero fecha pasada: se guarda igual (sirve para dejarla
+        // preparada o para ver una que ya terminó), pero conviene avisar.
+        if (!promo) {
+            caja.className = 'promo-resumen mal';
+            caja.textContent = 'La fecha ya ha pasado, así que la oferta no se muestra en la web.';
+            caja.hidden = false;
+            return;
+        }
+
+        const P = window.NutriganPromos;
+        const porUnidad = promo.precioUnidadPromo
+            ? ' (' + P.formatoEuros(promo.precioUnidadPromo) + ' por unidad, antes ' +
+              P.formatoEuros(promo.precioUnidadNormal) + ')'
+            : '';
+        caja.className = 'promo-resumen ok';
+        caja.textContent = 'Llevando ' + promo.cajasMinimas + ' cajas o más, la caja sale a ' +
+            P.formatoEuros(promo.precioCajaPromo) + porUnidad + ', en vez de ' +
+            P.formatoEuros(promo.precioCajaNormal) + '. Se anuncia hasta el ' +
+            P.diaDeFin(promo) + '.';
+        caja.hidden = false;
+    }
+
+    ['f-promo-cajas', 'f-promo-descuento', 'f-promo-hasta', 'f-precio', 'f-precio-unitario']
+        .forEach(function (id) {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', actualizarResumenPromo);
+        });
+
     // ── PRODUCT FORM ──────────────────────────────────────────
     async function openProductForm(id = null) {
         editingId = id;
@@ -783,6 +918,11 @@
             document.getElementById('f-ficha').value        = p.ficha_tecnica || '';
             document.getElementById('f-imagen-url').value   = p.imagen || '';
             document.getElementById('f-precio-unitario').value = p.precio_unitario ?? '';
+            document.getElementById('f-promo-cajas').value     = p.promo_cajas_minimas ?? '';
+            document.getElementById('f-promo-descuento').value = p.promo_descuento_caja ?? '';
+            // La columna es DATE; Supabase la devuelve como 'YYYY-MM-DD' y el input
+            // de fecha espera justo eso, pero se recorta por si viniera con hora.
+            document.getElementById('f-promo-hasta').value     = p.promo_hasta ? String(p.promo_hasta).slice(0, 10) : '';
 
             tags.ingredientes = Array.isArray(p.ingredientes) ? [...p.ingredientes] : [];
             tags.beneficios   = Array.isArray(p.beneficios)   ? [...p.beneficios]   : [];
@@ -794,6 +934,8 @@
             document.getElementById('form-title').textContent = 'Añadir producto';
             document.getElementById('save-btn').textContent = 'Guardar producto';
         }
+
+        actualizarResumenPromo();
 
         isDirty = false;
         openPanel();
@@ -809,6 +951,20 @@
         btn.textContent = 'Guardando...';
         document.getElementById('form-error').hidden   = true;
         document.getElementById('form-success').hidden = true;
+
+        // Una oferta mal puesta no da error en la tienda: la regla la ignora en
+        // silencio y el producto se queda sin descuento sin decir por que. Se
+        // corta aqui, que es donde se puede explicar.
+        const problemaPromo = problemaDeLaPromo(
+            datosPromoDelFormulario(),
+            parseFloat(document.getElementById('f-precio').value)
+        );
+        if (problemaPromo) {
+            document.getElementById('form-error').textContent = 'Oferta por volumen: ' + problemaPromo;
+            document.getElementById('form-error').hidden = false;
+            document.getElementById('f-promo-cajas').focus();
+            return;
+        }
 
         try {
             let imageUrl = document.getElementById('f-imagen-url').value.trim();
@@ -843,6 +999,8 @@
                 imagen:               imageUrl,
                 moneda:               'EUR'
             };
+
+            Object.assign(data, datosPromoDelFormulario());
 
             let error;
             const isEditing = !!editingId;
