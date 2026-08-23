@@ -6671,19 +6671,19 @@ body {
 }
 
 
-/* En la ficha las etiquetas van en fila y alineadas entre si, como pareja.
-   En columna quedaban ademas descuadradas una respecto a otra: heredan de las
-   tarjetas del catalogo un top/left/right de 10px pensado para ir sueltas en
-   una esquina, y aqui, colgando de un contenedor comun, ese desplazamiento
-   solo servia para moverlas un poco cada una hacia un lado. */
+/* En la ficha las etiquetas van una debajo de otra pero cuadradas por la
+   izquierda. Sin el align-items y sin anular el top/left/right que heredan de
+   las tarjetas del catalogo salian descolocadas entre si: ese desplazamiento
+   esta pensado para que alli cada etiqueta vaya suelta en una esquina, y aqui,
+   colgando de un contenedor comun, solo servia para moverlas un poco cada una
+   hacia un lado. */
 .producto-badges {
     position: absolute;
     top: 1rem;
     left: 1rem;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 0.5rem;
     z-index: 5;
 }
