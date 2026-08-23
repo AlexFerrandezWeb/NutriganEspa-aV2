@@ -633,7 +633,18 @@
     <div id="modal-certificado" class="modal-certificado">
         <div class="modal-certificado-content">
             <span class="modal-certificado-close">&times;</span>
-            <img id="modal-certificado-imagen" src="" alt="Certificado" loading="lazy">
+            <!-- Visor con zoom y arrastre. La imagen va dentro de un marco con
+                 overflow oculto: al ampliar, lo que sobra se recorta ahi en vez de
+                 desbordar el modal. -->
+            <div class="modal-zoom" id="modal-zoom">
+                <img id="modal-certificado-imagen" src="" alt="Certificado" loading="lazy" draggable="false">
+            </div>
+            <div class="modal-zoom-controles" id="modal-zoom-controles">
+                <button type="button" class="modal-zoom-btn" id="modal-zoom-menos" aria-label="Alejar">&minus;</button>
+                <span class="modal-zoom-nivel" id="modal-zoom-nivel" aria-live="polite">100%</span>
+                <button type="button" class="modal-zoom-btn" id="modal-zoom-mas" aria-label="Acercar">+</button>
+                <button type="button" class="modal-zoom-btn modal-zoom-btn-texto" id="modal-zoom-reset">Ajustar</button>
+            </div>
             <div class="modal-certificado-info">
                 <h3 id="modal-certificado-titulo"></h3>
                 <p id="modal-certificado-descripcion"></p>
@@ -776,6 +787,145 @@
             const modalDescripcion = document.getElementById('modal-certificado-descripcion');
             const closeBtn = document.querySelector('.modal-certificado-close');
 
+            // ── ZOOM Y ARRASTRE DE LA IMAGEN DEL MODAL ────────────────
+            // Las fichas de la gama y los certificados tienen letra pequeña, así
+            // que verlos grandes no basta: hay que poder acercarse y moverse por
+            // la imagen. Sirve para los dos, que comparten modal.
+            const zoomMarco = document.getElementById('modal-zoom');
+            const zoomNivel = document.getElementById('modal-zoom-nivel');
+
+            const ZOOM_MIN = 1;
+            const ZOOM_MAX = 6;
+
+            let escala = 1, desplX = 0, desplY = 0;
+            let arrastrando = false, huboArrastre = false;
+            let arranqueX = 0, arranqueY = 0;
+            const punteros = new Map();
+            let pellizcoPrevio = 0;
+
+            function aplicarZoom() {
+                modalImg.style.transform =
+                    'translate(' + desplX + 'px, ' + desplY + 'px) scale(' + escala + ')';
+                zoomNivel.textContent = Math.round(escala * 100) + '%';
+                // Solo tiene sentido arrastrar cuando la imagen no cabe entera.
+                zoomMarco.classList.toggle('ampliada', escala > 1);
+            }
+
+            /**
+             * Recorta el desplazamiento para que no se pueda sacar la imagen
+             * fuera del marco y quedarse mirando el vacío.
+             */
+            function limitarDesplazamiento() {
+                const marco = zoomMarco.getBoundingClientRect();
+                const margenX = Math.max(0, (marco.width * escala - marco.width) / 2);
+                const margenY = Math.max(0, (marco.height * escala - marco.height) / 2);
+                desplX = Math.min(margenX, Math.max(-margenX, desplX));
+                desplY = Math.min(margenY, Math.max(-margenY, desplY));
+            }
+
+            function reiniciarZoom() {
+                escala = 1; desplX = 0; desplY = 0;
+                aplicarZoom();
+            }
+
+            /**
+             * Cambia el zoom manteniendo bajo el cursor el punto que había ahí,
+             * que es lo que hace que acercarse sobre un detalle no lo pierda de
+             * vista. Sin `origen` (los botones) se amplía por el centro.
+             */
+            function ajustarZoom(nuevaEscala, origen) {
+                const anterior = escala;
+                escala = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, nuevaEscala));
+                if (escala === anterior) return;
+
+                if (origen) {
+                    const marco = zoomMarco.getBoundingClientRect();
+                    const haciaX = origen.clientX - (marco.left + marco.width / 2);
+                    const haciaY = origen.clientY - (marco.top + marco.height / 2);
+                    const factor = escala / anterior;
+                    desplX = haciaX - (haciaX - desplX) * factor;
+                    desplY = haciaY - (haciaY - desplY) * factor;
+                }
+
+                if (escala === 1) { desplX = 0; desplY = 0; }
+                limitarDesplazamiento();
+                aplicarZoom();
+            }
+
+            // Rueda del ratón. passive:false porque hay que impedir que la página
+            // se desplace por detrás del modal mientras se hace zoom.
+            zoomMarco.addEventListener('wheel', function (e) {
+                e.preventDefault();
+                ajustarZoom(escala * (e.deltaY < 0 ? 1.2 : 1 / 1.2), e);
+            }, { passive: false });
+
+            // Doble clic o doble toque: acerca sobre el punto, o vuelve a ajustar.
+            zoomMarco.addEventListener('dblclick', function (e) {
+                if (escala > 1) reiniciarZoom();
+                else ajustarZoom(2.5, e);
+            });
+
+            document.getElementById('modal-zoom-mas').addEventListener('click', () => ajustarZoom(escala * 1.4));
+            document.getElementById('modal-zoom-menos').addEventListener('click', () => ajustarZoom(escala / 1.4));
+            document.getElementById('modal-zoom-reset').addEventListener('click', reiniciarZoom);
+
+            // Arrastre y pellizco, con eventos de puntero para que valgan igual
+            // el ratón y el dedo.
+            zoomMarco.addEventListener('pointerdown', function (e) {
+                punteros.set(e.pointerId, e);
+                if (punteros.size === 1 && escala > 1) {
+                    arrastrando = true;
+                    huboArrastre = false;
+                    arranqueX = e.clientX - desplX;
+                    arranqueY = e.clientY - desplY;
+                    zoomMarco.setPointerCapture(e.pointerId);
+                }
+            });
+
+            zoomMarco.addEventListener('pointermove', function (e) {
+                if (!punteros.has(e.pointerId)) return;
+                punteros.set(e.pointerId, e);
+
+                if (punteros.size === 2) {
+                    const [a, b] = [...punteros.values()];
+                    const distancia = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
+                    if (pellizcoPrevio) {
+                        ajustarZoom(escala * (distancia / pellizcoPrevio), {
+                            clientX: (a.clientX + b.clientX) / 2,
+                            clientY: (a.clientY + b.clientY) / 2
+                        });
+                    }
+                    pellizcoPrevio = distancia;
+                    return;
+                }
+
+                if (!arrastrando) return;
+                e.preventDefault();
+                huboArrastre = true;
+                desplX = e.clientX - arranqueX;
+                desplY = e.clientY - arranqueY;
+                limitarDesplazamiento();
+                aplicarZoom();
+            });
+
+            function soltarPuntero(e) {
+                punteros.delete(e.pointerId);
+                if (punteros.size < 2) pellizcoPrevio = 0;
+                if (punteros.size === 0) arrastrando = false;
+            }
+            zoomMarco.addEventListener('pointerup', soltarPuntero);
+            zoomMarco.addEventListener('pointercancel', soltarPuntero);
+
+            // Un arrastre que termina fuera de la imagen no debe contar como
+            // "clic en el fondo" y cerrar el modal.
+            zoomMarco.addEventListener('click', function (e) {
+                if (huboArrastre) {
+                    e.stopPropagation();
+                    huboArrastre = false;
+                }
+            }, true);
+
+
             // Hacer clickeables las imágenes de certificados
             const certificadoImagenes = document.querySelectorAll('.certificado-imagen-container');
             certificadoImagenes.forEach(container => {
@@ -791,6 +941,7 @@
                     // Las imagenes de la gama lo ocultan porque no traen texto;
                     // aqui hay que volver a mostrarlo.
                     modalDescripcion.hidden = false;
+                    reiniciarZoom();
                     modal.style.display = 'block';
                     document.body.style.overflow = 'hidden'; // Prevenir scroll del body
                 });
@@ -813,6 +964,7 @@
                     modalTitulo.textContent = img.alt;
                     modalDescripcion.textContent = '';
                     modalDescripcion.hidden = true;
+                    reiniciarZoom();
                     modal.style.display = 'block';
                     document.body.style.overflow = 'hidden';
                 }
