@@ -210,6 +210,13 @@ function actualizarBadges(producto) {
         badge.className = 'producto-badge producto-badge-agotado';
         badge.textContent = 'Agotado';
         badgesContainer.appendChild(badge);
+    } else if (window.NutriganPromos && window.NutriganPromos.promocionDe(producto)) {
+        // Solo si se puede comprar: anunciar un descuento en algo agotado no
+        // sirve mas que para irritar a quien lo intenta.
+        const badge = document.createElement('span');
+        badge.className = 'producto-badge producto-badge-oferta';
+        badge.textContent = 'Oferta';
+        badgesContainer.appendChild(badge);
     }
 }
 

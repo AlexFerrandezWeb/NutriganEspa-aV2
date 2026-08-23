@@ -3007,7 +3007,8 @@ body {
     }
 
     .productos-grid-catalogo .producto-badge-destacado,
-    .productos-grid-catalogo .producto-badge-agotado {
+    .productos-grid-catalogo .producto-badge-agotado,
+    .productos-grid-catalogo .producto-badge-oferta {
         font-size: 0.55rem;
         padding: 0.15rem 0.45rem;
         top: 6px;
@@ -3018,7 +3019,8 @@ body {
         right: 6px;
     }
 
-    .productos-grid-catalogo .producto-badge-agotado {
+    .productos-grid-catalogo .producto-badge-agotado,
+    .productos-grid-catalogo .producto-badge-oferta {
         left: 6px;
     }
 
@@ -3169,7 +3171,8 @@ body {
 }
 
 .producto-badge-destacado,
-.producto-badge-agotado {
+.producto-badge-agotado,
+.producto-badge-oferta {
     position: absolute;
     top: 10px;
     padding: 0.3rem 0.8rem;
@@ -3191,6 +3194,17 @@ body {
     left: 10px;
     background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
     color: white;
+}
+
+/* Comparte esquina con «Agotado» sin solaparse nunca: son excluyentes, porque
+   en un producto agotado no se pinta la oferta.
+   Fondo oscuro con texto ambar, que es la paleta del bloque de oferta de la
+   portada: asi se lee como oferta y no se confunde con las otras dos etiquetas,
+   que ya son rojo salmon (destacado) y naranja (agotado). */
+.producto-badge-oferta {
+    left: 10px;
+    background: linear-gradient(45deg, #1d2336, #2b3350);
+    color: #ffd166;
 }
 
 

@@ -200,11 +200,18 @@ function crearElementoProducto(producto, indice = 0) {
     // Badge de agotado (lo marca la columna `disponible`, no el stock numerico)
     const agotado = !estaDisponible(producto);
     const badgeStock = agotado ? '<span class="producto-badge-agotado">Agotado</span>' : '';
+
+    // Badge de oferta. No se pinta en un producto agotado: comparte esquina con
+    // el de «Agotado» y, sobre todo, anunciar un descuento en algo que no se
+    // puede comprar solo sirve para irritar a quien lo intenta.
+    const enOferta = !agotado && window.NutriganPromos && window.NutriganPromos.promocionDe(producto);
+    const badgeOferta = enOferta ? '<span class="producto-badge-oferta">Oferta</span>' : '';
     
     productoLink.innerHTML = `
         <div class="producto-imagen-container">
             ${badgeDestacado}
             ${badgeStock}
+            ${badgeOferta}
             <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="producto-imagen"
                  ${indice < 4 ? 'loading="eager"' : 'loading="lazy"'} decoding="async">
         </div>
