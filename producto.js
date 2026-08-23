@@ -134,7 +134,7 @@ function mostrarProducto(producto) {
     }
 
     // Oferta vigente, si la hay.
-    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto.id);
+    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto);
 
     // Con promocion, la cabecera pasa a ensenar el precio de la caja tachado
     // junto al rebajado. La condicion ("desde 2 cajas") va pegada al importe y

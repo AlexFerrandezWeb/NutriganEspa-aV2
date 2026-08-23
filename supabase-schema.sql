@@ -34,6 +34,11 @@ CREATE TABLE IF NOT EXISTS productos (
   -- No se lleva inventario real, así que `stock` ya no decide nada visible.
   disponible         BOOLEAN NOT NULL DEFAULT true,
   destacado          BOOLEAN DEFAULT false,
+  -- Oferta por volumen, editable desde el panel de administracion.
+  -- Con cualquiera de las tres a NULL el producto no tiene oferta.
+  promo_cajas_minimas  INTEGER,        -- cajas a partir de las cuales aplica
+  promo_descuento_caja DECIMAL(10,2),  -- euros de descuento por cada caja
+  promo_hasta          DATE,           -- ultimo dia en que la oferta es valida
   created_at         TIMESTAMPTZ DEFAULT NOW(),
   updated_at         TIMESTAMPTZ DEFAULT NOW()
 );
@@ -62,6 +67,32 @@ CREATE TRIGGER productos_updated_at
 -- IMPORTANTE: hay que ejecutarlo ANTES de desplegar el código que lo consulta,
 -- porque los SELECT que piden la columna fallan con 42703 si todavía no existe.
 ALTER TABLE productos ADD COLUMN IF NOT EXISTS disponible BOOLEAN NOT NULL DEFAULT true;
+
+-- Oferta por volumen (promocion editable desde el panel de administracion).
+--
+-- A diferencia de `disponible`, estas columnas se pueden anadir en cualquier
+-- momento, antes o despues de desplegar el codigo que las usa: todas las
+-- consultas que las leen piden select('*'), asi que ni fallan con 42703 si aun
+-- no existen ni hace falta tocarlas para que aparezcan.
+--
+-- El precio NO se toca: `precio` sigue siendo el de la caja suelta. El
+-- descuento exige un minimo de cajas, asi que ese es el unico precio sin
+-- condiciones y es el que debe publicar el feed de Google Shopping.
+ALTER TABLE productos ADD COLUMN IF NOT EXISTS promo_cajas_minimas  INTEGER;
+ALTER TABLE productos ADD COLUMN IF NOT EXISTS promo_descuento_caja DECIMAL(10,2);
+ALTER TABLE productos ADD COLUMN IF NOT EXISTS promo_hasta          DATE;
+
+-- Oferta de Bolutech Flash hasta fin de 2026: desde 2 cajas, 12 EUR menos por
+-- caja (70 EUR -> 58 EUR, es decir 3,50 EUR -> 2,90 EUR por bolo).
+-- A partir de aqui se cambia desde el panel, sin SQL.
+UPDATE productos
+   SET promo_cajas_minimas  = 2,
+       promo_descuento_caja = 12.00,
+       promo_hasta          = '2026-12-31'
+ WHERE id = 1;
+
+-- Para retirar una oferta antes de tiempo, desde el panel o con:
+--   UPDATE productos SET promo_hasta = NULL WHERE id = 1;
 
 
 -- 2. ROW LEVEL SECURITY (RLS)

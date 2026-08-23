@@ -168,7 +168,7 @@ function mostrarProductos(productosAMostrar) {
 // tachado junto al rebajado y la condicion al lado; sin ella, el precio de
 // siempre y la tarjeta queda exactamente como estaba.
 function precioDelProducto(producto) {
-    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto.id);
+    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto);
     if (promo) {
         return `<div class="producto-precio producto-precio--promo">${window.NutriganPromos.precioConTachadoHTML(promo)}</div>`;
     }
@@ -180,7 +180,7 @@ function precioDelProducto(producto) {
 // daba dos precios por unidad distintos sin relacionarlos.
 function precioUnidadDelProducto(producto) {
     if (!producto.precio_unitario) return '';
-    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto.id);
+    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto);
     if (promo) {
         return `<span class="precio-por-unidad precio-por-unidad--promo">${window.NutriganPromos.precioUnidadTachadoHTML(promo)}</span>`;
     }

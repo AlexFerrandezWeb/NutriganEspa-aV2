@@ -2,59 +2,45 @@
  * PROMOCIONES — regla única, compartida por navegador y servidor.
  *
  * Está en un solo fichero a propósito. El descuento tiene que pintarse en el
- * carrito y cobrarse en Stripe, y si la regla viviera en dos sitios acabarían
- * divergiendo: el cliente vería un total y pagaría otro. Aquí se declara una
- * vez y la consumen carrito.js, producto.js, main.js y server.js.
+ * catálogo, en la ficha y en el carrito, y cobrarse en Stripe; si la regla
+ * viviera en dos sitios acabarían divergiendo y el cliente vería un total y
+ * pagaría otro. Aquí se declara una vez y la consumen productos.js,
+ * producto.js, main.js, carrito.js y server.js.
  *
- * Los precios NO se tocan en Supabase: `precio` sigue siendo el de una caja
- * suelta (70 €). Eso es deliberado — el descuento exige un mínimo de cajas, y
- * el feed de Google Shopping debe seguir publicando el precio sin condiciones.
+ * LOS DATOS DE LA OFERTA VIVEN EN SUPABASE, no aquí: son tres columnas de
+ * `productos` que el cliente edita desde el panel de administración. Este
+ * fichero solo tiene el cálculo y los textos. Las columnas son:
+ *
+ *   promo_cajas_minimas   INTEGER        cajas a partir de las cuales aplica
+ *   promo_descuento_caja  DECIMAL(10,2)  euros de descuento por cada caja
+ *   promo_hasta           DATE           último día en que la oferta es válida
+ *
+ * Con cualquiera de las tres a null, el producto no tiene oferta. Eso es lo
+ * que devuelve también cuando las columnas todavía no existen en la base, así
+ * que el sitio funciona igual antes y después de la migración.
+ *
+ * El precio de Supabase NO se toca: `precio` sigue siendo el de la caja
+ * suelta. El descuento exige un mínimo de cajas, así que ese es el único
+ * precio sin condiciones y es el que debe publicar el feed de Shopping.
  */
 (function (global) {
     'use strict';
 
-    var PROMOCIONES = [
-        {
-            id: 'flash-2cajas-2026',
-            productoId: 1,
-            producto: 'Bolutech® Flash',
-            // Desde esta cantidad de cajas en el carrito se aplica el descuento.
-            cajasMinimas: 2,
-            // Euros que se descuentan por cada caja (0,60 € por bolo x 20 bolos).
-            descuentoPorCaja: 12.00,
-            unidadesPorCaja: 20,
-            unidad: 'bolo',
-            precioCajaNormal: 70.00,
-            precioUnidadNormal: 3.50,
-            precioCajaPromo: 58.00,
-            precioUnidadPromo: 2.90,
-            // Fin de la promoción: todo el 31 de diciembre entra. La hora va con
-            // el desfase de la España peninsular en invierno (CET, +01:00) para
-            // que el servidor no la corte antes por estar en UTC.
-            hasta: '2026-12-31T23:59:59+01:00'
-        }
-    ];
-
-    function estaVigente(promo, ahora) {
-        var fin = new Date(promo.hasta).getTime();
-        var t = (ahora instanceof Date ? ahora : new Date()).getTime();
-        return t <= fin;
+    /**
+     * Momento exacto en que caduca una oferta que termina el día `hasta`.
+     *
+     * La columna es un DATE y la oferta vale hasta el final de ese día. El
+     * desfase es el de la España peninsular en invierno (CET, +01:00) para que
+     * el servidor no la corte antes por estar en UTC. En una oferta que acabara
+     * en verano esto la alarga una hora de más, que es el lado seguro del
+     * error: nunca deja de aplicar un descuento que la web sigue anunciando.
+     */
+    function finDelDia(hasta) {
+        return new Date(String(hasta).slice(0, 10) + 'T23:59:59+01:00');
     }
 
-    /** Promoción vigente de un producto, o null si no tiene o ya caducó. */
-    function promocionDe(productoId, ahora) {
-        var id = parseInt(productoId, 10);
-        for (var i = 0; i < PROMOCIONES.length; i++) {
-            if (PROMOCIONES[i].productoId === id && estaVigente(PROMOCIONES[i], ahora)) {
-                return PROMOCIONES[i];
-            }
-        }
-        return null;
-    }
-
-    /** Promociones vigentes ahora mismo (para pintar la home sin caducados). */
-    function promocionesVigentes(ahora) {
-        return PROMOCIONES.filter(function (p) { return estaVigente(p, ahora); });
+    function ahoraMismo(ahora) {
+        return ahora instanceof Date ? ahora : new Date();
     }
 
     function redondear(euros) {
@@ -62,62 +48,114 @@
     }
 
     /**
-     * Descuento en euros de una línea del carrito. Devuelve 0 si el producto no
-     * tiene promoción, si ya caducó o si no llega al mínimo de cajas.
+     * Oferta vigente de un producto de Supabase, ya con todos los importes
+     * calculados. Devuelve null si no tiene, si los datos no son válidos o si
+     * ya caducó.
+     *
+     * Valida antes de calcular porque estas cifras las teclea el cliente en el
+     * panel: un descuento mayor que el precio dejaría la caja a precio negativo
+     * y Stripe rechazaría el cobro por importe fuera de rango.
      */
-    function descuentoDeLinea(productoId, cantidad, ahora) {
-        var promo = promocionDe(productoId, ahora);
+    function promocionDe(producto, ahora) {
+        if (!producto) return null;
+
+        var cajasMinimas = parseInt(producto.promo_cajas_minimas, 10);
+        var descuentoPorCaja = parseFloat(producto.promo_descuento_caja);
+        var hasta = producto.promo_hasta;
+        var precio = parseFloat(producto.precio);
+
+        if (!hasta) return null;
+        if (!(cajasMinimas >= 1)) return null;
+        if (!(descuentoPorCaja > 0)) return null;
+        if (!(precio > 0) || descuentoPorCaja >= precio) return null;
+        if (finDelDia(hasta).getTime() < ahoraMismo(ahora).getTime()) return null;
+
+        var precioCajaPromo = redondear(precio - descuentoPorCaja);
+
+        // Unidades por caja deducidas de los dos precios que ya hay, en vez de
+        // leerlas de `presentacion`: ese campo es texto libre ("Caja de 20
+        // bolos") y cualquier redacción distinta rompería el cálculo.
+        var precioUnidadNormal = parseFloat(producto.precio_unitario);
+        var unidadesPorCaja = precioUnidadNormal > 0
+            ? Math.round(precio / precioUnidadNormal)
+            : 0;
+
+        return {
+            productoId: producto.id,
+            producto: producto.nombre,
+            cajasMinimas: cajasMinimas,
+            descuentoPorCaja: redondear(descuentoPorCaja),
+            hasta: hasta,
+            caduca: finDelDia(hasta).toISOString(),
+            precioCajaNormal: redondear(precio),
+            precioCajaPromo: precioCajaPromo,
+            // Sin precio unitario en Supabase no se puede dar precio por unidad;
+            // el resto de la oferta (precio de caja y ahorro) sigue funcionando.
+            precioUnidadNormal: unidadesPorCaja ? redondear(precioUnidadNormal) : null,
+            precioUnidadPromo: unidadesPorCaja ? redondear(precioCajaPromo / unidadesPorCaja) : null,
+            unidadesPorCaja: unidadesPorCaja || null
+        };
+    }
+
+    /* --------------------------------------------------------------------
+       Cálculo del descuento
+       -------------------------------------------------------------------- */
+
+    /**
+     * Descuento en euros de una línea del carrito. Devuelve 0 si el producto no
+     * tiene oferta, si ya caducó o si no llega al mínimo de cajas.
+     */
+    function descuentoDeLinea(producto, cantidad, ahora) {
+        var promo = promocionDe(producto, ahora);
         var cajas = parseInt(cantidad, 10) || 0;
         if (!promo || cajas < promo.cajasMinimas) return 0;
         return redondear(promo.descuentoPorCaja * cajas);
     }
 
     /**
-     * Descuento total de un carrito. `items` son objetos con `id` y `cantidad`.
-     * Devuelve el total y el desglose por línea, que es lo que necesita el
-     * resumen del carrito para nombrar cada descuento.
+     * Descuento total de un carrito. `lineas` son objetos con `producto` (el
+     * registro de Supabase) y `cantidad`. Devuelve el total y el desglose, que
+     * es lo que necesita el resumen del carrito para nombrar cada descuento.
      */
-    function descuentoDeCarrito(items, ahora) {
-        var lineas = [];
+    function descuentoDeCarrito(lineas, ahora) {
+        var detalle = [];
         var total = 0;
 
-        (items || []).forEach(function (item) {
-            var descuento = descuentoDeLinea(item.id, item.cantidad, ahora);
+        (lineas || []).forEach(function (linea) {
+            var descuento = descuentoDeLinea(linea.producto, linea.cantidad, ahora);
             if (descuento <= 0) return;
-            var promo = promocionDe(item.id, ahora);
-            lineas.push({
-                promoId: promo.id,
+            var promo = promocionDe(linea.producto, ahora);
+            detalle.push({
                 productoId: promo.productoId,
                 producto: promo.producto,
-                cantidad: parseInt(item.cantidad, 10),
+                cantidad: parseInt(linea.cantidad, 10),
                 descuento: descuento
             });
             total += descuento;
         });
 
-        return { total: redondear(total), lineas: lineas };
+        return { total: redondear(total), lineas: detalle };
     }
 
     /**
-     * Cajas que le faltan al cliente para entrar en la promoción, y lo que se
+     * Cajas que le faltan al cliente para entrar en la oferta y lo que se
      * ahorraría si las añade. Sirve para el empujón del carrito ("añade 1 caja
      * más y ahorra 24 €"). Devuelve null si no aplica o si ya la tiene.
      */
-    function loQueFaltaParaLaPromo(productoId, cantidad, ahora) {
-        var promo = promocionDe(productoId, ahora);
+    function loQueFaltaParaLaPromo(producto, cantidad, ahora) {
+        var promo = promocionDe(producto, ahora);
         if (!promo) return null;
         var cajas = parseInt(cantidad, 10) || 0;
         if (cajas >= promo.cajasMinimas) return null;
-        var faltan = promo.cajasMinimas - cajas;
         return {
             promo: promo,
-            cajasQueFaltan: faltan,
+            cajasQueFaltan: promo.cajasMinimas - cajas,
             ahorroSiLasAnade: redondear(promo.descuentoPorCaja * promo.cajasMinimas)
         };
     }
 
     /**
-     * Lo que queda de promoción, para el contador de la home.
+     * Lo que queda de oferta, para el contador de la portada.
      *
      * Devuelve además `modo`, que decide cómo pintarlo: mientras falte más de un
      * día se cuenta en días y basta con calcularlo al cargar la página; en las
@@ -125,16 +163,15 @@
      * refrescarlo cada segundo. Un contador al segundo faltando meses parece un
      * reclamo falso y obliga a repintar sin motivo.
      *
-     * El corte va en 24 horas y no más arriba para que el segundero nunca pase
+     * El corte va en 24 horas y no más arriba para que el contador nunca pase
      * de 23:59:59: un "37:59:55" se lee como 37 minutos.
      *
-     * Los días se redondean hacia arriba porque la promoción vale hasta el
-     * final del último día: el 31 por la mañana todavía "queda 1 día".
+     * Los días se redondean hacia arriba porque la oferta vale hasta el final
+     * del último día: el 31 por la mañana todavía "queda 1 día".
      */
-    function tiempoRestante(promo, ahora) {
-        if (!promo) return null;
-        var t = (ahora instanceof Date ? ahora : new Date()).getTime();
-        var restante = new Date(promo.hasta).getTime() - t;
+    function tiempoRestante(caduca, ahora) {
+        if (!caduca) return null;
+        var restante = new Date(caduca).getTime() - ahoraMismo(ahora).getTime();
         if (restante <= 0) return null;
 
         var segundos = Math.floor(restante / 1000);
@@ -149,9 +186,9 @@
     }
 
     /* --------------------------------------------------------------------
-       Presentacion
-       Los textos de la oferta se escriben aqui y no en cada pagina: aparecen
-       en la portada, en el catalogo y en la ficha, y con tres copias acabarian
+       Presentación
+       Los textos de la oferta se escriben aquí y no en cada página: aparecen
+       en la portada, en el catálogo y en la ficha, y con tres copias acabarían
        diciendo tres cosas distintas en cuanto cambie una cifra.
        -------------------------------------------------------------------- */
 
@@ -160,20 +197,6 @@
         var s = parseFloat(n).toFixed(2).replace('.', ',');
         if (s.slice(-3) === ',00') s = s.slice(0, -3);
         return s + ' €';
-    }
-
-    var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
-                 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-
-    /**
-     * "31 de diciembre" a partir de la fecha de fin.
-     * Se lee de la propia cadena ISO en vez de con toLocaleDateString sobre un
-     * Date: la promo acaba a las 23:59 de la noche, y a quien tenga el
-     * navegador en un huso por delante el Date le daria ya el dia siguiente.
-     */
-    function diaDeFin(promo) {
-        var partes = String(promo.hasta).slice(0, 10).split('-');
-        return parseInt(partes[2], 10) + ' de ' + MESES[parseInt(partes[1], 10) - 1];
     }
 
     /** "€70.00" — el formato que ya usan las tarjetas y la ficha del sitio. */
@@ -186,15 +209,29 @@
         return parseFloat(n).toFixed(2).replace('.', ',') + '€/U';
     }
 
+    var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
+                 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+    /**
+     * "31 de diciembre" a partir del último día de la oferta.
+     * Se lee de la propia cadena de la columna en vez de con toLocaleDateString
+     * sobre un Date: la oferta acaba de noche, y a quien tenga el navegador en
+     * un huso por delante el Date le daría ya el día siguiente.
+     */
+    function diaDeFin(promo) {
+        var partes = String(promo.hasta).slice(0, 10).split('-');
+        return parseInt(partes[2], 10) + ' de ' + MESES[parseInt(partes[1], 10) - 1];
+    }
+
     /**
      * Precio por unidad con el normal tachado al lado.
      *
-     * Sustituye al precio por unidad de siempre en vez de anadirse debajo: con
-     * los dos a la vez la tarjeta ensenaba 3,50 €/U arriba y 2,90 €/U abajo sin
-     * relacionarlos, y eso confunde mas de lo que informa.
+     * Sustituye al precio por unidad de siempre en vez de añadirse debajo: con
+     * los dos a la vez la tarjeta enseñaba 3,50 €/U arriba y 2,90 €/U abajo sin
+     * relacionarlos, y eso confunde más de lo que informa.
      */
     function precioUnidadTachadoHTML(promo) {
-        if (!promo) return '';
+        if (!promo || !promo.precioUnidadPromo) return '';
         return '<span class="precio-unidad-antes">' + formatoUnidadSitio(promo.precioUnidadNormal) + '</span>' +
             '<span class="precio-unidad-ahora">' + formatoUnidadSitio(promo.precioUnidadPromo) + '</span>';
     }
@@ -202,9 +239,9 @@
     /**
      * Precio de la caja con el normal tachado al lado.
      *
-     * La condicion viaja pegada al precio y no en una nota aparte: el importe
-     * rebajado solo se paga desde N cajas, y ensenarlo suelto seria a la vez
-     * enganoso para quien compre una sola y una discrepancia de precio frente
+     * La condición viaja pegada al precio y no en una nota aparte: el importe
+     * rebajado solo se paga desde N cajas, y enseñarlo suelto sería a la vez
+     * engañoso para quien compre una sola y una discrepancia de precio frente
      * al feed de Google Shopping, que publica el de la caja suelta.
      */
     function precioConTachadoHTML(promo) {
@@ -219,14 +256,16 @@
     /** Recuadro completo para la ficha de producto, con las condiciones. */
     function cajaFichaHTML(promo) {
         if (!promo) return '';
+        var porUnidad = promo.precioUnidadPromo
+            ? ' (' + formatoEuros(promo.precioUnidadPromo) + ' por unidad)'
+            : '';
         return '<div class="producto-promo-ficha">' +
             '<p class="producto-promo-ficha-titulo">' +
             '<i class="fas fa-tag" aria-hidden="true"></i> Oferta hasta el ' + diaDeFin(promo) +
             '</p>' +
             '<p class="producto-promo-ficha-cuerpo">' +
-            'Los <strong>' + formatoEuros(promo.precioCajaPromo) + ' por caja</strong> ' +
-            '(' + formatoEuros(promo.precioUnidadPromo) + ' por ' + promo.unidad + ') se aplican ' +
-            'llevando <strong>' + promo.cajasMinimas + ' cajas o más</strong>. ' +
+            'Los <strong>' + formatoEuros(promo.precioCajaPromo) + ' por caja</strong>' + porUnidad +
+            ' se aplican llevando <strong>' + promo.cajasMinimas + ' cajas o más</strong>. ' +
             'Con una sola caja, ' + formatoEuros(promo.precioCajaNormal) + '.' +
             '</p>' +
             '<p class="producto-promo-ficha-ahorro">' +
@@ -237,17 +276,15 @@
     }
 
     var api = {
-        PROMOCIONES: PROMOCIONES,
         promocionDe: promocionDe,
-        promocionesVigentes: promocionesVigentes,
         descuentoDeLinea: descuentoDeLinea,
         descuentoDeCarrito: descuentoDeCarrito,
         loQueFaltaParaLaPromo: loQueFaltaParaLaPromo,
         tiempoRestante: tiempoRestante,
         formatoEuros: formatoEuros,
-        diaDeFin: diaDeFin,
         formatoPrecioSitio: formatoPrecioSitio,
         formatoUnidadSitio: formatoUnidadSitio,
+        diaDeFin: diaDeFin,
         precioUnidadTachadoHTML: precioUnidadTachadoHTML,
         precioConTachadoHTML: precioConTachadoHTML,
         cajaFichaHTML: cajaFichaHTML

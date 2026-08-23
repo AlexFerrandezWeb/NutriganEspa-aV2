@@ -213,75 +213,14 @@
     </div>
 
 
-    <!-- Promoción destacada — Bolutech Flash, hasta el 31/12/2026.
-         Los importes van escritos en el HTML a propósito y no generados por JS:
-         la home vive de búsqueda orgánica y el buscador debe leer la oferta sin
-         ejecutar nada. Quien la retira cuando caduque es main.js, consultando la
-         misma regla que aplican el carrito y el servidor (promociones.js). -->
-    <section class="promo-destacada" id="promo-destacada" data-promo-producto="1"
-             aria-labelledby="promo-destacada-titulo">
-        <div class="promo-destacada-container">
-            <div class="promo-destacada-imagen">
-                <img src="assets/producto1.webp" alt="Bolutech Flash, caja de 20 bolos"
-                     width="981" height="877" loading="lazy" decoding="async">
-                <span class="promo-destacada-sello" aria-hidden="true">
-                    <strong>&minus;12&nbsp;&euro;</strong>
-                    <small>por caja</small>
-                </span>
-            </div>
+    <!-- Bloque de oferta destacada. Lo inyecta el servidor desde Supabase
+         (renderPortadaHtml en server.js) con los datos que el cliente edita en
+         el panel: si no hay oferta vigente, aquí no queda nada.
+         Se hace en servidor y no con JavaScript porque la portada vive de
+         búsqueda orgánica y el buscador tiene que leer la oferta sin ejecutar
+         nada. -->
+    <!--PROMO_DESTACADA-->
 
-            <div class="promo-destacada-texto">
-                <p class="promo-destacada-etiqueta">
-                    <span class="promo-destacada-punto" aria-hidden="true"></span>
-                    Oferta especial
-                </p>
-
-                <h2 id="promo-destacada-titulo" class="promo-destacada-titulo">
-                    Bolutech<sup>&reg;</sup> Flash
-                </h2>
-                <p class="promo-destacada-claim">
-                    Reducción del riesgo de hipocalcemia en vacas de periparto.
-                </p>
-
-                <p class="promo-destacada-precio">
-                    <span class="promo-destacada-precio-nuevo">
-                        2,90&nbsp;&euro;<span class="promo-destacada-unidad">/bolo</span>
-                    </span>
-                    <span class="promo-destacada-precio-viejo">
-                        <span class="visually-hidden">Antes </span>3,50&nbsp;&euro;
-                    </span>
-                </p>
-
-                <p class="promo-destacada-caja">
-                    Caja de 20 bolos a <strong>58&nbsp;&euro;</strong> en vez de
-                    <span class="promo-destacada-tachado">70&nbsp;&euro;</span>:
-                    <strong>ahorras 12&nbsp;&euro; en cada caja</strong>.
-                </p>
-
-                <p class="promo-destacada-condicion">
-                    <i class="fas fa-circle-check" aria-hidden="true"></i>
-                    <span>Llevando <strong>2 cajas o más</strong>. El descuento se aplica solo en el carrito.</span>
-                </p>
-
-                <a href="/producto/bolutech-flash" class="promo-destacada-btn">
-                    Aprovechar la oferta
-                </a>
-
-                <p class="promo-destacada-vigencia">
-                    <span class="promo-destacada-vigencia-texto">
-                        <i class="fas fa-clock" aria-hidden="true"></i>
-                        Válida hasta el 31 de diciembre de 2026
-                    </span>
-                    <!-- Lo rellena main.js. Nace oculto para que quien tenga el
-                         JavaScript desactivado no vea un hueco vacío: la fecha
-                         de arriba ya dice lo mismo sin contador. Sin aria-live
-                         a propósito, para que el segundero de las últimas horas
-                         no se lea en voz alta una vez por segundo. -->
-                    <span class="promo-destacada-cuenta" id="promo-destacada-cuenta" hidden></span>
-                </p>
-            </div>
-        </div>
-    </section>
     <!-- Sección Carrusel Conoce los Productos -->
     <section class="conoce-productos-section" style="padding: 3rem 0; background-color: #f9f9f9;">
         <div class="container" style="text-align: center; margin-bottom: 2rem;">
@@ -355,26 +294,17 @@
                         <img src="assets/producto1.webp" alt="Suplemento para vacas" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Flash</h3>
+                    <!-- Precio y precio por unidad los reescribe el servidor con los
+                         datos de Supabase (renderPortadaHtml), para que sigan a lo que el
+                         cliente cambie en el panel. Lo que hay escrito entre los
+                         marcadores es el precio normal, y es lo que se sirve si Supabase
+                         no responde: así la tarjeta nunca se queda sin precio. Las otras
+                         cinco de la rejilla siguen con el precio escrito a mano. -->
                     <p class="producto-descripcion">Reducción del riesgo de hipocalcemia.
-                        <!-- Precio por unidad con el normal tachado. Sustituye al
-                             "(3,50€/U)" de siempre en vez de sumarse a él: con los dos
-                             a la vez la tarjeta daba dos precios por unidad distintos.
-                             main.js repone el de data-unidad-normal al caducar. -->
-                        <strong data-promo-producto="1" data-unidad-normal="(3,50€/U)">
-                            <span class="precio-unidad-antes">3,50€/U</span><span class="precio-unidad-ahora">2,90€/U</span>
-                        </strong></p>
-                    <!-- Precio de oferta. Va escrito en el HTML como el resto de la
-                         tarjeta, que en esta rejilla es estatica; main.js lo devuelve al
-                         precio de data-precio-normal cuando la promocion caduque. El
-                         marcado es el mismo que genera precioConTachadoHTML() para el
-                         catalogo. -->
-                    <div class="producto-precio producto-precio--promo"
-                         data-promo-producto="1" data-precio-normal="€70.00">
-                        <span class="producto-precio-antes">€70.00</span>
-                        <span class="producto-precio-ahora">€58.00</span>
-                        <span class="precio-iva">IVA inc.</span>
-                        <span class="producto-precio-condicion">desde 2 cajas &middot; ahorras 12&nbsp;€ en cada caja</span>
-                    </div>
+                        <!--PROMO_UNIDAD_1_INICIO--><strong>(3,50€/U)</strong><!--PROMO_UNIDAD_1_FIN--></p>
+                    <!--PROMO_PRECIO_1_INICIO-->
+                    <div class="producto-precio">€70.00 <span class="precio-iva">IVA inc.</span></div>
+                    <!--PROMO_PRECIO_1_FIN-->
                     <button class="producto-btn">Ver producto</button>
                 </a>
 

@@ -309,45 +309,22 @@ function inicializarBuscadorInicio() {
 }
 
 /**
- * Ofertas de la home: contador de lo que queda y retirada de todo al caducar.
+ * Contador de lo que queda de oferta en la portada.
  *
- * Los importes están escritos en el HTML para que los lea el buscador sin
- * ejecutar JavaScript, así que sin esto el 1 de enero la portada seguiría
- * anunciando un descuento que el carrito ya no aplica. Las fechas se consultan
- * a promociones.js, la misma regla que usan el carrito y el servidor.
+ * El bloque de oferta lo inyecta el servidor desde Supabase (renderPortadaHtml
+ * en server.js), así que si está en la página es porque la oferta está vigente:
+ * aquí no hay que decidir nada, sólo contar. La fecha de caducidad viaja en
+ * data-promo-caduca, y así el navegador no necesita conocer la regla.
+ *
+ * El único caso que sigue haciendo falta cubrir es que caduque con la pestaña
+ * abierta, que es cuando el bloque se retira solo.
  */
 document.addEventListener('DOMContentLoaded', function () {
-    if (!window.NutriganPromos) return;
-
-    // Oferta escrita a mano en la tarjeta de la portada: al caducar hay que
-    // reponer los importes normales, no basta con quitar el tachado o la
-    // tarjeta se quedaría anunciando el rebajado. Se hace aquí y no en cada
-    // página porque en el resto del sitio las tarjetas las genera JS, que ya
-    // consulta la regla.
-    document.querySelectorAll('[data-promo-producto][data-precio-normal]').forEach(function (precio) {
-        if (window.NutriganPromos.promocionDe(parseInt(precio.dataset.promoProducto, 10))) return;
-        precio.classList.remove('producto-precio--promo');
-        precio.innerHTML = precio.dataset.precioNormal +
-            ' <span class="precio-iva">IVA inc.</span>';
-    });
-
-    document.querySelectorAll('[data-promo-producto][data-unidad-normal]').forEach(function (unidad) {
-        if (window.NutriganPromos.promocionDe(parseInt(unidad.dataset.promoProducto, 10))) return;
-        unidad.textContent = unidad.dataset.unidadNormal;
-    });
-
     var bloque = document.getElementById('promo-destacada');
-    if (!bloque) return;
-
-    var productoId = parseInt(bloque.dataset.promoProducto, 10);
-    var promo = window.NutriganPromos.promocionDe(productoId);
-    if (!promo) {
-        bloque.remove();
-        return;
-    }
-
     var contador = document.getElementById('promo-destacada-cuenta');
-    if (!contador) return;
+    if (!bloque || !contador || !window.NutriganPromos) return;
+
+    var caduca = bloque.dataset.promoCaduca;
 
     function dosDigitos(n) {
         return n < 10 ? '0' + n : String(n);
@@ -358,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // la urgencia es real. Un contador al segundo faltando cuatro meses parece
     // un reclamo inventado y repinta la portada sin ganar nada.
     function pintar() {
-        var queda = window.NutriganPromos.tiempoRestante(promo);
+        var queda = window.NutriganPromos.tiempoRestante(caduca);
 
         if (!queda) {
             bloque.remove();

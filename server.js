@@ -7,6 +7,9 @@ const fs = require('fs');
 const nodemailer = require('nodemailer');
 const { createClient } = require('@supabase/supabase-js');
 
+// Regla de promociones, la misma que usa el navegador (ver promociones.js).
+const promos = require('./promociones.js');
+
 // Cliente Supabase con service role (solo backend, nunca en frontend)
 const supabaseAdmin = createClient(
     process.env.SUPABASE_URL,
@@ -1210,6 +1213,196 @@ ${items}
 
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.send(xml);
+});
+
+// ============================================================================
+// PORTADA CON LA OFERTA INYECTADA DESDE SUPABASE
+// ============================================================================
+// index.html lleva marcadores que se rellenan aquí con los datos que el cliente
+// edita en el panel de administración:
+//
+//   <!--PROMO_DESTACADA-->                     el bloque grande de oferta
+//   <!--PROMO_UNIDAD_<id>_INICIO/_FIN-->       precio por unidad de una tarjeta
+//   <!--PROMO_PRECIO_<id>_INICIO/_FIN-->       precio de una tarjeta
+//
+// Los de tarjeta van por pares y con el precio normal escrito dentro: si
+// Supabase no responde se sirve la portada tal cual y la tarjeta conserva su
+// precio, en vez de quedarse sin ninguno.
+//
+// Se hace en servidor y no con JavaScript en el navegador porque la portada
+// vive de búsqueda orgánica: el buscador tiene que poder leer la oferta sin
+// ejecutar nada. Es el mismo motivo por el que producto.html se sirve desde
+// plantilla más arriba.
+const portadaTemplate = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+
+// Cache de productos para la portada. Cinco minutos: lo justo para que un
+// cambio en el panel se vea enseguida sin consultar Supabase en cada visita.
+let portadaCache = { productos: null, expiresAt: 0 };
+
+async function getProductosParaPortada() {
+    const now = Date.now();
+    if (portadaCache.productos && now < portadaCache.expiresAt) return portadaCache.productos;
+
+    // select('*') a propósito y no una lista de columnas: así las columnas de
+    // oferta se recogen solas en cuanto existan y, mientras no existan, la
+    // consulta no falla con 42703 y tumba la portada entera.
+    const { data, error } = await supabaseAdmin.from('productos').select('*');
+    if (error || !data) throw error || new Error('No se pudieron cargar los productos');
+
+    portadaCache = { productos: data, expiresAt: now + 5 * 60 * 1000 };
+    return data;
+}
+
+/** Reemplaza lo que hay entre <!--NOMBRE_INICIO--> y <!--NOMBRE_FIN-->. */
+function reemplazarEntreMarcadores(html, nombre, contenido) {
+    const re = new RegExp('<!--' + nombre + '_INICIO-->[\\s\\S]*?<!--' + nombre + '_FIN-->', 'g');
+    return html.replace(re, contenido);
+}
+
+function textoPlano(html) {
+    return String(html || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+/** Precio por unidad de una tarjeta de la rejilla, con o sin oferta. */
+function precioUnidadTarjetaHtml(producto) {
+    if (!producto || !producto.precio_unitario) return '';
+    const promo = promos.promocionDe(producto);
+    if (promo && promo.precioUnidadPromo) {
+        return `<strong>${promos.precioUnidadTachadoHTML(promo)}</strong>`;
+    }
+    return `<strong>(${promos.formatoUnidadSitio(producto.precio_unitario)})</strong>`;
+}
+
+/** Precio de una tarjeta de la rejilla, con o sin oferta. */
+function precioTarjetaHtml(producto) {
+    if (!producto) return '';
+    const promo = promos.promocionDe(producto);
+    if (promo) {
+        return `<div class="producto-precio producto-precio--promo">${promos.precioConTachadoHTML(promo)}</div>`;
+    }
+    return `<div class="producto-precio">${promos.formatoPrecioSitio(producto.precio)} <span class="precio-iva">IVA inc.</span></div>`;
+}
+
+/**
+ * Bloque grande de oferta de la portada.
+ *
+ * Todo sale del producto y de su oferta, nada está escrito aquí: si el cliente
+ * mueve la oferta a otro producto desde el panel, el bloque cambia con él sin
+ * tocar código.
+ */
+function bloqueOfertaHtml(producto, promo) {
+    const nombre = escapeHtml(producto.nombre);
+    const claim = escapeHtml(textoPlano(producto.descripcion));
+    const imagen = escapeHtml(producto.imagen || 'assets/logo.png');
+    const enlace = `/producto/${slugify(producto.nombre)}`;
+
+    // "Caja de 20 bolos a 58 € en vez de 70 €". Si el producto no declara
+    // presentación se dice "La caja", que sigue siendo cierto.
+    const presentacion = producto.presentacion ? escapeHtml(producto.presentacion) : 'La caja';
+
+    // Con precio unitario, el titular es el precio por unidad (que es como
+    // compara el ganadero); sin él, el de la caja.
+    const titular = promo.precioUnidadPromo
+        ? `<span class="promo-destacada-precio-nuevo">${promos.formatoEuros(promo.precioUnidadPromo)}<span class="promo-destacada-unidad">/unidad</span></span>
+                    <span class="promo-destacada-precio-viejo"><span class="visually-hidden">Antes </span>${promos.formatoEuros(promo.precioUnidadNormal)}</span>`
+        : `<span class="promo-destacada-precio-nuevo">${promos.formatoEuros(promo.precioCajaPromo)}</span>
+                    <span class="promo-destacada-precio-viejo"><span class="visually-hidden">Antes </span>${promos.formatoEuros(promo.precioCajaNormal)}</span>`;
+
+    return `<section class="promo-destacada" id="promo-destacada"
+             data-promo-caduca="${promo.caduca}"
+             aria-labelledby="promo-destacada-titulo">
+        <div class="promo-destacada-container">
+            <div class="promo-destacada-imagen">
+                <img src="${imagen}" alt="${nombre}" loading="lazy" decoding="async">
+                <span class="promo-destacada-sello" aria-hidden="true">
+                    <strong>&minus;${promos.formatoEuros(promo.descuentoPorCaja)}</strong>
+                    <small>por caja</small>
+                </span>
+            </div>
+
+            <div class="promo-destacada-texto">
+                <p class="promo-destacada-etiqueta">
+                    <span class="promo-destacada-punto" aria-hidden="true"></span>
+                    Oferta especial
+                </p>
+
+                <h2 id="promo-destacada-titulo" class="promo-destacada-titulo">${nombre}</h2>
+                <p class="promo-destacada-claim">${claim}</p>
+
+                <p class="promo-destacada-precio">
+                    ${titular}
+                </p>
+
+                <p class="promo-destacada-caja">
+                    ${presentacion} a <strong>${promos.formatoEuros(promo.precioCajaPromo)}</strong> en vez de
+                    <span class="promo-destacada-tachado">${promos.formatoEuros(promo.precioCajaNormal)}</span>:
+                    <strong>ahorras ${promos.formatoEuros(promo.descuentoPorCaja)} en cada caja</strong>.
+                </p>
+
+                <p class="promo-destacada-condicion">
+                    <i class="fas fa-circle-check" aria-hidden="true"></i>
+                    <span>Llevando <strong>${promo.cajasMinimas} cajas o más</strong>. El descuento se aplica solo en el carrito.</span>
+                </p>
+
+                <a href="${enlace}" class="promo-destacada-btn">Aprovechar la oferta</a>
+
+                <p class="promo-destacada-vigencia">
+                    <span class="promo-destacada-vigencia-texto">
+                        <i class="fas fa-clock" aria-hidden="true"></i>
+                        Válida hasta el ${promos.diaDeFin(promo)} de ${String(promo.hasta).slice(0, 4)}
+                    </span>
+                    <!-- Lo rellena main.js con el tiempo que queda. Nace oculto para que
+                         sin JavaScript no haya un hueco vacío, y sin aria-live para que
+                         el segundero de las últimas horas no se lea una vez por segundo. -->
+                    <span class="promo-destacada-cuenta" id="promo-destacada-cuenta" hidden></span>
+                </p>
+            </div>
+        </div>
+    </section>`;
+}
+
+function renderPortadaHtml(productos) {
+    const porId = id => productos.find(p => p.id === id);
+
+    // La oferta destacada es la del primer producto que tenga una vigente. Así
+    // el cliente la mueve de producto desde el panel sin tocar la portada.
+    const conOferta = productos.find(p => promos.promocionDe(p));
+
+    let html = portadaTemplate.replace('<!--PROMO_DESTACADA-->',
+        conOferta ? bloqueOfertaHtml(conOferta, promos.promocionDe(conOferta)) : '');
+
+    // Los ids de tarjeta se leen de los propios marcadores, así marcar otra
+    // tarjeta en index.html no obliga a tocar el servidor.
+    const ids = new Set();
+    let m;
+    const reIds = /<!--PROMO_(?:UNIDAD|PRECIO)_(\d+)_INICIO-->/g;
+    while ((m = reIds.exec(portadaTemplate)) !== null) ids.add(Number(m[1]));
+
+    ids.forEach(id => {
+        const producto = porId(id);
+        if (!producto) return;   // sin datos, se deja el precio escrito en el HTML
+        html = reemplazarEntreMarcadores(html, 'PROMO_UNIDAD_' + id, precioUnidadTarjetaHtml(producto));
+        html = reemplazarEntreMarcadores(html, 'PROMO_PRECIO_' + id, precioTarjetaHtml(producto));
+    });
+
+    return html;
+}
+
+app.get('/', async (req, res) => {
+    try {
+        const productos = await getProductosParaPortada();
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'public, max-age=300');
+        res.send(renderPortadaHtml(productos));
+    } catch (error) {
+        // La portada no puede caerse porque Supabase falle. Se sirve la
+        // plantilla tal cual: sin bloque de oferta, pero con el precio que lleva
+        // escrito la tarjeta. Sin cache, para reintentar en la visita siguiente.
+        console.error('Portada: no se pudo cargar la oferta desde Supabase:', error);
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-store');
+        res.send(portadaTemplate.replace('<!--PROMO_DESTACADA-->', ''));
+    }
 });
 
 // Ficheros que viven en el repositorio pero no deben servirse por HTTP.
