@@ -225,31 +225,35 @@
     <section class="conoce-productos-section" style="padding: 3rem 0; background-color: #f9f9f9;">
         <div class="container" style="text-align: center; margin-bottom: 2rem;">
             <h2 class="conoce-productos-titulo">Conoce toda la gama Bolutech de Neolait</h2>
+            <!-- El aviso lo pone el JavaScript que hace ampliables las imagenes, no
+                 aqui: si ese codigo no llegara a ejecutarse, invitar a pulsar sobre
+                 algo que no responde es peor que no decir nada. -->
+            <p class="conoce-productos-aviso" id="conoce-productos-aviso" hidden></p>
         </div>
 
         <div class="carrusel-container effect-slide" id="carrusel-productos" data-items-desktop="3">
             <div class="carrusel-wrapper">
                 <div class="carrusel-slide active">
-                    <img src="assets/Carrusel-EliteVA.webp" alt="Carrusel EliteVA" class="carrusel-imagen" loading="lazy">
+                    <img src="assets/Carrusel-EliteVA.webp" alt="Bolutech Elite VA" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-Excell250&Junior.webp" alt="Carrusel Excell250 y Junior"
+                    <img src="assets/Carrusel-Excell250&Junior.webp" alt="Bolutech Excell 250 y Bolutech Junior"
                         class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-Ovixcell.webp" alt="Carrusel Ovixcell" class="carrusel-imagen" loading="lazy">
+                    <img src="assets/Carrusel-Ovixcell.webp" alt="Bolutech Ovixcell" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-OnglonsHeel.webp" alt="Carrusel Onglons Heel" class="carrusel-imagen" loading="lazy">
+                    <img src="assets/Carrusel-OnglonsHeel.webp" alt="Bolutech Onglons y Bolutech Heel" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-PrepavelTonic.webp" alt="Carrusel Prepavel Tonic" class="carrusel-imagen" loading="lazy">
+                    <img src="assets/Carrusel-PrepavelTonic.webp" alt="Bolutech Prepavel y Bolutech Tonic" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-ReproRefresh.webp" alt="Carrusel Repro Refresh" class="carrusel-imagen" loading="lazy">
+                    <img src="assets/Carrusel-ReproRefresh.webp" alt="Bolutech Repro y Bolutech Refresh" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-Vitality1.40.webp" alt="Carrusel Vitality 1.40" class="carrusel-imagen" loading="lazy">
+                    <img src="assets/Carrusel-Vitality1.40.webp" alt="Bolutech Vitality 1.40" class="carrusel-imagen" loading="lazy">
                 </div>
             </div>
 
@@ -784,10 +788,57 @@
                     modalImg.alt = img.alt;
                     modalTitulo.textContent = titulo;
                     modalDescripcion.textContent = descripcion;
+                    // Las imagenes de la gama lo ocultan porque no traen texto;
+                    // aqui hay que volver a mostrarlo.
+                    modalDescripcion.hidden = false;
                     modal.style.display = 'block';
                     document.body.style.overflow = 'hidden'; // Prevenir scroll del body
                 });
             });
+
+            // Imágenes de la gama ampliables. Reutilizan el mismo modal que los
+            // certificados: son fichas con letra pequeña y sin poder verlas
+            // grandes no se leen.
+            //
+            // El aviso de «pulsa sobre la imagen» se escribe desde aquí y no en
+            // el HTML a propósito: si este código no llegara a ejecutarse,
+            // invitar a pulsar sobre algo que no responde es peor que callarse.
+            const gama = document.getElementById('carrusel-productos');
+            const avisoGama = document.getElementById('conoce-productos-aviso');
+
+            if (gama) {
+                function ampliar(img) {
+                    modalImg.src = img.src;
+                    modalImg.alt = img.alt;
+                    modalTitulo.textContent = img.alt;
+                    modalDescripcion.textContent = '';
+                    modalDescripcion.hidden = true;
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }
+
+                gama.querySelectorAll('.carrusel-imagen').forEach(img => {
+                    // Se marca desde JavaScript para que el cursor de lupa y el
+                    // foco de teclado solo aparezcan si de verdad se puede pulsar.
+                    img.classList.add('carrusel-imagen-ampliable');
+                    img.setAttribute('role', 'button');
+                    img.setAttribute('tabindex', '0');
+                    img.setAttribute('title', 'Ver la imagen en grande');
+
+                    img.addEventListener('click', () => ampliar(img));
+                    img.addEventListener('keydown', e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();   // que el espacio no haga scroll
+                            ampliar(img);
+                        }
+                    });
+                });
+
+                if (avisoGama) {
+                    avisoGama.textContent = 'Pulsa sobre cualquier imagen para verla en grande y leer los detalles.';
+                    avisoGama.hidden = false;
+                }
+            }
 
             // Cerrar modal
             closeBtn.addEventListener('click', function () {

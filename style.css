@@ -9459,3 +9459,22 @@ body {
     font-weight: 700;
     color: #c41f34;
 }
+
+
+/* --- Imágenes de la gama ampliables (carrusel de la portada) ---
+   La clase la pone el JavaScript que las hace pulsables, así que la lupa y el
+   foco de teclado solo aparecen si de verdad responden al clic. */
+.conoce-productos-aviso {
+    margin: 0.6rem 0 0;
+    font-size: 0.85rem;
+    color: var(--color-storm-gray, #6d7489);
+}
+
+.carrusel-imagen-ampliable {
+    cursor: zoom-in;
+}
+
+.carrusel-imagen-ampliable:focus-visible {
+    outline: 3px solid var(--color-acento);
+    outline-offset: 3px;
+}
