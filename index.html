@@ -288,23 +288,22 @@
             <h2 class="productos-titulo">Productos Destacados</h2>
             <p class="productos-subtitulo">Descubre nuestra gama completa de suplementos nutricionales para ganado</p>
 
+            <!-- Rejilla de destacados. La genera el servidor con los productos que
+                 lleven marcada la casilla «Destacado» en el panel, ordenados por id y
+                 como mucho seis (renderPortadaHtml en server.js).
+                 Las tarjetas escritas aquí dentro son el respaldo: es lo que se sirve
+                 si Supabase no responde, para que la portada no salga nunca sin
+                 productos. Por eso van con precios normales, sin oferta. -->
             <div class="productos-grid">
+                <!--DESTACADOS_INICIO-->
                 <a href="/producto/bolutech-flash" class="producto-item producto-link">
                     <div class="producto-imagen-container">
                         <img src="assets/producto1.webp" alt="Suplemento para vacas" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">Bolutech Flash</h3>
-                    <!-- Precio y precio por unidad los reescribe el servidor con los
-                         datos de Supabase (renderPortadaHtml), para que sigan a lo que el
-                         cliente cambie en el panel. Lo que hay escrito entre los
-                         marcadores es el precio normal, y es lo que se sirve si Supabase
-                         no responde: así la tarjeta nunca se queda sin precio. Las otras
-                         cinco de la rejilla siguen con el precio escrito a mano. -->
                     <p class="producto-descripcion">Reducción del riesgo de hipocalcemia.
-                        <!--PROMO_UNIDAD_1_INICIO--><strong>(3,50€/U)</strong><!--PROMO_UNIDAD_1_FIN--></p>
-                    <!--PROMO_PRECIO_1_INICIO-->
+                        <strong>(3,50€/U)</strong></p>
                     <div class="producto-precio">€70.00 <span class="precio-iva">IVA inc.</span></div>
-                    <!--PROMO_PRECIO_1_FIN-->
                     <button class="producto-btn">Ver producto</button>
                 </a>
 
@@ -357,6 +356,7 @@
                     <div class="producto-precio">€67.90 <span class="precio-iva">IVA inc.</span></div>
                     <button class="producto-btn">Ver producto</button>
                 </a>
+                <!--DESTACADOS_FIN-->
             </div>
 
             <div class="productos-cta">
@@ -746,215 +746,13 @@
     }
     </script>
 
-    <!-- Datos Estructurados de Productos Destacados -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "name": "Productos Destacados - Nutrigan España",
-        "url": "https://www.xn--nutriganespaa-tkb.com",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "item": {
-                    "@type": "Product",
-                    "name": "Bolutech Flash",
-                    "sku": "1",
-                    "mpn": "SKU-1",
-                    "description": "Reducción del riesgo de hipocalcemia. Suplemento nutricional para ganado bovino.",
-                    "image": "https://www.xn--nutriganespaa-tkb.com/assets/producto1.webp",
-                    "url": "https://www.xn--nutriganespaa-tkb.com/producto/bolutech-flash",
-                    "brand": {
-                        "@type": "Brand",
-                        "name": "Nutrigan España"
-                    },
-                    "offers": {
-                        "@type": "Offer",
-                        "priceCurrency": "EUR",
-                        "price": "70.00",
-                        "priceValidUntil": "2027-12-31",
-                        "itemCondition": "https://schema.org/NewCondition",
-                        "availability": "https://schema.org/InStock",
-                        "url": "https://www.xn--nutriganespaa-tkb.com/producto/bolutech-flash",
-                        "seller": {
-                            "@type": "Organization",
-                            "name": "Nutrigan España"
-                        },
-                        "shippingDetails": {
-                            "@type": "OfferShippingDetails",
-                            "shippingRate": {
-                                "@type": "MonetaryAmount",
-                                "value": "0",
-                                "currency": "EUR"
-                            },
-                            "shippingDestination": {
-                                "@type": "DefinedRegion",
-                                "addressCountry": "ES"
-                            },
-                            "deliveryTime": {
-                                "@type": "ShippingDeliveryTime",
-                                "handlingTime": {
-                                    "@type": "QuantitativeValue",
-                                    "minValue": 0,
-                                    "maxValue": 1,
-                                    "unitCode": "DAY"
-                                },
-                                "transitTime": {
-                                    "@type": "QuantitativeValue",
-                                    "minValue": 5,
-                                    "maxValue": 10,
-                                    "unitCode": "DAY"
-                                }
-                            }
-                        },
-                        "hasMerchantReturnPolicy": {
-                            "@type": "MerchantReturnPolicy",
-                            "applicableCountry": "ES",
-                            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                            "merchantReturnDays": 30,
-                            "returnMethod": "https://schema.org/ReturnByMail",
-                            "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
-                            "merchantReturnLink": "https://www.xn--nutriganespaa-tkb.com/politica-devoluciones.html"
-                        }
-                    }
-                }
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "item": {
-                    "@type": "Product",
-                    "name": "Bolutech Activ",
-                    "sku": "2",
-                    "mpn": "SKU-2",
-                    "description": "Reducción de riesgo de hipofosfatemia. Compuesto de fósforo soluble y flushing fosfórico. Terapia fosfocálcica.",
-                    "image": "https://www.xn--nutriganespaa-tkb.com/assets/producto2.webp",
-                    "url": "https://www.xn--nutriganespaa-tkb.com/producto/bolutech-activ",
-                    "brand": {
-                        "@type": "Brand",
-                        "name": "Nutrigan España"
-                    },
-                    "offers": {
-                        "@type": "Offer",
-                        "priceCurrency": "EUR",
-                        "price": "58.20",
-                        "priceValidUntil": "2027-12-31",
-                        "itemCondition": "https://schema.org/NewCondition",
-                        "availability": "https://schema.org/InStock",
-                        "url": "https://www.xn--nutriganespaa-tkb.com/producto/bolutech-activ",
-                        "seller": {
-                            "@type": "Organization",
-                            "name": "Nutrigan España"
-                        },
-                        "shippingDetails": {
-                            "@type": "OfferShippingDetails",
-                            "shippingRate": {
-                                "@type": "MonetaryAmount",
-                                "value": "0",
-                                "currency": "EUR"
-                            },
-                            "shippingDestination": {
-                                "@type": "DefinedRegion",
-                                "addressCountry": "ES"
-                            },
-                            "deliveryTime": {
-                                "@type": "ShippingDeliveryTime",
-                                "handlingTime": {
-                                    "@type": "QuantitativeValue",
-                                    "minValue": 0,
-                                    "maxValue": 1,
-                                    "unitCode": "DAY"
-                                },
-                                "transitTime": {
-                                    "@type": "QuantitativeValue",
-                                    "minValue": 5,
-                                    "maxValue": 10,
-                                    "unitCode": "DAY"
-                                }
-                            }
-                        },
-                        "hasMerchantReturnPolicy": {
-                            "@type": "MerchantReturnPolicy",
-                            "applicableCountry": "ES",
-                            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                            "merchantReturnDays": 30,
-                            "returnMethod": "https://schema.org/ReturnByMail",
-                            "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
-                            "merchantReturnLink": "https://www.xn--nutriganespaa-tkb.com/politica-devoluciones.html"
-                        }
-                    }
-                }
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "item": {
-                    "@type": "Product",
-                    "name": "Bolutech Heel",
-                    "sku": "3",
-                    "mpn": "SKU-3",
-                    "description": "Bolo específico de patas. Mejora la calidad del casco (casco blando) y el cimiento del mismo.",
-                    "image": "https://www.xn--nutriganespaa-tkb.com/assets/producto3.webp",
-                    "url": "https://www.xn--nutriganespaa-tkb.com/producto/bolutech-heel",
-                    "brand": {
-                        "@type": "Brand",
-                        "name": "Nutrigan España"
-                    },
-                    "offers": {
-                        "@type": "Offer",
-                        "priceCurrency": "EUR",
-                        "price": "85.80",
-                        "priceValidUntil": "2027-12-31",
-                        "itemCondition": "https://schema.org/NewCondition",
-                        "availability": "https://schema.org/InStock",
-                        "url": "https://www.xn--nutriganespaa-tkb.com/producto/bolutech-heel",
-                        "seller": {
-                            "@type": "Organization",
-                            "name": "Nutrigan España"
-                        },
-                        "shippingDetails": {
-                            "@type": "OfferShippingDetails",
-                            "shippingRate": {
-                                "@type": "MonetaryAmount",
-                                "value": "0",
-                                "currency": "EUR"
-                            },
-                            "shippingDestination": {
-                                "@type": "DefinedRegion",
-                                "addressCountry": "ES"
-                            },
-                            "deliveryTime": {
-                                "@type": "ShippingDeliveryTime",
-                                "handlingTime": {
-                                    "@type": "QuantitativeValue",
-                                    "minValue": 0,
-                                    "maxValue": 1,
-                                    "unitCode": "DAY"
-                                },
-                                "transitTime": {
-                                    "@type": "QuantitativeValue",
-                                    "minValue": 5,
-                                    "maxValue": 10,
-                                    "unitCode": "DAY"
-                                }
-                            }
-                        },
-                        "hasMerchantReturnPolicy": {
-                            "@type": "MerchantReturnPolicy",
-                            "applicableCountry": "ES",
-                            "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                            "merchantReturnDays": 30,
-                            "returnMethod": "https://schema.org/ReturnByMail",
-                            "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility",
-                            "merchantReturnLink": "https://www.xn--nutriganespaa-tkb.com/politica-devoluciones.html"
-                        }
-                    }
-                }
-            }
-        ]
-    }
-    </script>
+    <!-- Datos Estructurados de Productos Destacados.
+         Los genera el servidor a partir de los mismos productos que pinta la rejilla
+         de arriba, para que Google no acabe leyendo una lista distinta de la que se
+         ve. Escrito a mano estaba: anunciaba tres productos cuando en pantalla hay
+         seis. Sin datos de Supabase no se emite nada, que es mejor que emitir algo
+         falso. -->
+    <!--DESTACADOS_SCHEMA-->
 
     <script>
         // Actualizar contador del carrito

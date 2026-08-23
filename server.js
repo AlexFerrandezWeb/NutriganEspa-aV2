@@ -1361,9 +1361,125 @@ function bloqueOfertaHtml(producto, promo) {
     </section>`;
 }
 
-function renderPortadaHtml(productos) {
-    const porId = id => productos.find(p => p.id === id);
+// Cuántos productos caben en la rejilla de la portada. El panel no deja marcar
+// más de estos, así que aquí el slice() no debería recortar nunca; está por si
+// alguien toca la base a mano.
+const MAX_DESTACADOS = 6;
 
+// Separación entre tarjetas en el HTML generado. Va como plantilla multilínea y
+// no con secuencias de escape solo para que el fuente de la portada quede
+// indentado igual que cuando las tarjetas estaban escritas a mano.
+const SEPARADOR_TARJETAS = `
+
+                `;
+
+/**
+ * Los productos que van en la rejilla de la portada.
+ * Por id, que es estable: el cliente elige cuáles con la casilla «Destacado»,
+ * no en qué orden salen.
+ */
+function productosDestacados(productos) {
+    return productos
+        .filter(p => p.destacado && estaDisponible(p))
+        .sort((a, b) => a.id - b.id)
+        .slice(0, MAX_DESTACADOS);
+}
+
+/** Una tarjeta de la rejilla de destacados. */
+function tarjetaDestacadaHtml(producto) {
+    const nombre = escapeHtml(producto.nombre);
+    const imagen = escapeHtml(producto.imagen || 'assets/logo.png');
+    const enlace = `/producto/${slugify(producto.nombre)}`;
+
+    // La descripción de Supabase puede traer marcado (el <span> del sello ECO,
+    // por ejemplo), así que se deja pasar tal cual como ya hace el catálogo.
+    const descripcion = producto.descripcion || '';
+    const unidad = precioUnidadTarjetaHtml(producto);
+
+    // Solo la etiqueta de oferta: aquí todos son destacados, así que ponérsela a
+    // los seis no distinguiría nada.
+    const badge = promos.promocionDe(producto)
+        ? '<span class="producto-badge-oferta">Oferta</span>'
+        : '';
+
+    return `<a href="${enlace}" class="producto-item producto-link">
+                    <div class="producto-imagen-container">
+                        ${badge}
+                        <img src="${imagen}" alt="${nombre}" class="producto-imagen" loading="lazy">
+                    </div>
+                    <h3 class="producto-nombre">${nombre}</h3>
+                    <p class="producto-descripcion">${descripcion} ${unidad}</p>
+                    ${precioTarjetaHtml(producto)}
+                    <button class="producto-btn">Ver producto</button>
+                </a>`;
+}
+
+/**
+ * ItemList de los destacados para Google.
+ *
+ * El precio que se declara es el de la caja suelta, sin descuento, igual que en
+ * la ficha y en el feed de Shopping: es el único que se paga sin condiciones.
+ */
+function schemaDestacadosJson(destacados) {
+    const itemListElement = destacados.map((p, i) => {
+        const url = `${PRODUCT_BASE}/producto/${slugify(p.nombre)}`;
+        return {
+            '@type': 'ListItem',
+            position: i + 1,
+            item: {
+                '@type': 'Product',
+                name: p.nombre,
+                sku: String(p.id),
+                mpn: `SKU-${p.id}`,
+                description: textoPlano(p.descripcion_completa || p.descripcion),
+                image: resolveImageUrl(p.imagen),
+                url: url,
+                brand: { '@type': 'Brand', name: 'Nutrigan España' },
+                offers: {
+                    '@type': 'Offer',
+                    priceCurrency: 'EUR',
+                    price: parseFloat(p.precio || 0).toFixed(2),
+                    priceValidUntil: '2027-12-31',
+                    itemCondition: 'https://schema.org/NewCondition',
+                    availability: estaDisponible(p)
+                        ? 'https://schema.org/InStock'
+                        : 'https://schema.org/OutOfStock',
+                    url: url,
+                    seller: { '@type': 'Organization', name: 'Nutrigan España' },
+                    shippingDetails: {
+                        '@type': 'OfferShippingDetails',
+                        shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'EUR' },
+                        shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'ES' },
+                        deliveryTime: {
+                            '@type': 'ShippingDeliveryTime',
+                            handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+                            transitTime: { '@type': 'QuantitativeValue', minValue: 5, maxValue: 10, unitCode: 'DAY' }
+                        }
+                    },
+                    hasMerchantReturnPolicy: {
+                        '@type': 'MerchantReturnPolicy',
+                        applicableCountry: 'ES',
+                        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                        merchantReturnDays: 30,
+                        returnMethod: 'https://schema.org/ReturnByMail',
+                        returnFees: 'https://schema.org/ReturnFeesCustomerResponsibility',
+                        merchantReturnLink: `${PRODUCT_BASE}/politica-devoluciones.html`
+                    }
+                }
+            }
+        };
+    });
+
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'Productos Destacados - Nutrigan España',
+        url: `${PRODUCT_BASE}/`,
+        itemListElement: itemListElement
+    };
+}
+
+function renderPortadaHtml(productos) {
     // La oferta destacada es la del primer producto que tenga una vigente. Así
     // el cliente la mueve de producto desde el panel sin tocar la portada.
     const conOferta = productos.find(p => promos.promocionDe(p));
@@ -1371,21 +1487,20 @@ function renderPortadaHtml(productos) {
     let html = portadaTemplate.replace('<!--PROMO_DESTACADA-->',
         conOferta ? bloqueOfertaHtml(conOferta, promos.promocionDe(conOferta)) : '');
 
-    // Los ids de tarjeta se leen de los propios marcadores, así marcar otra
-    // tarjeta en index.html no obliga a tocar el servidor.
-    const ids = new Set();
-    let m;
-    const reIds = /<!--PROMO_(?:UNIDAD|PRECIO)_(\d+)_INICIO-->/g;
-    while ((m = reIds.exec(portadaTemplate)) !== null) ids.add(Number(m[1]));
+    const destacados = productosDestacados(productos);
 
-    ids.forEach(id => {
-        const producto = porId(id);
-        if (!producto) return;   // sin datos, se deja el precio escrito en el HTML
-        html = reemplazarEntreMarcadores(html, 'PROMO_UNIDAD_' + id, precioUnidadTarjetaHtml(producto));
-        html = reemplazarEntreMarcadores(html, 'PROMO_PRECIO_' + id, precioTarjetaHtml(producto));
-    });
+    // Sin destacados no se toca la rejilla: se deja el respaldo escrito en el
+    // HTML antes que dejar la portada sin productos.
+    if (destacados.length > 0) {
+        html = reemplazarEntreMarcadores(html, 'DESTACADOS',
+            destacados.map(tarjetaDestacadaHtml).join(SEPARADOR_TARJETAS));
+    }
 
-    return html;
+    // El JSON-LD sí se omite si no hay datos: es preferible no decirle nada a
+    // Google antes que anunciarle una lista que no coincide con la pagina.
+    return html.replace('<!--DESTACADOS_SCHEMA-->', destacados.length > 0
+        ? `<script type="application/ld+json">${JSON.stringify(schemaDestacadosJson(destacados))}</script>`
+        : '');
 }
 
 // La portada solo es correcta servida desde '/', que es donde se rellenan los
@@ -1411,7 +1526,9 @@ app.get('/', async (req, res) => {
         console.error('Portada: no se pudo cargar la oferta desde Supabase:', error);
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.setHeader('Cache-Control', 'no-store');
-        res.send(portadaTemplate.replace('<!--PROMO_DESTACADA-->', ''));
+        res.send(portadaTemplate
+            .replace('<!--PROMO_DESTACADA-->', '')
+            .replace('<!--DESTACADOS_SCHEMA-->', ''));
     }
 });
 

@@ -438,8 +438,9 @@
                 <div class="form-group">
                     <label class="check-label">
                         <input type="checkbox" id="f-destacado">
-                        Mostrar como producto destacado en la página principal
+                        Mostrar en la portada, en «Productos Destacados»
                     </label>
+                    <small class="check-hint" id="destacados-contador"></small>
                 </div>
                 <div class="form-group">
                     <label class="check-label">
@@ -772,6 +773,47 @@
         ));
     }
 
+    // ── DESTACADOS ────────────────────────────────────────────
+    // La portada muestra los productos con esta casilla marcada, ordenados por
+    // id, y solo caben seis. Antes se podian marcar todos (llegaron a estar 35)
+    // porque la casilla no controlaba nada: la rejilla estaba escrita a mano.
+    // Ahora manda de verdad, asi que hay que impedir pasarse.
+    const MAX_DESTACADOS = 6;
+
+    /** Destacados que hay sin contar el producto que se esta editando. */
+    function otrosDestacados() {
+        return allProducts.filter(p => p.destacado && p.id !== editingId).length;
+    }
+
+    /**
+     * Deja la casilla en el estado que toca y explica por que.
+     * Se bloquea solo cuando marcarla pasaria del limite; desmarcar siempre se
+     * puede, que es como se sale de la situacion.
+     */
+    function actualizarContadorDestacados() {
+        const check = document.getElementById('f-destacado');
+        const aviso = document.getElementById('destacados-contador');
+        if (!check || !aviso) return;
+
+        const otros = otrosDestacados();
+        const sinHueco = otros >= MAX_DESTACADOS;
+
+        check.disabled = sinHueco && !check.checked;
+
+        if (check.disabled) {
+            aviso.textContent = 'Ya hay ' + otros + ' productos destacados, que es el máximo. ' +
+                'Quita el destacado a otro producto si quieres poner este en la portada.';
+            aviso.style.color = '#a3182b';
+        } else {
+            const total = otros + (check.checked ? 1 : 0);
+            aviso.textContent = 'Destacados: ' + total + ' de ' + MAX_DESTACADOS +
+                (total === MAX_DESTACADOS ? '. No caben más en la portada.' : '.');
+            aviso.style.color = '';
+        }
+    }
+
+    document.getElementById('f-destacado').addEventListener('change', actualizarContadorDestacados);
+
     // ── OFERTA POR VOLUMEN ────────────────────────────────────
     // Los tres campos se guardan tal cual en las columnas promo_* de Supabase.
     // Quien decide si la oferta se aplica es promociones.js, la misma regla que
@@ -936,6 +978,7 @@
         }
 
         actualizarResumenPromo();
+        actualizarContadorDestacados();
 
         isDirty = false;
         openPanel();
@@ -951,6 +994,14 @@
         btn.textContent = 'Guardando...';
         document.getElementById('form-error').hidden   = true;
         document.getElementById('form-success').hidden = true;
+
+        if (document.getElementById('f-destacado').checked && otrosDestacados() >= MAX_DESTACADOS) {
+            document.getElementById('form-error').textContent =
+                'Ya hay ' + MAX_DESTACADOS + ' productos destacados, que es lo que cabe en la portada. ' +
+                'Quita el destacado a otro antes de poner este.';
+            document.getElementById('form-error').hidden = false;
+            return;
+        }
 
         // Una oferta mal puesta no da error en la tienda: la regla la ignora en
         // silencio y el producto se queda sin descuento sin decir por que. Se
