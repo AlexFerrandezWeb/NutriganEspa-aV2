@@ -1388,11 +1388,21 @@ function renderPortadaHtml(productos) {
     return html;
 }
 
+// La portada solo es correcta servida desde '/', que es donde se rellenan los
+// marcadores. Pedida como '/index.html' la cogeria express.static y devolveria
+// la plantilla en crudo, sin oferta y con los comentarios sin resolver. En
+// produccion ya redirige el middleware de dominio, pero en localhost esta
+// desactivado, asi que se cierra aqui para todos los casos.
+app.get('/index.html', (req, res) => res.redirect(301, '/'));
+
 app.get('/', async (req, res) => {
     try {
         const productos = await getProductosParaPortada();
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        res.setHeader('Cache-Control', 'public, max-age=300');
+        // Un minuto: el grueso de las visitas lo absorbe la cache de productos de
+        // arriba, y asi un cambio de oferta en el panel no tarda cinco minutos en
+        // verse en el navegador de quien acaba de hacerlo.
+        res.setHeader('Cache-Control', 'public, max-age=60');
         res.send(renderPortadaHtml(productos));
     } catch (error) {
         // La portada no puede caerse porque Supabase falle. Se sirve la
