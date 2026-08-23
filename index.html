@@ -212,6 +212,67 @@
         </button>
     </div>
 
+
+    <!-- Promoción destacada — Bolutech Flash, hasta el 31/12/2026.
+         Los importes van escritos en el HTML a propósito y no generados por JS:
+         la home vive de búsqueda orgánica y el buscador debe leer la oferta sin
+         ejecutar nada. Quien la retira cuando caduque es main.js, consultando la
+         misma regla que aplican el carrito y el servidor (promociones.js). -->
+    <section class="promo-destacada" id="promo-destacada" data-promo-producto="1"
+             aria-labelledby="promo-destacada-titulo">
+        <div class="promo-destacada-container">
+            <div class="promo-destacada-imagen">
+                <img src="assets/producto1.webp" alt="Bolutech Flash, caja de 20 bolos"
+                     width="981" height="877" loading="lazy" decoding="async">
+                <span class="promo-destacada-sello" aria-hidden="true">
+                    <strong>&minus;12&nbsp;&euro;</strong>
+                    <small>por caja</small>
+                </span>
+            </div>
+
+            <div class="promo-destacada-texto">
+                <p class="promo-destacada-etiqueta">
+                    <span class="promo-destacada-punto" aria-hidden="true"></span>
+                    Oferta especial
+                </p>
+
+                <h2 id="promo-destacada-titulo" class="promo-destacada-titulo">
+                    Bolutech<sup>&reg;</sup> Flash
+                </h2>
+                <p class="promo-destacada-claim">
+                    Reducción del riesgo de hipocalcemia en vacas de periparto.
+                </p>
+
+                <p class="promo-destacada-precio">
+                    <span class="promo-destacada-precio-nuevo">
+                        2,90&nbsp;&euro;<span class="promo-destacada-unidad">/bolo</span>
+                    </span>
+                    <span class="promo-destacada-precio-viejo">
+                        <span class="visually-hidden">Antes </span>3,50&nbsp;&euro;
+                    </span>
+                </p>
+
+                <p class="promo-destacada-caja">
+                    Caja de 20 bolos a <strong>58&nbsp;&euro;</strong> en vez de 70&nbsp;&euro;:
+                    <strong>ahorras 12&nbsp;&euro; en cada caja</strong>.
+                </p>
+
+                <p class="promo-destacada-condicion">
+                    <i class="fas fa-circle-check" aria-hidden="true"></i>
+                    <span>Llevando <strong>2 cajas o más</strong>. El descuento se aplica solo en el carrito.</span>
+                </p>
+
+                <a href="/producto/bolutech-flash" class="promo-destacada-btn">
+                    Aprovechar la oferta
+                </a>
+
+                <p class="promo-destacada-vigencia">
+                    <i class="fas fa-clock" aria-hidden="true"></i>
+                    Válida hasta el 31 de diciembre de 2026
+                </p>
+            </div>
+        </div>
+    </section>
     <!-- Sección Carrusel Conoce los Productos -->
     <section class="conoce-productos-section" style="padding: 3rem 0; background-color: #f9f9f9;">
         <div class="container" style="text-align: center; margin-bottom: 2rem;">
@@ -619,6 +680,9 @@
         </div>
     </div>
 
+    <!-- Regla de la promocion. Va antes que main.js (defer respeta el orden) porque
+         main.js la consulta para retirar el bloque de oferta cuando caduque. -->
+    <script defer src="promociones.js"></script>
     <script defer src="main.js"></script>
     <script src="js/analytics.js"></script>
     

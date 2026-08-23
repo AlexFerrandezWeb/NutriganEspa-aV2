@@ -307,3 +307,21 @@ function inicializarBuscadorInicio() {
         });
     }
 }
+
+/**
+ * Retira el bloque de oferta de la home cuando la promoción caduca.
+ *
+ * Los importes están escritos en el HTML para que los lea el buscador sin
+ * ejecutar JavaScript, así que sin esto el 1 de enero la portada seguiría
+ * anunciando un descuento que el carrito ya no aplica. La fecha se consulta a
+ * promociones.js, la misma regla que usan el carrito y el servidor.
+ */
+document.addEventListener('DOMContentLoaded', function () {
+    var bloque = document.getElementById('promo-destacada');
+    if (!bloque || !window.NutriganPromos) return;
+
+    var productoId = parseInt(bloque.dataset.promoProducto, 10);
+    if (!window.NutriganPromos.promocionDe(productoId)) {
+        bloque.remove();
+    }
+});

@@ -8958,3 +8958,312 @@ body {
     color: #1d815d;
     font-size: 0.8rem;
 }
+
+
+/* =====================================================================
+   PROMOCIÓN DESTACADA (home) — Bolutech Flash
+   Va sobre fondo oscuro a propósito: la home es blanca de arriba abajo,
+   así que el bloque corta la página y no se puede pasar por alto.
+   La regla de negocio (precios, mínimo de cajas, fecha) vive en
+   promociones.js; aquí solo está el aspecto.
+   ===================================================================== */
+.promo-destacada {
+    background: linear-gradient(135deg, #1d2336 0%, #2b3350 55%, #1d2336 100%);
+    padding: 3.5rem 2rem;
+    border-top: 4px solid #1d815d;
+    border-bottom: 4px solid #1d815d;
+    overflow: hidden;
+}
+
+.promo-destacada-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* --- Imagen y sello del descuento --- */
+.promo-destacada-imagen {
+    flex: 0 0 320px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.promo-destacada-imagen img {
+    width: 100%;
+    height: auto;
+    max-width: 320px;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
+}
+
+/* El sello es el elemento que más "parpadea": late y se le enciende el halo. */
+.promo-destacada-sello {
+    position: absolute;
+    top: -12px;
+    right: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    background-color: #d7263d;
+    color: #ffffff;
+    font-family: var(--fuente-titulos);
+    line-height: 1.05;
+    text-align: center;
+    border: 3px solid #ffffff;
+    animation: promo-latido 1.6s ease-in-out infinite;
+}
+
+.promo-destacada-sello strong {
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: block;
+}
+
+.promo-destacada-sello small {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    opacity: 0.92;
+}
+
+/* --- Texto --- */
+.promo-destacada-texto {
+    flex: 1;
+    color: #ffffff;
+    min-width: 0;
+}
+
+.promo-destacada-etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.75rem;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffd166;
+}
+
+/* El punto es el parpadeo propiamente dicho. Ciclo largo (1,4 s) y sin llegar
+   a apagarse del todo: llama la atención sin convertirse en un estroboscopio. */
+.promo-destacada-punto {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #ffd166;
+    animation: promo-parpadeo 1.4s ease-in-out infinite;
+}
+
+.promo-destacada-titulo {
+    font-family: var(--fuente-titulos);
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    color: #ffffff;
+}
+
+.promo-destacada-titulo sup {
+    font-size: 0.9rem;
+    top: -0.8em;
+}
+
+.promo-destacada-claim {
+    margin: 0 0 1.25rem;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.promo-destacada-precio {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin: 0 0 0.6rem;
+}
+
+.promo-destacada-precio-nuevo {
+    font-family: var(--fuente-titulos);
+    font-size: 3.4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffd166;
+    animation: promo-brillo 1.6s ease-in-out infinite;
+}
+
+.promo-destacada-unidad {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.promo-destacada-precio-viejo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+.promo-destacada-caja {
+    margin: 0 0 0.9rem;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.promo-destacada-caja strong {
+    color: #ffffff;
+}
+
+/* La condición no es letra pequeña escondida: si el descuento pide 2 cajas,
+   tiene que leerse junto al precio y no después de pagar. */
+.promo-destacada-condicion {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    margin: 0 0 1.5rem;
+    padding: 0.7rem 0.95rem;
+    border-radius: 10px;
+    background-color: rgba(29, 129, 93, 0.22);
+    border-left: 3px solid #2ea87c;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.promo-destacada-condicion i {
+    color: #2ea87c;
+    margin-top: 0.22rem;
+    flex-shrink: 0;
+}
+
+.promo-destacada-btn {
+    display: inline-block;
+    padding: 0.95rem 2.4rem;
+    border-radius: 8px;
+    background-color: #1d815d;
+    color: #ffffff;
+    font-family: var(--fuente-titulos);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    box-shadow: 0 8px 20px rgba(29, 129, 93, 0.45);
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.promo-destacada-btn:hover,
+.promo-destacada-btn:focus-visible {
+    background-color: #24a074;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(29, 129, 93, 0.55);
+}
+
+.promo-destacada-vigencia {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.1rem 0 0;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* --- Animaciones --- */
+@keyframes promo-parpadeo {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.2; }
+}
+
+@keyframes promo-latido {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(215, 38, 61, 0.6);
+    }
+    50% {
+        transform: scale(1.07);
+        box-shadow: 0 0 0 14px rgba(215, 38, 61, 0);
+    }
+}
+
+@keyframes promo-brillo {
+    0%, 100% { text-shadow: 0 0 0 rgba(255, 209, 102, 0); }
+    50%      { text-shadow: 0 0 22px rgba(255, 209, 102, 0.75); }
+}
+
+/* Quien pide menos movimiento en el sistema ve el bloque quieto. Además de ser
+   lo correcto en accesibilidad, evita el mareo de un parpadeo permanente. */
+@media (prefers-reduced-motion: reduce) {
+    .promo-destacada-punto,
+    .promo-destacada-sello,
+    .promo-destacada-precio-nuevo {
+        animation: none;
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .promo-destacada-container {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    .promo-destacada-imagen {
+        flex: 0 0 auto;
+        max-width: 260px;
+    }
+
+    .promo-destacada-precio,
+    .promo-destacada-condicion {
+        justify-content: center;
+    }
+
+    .promo-destacada-condicion {
+        text-align: left;
+    }
+
+    .promo-destacada-vigencia {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .promo-destacada {
+        padding: 2.5rem 1.25rem;
+    }
+
+    .promo-destacada-titulo {
+        font-size: 1.9rem;
+    }
+
+    .promo-destacada-precio-nuevo {
+        font-size: 2.8rem;
+    }
+
+    .promo-destacada-sello {
+        width: 88px;
+        height: 88px;
+        top: -8px;
+        right: -4px;
+    }
+
+    .promo-destacada-sello strong {
+        font-size: 1.3rem;
+    }
+
+    .promo-destacada-btn {
+        display: block;
+        width: 100%;
+        padding: 1rem 1rem;
+    }
+}
