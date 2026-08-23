@@ -793,6 +793,7 @@
             // la imagen. Sirve para los dos, que comparten modal.
             const zoomMarco = document.getElementById('modal-zoom');
             const zoomNivel = document.getElementById('modal-zoom-nivel');
+            const zoomControles = document.getElementById('modal-zoom-controles');
 
             const ZOOM_MIN = 1;
             const ZOOM_MAX = 6;
@@ -809,6 +810,9 @@
                 zoomNivel.textContent = Math.round(escala * 100) + '%';
                 // Solo tiene sentido arrastrar cuando la imagen no cabe entera.
                 zoomMarco.classList.toggle('ampliada', escala > 1);
+                // En pantalla tactil los controles solo salen si hay zoom que
+                // deshacer; ampliar ya se hace pellizcando (ver la hoja de estilos).
+                zoomControles.classList.toggle('con-zoom', escala > 1);
             }
 
             /**

@@ -9549,3 +9549,23 @@ body {
     outline: 3px solid var(--color-acento);
     outline-offset: 3px;
 }
+
+
+/* En pantallas táctiles sobran los botones de acercar y alejar: ampliar se hace
+   pellizcando con dos dedos, que es el gesto que la gente ya usa. Queda solo
+   «Ajustar», porque volver al encuadre inicial a base de pellizcos es incómodo,
+   y solo aparece cuando hay zoom que deshacer.
+
+   La condición va por tipo de puntero y no por ancho de pantalla a propósito:
+   una ventana estrecha en el ordenador sigue teniendo ratón y ahí los botones
+   sí hacen falta. */
+@media (hover: none) and (pointer: coarse) {
+    #modal-zoom-mas,
+    #modal-zoom-menos {
+        display: none;
+    }
+
+    .modal-zoom-controles:not(.con-zoom) {
+        display: none;
+    }
+}
