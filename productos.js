@@ -34,7 +34,13 @@ function slugify(str) {
 // Variables globales
 let productos = [];
 let productosFiltrados = [];
-let categoriaActiva = 'todos';
+// La categoria de arranque la marca el servidor cuando la URL es
+// /productos/<categoria>: asi la pagina abre ya filtrada y coincide con su H1.
+let categoriaActiva = (function () {
+    var rejilla = document.getElementById('productos-grid-catalogo');
+    var inicial = rejilla && rejilla.getAttribute('data-categoria-inicial');
+    return inicial || 'todos';
+})();
 let terminoBusqueda = '';
 
 const normalizarCategoria = c => c.toLowerCase() === 'caprino' ? 'caprinos' : c;
@@ -85,6 +91,9 @@ async function cargarProductos() {
         if (!terminoBusqueda && categoriaActiva === 'todos') {
             mostrarProductos(productos);
             actualizarContador(productos.length);
+        } else if (!terminoBusqueda) {
+            // Llegamos por /productos/<categoria>: pintar ya filtrado.
+            aplicarFiltros();
         }
 
     } catch (error) {
@@ -98,7 +107,7 @@ function generarFiltros(categorias) {
     filtrosBotones.innerHTML = '';
     // Botón "Todos"
     const botonTodos = document.createElement('button');
-    botonTodos.className = 'filtro-btn activo';
+    botonTodos.className = 'filtro-btn' + (categoriaActiva === 'todos' ? ' activo' : '');
     botonTodos.setAttribute('data-categoria', 'todos');
     botonTodos.textContent = 'Todos';
     botonTodos.addEventListener('click', () => filtrarProductos('todos'));
@@ -109,7 +118,7 @@ function generarFiltros(categorias) {
     categorias.forEach(categoria => {
         if (categoriasExcluidas.includes(categoria.id.toLowerCase())) return;
         const boton = document.createElement('button');
-        boton.className = 'filtro-btn';
+        boton.className = 'filtro-btn' + (categoria.id === categoriaActiva ? ' activo' : '');
         boton.setAttribute('data-categoria', categoria.id);
         boton.textContent = categoria.nombre;
         boton.addEventListener('click', () => filtrarProductos(categoria.id));
@@ -118,8 +127,15 @@ function generarFiltros(categorias) {
 }
 
 // Función para filtrar productos
-function filtrarProductos(categoria) {
+function filtrarProductos(categoria, actualizarUrl) {
     categoriaActiva = categoria;
+
+    // La URL acompana al filtro: cada categoria tiene pagina propia, asi que
+    // compartirla o volver atras tiene que llevar al mismo sitio.
+    if (actualizarUrl !== false && window.history && history.pushState) {
+        var destino = categoria === 'todos' ? '/productos.html' : '/productos/' + categoria;
+        if (location.pathname !== destino) history.pushState({ categoria: categoria }, '', destino);
+    }
     
     // Actualizar botones activos
     document.querySelectorAll('.filtro-btn').forEach(btn => {
@@ -132,6 +148,13 @@ function filtrarProductos(categoria) {
     // Aplicar filtros (categoría + búsqueda)
     aplicarFiltros();
 }
+
+// El boton atras del navegador entre categorias no recarga la pagina, asi que
+// hay que volver a filtrar a mano.
+window.addEventListener('popstate', function () {
+    var m = location.pathname.match(/^\/productos\/([a-z]+)/);
+    filtrarProductos(m ? m[1] : 'todos', false);
+});
 
 // Función para mostrar productos
 function mostrarProductos(productosAMostrar) {

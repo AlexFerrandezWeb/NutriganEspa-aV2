@@ -993,26 +993,108 @@ app.get('/galeria.html', (req, res) => {
 // (aparecían en GSC como "Descubierta: actualmente sin indexar"). Este bloque da
 // un enlace real y crawleable a cada producto. Caché 60 min, como el sitemap.
 const PRODUCTOS_HTML_TEMPLATE = fs.readFileSync(path.join(__dirname, 'productos.html'), 'utf8');
-let productosHtmlCache = { html: null, expiresAt: 0 };
+let productosHtmlCache = {};   // clave: 'todos' o el slug de la categoría
 
-app.get('/productos.html', async (req, res) => {
-    const now = Date.now();
-    if (productosHtmlCache.html && now < productosHtmlCache.expiresAt) {
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        return res.send(productosHtmlCache.html);
+/**
+ * Categorías con página propia.
+ *
+ * El filtro del catálogo vivía sólo en JavaScript, así que «productos para
+ * ovinos» y «productos veterinarios para vacas» competían con una única página
+ * titulada «Productos». Cada categoría tiene ahora su URL, su título y su H1,
+ * que es lo que Google necesita para distinguirlas.
+ *
+ * Los textos apuntan a las búsquedas reales medidas con Semrush el 2026-08-24,
+ * no a lo que suena bien: `productos veterinarios para vacas` (40/mes, sin
+ * competencia) y `productos para ovinos` (70/mes) son las dos con opciones.
+ */
+const CATEGORIAS_CATALOGO = {
+    bovinos: {
+        nombre: 'Bovinos',
+        h1: 'Productos veterinarios para vacas',
+        subtitulo: 'Bolos, suplementos y tratamientos para vacuno de leche y de carne',
+        title: 'Productos veterinarios para vacas | Bolos y suplementos | Nutrigan España',
+        description: 'Productos veterinarios para vacas: bolos de calcio y fósforo, suplementos para el periparto, tratamientos de patas y desinfectantes. Envío gratis a toda la península.'
+    },
+    ovinos: {
+        nombre: 'Ovinos',
+        h1: 'Productos para ovinos',
+        subtitulo: 'Suplementos nutricionales y sanitarios para ganado ovino',
+        title: 'Productos para ovinos | Suplementos para ovejas | Nutrigan España',
+        description: 'Productos para ovinos: suplementos nutricionales, cicatrizantes y productos sanitarios para ovejas y corderos. Envío gratis a toda la península.'
+    },
+    caprinos: {
+        nombre: 'Caprinos',
+        h1: 'Productos veterinarios para cabras',
+        subtitulo: 'Suplementos nutricionales y sanitarios para ganado caprino',
+        title: 'Productos veterinarios para cabras | Ganado caprino | Nutrigan España',
+        description: 'Productos veterinarios para cabras: suplementos nutricionales, cicatrizantes y productos sanitarios para ganado caprino. Envío gratis a toda la península.'
+    },
+    porcinos: {
+        nombre: 'Porcinos',
+        h1: 'Productos veterinarios para cerdos',
+        subtitulo: 'Suplementos nutricionales y sanitarios para ganado porcino',
+        title: 'Productos veterinarios para cerdos | Ganado porcino | Nutrigan España',
+        description: 'Productos veterinarios para cerdos: suplementos nutricionales, desinfectantes y productos sanitarios para ganado porcino. Envío gratis a toda la península.'
+    },
+    equinos: {
+        nombre: 'Equinos',
+        h1: 'Productos veterinarios para caballos',
+        subtitulo: 'Suplementos nutricionales y sanitarios para équidos',
+        title: 'Productos veterinarios para caballos | Equinos | Nutrigan España',
+        description: 'Productos veterinarios para caballos: suplementos nutricionales, cicatrizantes y productos sanitarios para équidos. Envío gratis a toda la península.'
+    },
+    perros: {
+        nombre: 'Perros',
+        h1: 'Productos veterinarios para perros',
+        subtitulo: 'Cicatrizantes, repelentes y suplementos para perros',
+        title: 'Productos veterinarios para perros | Cicatrizantes y repelentes | Nutrigan España',
+        description: 'Productos veterinarios para perros: spray azul cicatrizante, repelentes de insectos y suplementos. Envío gratis a toda la península.'
     }
+};
+
+/** ¿Está el producto en esta categoría? La columna es una lista con comas y erratas. */
+function productoEnCategoria(producto, categoria) {
+    return (producto.categoria || '')
+        .split(',')
+        .map(c => c.trim().toLowerCase())
+        .map(c => (c === 'caprino' ? 'caprinos' : c))
+        .includes(categoria);
+}
+
+/**
+ * Sirve el catálogo, entero o filtrado por categoría.
+ * `categoria` a null es el catálogo completo, tal y como estaba.
+ */
+async function servirCatalogo(req, res, categoria) {
+    const now = Date.now();
+    const clave = categoria || 'todos';
+    const enCache = productosHtmlCache[clave];
+    if (enCache && now < enCache.expiresAt) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(enCache.html);
+    }
+
+    const cfg = categoria ? CATEGORIAS_CATALOGO[categoria] : null;
 
     let bloque = '';
     try {
-        const { data: productos, error } = await supabaseAdmin
+        const { data: todos, error } = await supabaseAdmin
             .from('productos')
-            .select('nombre')
+            .select('nombre, categoria')
             .order('nombre', { ascending: true });
 
-        if (!error && productos && productos.length) {
+        const productos = (!error && todos)
+            ? (categoria ? todos.filter(p => productoEnCategoria(p, categoria)) : todos)
+            : null;
+
+        if (productos && productos.length) {
             const items = productos
                 .map(p => `<li><a href="/producto/${slugify(p.nombre)}">${escapeXml(p.nombre)}</a></li>`)
                 .join('');
+            const tituloIndice = cfg ? escapeXml(cfg.h1) : 'Todos nuestros productos';
+            const subIndice = cfg
+                ? escapeXml(cfg.subtitulo)
+                : 'Explora nuestro catálogo completo de suplementos nutricionales para ganado';
             bloque = `<section class="productos-indice-seo" aria-label="Índice de todos los productos">
       <style>
         .productos-indice-seo{width:100%;max-width:1160px;box-sizing:border-box;margin:0 auto;padding:3.5em 1.5em 4em;border-top:1px solid #ececec}
@@ -1024,8 +1106,8 @@ app.get('/productos.html', async (req, res) => {
         .productos-indice-seo__lista a:hover{color:#1d815d;border-bottom-color:#1d815d}
         @media(max-width:560px){.productos-indice-seo{padding:2.5em 1.2em 3em}.productos-indice-seo__lista{column-width:auto;columns:1}}
       </style>
-      <h2 class="productos-indice-seo__titulo">Todos nuestros productos</h2>
-      <p class="productos-indice-seo__sub">Explora nuestro catálogo completo de suplementos nutricionales para ganado</p>
+      <h2 class="productos-indice-seo__titulo">${tituloIndice}</h2>
+      <p class="productos-indice-seo__sub">${subIndice}</p>
       <ul class="productos-indice-seo__lista">${items}</ul>
     </section>`;
         }
@@ -1033,11 +1115,55 @@ app.get('/productos.html', async (req, res) => {
         console.error('No se pudo generar el índice SEO de productos:', e.message);
     }
 
-    const html = PRODUCTOS_HTML_TEMPLATE.replace('<!--PRODUCTOS_SEO_LINKS-->', bloque);
-    productosHtmlCache = { html, expiresAt: now + 60 * 60 * 1000 };
+    // Enlaces reales entre categorías: sin ellos Google no llega a estas páginas
+    // por navegación, sólo por el sitemap. El JavaScript los intercepta para
+    // seguir filtrando al instante, sin recargar.
+    const navegacion = ['<nav class="categorias-nav" aria-label="Categorías de producto">',
+        `<a href="/productos.html"${!categoria ? ' aria-current="page"' : ''}>Todos</a>`]
+        .concat(Object.entries(CATEGORIAS_CATALOGO).map(([slug, c]) =>
+            `<a href="/productos/${slug}"${categoria === slug ? ' aria-current="page"' : ''}>${escapeXml(c.nombre)}</a>`))
+        .concat(['</nav>']).join('');
+
+    const canonical = categoria ? `${BASE_URL}/productos/${categoria}` : `${BASE_URL}/productos.html`;
+
+    let html = PRODUCTOS_HTML_TEMPLATE
+        .replace('<!--PRODUCTOS_SEO_LINKS-->', navegacion + bloque)
+        .replace('<link rel="canonical" href="https://www.xn--nutriganespaa-tkb.com/productos.html">',
+            `<link rel="canonical" href="${canonical}">`)
+        .replace('<meta property="og:url" content="https://www.xn--nutriganespaa-tkb.com/productos.html">',
+            `<meta property="og:url" content="${canonical}">`);
+
+    if (cfg) {
+        html = html
+            .replace('<title>Productos Veterinarios | Suplementos para Ganado | Nutrigan España</title>',
+                `<title>${escapeHtml(cfg.title)}</title>`)
+            .replace('<meta property="og:title" content="Productos Veterinarios | Suplementos para Ganado | Nutrigan España">',
+                `<meta property="og:title" content="${escapeHtml(cfg.title)}">`)
+            .replace(/<meta name="description"\s+content="[^"]*">/,
+                `<meta name="description" content="${escapeHtml(cfg.description)}">`)
+            .replace('<h1 class="productos-header-titulo">Productos</h1>',
+                `<h1 class="productos-header-titulo">${escapeHtml(cfg.h1)}</h1>`)
+            .replace(/<p class="productos-header-subtitulo">[\s\S]*?<\/p>/,
+                `<p class="productos-header-subtitulo">${escapeHtml(cfg.subtitulo)}</p>`)
+            // Marca para que productos.js arranque ya filtrado por esta categoría.
+            .replace('<div class="productos-grid-catalogo" id="productos-grid-catalogo">',
+                `<div class="productos-grid-catalogo" id="productos-grid-catalogo" data-categoria-inicial="${categoria}">`);
+    }
+
+    productosHtmlCache[clave] = { html, expiresAt: now + 60 * 60 * 1000 };
 
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(html);
+}
+
+app.get('/productos.html', (req, res) => servirCatalogo(req, res, null));
+
+app.get('/productos/:categoria', (req, res) => {
+    const categoria = String(req.params.categoria || '').toLowerCase();
+    // Categoría inventada: al catálogo entero, no a un 404. Es una URL que
+    // alguien puede teclear o que Google puede haber inventado probando.
+    if (!CATEGORIAS_CATALOGO[categoria]) return res.redirect(301, '/productos.html');
+    return servirCatalogo(req, res, categoria);
 });
 
 // Sitemap dinámico generado desde Supabase
@@ -1053,6 +1179,13 @@ const STATIC_PAGES = [
     { url: '/terminos-condiciones.html',changefreq: 'yearly', priority: '0.3' },
     { url: '/politica-devoluciones.html',changefreq: 'yearly',priority: '0.3' },
 ];
+
+// Las paginas de categoria van al sitemap con la misma prioridad que el
+// catalogo: son las que tienen que posicionar por «productos para ovinos» y
+// «productos veterinarios para vacas».
+const CATEGORIA_PAGES = Object.keys(CATEGORIAS_CATALOGO).map(slug => ({
+    url: `/productos/${slug}`, changefreq: 'weekly', priority: '0.9'
+}));
 
 let sitemapCache = { xml: null, expiresAt: 0 };
 
@@ -1072,7 +1205,7 @@ app.get('/sitemap.xml', async (req, res) => {
 
     const today = new Date().toISOString().split('T')[0];
 
-    const staticUrls = STATIC_PAGES.map(p => `
+    const staticUrls = STATIC_PAGES.concat(CATEGORIA_PAGES).map(p => `
   <url>
     <loc>${BASE_URL}${p.url}</loc>
     <lastmod>${today}</lastmod>

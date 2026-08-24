@@ -34,6 +34,11 @@
       gtag('config', 'G-2ZN5E3WV35');
     </script>
     <meta charset="UTF-8">
+    <!-- Las paginas de categoria viven en /productos/<categoria>, un nivel mas
+         hondo. Sin esta base, cualquier ruta relativa que genere el JavaScript
+         (las fotos de los productos, los iconos) se pediria a /productos/assets/
+         y daria 404. Las rutas del propio HTML ya son absolutas. -->
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos Veterinarios | Suplementos para Ganado | Nutrigan España</title>
     <meta name="description"
@@ -62,10 +67,10 @@
     <meta property="twitter:image" content="https://www.xn--nutriganespaa-tkb.com/assets/logo_nutriganesp.webp">
 
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" href="assets/favicon-nutrigan.png">
-    <link rel="shortcut icon" type="image/png" href="assets/favicon-nutrigan.png">
-    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="icon" type="image/png" href="/assets/favicon-nutrigan.png">
+    <link rel="shortcut icon" type="image/png" href="/assets/favicon-nutrigan.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <link rel="stylesheet" href="/style.css?v=2">
     <style>
         .nav-buscador { max-height: 0 !important; overflow: hidden !important; opacity: 0 !important; margin-top: 0 !important; margin-bottom: 0 !important; padding: 0 !important; transition: max-height 0.35s ease, opacity 0.3s ease, margin-top 0.3s ease !important; pointer-events: none; }
         .nav-buscador.buscador-abierto { max-height: 70px !important; opacity: 1 !important; margin-top: 0.5rem !important; pointer-events: auto; }
@@ -74,8 +79,8 @@
 
 
     </style>
-    <link rel="stylesheet" href="reset.css">
-    <link rel="preload" href="assets/icons.svg" as="image">
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="preload" href="/assets/icons.svg" as="image">
     <!-- Font Awesome para iconos -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript><!-- Google Fonts - Montserrat Alternates y Open Sans -->
@@ -99,20 +104,20 @@
                 </div>
             </div>
             <ul class="menu-izquierda-escritorio">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html#productos" class="activo">Productos</a></li>
-                <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
-                <li><a href="feriaTineo.html">Feria Tineo</a></li>
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="/index.html#productos" class="activo">Productos</a></li>
+                <li><a href="/sobreNosotros.html">Sobre nosotros</a></li>
+                <li><a href="/feriaTineo.html">Feria Tineo</a></li>
             </ul>
             <div class="nav-logo">
-                <a href="index.html" class="logo-link">
-                    <img src="assets/logo_nutrigan-nav.webp" alt="Logo Nutrigan España" class="logo" width="586" height="210">
+                <a href="/index.html" class="logo-link">
+                    <img src="/assets/logo_nutrigan-nav.webp" alt="Logo Nutrigan España" class="logo" width="586" height="210">
                 </a>
             </div>
             <div class="nav-derecha">
                 <button class="btn-lupa-buscar" aria-label="Buscar" aria-expanded="false"><i class="fas fa-search"></i></button>
                 <div class="carrito-container">
-                    <a href="carrito.html" class="carrito-link">
+                    <a href="/carrito.html" class="carrito-link">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="carrito-contador" id="carrito-contador">0</span>
                     </a>
@@ -131,10 +136,10 @@
             <button type="submit" aria-label="Buscar"><svg class="icon icon-search"><use xlink:href="assets/icons.svg#icon-search"></use></svg></button>
         </form>
         <ul class="menu-izquierda" id="menu-izquierda-movil">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="index.html#productos" class="activo">Productos</a></li>
-            <li><a href="sobreNosotros.html">Sobre nosotros</a></li>
-            <li><a href="feriaTineo.html">Feria Tineo</a></li>
+            <li><a href="/index.html">Inicio</a></li>
+            <li><a href="/index.html#productos" class="activo">Productos</a></li>
+            <li><a href="/sobreNosotros.html">Sobre nosotros</a></li>
+            <li><a href="/feriaTineo.html">Feria Tineo</a></li>
         </ul>
     </nav>
 
@@ -258,11 +263,11 @@
             <div class="footer-seccion">
                 <h3 class="footer-titulo">Información Legal</h3>
                 <div class="footer-contenido">
-                    <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
-                    <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
-                    <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
-                    <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
-                    <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
+                    <a href="/aviso-legal.html" class="footer-enlace">Aviso Legal</a>
+                    <a href="/politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
+                    <a href="/politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="/terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
+                    <a href="/politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
                 </div>
             </div>
 
@@ -295,12 +300,12 @@
         <span class="whatsapp-texto">Asesoramiento gratuito</span>
     </a>
 
-    <script defer src="main.js"></script>
-    <script src="js/analytics.js"></script>
+    <script defer src="/main.js"></script>
+    <script src="/js/analytics.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Regla de promociones. Antes de productos.js, que la consulta al pintar cada tarjeta. -->
-    <script src="promociones.js"></script>
-    <script src="productos.js"></script>
+    <script src="/promociones.js"></script>
+    <script src="/productos.js"></script>
     <script>
         // Actualizar contador del carrito
         document.addEventListener('DOMContentLoaded', function () {
@@ -334,8 +339,8 @@
         </div>
     </div>
 
-    <script src="js/cookies.min.js" defer></script>
-    <script src="js/nav-scroll.js" defer></script>
+    <script src="/js/cookies.min.js" defer></script>
+    <script src="/js/nav-scroll.js" defer></script>
 </body>
 
 </html>
