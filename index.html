@@ -99,7 +99,8 @@
     <link rel="preload" href="reset.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="reset.css"></noscript>
     <link rel="preload" href="assets/icons.svg" as="image">
-    <link rel="preload" href="assets/img-carrusel.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="/assets/img-carrusel.webp" as="image" fetchpriority="high"
+        imagesrcset="/assets/img-carrusel-800.webp 800w, /assets/img-carrusel.webp 1600w" imagesizes="100vw">
     <!-- Font Awesome para iconos -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript><!-- Google Fonts - Montserrat Alternates y Open Sans -->
@@ -184,19 +185,19 @@
 
         <div class="carrusel-wrapper">
             <div class="carrusel-slide active">
-                <img src="assets/img-carrusel.webp" alt="Suplementos nutricionales Bolutech para ganado - Nutrigan España" class="carrusel-imagen" fetchpriority="high" decoding="async" width="1920" height="1280">
+                <img src="assets/img-carrusel.webp" srcset="assets/img-carrusel-800.webp 800w, assets/img-carrusel.webp 1600w" sizes="100vw" alt="Suplementos nutricionales Bolutech para ganado - Nutrigan España" class="carrusel-imagen" fetchpriority="high" decoding="async" width="1920" height="1280">
             </div>
             <div class="carrusel-slide">
-                <img src="assets/img-carrusel2.webp" alt="Imagen 2 del carrusel" class="carrusel-imagen" loading="lazy">
+                <img data-src="assets/img-carrusel2.webp" data-srcset="assets/img-carrusel2-800.webp 800w, assets/img-carrusel2.webp 1600w" sizes="100vw" alt="Imagen 2 del carrusel" class="carrusel-imagen">
             </div>
             <div class="carrusel-slide">
-                <img src="assets/img-carrusel3.webp" alt="Imagen 3 del carrusel" class="carrusel-imagen" loading="lazy">
+                <img data-src="assets/img-carrusel3.webp" data-srcset="assets/img-carrusel3-800.webp 800w, assets/img-carrusel3.webp 1600w" sizes="100vw" alt="Imagen 3 del carrusel" class="carrusel-imagen">
             </div>
             <div class="carrusel-slide">
-                <img src="assets/img-carrusel4.webp" alt="Imagen 4 del carrusel" class="carrusel-imagen" loading="lazy">
+                <img data-src="assets/img-carrusel4.webp" data-srcset="assets/img-carrusel4-800.webp 800w, assets/img-carrusel4.webp 1600w" sizes="100vw" alt="Imagen 4 del carrusel" class="carrusel-imagen">
             </div>
             <div class="carrusel-slide">
-                <img src="assets/img-carrusel5.webp" alt="Imagen 5 del carrusel" class="carrusel-imagen" loading="lazy">
+                <img data-src="assets/img-carrusel5.webp" data-srcset="assets/img-carrusel5-800.webp 800w, assets/img-carrusel5.webp 1600w" sizes="100vw" alt="Imagen 5 del carrusel" class="carrusel-imagen">
             </div>
         </div>
 
@@ -243,23 +244,23 @@
                     <img src="assets/Carrusel-EliteVA.webp" alt="Bolutech Elite VA" class="carrusel-imagen" loading="lazy">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-Excell250&Junior.webp" alt="Bolutech Excell 250 y Bolutech Junior"
-                        class="carrusel-imagen" loading="lazy">
+                    <img data-src="assets/Carrusel-Excell250&Junior.webp" alt="Bolutech Excell 250 y Bolutech Junior"
+                        class="carrusel-imagen">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-Ovixcell.webp" alt="Bolutech Ovixcell" class="carrusel-imagen" loading="lazy">
+                    <img data-src="assets/Carrusel-Ovixcell.webp" alt="Bolutech Ovixcell" class="carrusel-imagen">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-OnglonsHeel.webp" alt="Bolutech Onglons y Bolutech Heel" class="carrusel-imagen" loading="lazy">
+                    <img data-src="assets/Carrusel-OnglonsHeel.webp" alt="Bolutech Onglons y Bolutech Heel" class="carrusel-imagen">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-PrepavelTonic.webp" alt="Bolutech Prepavel y Bolutech Tonic" class="carrusel-imagen" loading="lazy">
+                    <img data-src="assets/Carrusel-PrepavelTonic.webp" alt="Bolutech Prepavel y Bolutech Tonic" class="carrusel-imagen">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-ReproRefresh.webp" alt="Bolutech Repro y Bolutech Refresh" class="carrusel-imagen" loading="lazy">
+                    <img data-src="assets/Carrusel-ReproRefresh.webp" alt="Bolutech Repro y Bolutech Refresh" class="carrusel-imagen">
                 </div>
                 <div class="carrusel-slide">
-                    <img src="assets/Carrusel-Vitality1.40.webp" alt="Bolutech Vitality 1.40" class="carrusel-imagen" loading="lazy">
+                    <img data-src="assets/Carrusel-Vitality1.40.webp" alt="Bolutech Vitality 1.40" class="carrusel-imagen">
                 </div>
             </div>
 

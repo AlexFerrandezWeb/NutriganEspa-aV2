@@ -104,6 +104,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 this.updateIndicators();
+                this.cargarVisiblesYSiguiente(this.currentSlide);
+
+                // El resto se descarga cuando el navegador no tiene nada mejor
+                // que hacer, para que ninguna diapositiva se quede en blanco si
+                // el visitante salta directamente a ella.
+                if (document.readyState === 'complete') {
+                    this.cargarRestoEnReposo();
+                } else {
+                    window.addEventListener('load', () => this.cargarRestoEnReposo(), { once: true });
+                }
             }
         }
 
@@ -175,11 +185,59 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        /**
+         * Da src a las imagenes de una pagina del carrusel.
+         *
+         * Las diapositivas que no se ven se sirven con data-src en vez de src:
+         * loading="lazy" no las frenaba porque el carrusel las apila todas
+         * arriba del todo y el navegador las daba por visibles. Eran unos 900 KB
+         * bajandose antes de que nadie los mirase.
+         */
+        cargarPagina(pagina) {
+            const desde = pagina * this.itemsPerView;
+            for (let i = desde; i < desde + this.itemsPerView && i < this.slides.length; i++) {
+                this.slides[i].querySelectorAll('img[data-src]').forEach(img => {
+                    if (img.dataset.srcset) {
+                        img.srcset = img.dataset.srcset;
+                        img.removeAttribute('data-srcset');
+                    }
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                });
+            }
+        }
+
+        /** La actual y la siguiente, para que al pasar ya este descargada. */
+        cargarVisiblesYSiguiente(pagina) {
+            this.cargarPagina(pagina);
+            this.cargarPagina((pagina + 1) % Math.max(this.totalPages, 1));
+        }
+
+        /** Red de seguridad: lo que quede sin src, cuando la pagina ya esta ociosa. */
+        cargarRestoEnReposo() {
+            const pendientes = () => this.container.querySelectorAll('img[data-src]');
+            const cargar = () => pendientes().forEach(img => {
+                if (img.dataset.srcset) {
+                    img.srcset = img.dataset.srcset;
+                    img.removeAttribute('data-srcset');
+                }
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+            });
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(cargar, { timeout: 6000 });
+            } else {
+                setTimeout(cargar, 3000);
+            }
+        }
+
         goToSlide(index) {
             // Validar índice cíclico
             let targetIndex = index;
             if (targetIndex >= this.totalPages) targetIndex = 0;
             if (targetIndex < 0) targetIndex = this.totalPages - 1;
+
+            this.cargarVisiblesYSiguiente(targetIndex);
 
             if (this.isSlideEffect) {
                 // Lógica para efecto Slide (por PÁGINA)
