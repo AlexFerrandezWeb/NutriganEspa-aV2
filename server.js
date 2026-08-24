@@ -1398,11 +1398,16 @@ function tarjetaDestacadaHtml(producto) {
 
     // Solo la etiqueta de oferta: aquí todos son destacados, así que ponérsela a
     // los seis no distinguiría nada.
-    const badge = promos.promocionDe(producto)
+    const enOferta = !!promos.promocionDe(producto);
+    const badge = enOferta
         ? '<span class="producto-badge-oferta">Oferta</span>'
         : '';
 
-    return `<a href="${enlace}" class="producto-item producto-link">
+    // El mismo aro ámbar que en el catálogo: la etiqueta sola se pierde entre
+    // seis tarjetas iguales, y el borde se ve de un vistazo.
+    const claseOferta = enOferta ? ' producto-item--oferta' : '';
+
+    return `<a href="${enlace}" class="producto-item producto-link${claseOferta}">
                     <div class="producto-imagen-container">
                         ${badge}
                         <img src="${imagen}" alt="${nombre}" class="producto-imagen" loading="lazy">
