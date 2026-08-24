@@ -2086,6 +2086,27 @@ body {
     font-size: 0.9rem;
 }
 
+/* Credito del desarrollo: se lee sin competir con la marca del cliente, que es
+   de quien es la web. */
+.footer-creditos {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-creditos a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-creditos a:hover,
+.footer-creditos a:focus-visible {
+    color: #ffffff;
+    border-bottom-color: rgba(255, 255, 255, 0.7);
+}
+
 /* Estilos específicos para pantallas 4K */
 @media (min-width: 2560px) {}
 
