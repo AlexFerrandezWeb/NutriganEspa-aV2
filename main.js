@@ -363,3 +363,171 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 1000);
     }
 });
+
+/**
+ * Confirmación de «añadido al carrito», compartida por la portada y el catálogo
+ * (main.js se carga en las dos).
+ *
+ * Son tres señales a la vez a propósito, porque ninguna llega a todo el mundo:
+ * la vibración solo existe en Android (Safari de iPhone no implementa
+ * navigator.vibrate: en el iPhone el tacto de las apas nativas no está
+ * disponible para una web), y quien tenga activado «reducir movimiento» no ve
+ * volar nada. El pulso del contador siempre se ve.
+ */
+window.NutriganFeedback = (function () {
+    function menosMovimiento() {
+        return window.matchMedia
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    function vibrar() {
+        // Un toque corto, no un zumbido. En iPhone no hace nada porque no existe.
+        if (navigator.vibrate) {
+            try { navigator.vibrate(18); } catch (e) { /* algunos navegadores lo bloquean */ }
+        }
+    }
+
+    function pulsoCarrito() {
+        var contador = document.getElementById('carrito-contador');
+        if (!contador) return;
+        contador.classList.remove('pulso-efecto');
+        void contador.offsetHeight;          // reinicia la animación
+        contador.classList.add('pulso-efecto');
+        setTimeout(function () { contador.classList.remove('pulso-efecto'); }, 1500);
+    }
+
+    function volarAlCarrito(origen, imagen) {
+        if (!origen || !imagen || menosMovimiento()) return;
+        var destino = document.querySelector('.carrito-link');
+        if (!destino) return;
+
+        var desde = origen.getBoundingClientRect();
+        var hasta = destino.getBoundingClientRect();
+
+        var volador = document.createElement('div');
+        volador.className = 'producto-volando';
+        volador.innerHTML = '<img src="' + imagen + '" alt="" width="40" height="40" ' +
+            'style="width:40px;height:40px;object-fit:cover;border-radius:6px;">';
+        volador.style.left = (desde.left + desde.width / 2) + 'px';
+        volador.style.top = (desde.top + desde.height / 2) + 'px';
+        volador.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        document.body.appendChild(volador);
+
+        requestAnimationFrame(function () {
+            volador.style.left = (hasta.left + hasta.width / 2) + 'px';
+            volador.style.top = (hasta.top + hasta.height / 2) + 'px';
+            volador.style.transform = 'scale(0.3)';
+            volador.style.opacity = '0.7';
+        });
+
+        setTimeout(function () {
+            if (volador.parentNode) volador.parentNode.removeChild(volador);
+        }, 1000);
+    }
+
+    /**
+     * El boton pulsado pasa a «Añadido» y vuelve solo.
+     *
+     * Se congela su tamano antes de cambiar el texto: «Añadido» es mas corto
+     * que «Añadir al carrito» —y de una linea en vez de dos en las tarjetas
+     * estrechas—, asi que si no, el boton encoge de golpe al confirmar.
+     */
+    function confirmarEnBoton(boton) {
+        if (!boton) return;
+
+        if (!boton.dataset.textoOriginal) {
+            boton.dataset.textoOriginal = boton.innerHTML;
+        }
+        if (!boton._volverTexto) {
+            var caja = boton.getBoundingClientRect();
+            boton.style.height = caja.height + 'px';
+            boton.style.width = caja.width + 'px';
+        }
+        boton.innerHTML = '<i class="fas fa-check"></i> Añadido';
+
+        clearTimeout(boton._volverTexto);
+        boton._volverTexto = setTimeout(function () {
+            boton.innerHTML = boton.dataset.textoOriginal;
+            boton.style.height = '';
+            boton.style.width = '';
+            boton._volverTexto = null;
+        }, 1600);
+    }
+
+    /** Todas las señales de golpe. `origen` es el botón pulsado. */
+    function confirmarAnadido(origen, imagen) {
+        vibrar();
+        pulsoCarrito();
+        volarAlCarrito(origen, imagen);
+        confirmarEnBoton(origen);
+    }
+
+    return {
+        vibrar: vibrar,
+        pulsoCarrito: pulsoCarrito,
+        volarAlCarrito: volarAlCarrito,
+        confirmarEnBoton: confirmarEnBoton,
+        confirmarAnadido: confirmarAnadido
+    };
+})();
+
+/**
+ * Botón «Añadir al carrito» de las tarjetas destacadas de la portada.
+ *
+ * La portada no carga carrito.js (es el guion de la página del carrito, con su
+ * checkout y su Stripe), así que aquí solo se hace lo justo: escribir en la
+ * misma clave de localStorage y con la misma forma que usa el catálogo, para
+ * que un producto añadido desde la portada sea indistinguible de uno añadido
+ * desde el listado.
+ *
+ * El botón vive dentro del <a> de la tarjeta, así que hay que cortar el enlace:
+ * sin preventDefault, añadir al carrito te sacaba de la portada.
+ */
+document.addEventListener('click', function (evento) {
+    var boton = evento.target.closest ? evento.target.closest('.js-anadir-carrito') : null;
+    if (!boton) return;
+
+    evento.preventDefault();
+    evento.stopPropagation();
+
+    var producto = {
+        id: Number(boton.dataset.id),
+        nombre: boton.dataset.nombre,
+        descripcion: boton.dataset.descripcion || '',
+        precio: Number(boton.dataset.precio),
+        imagen: boton.dataset.imagen,
+        cantidad: 1
+    };
+
+    var carrito;
+    try {
+        carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
+    } catch (e) {
+        carrito = [];
+    }
+    if (!Array.isArray(carrito)) carrito = [];
+
+    var yaEsta = carrito.find(function (p) { return p.id === producto.id; });
+    if (yaEsta) {
+        yaEsta.cantidad += 1;
+    } else {
+        carrito.push(producto);
+    }
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+    var contador = document.getElementById('carrito-contador');
+    if (contador) {
+        var total = carrito.reduce(function (suma, p) { return suma + (p.cantidad || 0); }, 0);
+        contador.textContent = total;
+        contador.setAttribute('data-count', total);
+    }
+
+    // El embudo de GA4 cuenta con este paso; sin él, las compras que empiezan
+    // en la portada aparecerían sin su add_to_cart.
+    if (window.NutriganGA) {
+        window.NutriganGA.anadirAlCarrito(producto, 1);
+    }
+
+    // Vibración, vuelo al carrito, pulso del contador y «Añadido» en el botón.
+    window.NutriganFeedback.confirmarAnadido(boton, producto.imagen);
+});

@@ -1408,9 +1408,16 @@ function tarjetaDestacadaHtml(producto) {
                         <img src="${imagen}" alt="${nombre}" class="producto-imagen" loading="lazy">
                     </div>
                     <h3 class="producto-nombre">${nombre}</h3>
-                    <p class="producto-descripcion">${descripcion} ${unidad}</p>
+                    <p class="producto-descripcion"><span class="producto-descripcion-texto">${descripcion}</span> ${unidad}</p>
                     ${precioTarjetaHtml(producto)}
-                    <button class="producto-btn">Ver producto</button>
+                    <button type="button" class="producto-btn js-anadir-carrito"
+                            data-id="${escapeHtml(producto.id)}"
+                            data-nombre="${nombre}"
+                            data-precio="${escapeHtml(producto.precio)}"
+                            data-imagen="${imagen}"
+                            data-descripcion="${escapeHtml(producto.descripcion || '')}">
+                        <i class="fas fa-shopping-cart"></i> Añadir al carrito
+                    </button>
                 </a>`;
 }
 
