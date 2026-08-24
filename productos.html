@@ -6,6 +6,12 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZN5E3WV35"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
+      // En local no se manda nada a Analytics: la web de desarrollo usa la misma
+      // cuenta que produccion, asi que cada prueba ensuciaba los informes reales.
+      // Es la marca oficial de Google para desactivar una medicion entera.
+      if (['localhost', '127.0.0.1', '0.0.0.0'].indexOf(location.hostname) !== -1) {
+        window['ga-disable-G-2ZN5E3WV35'] = true;
+      }
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       // Consent Mode v2 — por defecto todo denegado hasta que el usuario acepte en el banner de cookies.
