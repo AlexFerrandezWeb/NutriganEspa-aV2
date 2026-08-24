@@ -152,8 +152,12 @@ function mostrarProducto(producto) {
         cajaPromo.innerHTML = window.NutriganPromos.cajaFichaHTML(promo);
     }
     
+    // En la ficha va la descripcion completa, no la de una linea: es el unico
+    // sitio donde cabe y donde aporta. Las tarjetas del catalogo y de la
+    // portada siguen con la corta, que es lo que pide una rejilla.
     const descP = document.createElement('p');
-    descP.textContent = (producto.descripcion || '').replace(/<[^>]*>/g, '');
+    descP.textContent = (producto.descripcion_completa || producto.descripcion || '')
+        .replace(/<[^>]*>/g, '');
     const descContainer = document.getElementById('producto-descripcion');
     descContainer.innerHTML = '';
     descContainer.appendChild(descP);

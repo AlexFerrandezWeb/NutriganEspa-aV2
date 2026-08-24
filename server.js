@@ -897,10 +897,11 @@ function renderProductoHtml(producto, canonical) {
     // <h1>, que es la senal de contenido mas fuerte de la pagina. El JavaScript
     // los reescribe despues con lo mismo, asi que no cambia nada para quien
     // navega; cambia para quien lee el HTML sin ejecutarlo.
-    // La corta, no la completa: es exactamente lo que producto.js pinta despues
-    // en ese hueco. Inyectar la larga dejaria a Google viendo un texto y al
-    // visitante otro distinto en cuanto arranca el JavaScript.
-    const descripcionCuerpo = (producto.descripcion || '').replace(/<[^>]*>/g, '').trim();
+    // La completa, que es la que producto.js pinta en ese hueco. Tienen que
+    // coincidir: si el HTML dice una cosa y el JavaScript la sustituye por
+    // otra, Google ve un texto y el visitante otro.
+    const descripcionCuerpo = (producto.descripcion_completa || producto.descripcion || '')
+        .replace(/<[^>]*>/g, '').trim();
 
     return productoTemplate
         .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
