@@ -232,7 +232,7 @@
      */
     function precioUnidadTachadoHTML(promo) {
         if (!promo || !promo.precioUnidadPromo) return '';
-        return '<span class="precio-unidad-antes">' + formatoUnidadSitio(promo.precioUnidadNormal) + '</span>' +
+        return '<span class="precio-unidad-antes">' + formatoUnidadSitio(promo.precioUnidadNormal) + '</span> ' +
             '<span class="precio-unidad-ahora">' + formatoUnidadSitio(promo.precioUnidadPromo) + '</span>';
     }
 
@@ -247,7 +247,7 @@
     function precioConTachadoHTML(promo) {
         if (!promo) return '';
         return '<span class="producto-precio-antes">' + formatoPrecioSitio(promo.precioCajaNormal) + '</span>' +
-            '<span class="producto-precio-ahora">' + formatoPrecioSitio(promo.precioCajaPromo) + '</span>' +
+            '<span class="producto-precio-ahora">' + formatoPrecioSitio(promo.precioCajaPromo) + '</span> ' +
             '<span class="precio-iva">IVA inc.</span>' +
             '<span class="producto-precio-condicion">desde ' + promo.cajasMinimas +
             ' cajas &middot; ahorras ' + formatoEuros(promo.descuentoPorCaja) + ' en cada caja</span>';

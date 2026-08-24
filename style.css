@@ -238,44 +238,6 @@ body {
     animation: pulse-intense 1.5s ease-out;
 }
 
-/* Efecto simple de cambio de texto en el botón */
-.texto-efecto-carrito {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, #4CAF50, #45a049);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: inherit;
-    font-weight: inherit;
-    white-space: nowrap;
-    z-index: 10;
-    border-radius: inherit;
-    animation: fadeInOut 2s ease-in-out forwards;
-    pointer-events: none;
-}
-
-@keyframes fadeInOut {
-    0% {
-        opacity: 0;
-    }
-
-    20% {
-        opacity: 1;
-    }
-
-    80% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
 
 @keyframes pulse-intense {
     0% {
@@ -2225,6 +2187,13 @@ body {
     outline-offset: 2px;
 }
 
+/* Ojo: el nombre .producto-badges ya lo usa la ficha de producto para su
+   propia columna de etiquetas, asi que aqui el contenedor se llama distinto. */
+.producto-cuerpo,
+.producto-etiquetas {
+    display: contents;
+}
+
 .producto-imagen-container {
     width: 100%;
     height: 180px;
@@ -2318,6 +2287,7 @@ body {
     font-weight: 500;
     color: var(--color-storm-gray);
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 .producto-btn {
@@ -2467,8 +2437,12 @@ body {
         font-size: 1.1rem;
     }
 
+    /* minmax(0, 1fr) y no 1fr a secas: 1fr lleva un minimo implicito de
+       contenido, asi que la columna con la linea larga de la promo («desde 2
+       cajas · ahorras 12 € en cada caja») se ensanchaba y dejaba las dos
+       columnas descuadradas. Con el minimo a 0 el texto parte y reparten. */
     .productos-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1.2rem;
     }
 
@@ -2496,6 +2470,46 @@ body {
 
     .productos-grid {
         gap: 0.8rem;
+    }
+
+    /* La etiqueta se queda sobre la foto, como estaba, pero bien ajustada:
+       a tamano normal tapaba media imagen en una tarjeta de 173 px. */
+    .productos-grid .producto-badge-destacado,
+    .productos-grid .producto-badge-agotado,
+    .productos-grid .producto-badge-oferta {
+        top: 5px;
+        font-size: 0.5rem;
+        padding: 0.1rem 0.35rem;
+        letter-spacing: 0;
+        border-radius: 12px;
+    }
+
+    .productos-grid .producto-badge-agotado,
+    .productos-grid .producto-badge-oferta {
+        left: 5px;
+    }
+
+    .productos-grid .producto-badge-destacado {
+        right: 5px;
+    }
+
+    /* Descripcion a tres lineas con puntos suspensivos. Se recorta el texto y
+       no el parrafo entero: el precio por unidad viaja dentro del mismo <p>
+       (lo mete el servidor), y cortar el parrafo lo habria escondido en los
+       productos de descripcion larga, que son justo los que hay que recortar. */
+    .productos-grid .producto-descripcion-texto {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .productos-grid .producto-precio {
+        font-size: 1rem;
+    }
+
+    .productos-grid .precio-iva {
+        font-size: 0.68rem;
     }
 
     .producto-item {
@@ -2998,75 +3012,154 @@ body {
     }
 
     .productos-grid-catalogo .producto-item {
-        padding: 1rem 1.2rem;
+        display: grid;
+        grid-template-columns: 42% 1fr;
+        column-gap: 0.6rem;
+        align-items: start;
+        text-align: left;
+        padding: 0.7rem;
     }
 
+    .productos-grid-catalogo .producto-cuerpo {
+        display: flex;
+        flex-direction: column;
+        /* Sin esto el texto largo ensancha la columna y desborda la rejilla. */
+        min-width: 0;
+    }
+
+    /* 3:4 es la proporcion mas repetida en el catalogo (10 de 44 fotos la
+       tienen clavada y casi todas las demas rondan el vertical), asi que
+       alargarla hasta ahi rellena mas la columna sin recortar ningun envase:
+       la foto sigue en object-fit: contain. Centrada respecto al texto, que
+       siempre es la columna mas alta. */
+    /* El marco pasa a ser una columna: etiquetas arriba y foto debajo. El
+       redondeo se lo queda la foto, porque el marco ya no es solo la foto. */
     .productos-grid-catalogo .producto-imagen-container {
-        height: 110px;
-        margin-bottom: 0.6rem;
+        height: auto;
+        align-self: center;
+        margin-bottom: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+        overflow: visible;
+        border-radius: 0;
+    }
+
+    .productos-grid-catalogo .producto-imagen {
+        height: auto;
+        border-radius: 10px;
+    }
+
+    /* Las etiquetas salen de encima de la foto y pasan a flujo normal: sobre
+       una foto de 140 px la tapaban casi entera y no se veia el producto, que
+       es lo unico que importa aqui. Van todas en una fila sobre la foto, en el
+       orden del HTML: destacado, agotado y oferta. */
+    .productos-grid-catalogo .producto-etiquetas {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+        order: 1;
     }
 
     .productos-grid-catalogo .producto-badge-destacado,
     .productos-grid-catalogo .producto-badge-agotado,
     .productos-grid-catalogo .producto-badge-oferta {
+        position: static;
         font-size: 0.55rem;
         padding: 0.15rem 0.45rem;
-        top: 6px;
         letter-spacing: 0;
+        max-width: 100%;
     }
 
-    .productos-grid-catalogo .producto-badge-destacado {
-        right: 6px;
-    }
-
-    .productos-grid-catalogo .producto-badge-agotado,
-    .productos-grid-catalogo .producto-badge-oferta {
-        left: 6px;
+    .productos-grid-catalogo .producto-imagen {
+        order: 2;
     }
 
     .productos-grid-catalogo .producto-nombre {
-        font-size: 0.9rem;
-        margin-bottom: 0.3rem;
-        min-height: 2.88rem;
+        font-size: 0.95rem;
+        margin-bottom: 0.35rem;
+        min-height: 0;
     }
 
     .productos-grid-catalogo .producto-descripcion {
-        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
         font-size: 0.82rem;
+        line-height: 1.5;
+        max-height: 3.69rem;
         margin-bottom: 0.5rem;
         color: var(--color-storm-gray);
     }
 
     .productos-grid-catalogo .producto-unidad-info {
-        gap: 0.25rem;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.3rem;
         margin-top: 0;
         margin-bottom: 0.2rem;
         flex-wrap: wrap;
-        /* El bloque pasa a tener tres filas (unidad, presentación y envío
-           gratis), asi que el suelo que alinea las tarjetas sube una fila. */
-        min-height: 4.1rem;
+        /* En fila y sin suelo fijo: en una sola columna no hay tarjeta vecina
+           con la que cuadrar, y las tres pastillas en columna se comian 79 px
+           para decir tres cosas cortas. */
+        min-height: 0;
     }
 
     .productos-grid-catalogo .precio-por-unidad {
-        font-size: 0.72rem;
-        padding: 0.08rem 0.35rem;
+        font-size: 0.68rem;
+        padding: 0.08rem 0.3rem;
     }
 
+    /* En escritorio la pastilla va en una sola linea a proposito, pero en la
+       columna estrecha del movil las presentaciones largas («Garrafa de 5L +
+       Bote de 250ml») se salian de la tarjeta. Aqui parten. */
     .productos-grid-catalogo .producto-presentacion-info {
         font-size: 0.68rem;
+        white-space: normal;
+        max-width: 100%;
     }
 
+    /* Un punto menos de precio y de «IVA inc.»: al ensanchar la foto, la
+       columna de texto se queda en unos 180 px y a 1,1rem la etiqueta del IVA
+       caia sola a una segunda linea. */
     .productos-grid-catalogo .producto-precio {
-        font-size: 1.1rem;
+        font-size: 1rem;
         margin-top: auto;
         margin-bottom: 0.5rem;
     }
 
+    .productos-grid-catalogo .precio-iva {
+        font-size: 0.68rem;
+    }
+
     .productos-grid-catalogo .producto-detalles {
         display: flex;
-        gap: 0.5rem;
+        flex-direction: row;
+        gap: 0.4rem;
         flex-wrap: wrap;
+        margin-top: 0.5rem;
         margin-bottom: 0.4rem;
+    }
+
+    .productos-grid-catalogo .producto-especie,
+    .productos-grid-catalogo .producto-etapa {
+        flex: 1 1 6rem;
+        justify-content: flex-start;
+        padding: 0.3rem 0.45rem;
+        font-size: 0.72rem;
+    }
+
+    .productos-grid-catalogo .producto-especie span,
+    .productos-grid-catalogo .producto-etapa span {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .productos-grid-catalogo .producto-botones {
@@ -3205,6 +3298,18 @@ body {
     left: 10px;
     background: linear-gradient(45deg, #1d2336, #2b3350);
     color: #ffd166;
+}
+
+/* Tarjeta en oferta: aro ambar alrededor del borde, la misma paleta que la
+   etiqueta. Va como box-shadow y no como borde mas grueso para que la tarjeta
+   mida exactamente igual que las demas y la rejilla no baile. */
+.producto-item--oferta {
+    border-color: #ffc94d;
+    box-shadow: 0 0 0 2px rgba(255, 201, 77, 0.6), 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.producto-item--oferta:hover {
+    box-shadow: 0 0 0 2px rgba(255, 201, 77, 0.9), 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -9492,13 +9597,6 @@ body {
     font-size: inherit;
 }
 
-/* El marcado de la promo se genera sin espacios entre etiquetas, asi que el
-   "IVA inc." necesita su propia separacion; en el precio normal la da el
-   espacio en blanco de la plantilla. */
-.producto-precio--promo .precio-iva {
-    margin-left: 0.35rem;
-}
-
 .producto-precio-condicion {
     display: block;
     margin-top: 0.1rem;
@@ -9520,7 +9618,6 @@ body {
    Sustituye al precio por unidad de siempre, no se anade debajo: con los dos a
    la vez la tarjeta daba dos precios por unidad distintos sin relacionarlos. */
 .precio-unidad-antes {
-    margin-right: 0.35rem;
     color: var(--color-storm-gray, #6d7489);
     text-decoration: line-through;
     text-decoration-thickness: 1.5px;
