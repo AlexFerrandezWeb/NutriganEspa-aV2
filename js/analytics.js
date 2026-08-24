@@ -26,12 +26,13 @@
     }
 
     // Normaliza un producto (del carrito o de Supabase) al formato de item de GA4.
-    // Ojo: en el carrito, `precio` es el importe de la línea (unitario x cantidad),
-    // por eso el precio unitario se busca primero en `precioUnitario`.
+    // `price` es el precio de lo que se vende —la caja— y `quantity` el numero de
+    // cajas. Antes se prefería el precio por bolo (`precioUnitario` /
+    // `precio_unitario`), que declaraba a GA4 3,50 € donde se cobran 70 €.
     function aItem(producto, indice) {
         const cantidad = parseInt(producto.cantidad) || 1;
         const precioUnitario = parseFloat(
-            producto.precioUnitario || producto.precio_unitario || producto.precio
+            producto.precio != null ? producto.precio : producto.precio_unitario
         ) || 0;
 
         const item = {

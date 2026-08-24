@@ -206,15 +206,19 @@ function crearElementoProducto(producto, indice = 0) {
     // puede comprar solo sirve para irritar a quien lo intenta.
     const enOferta = !agotado && window.NutriganPromos && window.NutriganPromos.promocionDe(producto);
     const badgeOferta = enOferta ? '<span class="producto-badge-oferta">Oferta</span>' : '';
+
+    // La etiqueta sola se pierde entre las otras dos esquinas; el aro ambar en
+    // el borde hace que la tarjeta en oferta se distinga de un vistazo en la
+    // rejilla, sin tocar la altura (es box-shadow, no mas grosor de borde).
+    if (enOferta) productoLink.classList.add('producto-item--oferta');
     
     productoLink.innerHTML = `
         <div class="producto-imagen-container">
-            ${badgeDestacado}
-            ${badgeStock}
-            ${badgeOferta}
+            <div class="producto-etiquetas">${badgeDestacado}${badgeStock}${badgeOferta}</div>
             <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="producto-imagen"
                  ${indice < 4 ? 'loading="eager"' : 'loading="lazy"'} decoding="async">
         </div>
+        <div class="producto-cuerpo">
         <h3 class="producto-nombre">${escHTML(producto.nombre)}</h3>
         <p class="producto-descripcion">
             ${producto.descripcion || ''}
@@ -239,10 +243,11 @@ function crearElementoProducto(producto, indice = 0) {
             <button class="producto-btn producto-btn-detalles" onclick="event.preventDefault(); verDetallesProducto(${producto.id})">
                 Ver Detalles
             </button>
-            <button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id})" ${agotado ? 'disabled' : ''}>
+            <button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id}, this)" ${agotado ? 'disabled' : ''}>
                 <i class="fas fa-shopping-cart"></i>
                 ${agotado ? 'Agotado' : 'Añadir al Carrito'}
             </button>
+        </div>
         </div>
     `;
     
@@ -320,7 +325,7 @@ function verDetallesProducto(productoId) {
 }
 
 // Función para añadir producto al carrito
-function añadirAlCarrito(id) {
+function añadirAlCarrito(id, boton) {
     console.log('Añadiendo producto al carrito, ID:', id);
     
     // Buscar el producto en la lista
@@ -370,6 +375,13 @@ function añadirAlCarrito(id) {
 
     if (window.NutriganGA) {
         NutriganGA.anadirAlCarrito(producto, 1);
+    }
+
+    // El vuelo y el pulso ya los hace esta pagina; lo que faltaba era el toque
+    // en la mano y el «Añadido» del boton, iguales que en la portada.
+    if (window.NutriganFeedback) {
+        window.NutriganFeedback.vibrar();
+        window.NutriganFeedback.confirmarEnBoton(boton);
     }
 
     // Actualizar contador del carrito después de la animación
@@ -469,34 +481,6 @@ function activarEfectoPulso() {
 }
 
 // Función para mostrar el efecto de texto "Producto añadido al carrito"
-function mostrarEfectoTextoCarrito(boton) {
-    // Crear elemento de texto
-    const textoEfecto = document.createElement('div');
-    textoEfecto.className = 'texto-efecto-carrito';
-    textoEfecto.textContent = 'Producto añadido al carrito';
-    
-    // Asegurar que el botón tenga posición relativa
-    const originalPosition = boton.style.position;
-    if (getComputedStyle(boton).position === 'static') {
-        boton.style.position = 'relative';
-    }
-    
-    // Añadir el texto directamente al botón
-    boton.appendChild(textoEfecto);
-    
-    // Remover el elemento después de la animación
-    setTimeout(() => {
-        if (textoEfecto.parentNode) {
-            textoEfecto.parentNode.removeChild(textoEfecto);
-        }
-        // Restaurar posición original si era necesario
-        if (originalPosition !== '') {
-            boton.style.position = originalPosition;
-        } else {
-            boton.style.position = '';
-        }
-    }, 2000);
-}
 
 // Función para mostrar notificación
 function mostrarNotificacionCarrito(mensaje) {
@@ -821,5 +805,4 @@ function inyectarSchemaItemList(productosData) {
 
 // Exportar funciones para uso global
 window.activarEfectoPulso = activarEfectoPulso;
-window.mostrarEfectoTextoCarrito = mostrarEfectoTextoCarrito;
 

@@ -554,9 +554,11 @@ async function enviarCarritoARender() {
         // Preparar datos del carrito
         const datosCarrito = {
             productos: carrito,
+            // El mismo calculo que el total que ve el cliente en pantalla. Antes
+            // usaba `precioUnitario`, un campo que solo escribia la ficha y que
+            // la sincronizacion con Supabase no actualiza nunca.
             total: carrito.reduce((total, producto) => {
-                const precioUnitario = producto.precioUnitario || producto.precio;
-                return total + (precioUnitario * producto.cantidad);
+                return total + (producto.precio * producto.cantidad);
             }, 0),
             cantidadTotal: carrito.reduce((total, producto) => total + producto.cantidad, 0),
             timestamp: new Date().toISOString()

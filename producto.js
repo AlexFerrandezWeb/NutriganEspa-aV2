@@ -400,23 +400,22 @@ function añadirAlCarrito() {
     // Obtener el botón que se clickeó para mostrar el efecto de texto
     const boton = event.target.closest('.btn-añadir-carrito');
     
-    // Mostrar efecto de texto
-    if (boton) {
-        mostrarEfectoTextoCarrito(boton);
+    // Misma confirmación que en la portada y el catálogo: el botón pasa a
+    // «Añadido» sin cambiar de tamaño, y vibra donde el móvil lo permita.
+    if (boton && window.NutriganFeedback) {
+        window.NutriganFeedback.vibrar();
+        window.NutriganFeedback.confirmarEnBoton(boton);
     }
     
-    // Calcular precio total basado en precio unitario si existe
-    let precioTotal = productoActual.precio;
-    if (productoActual.precio_unitario && productoActual.cantidad_minima) {
-        precioTotal = productoActual.precio_unitario * cantidadActual;
-    }
-    
+    // `precio` es el precio de lo que se vende (la caja), igual que guardan el
+    // catalogo y la portada, y `cantidad` son cajas. Antes aqui se guardaba el
+    // importe de la linea (precio del bolo x cantidad), que dejaba el carrito
+    // con dos formas distintas segun por donde hubiera entrado el producto.
     const productoCarrito = {
         id: productoActual.id,
         nombre: productoActual.nombre,
         descripcion: productoActual.descripcion,
-        precio: precioTotal,
-        precioUnitario: productoActual.precio_unitario || productoActual.precio,
+        precio: productoActual.precio,
         cantidadMinima: productoActual.cantidad_minima || 1,
         imagen: productoActual.imagen,
         cantidad: cantidadActual
@@ -463,20 +462,19 @@ async function comprarAhora() {
     btn.disabled = true;
 
     try {
-        const precioUnitario = productoActual.precio_unitario || productoActual.precio;
-        const precioFinal = precioUnitario * cantidadActual;
+        // Mismo criterio que el carrito: precio de la caja por numero de cajas.
+        const precioCaja = productoActual.precio;
 
         const datosCarrito = {
             productos: [{
                 id: productoActual.id,
                 nombre: productoActual.nombre,
-                precio: precioFinal,
-                precioUnitario: precioUnitario,
+                precio: precioCaja,
                 cantidadMinima: productoActual.cantidad_minima || 1,
                 imagen: productoActual.imagen,
                 cantidad: cantidadActual
             }],
-            total: precioFinal,
+            total: precioCaja * cantidadActual,
             cantidadTotal: cantidadActual,
             timestamp: new Date().toISOString()
         };
@@ -545,34 +543,6 @@ function activarEfectoPulso() {
 }
 
 // Función para mostrar el efecto de texto "Producto añadido al carrito"
-function mostrarEfectoTextoCarrito(boton) {
-    // Crear elemento de texto
-    const textoEfecto = document.createElement('div');
-    textoEfecto.className = 'texto-efecto-carrito';
-    textoEfecto.textContent = 'Producto añadido al carrito';
-    
-    // Asegurar que el botón tenga posición relativa
-    const originalPosition = boton.style.position;
-    if (getComputedStyle(boton).position === 'static') {
-        boton.style.position = 'relative';
-    }
-    
-    // Añadir el texto directamente al botón
-    boton.appendChild(textoEfecto);
-    
-    // Remover el elemento después de la animación
-    setTimeout(() => {
-        if (textoEfecto.parentNode) {
-            textoEfecto.parentNode.removeChild(textoEfecto);
-        }
-        // Restaurar posición original si era necesario
-        if (originalPosition !== '') {
-            boton.style.position = originalPosition;
-        } else {
-            boton.style.position = '';
-        }
-    }, 2000);
-}
 
 // Función para mostrar notificación
 function mostrarNotificacion(mensaje, tipo = 'success') {
@@ -791,4 +761,3 @@ window.comprarAhora = comprarAhora;
 window.verFichaTecnica = verFichaTecnica;
 window.volverAProductos = volverAProductos;
 window.activarEfectoPulso = activarEfectoPulso;
-window.mostrarEfectoTextoCarrito = mostrarEfectoTextoCarrito;
