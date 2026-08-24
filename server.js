@@ -892,9 +892,27 @@ function renderProductoHtml(producto, canonical) {
         + ` alt="${escapeHtml(producto.nombre)}"`
         + ' class="imagen-principal" fetchpriority="high" decoding="async">';
 
+    // El nombre y la descripcion se inyectan tambien en el cuerpo, no solo en
+    // las meta: el HTML que recibe Google traia «Cargando producto...» como
+    // <h1>, que es la senal de contenido mas fuerte de la pagina. El JavaScript
+    // los reescribe despues con lo mismo, asi que no cambia nada para quien
+    // navega; cambia para quien lee el HTML sin ejecutarlo.
+    // La corta, no la completa: es exactamente lo que producto.js pinta despues
+    // en ese hueco. Inyectar la larga dejaria a Google viendo un texto y al
+    // visitante otro distinto en cuanto arranca el JavaScript.
+    const descripcionCuerpo = (producto.descripcion || '').replace(/<[^>]*>/g, '').trim();
+
     return productoTemplate
         .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
         .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', seoTags)
+        .replace('<span id="breadcrumb-nombre">Cargando...</span>',
+            `<span id="breadcrumb-nombre">${escapeHtml(producto.nombre)}</span>`)
+        .replace('<h1 class="producto-hero-titulo" id="producto-nombre">Cargando producto...</h1>',
+            `<h1 class="producto-hero-titulo" id="producto-nombre">${escapeHtml(producto.nombre)}</h1>`)
+        .replace('<h2 class="producto-titulo" id="producto-titulo-detalle">Cargando...</h2>',
+            `<h2 class="producto-titulo" id="producto-titulo-detalle">${escapeHtml(producto.nombre)}</h2>`)
+        .replace('<p>Cargando descripción...</p>',
+            `<p>${escapeHtml(descripcionCuerpo)}</p>`)
         // Por id y no por la cadena completa: asi el reemplazo aguanta si algun dia
         // cambian los atributos de la etiqueta en producto.html.
         .replace(/<img id="producto-imagen-principal"[^>]*>/, imgPrincipal);
