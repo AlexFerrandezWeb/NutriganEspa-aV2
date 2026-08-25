@@ -172,6 +172,14 @@
                                 </div>
                             </div>
 
+                            <!-- Lo ahorrado, fuera de la cuenta y despues del total: ya
+                                 viene descontado en cada linea, asi que aqui es una
+                                 noticia y no un sumando. Nace oculto. -->
+                            <p class="resumen-ahorro" id="resumen-descuento" hidden>
+                                <i class="fas fa-circle-check" aria-hidden="true"></i>
+                                Has ahorrado <strong id="descuento">€0.00</strong> con la oferta por volumen.
+                            </p>
+
                             <div class="resumen-acciones">
                                 <button class="btn-proceder-pago" id="btn-proceder-pago">
                                     <i class="fas fa-credit-card"></i>
@@ -342,6 +350,7 @@
     <script defer src="main.js"></script>
     <script src="js/analytics.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="promociones.js"></script>
     <script src="carrito.js"></script>
     <script>
         // Actualizar contador del carrito

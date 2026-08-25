@@ -70,7 +70,10 @@ async function sincronizarPreciosCarrito() {
     const ids = carrito.map(p => p.id);
     const { data, error } = await sb
         .from('productos')
-        .select('id, nombre, precio, precio_unitario, imagen, stock, disponible')
+        // select('*') y no una lista de columnas, igual que en el resto del sitio:
+        // asi las columnas de la oferta se recogen solas y la consulta no falla
+        // con 42703 mientras no existan.
+        .select('*')
         .in('id', ids);
 
     if (error || !data) return;
@@ -89,6 +92,14 @@ async function sincronizarPreciosCarrito() {
         // carrito. Lo reflejamos aqui para avisar antes de que llegue al pago.
         const disponibleAhora = estaDisponible(actual);
         if (item.disponible !== disponibleAhora) { item.disponible = disponibleAhora; actualizado = true; }
+        // Datos de la oferta. Se refrescan en cada sincronizacion en vez de
+        // guardarse al anadirlo al carrito: asi un carrito que lleve dias en
+        // localStorage coge la oferta vigente hoy y no la del dia que se lleno,
+        // y una oferta retirada desde el panel deja de aplicarse sola.
+        ['promo_cajas_minimas', 'promo_descuento_caja', 'promo_hasta'].forEach(campo => {
+            const valor = actual[campo] != null ? actual[campo] : null;
+            if (item[campo] !== valor) { item[campo] = valor; actualizado = true; }
+        });
     });
 
     if (actualizado) localStorage.setItem('carrito', JSON.stringify(carrito));
@@ -134,15 +145,60 @@ function cargarCarrito() {
     actualizarResumenCarrito();
 }
 
+// Aviso para las lineas que se quedan a un paso de su oferta.
+//
+// Solo aparece por debajo del minimo: en cuanto la linea llega, el descuento ya
+// esta aplicado y el resumen lo enseña, asi que repetirlo aqui seria ruido. La
+// cuenta sale de promociones.js y no se rehace aqui, que es lo que evita que el
+// aviso prometa un ahorro distinto del que luego se cobra.
+function avisoPromoHTML(producto) {
+    const promos = window.NutriganPromos;
+    if (!promos) return '';
+    // A quien tiene el producto agotado no se le pide que compre mas.
+    if (!estaDisponible(producto)) return '';
+
+    // Ya dentro de la oferta: se confirma en el mismo sitio donde estaba el
+    // empujon. El resumen tambien enseña el descuento, pero al final de la
+    // pagina; aqui es donde esta mirando quien acaba de subir la cantidad.
+    const aplicado = promos.descuentoDeLinea(producto, producto.cantidad);
+    if (aplicado > 0) {
+        return `<small class="carrito-item-aviso-promo carrito-item-aviso-promo--aplicado">` +
+            `<i class="fas fa-circle-check" aria-hidden="true"></i> ` +
+            `Descuento aplicado: te ahorras ${promos.formatoEuros(aplicado)} en el pedido.</small>`;
+    }
+
+    const falta = promos.loQueFaltaParaLaPromo(producto, producto.cantidad);
+    if (!falta) return '';
+
+    const cajas = falta.cajasQueFaltan === 1 ? '1 caja' : falta.cajasQueFaltan + ' cajas';
+    const ahorro = promos.formatoEuros(falta.ahorroSiLasAnade);
+
+    return `<small class="carrito-item-aviso-promo">` +
+        `<i class="fas fa-tag" aria-hidden="true"></i> ` +
+        `Añade ${cajas} más y te ahorras ${ahorro} en el pedido.</small>`;
+}
+
 // Función para crear un item del carrito
 function crearItemCarrito(producto, index) {
     const itemDiv = document.createElement('div');
     itemDiv.className = 'carrito-item';
     itemDiv.setAttribute('data-index', index);
     
-    const precioUnitario = producto.precio;
-    const precioTotal = producto.precio * producto.cantidad;
     const cantidadMinima = producto.cantidadMinima || 1;
+
+    // Precios de la linea, ya con su oferta descontada si llega al minimo, y con
+    // el importe de antes tachado al lado para no esconder nada. Se hace aqui, y
+    // no con una resta suelta en el resumen, porque asi la suma de lo que se ve
+    // en pantalla da el subtotal: el cliente puede comprobarlo el mismo en vez
+    // de tener que fiarse del total.
+    const descuentoDeEstaLinea = window.NutriganPromos
+        ? window.NutriganPromos.descuentoDeLinea(producto, producto.cantidad)
+        : 0;
+    const enOferta = descuentoDeEstaLinea > 0;
+    const totalAntes = producto.precio * producto.cantidad;
+    const precioTotal = totalAntes - descuentoDeEstaLinea;
+    const precioUnitario = producto.cantidad ? precioTotal / producto.cantidad : producto.precio;
+    const tachado = importe => `<s class="carrito-item-precio-antes">€${importe.toFixed(2)}</s> `;
     
     itemDiv.innerHTML = `
         <a href="/producto/${slugify(producto.nombre)}" class="carrito-item-enlace-completo">
@@ -157,8 +213,8 @@ function crearItemCarrito(producto, index) {
             </div>
         </a>
         <div class="carrito-item-precios">
-            <div class="carrito-item-precio-unitario">€${precioUnitario.toFixed(2)} c/u</div>
-            <div class="carrito-item-precio-total">€${precioTotal.toFixed(2)}</div>
+            <div class="carrito-item-precio-unitario">${enOferta ? tachado(producto.precio) : ''}€${precioUnitario.toFixed(2)} c/u</div>
+            <div class="carrito-item-precio-total">${enOferta ? tachado(totalAntes) : ''}€${precioTotal.toFixed(2)}</div>
         </div>
         <div class="carrito-item-controls">
             <div class="carrito-item-cantidad">
@@ -175,6 +231,7 @@ function crearItemCarrito(producto, index) {
                 <i class="fas fa-trash"></i>
             </button>
         </div>
+        ${avisoPromoHTML(producto)}
     `;
     
     return itemDiv;
@@ -266,6 +323,19 @@ function botonesPago() {
     ].filter(Boolean);
 }
 
+// Descuento por volumen de todo el carrito.
+//
+// La regla vive en promociones.js y es la misma que aplica el servidor al cobrar.
+// Aqui solo se pinta: quien decide lo que se cobra es create-checkout-session con
+// los datos de Supabase, asi que trastear el carrito a mano no rebaja el precio,
+// como mucho se lleva una sorpresa en la pantalla de pago.
+function descuentoDelCarrito() {
+    if (!window.NutriganPromos) return 0;
+    return window.NutriganPromos.descuentoDeCarrito(
+        carrito.map(p => ({ producto: p, cantidad: p.cantidad }))
+    ).total;
+}
+
 // Función para actualizar resumen del carrito
 function actualizarResumenCarrito() {
     const subtotalElement = document.getElementById('subtotal');
@@ -273,13 +343,21 @@ function actualizarResumenCarrito() {
     const totalElement = document.getElementById('total');
     const cantidadTotalElement = document.getElementById('carrito-cantidad-total');
 
-    const subtotal = carrito.reduce((total, producto) => {
+    const antesDeLaOferta = carrito.reduce((total, producto) => {
         return total + (producto.precio * producto.cantidad);
     }, 0);
     
     // Calcular envío (siempre gratuito)
     const envio = 0;
     
+    const descuento = descuentoDelCarrito();
+
+    // El subtotal es lo que suman las lineas tal y como estan escritas arriba,
+    // con su oferta ya aplicada. El ahorro se cuenta aparte y como nota, no como
+    // una resta dentro de la cuenta: descontar en la linea y volver a restar
+    // aqui es justo lo que hacia el resumen imposible de seguir a mano.
+    const subtotal = antesDeLaOferta - descuento;
+
     // Calcular total
     const total = subtotal + envio;
     
@@ -289,6 +367,16 @@ function actualizarResumenCarrito() {
     // Actualizar elementos
     subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
     envioElement.textContent = envio === 0 ? 'Gratis' : `€${envio.toFixed(2)}`;
+
+    // La nota del ahorro solo existe cuando hay ahorro: un "€0.00" fijo en el
+    // resumen invita a pensar que la oferta no ha entrado.
+    const notaAhorro = document.getElementById('resumen-descuento');
+    const descuentoElement = document.getElementById('descuento');
+    if (notaAhorro && descuentoElement) {
+        notaAhorro.hidden = descuento <= 0;
+        descuentoElement.textContent = `€${descuento.toFixed(2)}`;
+    }
+
     totalElement.textContent = `€${total.toFixed(2)}`;
     cantidadTotalElement.textContent = `${cantidadTotal} producto${cantidadTotal !== 1 ? 's' : ''}`;
     
@@ -559,7 +647,7 @@ async function enviarCarritoARender() {
             // la sincronizacion con Supabase no actualiza nunca.
             total: carrito.reduce((total, producto) => {
                 return total + (producto.precio * producto.cantidad);
-            }, 0),
+            }, 0) - descuentoDelCarrito(),
             cantidadTotal: carrito.reduce((total, producto) => total + producto.cantidad, 0),
             timestamp: new Date().toISOString()
         };

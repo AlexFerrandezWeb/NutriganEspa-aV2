@@ -596,7 +596,10 @@ app.post('/api/create-checkout-session', async (req, res) => {
         const ids = productos.map(p => p.id);
         const { data: productosActuales, error: sbError } = await supabaseAdmin
             .from('productos')
-            .select('id, nombre, precio, imagen')
+            // select('*') y no una lista de columnas: hacen falta tambien las
+            // columnas de la oferta, y asi se recogen solas sin fallar con 42703
+            // mientras no existan.
+            .select('*')
             .in('id', ids);
 
         if (sbError || !productosActuales) {
@@ -607,7 +610,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
         const lineItems = productos.map(producto => {
             const actual = productosActuales.find(p => p.id === producto.id);
             if (!actual) throw new Error(`Producto ${producto.id} no encontrado`);
-            const precioUnitario = actual.precio;
+            // Oferta por volumen. Se calcula aqui, con los datos de Supabase y la
+            // cantidad de esta linea, y no se lee del carrito: el precio que se
+            // cobra lo decide el servidor, igual que el precio normal.
+            const promo = promos.promocionDe(actual);
+            const aplicaLaOferta = promo && producto.cantidad >= promo.cajasMinimas;
+            const precioUnitario = aplicaLaOferta ? promo.precioCajaPromo : actual.precio;
             const imagenUrl = actual.imagen && actual.imagen.startsWith('http')
                 ? actual.imagen
                 : `https://www.xn--nutriganespaa-tkb.com/${actual.imagen}`;
