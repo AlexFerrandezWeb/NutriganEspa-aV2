@@ -241,8 +241,8 @@
     // otra va sin imagen y ademas aparece en los diez Bolutech que no tienen
     // oferta encima, donde un "Y consigue este..." se quedaria colgando sin
     // nada a lo que referirse.
-    var FRASE_APLICADOR = 'Aplicador de regalo con tu primera compra de la gama de productos Bolutech.';
-    var FRASE_APLICADOR_CON_FOTO = 'Y consigue este aplicador de regalo con tu primera compra de la gama de productos Bolutech.';
+    var FRASE_APLICADOR = 'Aplicador de regalo con tu primera compra de cualquier producto de la gama Bolutech.';
+    var FRASE_APLICADOR_CON_FOTO = 'Y consigue este aplicador de regalo con tu primera compra de cualquier producto de la gama Bolutech.';
 
     function esDeLaGamaBolutech(producto) {
         return !!producto && /bolutech/i.test(String(producto.nombre || ''));
