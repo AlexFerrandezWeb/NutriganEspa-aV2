@@ -136,16 +136,21 @@ function mostrarProducto(producto) {
     // Oferta vigente, si la hay.
     const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto);
 
-    // Con promocion, la cabecera pasa a ensenar el precio de la caja tachado
-    // junto al rebajado. La condicion ("desde 2 cajas") va pegada al importe y
-    // no en una nota aparte: el precio rebajado solo se paga a partir de ese
-    // minimo, y suelto seria enganoso para quien compre una sola caja ademas de
-    // no cuadrar con el feed de Shopping, que publica el de la caja suelta.
-    const contenedorPrecio = document.getElementById('producto-precio');
-    if (promo && contenedorPrecio) {
-        contenedorPrecio.classList.add('producto-precio--promo');
-        contenedorPrecio.innerHTML = window.NutriganPromos.precioConTachadoHTML(promo);
+    // Con oferta, la ficha arranca en el minimo de cajas que la activa: es la
+    // compra que el sitio anuncia en la portada y en el catalogo, y dejarla en 1
+    // obliga a descubrir por tanteo que hay que subir una mas. Se puede bajar a
+    // 1, y entonces la cabecera vuelve sola al precio normal.
+    const inputCantidad = document.getElementById('cantidad-producto');
+    if (promo && inputCantidad) {
+        const arranque = Math.min(promo.cajasMinimas, producto.stock || 99);
+        if (arranque > cantidadActual) {
+            inputCantidad.value = arranque;
+            cantidadActual = arranque;
+        }
     }
+
+    actualizarPrecioSegunCantidad();
+    actualizarBotonesCantidad();
 
     const cajaPromo = document.getElementById('producto-promo');
     if (cajaPromo && window.NutriganPromos) {
@@ -351,7 +356,10 @@ function cambiarCantidad(cambio) {
     
     if (nuevaCantidad >= cantidadMinima && nuevaCantidad <= cantidadMaxima) {
         input.value = nuevaCantidad;
-        // No llamar a actualizarCantidad aquí, el event listener 'input' lo hará automáticamente
+        // A mano y no via el listener de 'input': asignar input.value por codigo
+        // no dispara ese evento, asi que sin esta llamada cantidadActual se queda
+        // en el valor anterior y el precio y los botones no se enteran del cambio.
+        actualizarCantidad();
     }
 }
 
@@ -377,6 +385,32 @@ function actualizarCantidad() {
         }
         actualizarBotonesCantidad();
     }
+
+    actualizarPrecioSegunCantidad();
+}
+
+// Precio de la cabecera para la cantidad que haya ahora mismo en el selector.
+//
+// La oferta pide un minimo de cajas, asi que el precio rebajado solo es cierto a
+// partir de ahi: con una sola caja la cabecera vuelve al precio normal en vez de
+// anunciar un importe que el carrito no va a cobrar. La condicion ("desde 2
+// cajas") sigue viajando pegada al importe, y el precio de la caja suelta es
+// ademas el que publica el feed de Shopping.
+function actualizarPrecioSegunCantidad() {
+    const contenedorPrecio = document.getElementById('producto-precio');
+    if (!contenedorPrecio || !productoActual) return;
+
+    const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(productoActual);
+    // Sin oferta no hay nada que alternar: la cabecera se queda con lo que pinto
+    // mostrarProducto(), que en los productos con cantidad minima es el precio
+    // por unidad y no el de la caja.
+    if (!promo) return;
+
+    const aplicaLaOferta = cantidadActual >= promo.cajasMinimas;
+    contenedorPrecio.classList.toggle('producto-precio--promo', aplicaLaOferta);
+    contenedorPrecio.innerHTML = aplicaLaOferta
+        ? window.NutriganPromos.precioConTachadoHTML(promo)
+        : `€${parseFloat(productoActual.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
 }
 
 // Función para actualizar botones de cantidad
