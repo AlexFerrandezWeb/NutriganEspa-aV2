@@ -1541,7 +1541,7 @@ function bloqueOfertaHtml(producto, promo) {
                     <span>Llevando <strong>${promo.cajasMinimas} cajas o más</strong>. El descuento se aplica solo en el carrito.</span>
                 </p>
 
-                ${promos.esDeLaGamaBolutech(producto) ? promos.avisoAplicadorHTML('promo-destacada-regalo') : ''}
+                ${promos.esDeLaGamaBolutech(producto) ? promos.avisoAplicadorHTML('promo-destacada-regalo', { conFoto: true }) : ''}
 
                 <a href="${enlace}" class="promo-destacada-btn">Aprovechar la oferta</a>
 

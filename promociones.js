@@ -247,9 +247,21 @@
         return (lineas || []).some(esDeLaGamaBolutech);
     }
 
-    function avisoAplicadorHTML(clase) {
-        return '<p class="aviso-aplicador ' + (clase || '') + '">' +
-            '<i class="fas fa-gift" aria-hidden="true"></i> ' + FRASE_APLICADOR + '</p>';
+    /**
+     * El aviso del aplicador. Con `conFoto` deja de ser una linea y pasa a ser
+     * una tira con la imagen del producto al lado, que es como se anuncia
+     * dentro del bloque de oferta de la portada: alli sustituye a la seccion
+     * suelta que habia antes, asi que tiene que enseñar lo mismo que ella.
+     * En la ficha y en el carrito basta la linea, que van sobradas de imagenes.
+     */
+    function avisoAplicadorHTML(clase, opciones) {
+        var conFoto = !!(opciones && opciones.conFoto);
+        var abre = conFoto
+            ? '<img class="aviso-aplicador-foto" src="assets/aplicador_bolutech.jpeg" ' +
+              'alt="Aplicador Bolutech" loading="lazy" decoding="async">'
+            : '<i class="fas fa-gift" aria-hidden="true"></i> ';
+        return '<p class="aviso-aplicador ' + (conFoto ? 'aviso-aplicador--con-foto ' : '') +
+            (clase || '') + '">' + abre + '<span>' + FRASE_APLICADOR + '</span></p>';
     }
 
     var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
