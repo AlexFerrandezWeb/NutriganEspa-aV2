@@ -9818,9 +9818,14 @@ body {
         font-size: clamp(0.78rem, 1.8svh, 0.9rem);
     }
 
+    /* Mas ancha que en escritorio a proposito: aqui la foto se apila sobre el
+       texto y tiene toda la tira para ella, y al ser el aplicador una varilla,
+       ganar ancho es lo que lo hace verse largo. Sigue atada a la altura de la
+       pantalla para no romper lo de que la oferta quepa de una sola vez. */
     .promo-destacada-regalo .aviso-aplicador-foto {
-        flex-basis: clamp(7rem, 22svh, 14rem);
-        width: clamp(7rem, 22svh, 14rem);
+        flex-basis: clamp(11rem, 34svh, 20rem);
+        width: clamp(11rem, 34svh, 20rem);
+        max-width: 100%;
     }
 
     .promo-destacada-btn {
