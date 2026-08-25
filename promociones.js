@@ -199,6 +199,19 @@
         return s + ' €';
     }
 
+    /**
+     * 3 -> "3,00 €". Como formatoEuros pero sin comerse los céntimos.
+     *
+     * Es para los importes que se enseñan emparejados con otro: en el titular
+     * de la oferta, «3 €» junto a «antes 3,60 €» parecen de dos monedas
+     * distintas, y comparar de un vistazo es justo lo que se le pide a ese
+     * titular. Donde el importe va solo —el ahorro, el sello del descuento—
+     * sigue mandando formatoEuros, que se lee mejor sin el «,00».
+     */
+    function formatoEurosConCentimos(n) {
+        return parseFloat(n).toFixed(2).replace('.', ',') + ' €';
+    }
+
     /** "€70.00" — el formato que ya usan las tarjetas y la ficha del sitio. */
     function formatoPrecioSitio(n) {
         return '€' + parseFloat(n).toFixed(2);
@@ -249,7 +262,7 @@
         return '<span class="producto-precio-antes">' + formatoPrecioSitio(promo.precioCajaNormal) + '</span>' +
             '<span class="producto-precio-ahora">' + formatoPrecioSitio(promo.precioCajaPromo) + '</span> ' +
             '<span class="precio-iva">IVA inc.</span>' +
-            '<span class="producto-precio-condicion">desde ' + promo.cajasMinimas +
+            '<span class="producto-precio-condicion">mínimo ' + promo.cajasMinimas +
             ' cajas &middot; ahorras ' + formatoEuros(promo.descuentoPorCaja) + ' en cada caja</span>';
     }
 
@@ -282,6 +295,7 @@
         loQueFaltaParaLaPromo: loQueFaltaParaLaPromo,
         tiempoRestante: tiempoRestante,
         formatoEuros: formatoEuros,
+        formatoEurosConCentimos: formatoEurosConCentimos,
         formatoPrecioSitio: formatoPrecioSitio,
         formatoUnidadSitio: formatoUnidadSitio,
         diaDeFin: diaDeFin,

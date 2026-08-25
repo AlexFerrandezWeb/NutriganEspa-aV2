@@ -1455,10 +1455,10 @@ function bloqueOfertaHtml(producto, promo) {
     // Con precio unitario, el titular es el precio por unidad (que es como
     // compara el ganadero); sin él, el de la caja.
     const titular = promo.precioUnidadPromo
-        ? `<span class="promo-destacada-precio-nuevo">${promos.formatoEuros(promo.precioUnidadPromo)}<span class="promo-destacada-unidad">/unidad</span></span>
-                    <span class="promo-destacada-precio-viejo"><span class="visually-hidden">Antes </span>${promos.formatoEuros(promo.precioUnidadNormal)}</span>`
-        : `<span class="promo-destacada-precio-nuevo">${promos.formatoEuros(promo.precioCajaPromo)}</span>
-                    <span class="promo-destacada-precio-viejo"><span class="visually-hidden">Antes </span>${promos.formatoEuros(promo.precioCajaNormal)}</span>`;
+        ? `<span class="promo-destacada-precio-nuevo">${promos.formatoEurosConCentimos(promo.precioUnidadPromo)}<span class="promo-destacada-unidad">/unidad</span></span>
+                    <span class="promo-destacada-precio-viejo"><span class="visually-hidden">Antes </span>${promos.formatoEurosConCentimos(promo.precioUnidadNormal)}</span>`
+        : `<span class="promo-destacada-precio-nuevo">${promos.formatoEurosConCentimos(promo.precioCajaPromo)}</span>
+                    <span class="promo-destacada-precio-viejo"><span class="visually-hidden">Antes </span>${promos.formatoEurosConCentimos(promo.precioCajaNormal)}</span>`;
 
     return `<section class="promo-destacada" id="promo-destacada"
              data-promo-caduca="${promo.caduca}"
