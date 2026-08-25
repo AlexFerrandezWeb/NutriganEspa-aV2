@@ -6128,8 +6128,8 @@ body {
 /* El aplicador es una varilla: sale muy ancho y muy bajo. Sobre fondo blanco,
    que es el de la propia foto, para que no recorte contra el bloque oscuro. */
 .aviso-aplicador-foto {
-    flex: 0 0 10rem;
-    width: 10rem;
+    flex: 0 0 14rem;
+    width: 14rem;
     height: auto;
     border-radius: 6px;
     background: #fff;
@@ -6151,6 +6151,7 @@ body {
 .promo-destacada-regalo {
     background: rgba(255, 255, 255, 0.08);
     color: inherit;
+    margin-bottom: 1.5rem;
 }
 
 /* Lo ahorrado, en verde y fuera del bloque de la cuenta: no es un sumando mas,
