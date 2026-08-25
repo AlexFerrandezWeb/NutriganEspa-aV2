@@ -323,6 +323,26 @@ function botonesPago() {
     ].filter(Boolean);
 }
 
+// De donde sale el ahorro, para nombrarlo en el resumen.
+//
+// Se nombra el producto en vez de decir "la oferta por volumen" a secas: con
+// varios productos delante, saber cual la trae es lo que permite cuadrar la
+// cuenta. Y se saca del desglose que ya devuelve descuentoDeCarrito en vez de
+// escribir un nombre fijo, porque las ofertas las monta el cliente desde el
+// panel y manana pueden estar en otro producto o en varios.
+function origenDelDescuento() {
+    if (!window.NutriganPromos) return 'con la oferta por volumen';
+
+    const nombres = window.NutriganPromos.descuentoDeCarrito(
+        carrito.map(p => ({ producto: p, cantidad: p.cantidad }))
+    ).lineas.map(l => l.producto);
+
+    if (nombres.length === 1) return 'con la oferta de ' + nombres[0];
+    if (nombres.length === 2) return 'con las ofertas de ' + nombres[0] + ' y ' + nombres[1];
+    // Con tres o mas, la lista se come la frase y deja de leerse.
+    return 'con las ofertas por volumen';
+}
+
 // Descuento por volumen de todo el carrito.
 //
 // La regla vive en promociones.js y es la misma que aplica el servidor al cobrar.
@@ -376,6 +396,9 @@ function actualizarResumenCarrito() {
         notaAhorro.hidden = descuento <= 0;
         descuentoElement.textContent = `€${descuento.toFixed(2)}`;
     }
+
+    const origenElement = document.getElementById('descuento-origen');
+    if (origenElement) origenElement.textContent = origenDelDescuento();
 
     // El aplicador es uno por pedido, no uno por linea: basta con que haya
     // algun Bolutech en el carrito para que se anuncie una sola vez.
