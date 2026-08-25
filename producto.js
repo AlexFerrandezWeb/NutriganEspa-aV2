@@ -162,7 +162,7 @@ function mostrarProducto(producto) {
     const cajaAplicador = document.getElementById('producto-aplicador');
     if (cajaAplicador && window.NutriganPromos) {
         cajaAplicador.innerHTML = window.NutriganPromos.esDeLaGamaBolutech(producto)
-            ? window.NutriganPromos.avisoAplicadorHTML('aviso-aplicador--ficha')
+            ? window.NutriganPromos.avisoAplicadorHTML('aviso-aplicador--ficha', { variante: 'ficha', conFoto: true })
             : '';
     }
     

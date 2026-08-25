@@ -236,13 +236,20 @@
        manana se anade otro entra solo. Si algun dia hace falta un Bolutech
        fuera del regalo, esto tendra que pasar a ser una columna del panel. */
 
-    // Dos redacciones, juntas aqui para que no se separen. La de la tira dice
-    // "este aplicador" porque al lado esta la foto: senala a algo que se ve. La
-    // otra va sin imagen y ademas aparece en los diez Bolutech que no tienen
-    // oferta encima, donde un "Y consigue este..." se quedaria colgando sin
-    // nada a lo que referirse.
-    var FRASE_APLICADOR = 'Aplicador de regalo con tu primera compra de cualquier producto de la gama Bolutech.';
-    var FRASE_APLICADOR_CON_FOTO = 'Y consigue este aplicador de regalo con tu primera compra de cualquier producto de la gama Bolutech.';
+    // Una redaccion por superficie, juntas aqui para que no se separen.
+    //
+    // La de la portada dice "este aplicador" porque al lado esta la foto y
+    // senala a algo que se ve, y nombra la gama entera: alli el ganadero puede
+    // estar mirando el unico Bolutech en oferta y conviene decirle que el
+    // regalo vale para cualquiera de los once.
+    //
+    // La de la ficha no necesita repetir la gama, porque ya esta dentro de un
+    // producto Bolutech; lo que le hace falta es dejar clara la condicion, que
+    // es de quien compra por primera vez.
+    var FRASES_APLICADOR = {
+        oferta: 'Y consigue este aplicador de regalo con tu primera compra de cualquier producto de la gama Bolutech.',
+        ficha: 'Aplicador de regalo si esta es tu primera compra Bolutech.'
+    };
 
     function esDeLaGamaBolutech(producto) {
         return !!producto && /bolutech/i.test(String(producto.nombre || ''));
@@ -254,21 +261,24 @@
     }
 
     /**
-     * El aviso del aplicador. Con `conFoto` deja de ser una linea y pasa a ser
-     * una tira con la imagen del producto al lado, que es como se anuncia
-     * dentro del bloque de oferta de la portada: alli sustituye a la seccion
-     * suelta que habia antes, asi que tiene que enseñar lo mismo que ella.
-     * En la ficha y en el carrito basta la linea, que van sobradas de imagenes.
+     * El aviso del aplicador.
+     *
+     * `variante` elige la redaccion y `conFoto` si se enseña la imagen. Van
+     * sueltas a proposito: al principio la foto arrastraba la frase, y en
+     * cuanto la ficha quiso imagen con su propio texto eso dejo de valer.
+     * Sin foto se pone el icono de regalo, para que el aviso no arranque
+     * directamente con letra suelta.
      */
     function avisoAplicadorHTML(clase, opciones) {
-        var conFoto = !!(opciones && opciones.conFoto);
+        var o = opciones || {};
+        var conFoto = !!o.conFoto;
+        var frase = FRASES_APLICADOR[o.variante] || FRASES_APLICADOR.oferta;
         var abre = conFoto
             ? '<img class="aviso-aplicador-foto" src="assets/aplicador_bolutech.jpeg" ' +
               'alt="Aplicador Bolutech" loading="lazy" decoding="async">'
             : '<i class="fas fa-gift" aria-hidden="true"></i> ';
         return '<p class="aviso-aplicador ' + (conFoto ? 'aviso-aplicador--con-foto ' : '') +
-            (clase || '') + '">' + abre + '<span>' +
-            (conFoto ? FRASE_APLICADOR_CON_FOTO : FRASE_APLICADOR) + '</span></p>';
+            (clase || '') + '">' + abre + '<span>' + frase + '</span></p>';
     }
 
     var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',

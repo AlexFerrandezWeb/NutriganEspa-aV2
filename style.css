@@ -6153,6 +6153,26 @@ body {
     margin-top: 0.75rem;
 }
 
+/* Aqui la foto se ata al ancho de la columna y no a la altura de la pantalla:
+   la ficha se lee scrolleando, asi que no hay que pelear por que entre nada en
+   un solo golpe de vista, que es lo que si condiciona el bloque de la portada. */
+.aviso-aplicador--ficha .aviso-aplicador-foto {
+    flex-basis: clamp(8rem, 38%, 14rem);
+    width: clamp(8rem, 38%, 14rem);
+    max-width: 100%;
+}
+
+/* En movil la foto no cabe al lado del texto y se baja sola, y ahi quedarse en
+   el minimo la dejaba pequeña teniendo la fila entera libre: pasa a ocuparla.
+   El corte va en 430px, el ancho de los moviles grandes: por encima si entra al
+   lado del texto y forzar el ancho completo la partiria sin necesidad. */
+@media (max-width: 430px) {
+    .aviso-aplicador--ficha .aviso-aplicador-foto {
+        flex-basis: 100%;
+        width: 100%;
+    }
+}
+
 /* En el bloque de la portada, sobre fondo oscuro, el verde no contrasta: se
    hereda el color del bloque y se marca solo con un fondo tenue. */
 .promo-destacada-regalo {
