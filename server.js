@@ -633,7 +633,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         });
 
         // Crear sesión de checkout
-        const session = await stripe.checkout.sessions.create({
+        const opcionesSesion = {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
@@ -693,8 +693,45 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 submit: {
                     message: 'Nutrigan España - Productos de calidad para el bienestar animal. Envío gratuito incluido en todos los pedidos.'
                 }
+            },
+            // Icono de la pestaña del navegador en la pagina de Stripe. Sin esto
+            // Checkout usa el del Dashboard, al que no tenemos acceso: la cuenta
+            // es del cliente. Con branding_settings se manda en cada sesion y
+            // pisa lo que haya configurado alli.
+            //
+            // type 'url' y no 'file' a proposito: 'file' obliga a subir el PNG a
+            // Stripe con la API y guardar el id, o sea a tener una clave que
+            // funcione. Apuntando a la URL publica se usa el mismo fichero que
+            // ya sirve el sitio, que es justo lo que hace falta para que la
+            // pestaña se vea igual que en el resto de paginas.
+            branding_settings: {
+                icon: {
+                    type: 'url',
+                    url: 'https://www.xn--nutriganespaa-tkb.com/assets/favicon-nutrigan.png'
+                }
             }
-        });
+        };
+
+        // branding_settings no existe en la version de API del proyecto, asi que
+        // se pide la que lo trae solo para esta llamada. Global seria peligroso:
+        // mas abajo se lee session.shipping_details al recuperar la sesion para
+        // el correo del pedido, y ese campo cambia de sitio en versiones nuevas.
+        // Aqui solo se leen id y url, que no cambian.
+        let session;
+        try {
+            session = await stripe.checkout.sessions.create(
+                opcionesSesion,
+                { apiVersion: '2025-09-30.clover' }
+            );
+        } catch (errorMarca) {
+            // Un icono no vale una venta perdida: si la marca por sesion la
+            // rechaza Stripe -version, formato del PNG, lo que sea- se reintenta
+            // sin ella y el cliente puede pagar igual. Si el fallo era otro, el
+            // segundo intento vuelve a fallar y lo recoge el catch de fuera.
+            console.error('Marca por sesion rechazada, se reintenta sin ella:', errorMarca.message);
+            delete opcionesSesion.branding_settings;
+            session = await stripe.checkout.sessions.create(opcionesSesion);
+        }
 
         res.json({
             success: true,
