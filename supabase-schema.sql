@@ -83,7 +83,7 @@ ALTER TABLE productos ADD COLUMN IF NOT EXISTS promo_descuento_caja DECIMAL(10,2
 ALTER TABLE productos ADD COLUMN IF NOT EXISTS promo_hasta          DATE;
 
 -- Oferta de Bolutech Flash hasta fin de 2026: desde 2 cajas, 12 EUR menos por
--- caja (70 EUR -> 58 EUR, es decir 3,50 EUR -> 2,90 EUR por bolo).
+-- caja (72 EUR -> 60 EUR, es decir 3,60 EUR -> 3,00 EUR por bolo).
 -- A partir de aqui se cambia desde el panel, sin SQL.
 UPDATE productos
    SET promo_cajas_minimas  = 2,
