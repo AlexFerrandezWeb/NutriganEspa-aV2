@@ -236,7 +236,13 @@
        manana se anade otro entra solo. Si algun dia hace falta un Bolutech
        fuera del regalo, esto tendra que pasar a ser una columna del panel. */
 
+    // Dos redacciones, juntas aqui para que no se separen. La de la tira dice
+    // "este aplicador" porque al lado esta la foto: senala a algo que se ve. La
+    // otra va sin imagen y ademas aparece en los diez Bolutech que no tienen
+    // oferta encima, donde un "Y consigue este..." se quedaria colgando sin
+    // nada a lo que referirse.
     var FRASE_APLICADOR = 'Aplicador de regalo con tu primera compra de la gama Bolutech.';
+    var FRASE_APLICADOR_CON_FOTO = 'Y consigue este aplicador de regalo con tu primera compra de la gama Bolutech.';
 
     function esDeLaGamaBolutech(producto) {
         return !!producto && /bolutech/i.test(String(producto.nombre || ''));
@@ -261,7 +267,8 @@
               'alt="Aplicador Bolutech" loading="lazy" decoding="async">'
             : '<i class="fas fa-gift" aria-hidden="true"></i> ';
         return '<p class="aviso-aplicador ' + (conFoto ? 'aviso-aplicador--con-foto ' : '') +
-            (clase || '') + '">' + abre + '<span>' + FRASE_APLICADOR + '</span></p>';
+            (clase || '') + '">' + abre + '<span>' +
+            (conFoto ? FRASE_APLICADOR_CON_FOTO : FRASE_APLICADOR) + '</span></p>';
     }
 
     var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
