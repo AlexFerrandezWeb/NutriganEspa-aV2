@@ -6089,6 +6089,13 @@ body {
    que ya usan el contador y el descuento aplicado. */
 .aviso-aplicador,
 .resumen-regalo {
+    /* reset.css pone hyphens:auto en todo el sitio, y aqui partia palabras por
+       la mitad -"cual-quier", "pri-mera"-, que en un aviso de dos o tres lineas
+       canta mucho. balance reparte las lineas parejas y evita ademas que la
+       ultima se quede con una palabra suelta. */
+    -webkit-hyphens: none;
+    hyphens: none;
+    text-wrap: balance;
     display: block;
     margin: 0.9rem 0 0;
     padding: 0.65rem 0.8rem;
@@ -9798,6 +9805,22 @@ body {
         margin-bottom: clamp(0.6rem, 2svh, 1.5rem);
         padding: clamp(0.4rem, 1.2svh, 0.7rem) 0.85rem;
         font-size: clamp(0.78rem, 1.8svh, 0.95rem);
+    }
+
+    /* La tira del regalo sigue el mismo patron que el resto del bloque en
+       pantalla estrecha: se encoge con la altura disponible para que la oferta
+       siga cabiendo de una sola vez, que es de lo que va este breakpoint. */
+    .promo-destacada-regalo {
+        justify-content: center;
+        margin-bottom: clamp(0.6rem, 2svh, 1.5rem);
+        padding: clamp(0.4rem, 1.2svh, 0.7rem) 0.85rem;
+        gap: clamp(0.35rem, 1.2svh, 0.9rem);
+        font-size: clamp(0.78rem, 1.8svh, 0.9rem);
+    }
+
+    .promo-destacada-regalo .aviso-aplicador-foto {
+        flex-basis: clamp(7rem, 22svh, 14rem);
+        width: clamp(7rem, 22svh, 14rem);
     }
 
     .promo-destacada-btn {
