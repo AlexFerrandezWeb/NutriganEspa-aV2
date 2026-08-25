@@ -6171,6 +6171,13 @@ body {
         flex-basis: 100%;
         width: 100%;
     }
+
+    /* Con la foto ocupando la fila entera, el texto debajo se centra bajo ella.
+       Alineado a la izquierda y con las lineas parejas por text-wrap: balance,
+       quedaba corto y arrinconado contra el borde izquierdo del recuadro. */
+    .aviso-aplicador--ficha {
+        text-align: center;
+    }
 }
 
 /* En el bloque de la portada, sobre fondo oscuro, el verde no contrasta: se
