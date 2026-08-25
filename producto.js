@@ -156,6 +156,15 @@ function mostrarProducto(producto) {
     if (cajaPromo && window.NutriganPromos) {
         cajaPromo.innerHTML = window.NutriganPromos.cajaFichaHTML(promo);
     }
+
+    // El aplicador va aparte de la oferta por volumen: son dos regalos
+    // distintos y un Bolutech puede tener uno, el otro, los dos o ninguno.
+    const cajaAplicador = document.getElementById('producto-aplicador');
+    if (cajaAplicador && window.NutriganPromos) {
+        cajaAplicador.innerHTML = window.NutriganPromos.esDeLaGamaBolutech(producto)
+            ? window.NutriganPromos.avisoAplicadorHTML('aviso-aplicador--ficha')
+            : '';
+    }
     
     // En la ficha va la descripcion completa, no la de una linea: es el unico
     // sitio donde cabe y donde aporta. Las tarjetas del catalogo y de la

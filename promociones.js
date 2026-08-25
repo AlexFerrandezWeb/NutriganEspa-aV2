@@ -222,6 +222,36 @@
         return parseFloat(n).toFixed(2).replace('.', ',') + '€/U';
     }
 
+    /* --------------------------------------------------------------------
+       Regalo de la gama Bolutech
+       --------------------------------------------------------------------
+
+       El aplicador no es un producto de la base ni una linea del pedido: es
+       una promesa que el cliente cumple al empaquetar. Aqui solo se decide
+       donde se anuncia, y se anuncia con la misma frase en las tres
+       superficies para que no acabe redactado de tres maneras distintas.
+
+       La gama se reconoce por el nombre porque es lo unico que hay: no existe
+       columna que la marque. Acierta con los once Bolutech de hoy, y si
+       manana se anade otro entra solo. Si algun dia hace falta un Bolutech
+       fuera del regalo, esto tendra que pasar a ser una columna del panel. */
+
+    var FRASE_APLICADOR = 'Aplicador de regalo con tu primera compra de la gama Bolutech.';
+
+    function esDeLaGamaBolutech(producto) {
+        return !!producto && /bolutech/i.test(String(producto.nombre || ''));
+    }
+
+    /** true si alguna linea del carrito da derecho al aplicador. */
+    function elCarritoLlevaAplicador(lineas) {
+        return (lineas || []).some(esDeLaGamaBolutech);
+    }
+
+    function avisoAplicadorHTML(clase) {
+        return '<p class="aviso-aplicador ' + (clase || '') + '">' +
+            '<i class="fas fa-gift" aria-hidden="true"></i> ' + FRASE_APLICADOR + '</p>';
+    }
+
     var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
                  'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
@@ -298,6 +328,9 @@
         formatoEurosConCentimos: formatoEurosConCentimos,
         formatoPrecioSitio: formatoPrecioSitio,
         formatoUnidadSitio: formatoUnidadSitio,
+        esDeLaGamaBolutech: esDeLaGamaBolutech,
+        elCarritoLlevaAplicador: elCarritoLlevaAplicador,
+        avisoAplicadorHTML: avisoAplicadorHTML,
         diaDeFin: diaDeFin,
         precioUnidadTachadoHTML: precioUnidadTachadoHTML,
         precioConTachadoHTML: precioConTachadoHTML,

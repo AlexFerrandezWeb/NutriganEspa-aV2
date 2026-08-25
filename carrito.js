@@ -377,6 +377,14 @@ function actualizarResumenCarrito() {
         descuentoElement.textContent = `€${descuento.toFixed(2)}`;
     }
 
+    // El aplicador es uno por pedido, no uno por linea: basta con que haya
+    // algun Bolutech en el carrito para que se anuncie una sola vez.
+    const notaRegalo = document.getElementById('resumen-regalo');
+    if (notaRegalo) {
+        notaRegalo.hidden = !(window.NutriganPromos
+            && window.NutriganPromos.elCarritoLlevaAplicador(carrito));
+    }
+
     totalElement.textContent = `€${total.toFixed(2)}`;
     cantidadTotalElement.textContent = `${cantidadTotal} producto${cantidadTotal !== 1 ? 's' : ''}`;
     

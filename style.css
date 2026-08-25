@@ -6083,6 +6083,48 @@ body {
     border-bottom: none;
 }
 
+/* Aviso del aplicador de regalo. Mismo molde en las tres superficies -ficha,
+   bloque de oferta de la portada y resumen del carrito- para que se reconozca
+   como la misma promesa se mire donde se mire. En el verde del sitio, que es el
+   que ya usan el contador y el descuento aplicado. */
+.aviso-aplicador,
+.resumen-regalo {
+    display: block;
+    margin: 0.9rem 0 0;
+    padding: 0.65rem 0.8rem;
+    border-radius: 10px;
+    background: rgba(29, 129, 93, 0.08);
+    color: var(--color-contador, #1d815d);
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.aviso-aplicador i,
+.resumen-regalo i {
+    margin-right: 0.4rem;
+}
+
+/* Sin esto la nota no se esconde nunca: el atributo hidden funciona con el
+   [hidden] { display: none } del navegador, y el display de aqui arriba le gana
+   por ser estilo de autor. */
+.aviso-aplicador[hidden],
+.resumen-regalo[hidden] {
+    display: none;
+}
+
+/* En la ficha va pegado al recuadro de la oferta, sin el hueco de arriba. */
+.aviso-aplicador--ficha {
+    margin-top: 0.75rem;
+}
+
+/* En el bloque de la portada, sobre fondo oscuro, el verde no contrasta: se
+   hereda el color del bloque y se marca solo con un fondo tenue. */
+.promo-destacada-regalo {
+    background: rgba(255, 255, 255, 0.08);
+    color: inherit;
+}
+
 /* Lo ahorrado, en verde y fuera del bloque de la cuenta: no es un sumando mas,
    es el resultado de algo que ya viene descontado linea a linea. */
 .resumen-ahorro {
