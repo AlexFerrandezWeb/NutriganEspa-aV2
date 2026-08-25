@@ -7016,6 +7016,15 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* La presentacion encabeza la rejilla y ocupa las dos columnas: es un dato de la
+   caja entera, no una caracteristica que se compare al lado de otra. Va dentro de
+   la rejilla, y no suelta en la cabecera, para que de Especie y Tiempo la separe
+   el hueco de la rejilla (1rem) y no el de .producto-info (2rem), que la dejaba
+   descolgada del grupo al que pertenece. */
+.caracteristica-item--ancha {
+    grid-column: 1 / -1;
+}
+
 .caracteristica-item i {
     color: var(--color-acento);
     font-size: 1.2rem;
