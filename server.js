@@ -277,6 +277,111 @@ async function enviarCorreoPedido(pedido) {
     }
 }
 
+// Reconstruye las lineas del pedido a partir de los metadatos de la sesion.
+// En Stripe solo viajan el id, la cantidad y el precio de cada producto (los
+// metadatos tienen un limite de tamano), asi que el resto se recupera de
+// Supabase.
+async function rehidratarProductos(session) {
+    if (!session.metadata || !session.metadata.productos_json) return [];
+
+    let productosMin;
+    try {
+        productosMin = JSON.parse(session.metadata.productos_json);
+    } catch (e) {
+        console.error('Error al parsear los productos de la sesion:', e.message);
+        return [];
+    }
+
+    const minIds = productosMin.map(p => p.id);
+    const { data: productosDB } = await supabaseAdmin
+        .from('productos')
+        .select('id, nombre, imagen, precio')
+        .in('id', minIds);
+
+    return productosMin.map(pMin => {
+        const pFull = (productosDB || []).find(p => p.id === pMin.id);
+        if (!pFull) {
+            return { id: pMin.id, nombre: `Producto ID ${pMin.id}`, precio: pMin.p, cantidad: pMin.c, imagen: '/assets/logo.png' };
+        }
+        return {
+            ...pFull,
+            cantidad: pMin.c,
+            precio: pMin.p,
+            precioFinal: pMin.p,
+            imagen: pFull.imagen && pFull.imagen.startsWith('http')
+                ? pFull.imagen
+                : `/assets/${require('path').basename(pFull.imagen || 'logo.png')}`
+        };
+    });
+}
+
+// Intenta quedarse con el pedido. Devuelve true si le toca procesarlo a quien
+// llama y false si otro camino se le adelanto.
+//
+// Se reclama ANTES de trabajar, no despues: el webhook y la vuelta del
+// comprador pueden llegar con milisegundos de diferencia, y un "mira si existe
+// y luego inserta" deja hueco para que pasen los dos. Aqui decide la restriccion
+// UNIQUE de la tabla, que no tiene ese hueco.
+async function reclamarPedido(sessionId) {
+    const { error } = await supabaseAdmin
+        .from('pedidos_procesados')
+        .insert({ stripe_session_id: sessionId });
+
+    if (!error) return true;
+
+    // 23505 = clave duplicada. Es el caso normal: alguien llego primero.
+    if (error.code === '23505') {
+        console.log('⚠️ Pedido ya procesado, no se repite:', sessionId);
+        return false;
+    }
+
+    // Cualquier otro fallo (la tabla no existe, Supabase caido) no puede costar
+    // un pedido: se avisa y se procesa igual. Antes un correo repetido que una
+    // compra de la que nadie se entera.
+    console.error('❌ No se pudo reclamar el pedido, se procesa igualmente:', error.message);
+    return true;
+}
+
+// Lo que tiene que pasar una sola vez por compra: bajar el stock y avisar por
+// correo. Devuelve el pedido montado, que es lo que ve el comprador.
+//
+// La llaman los dos caminos —el webhook y gracias-compra.html—, y el candado
+// esta por encima de las dos cosas. Antes solo tapaba el stock y el correo
+// quedaba fuera, asi que recargar la pagina de gracias reenviaba el aviso.
+async function procesarPedido(session, origen) {
+    const productos = await rehidratarProductos(session);
+
+    const pedido = {
+        sessionId: session.id,
+        productos: productos,
+        total: session.amount_total / 100, // Stripe devuelve en centimos
+        currency: session.currency,
+        fecha: new Date(session.created * 1000).toISOString(),
+        customer_email: session.customer_email || (session.customer_details ? session.customer_details.email : null),
+        shipping_address: session.shipping_details
+    };
+
+    if (!(await reclamarPedido(session.id))) return pedido;
+
+    console.log(`📦 [${origen}] Procesando pedido ${session.id} (${productos.length} lineas)`);
+
+    if (productos.length > 0) {
+        try {
+            await reducirStock(productos);
+        } catch (e) {
+            // El stock no bloquea el aviso: el pedido hay que servirlo igual.
+            console.error('❌ Error al reducir stock:', e.message);
+        }
+    }
+
+    const enviado = await enviarCorreoPedido(pedido);
+    if (!enviado) {
+        console.error('❌ AVISO SIN ENVIAR del pedido', session.id, '- esta cobrado en Stripe, hay que mirarlo a mano');
+    }
+
+    return pedido;
+}
+
 // ===== Webhook de Stripe =====
 // Stripe avisa aqui de cada pago, venga o no el cliente de vuelta a la web.
 // Hasta ahora lo que pasaba tras cobrar (bajar stock, avisar por correo) colgaba
@@ -286,7 +391,7 @@ async function enviarCorreoPedido(pedido) {
 // Va declarado ANTES de bodyParser.json() a proposito. La firma se calcula sobre
 // los bytes crudos del cuerpo, asi que si Express ya lo ha convertido en objeto
 // la verificacion falla siempre, aunque el evento sea legitimo.
-app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     // El secreto no se comprueba al arrancar, como las claves de Stripe: el
     // servidor debe poder seguir sirviendo la tienda aunque el webhook no este
     // dado de alta todavia.
@@ -311,9 +416,30 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), (req,
 
     console.log(`✅ [webhook] Evento recibido: ${evento.type} (${evento.id})`);
 
-    // De momento solo se acusa recibo. El procesado del pedido entra en el
-    // siguiente bloque; responder 200 rapido evita que Stripe reintente.
-    res.json({ recibido: true });
+    // Solo interesa el pago confirmado. El resto se acusa sin mas, para que
+    // Stripe no los reintente.
+    if (evento.type !== 'checkout.session.completed') {
+        return res.json({ recibido: true });
+    }
+
+    try {
+        // Se relee la sesion en vez de fiarse de la del evento: asi los dos
+        // caminos trabajan exactamente sobre la misma forma de datos.
+        const session = await stripe.checkout.sessions.retrieve(evento.data.object.id);
+
+        if (session.payment_status !== 'paid') {
+            console.log('⚠️ [webhook] Sesion sin pagar, se ignora:', session.id, session.payment_status);
+            return res.json({ recibido: true });
+        }
+
+        await procesarPedido(session, 'webhook');
+        res.json({ recibido: true });
+    } catch (error) {
+        // El 500 hace que Stripe lo reintente durante los proximos dias, que es
+        // justo lo que se quiere si Supabase o el correo estaban caidos.
+        console.error('❌ [webhook] Error al procesar el pedido:', error.message);
+        res.status(500).send('Error al procesar el pedido');
+    }
 });
 
 // Middleware para parsear JSON (debe ir antes de las rutas)
@@ -481,20 +607,17 @@ app.get('/api/verificar-sesion/:sessionId', async (req, res) => {
     }
 });
 
-// Endpoint para obtener información del pedido desde session_id
+// Endpoint para obtener información del pedido desde session_id.
+// Lo llama gracias-compra.html para enseñarle la compra al cliente.
+//
+// Ya no es el unico sitio donde se procesa el pedido: de eso se encarga el
+// webhook, que llega aunque el comprador cierre la pestana. Este camino sigue
+// llamando a procesarPedido como red de seguridad —por si el webhook no esta
+// dado de alta o tarda—, y el candado se ocupa de que no se haga dos veces.
 app.get('/api/pedido/:sessionId', async (req, res) => {
     try {
-        console.log('=== PETICIÓN A /api/pedido/:sessionId ===');
-        console.log('SessionId:', req.params.sessionId);
-
         const { sessionId } = req.params;
-
         const session = await stripe.checkout.sessions.retrieve(sessionId);
-
-        console.log('Estado del pago:', session.payment_status);
-        console.log('Metadata:', session.metadata);
-        console.log('Customer email:', session.customer_email);
-        console.log('Customer details:', session.customer_details);
 
         if (session.payment_status !== 'paid') {
             console.log('Pago no completado, estado:', session.payment_status);
@@ -504,92 +627,12 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
             });
         }
 
-        // Parsear los productos desde los metadata
-        let productos = [];
-        if (session.metadata && session.metadata.productos_json) {
-            try {
-                const productosMin = JSON.parse(session.metadata.productos_json);
-                console.log('Productos minimizados recibidos:', productosMin);
+        const pedido = await procesarPedido(session, 'pagina de gracias');
 
-                // Re-hidratar productos desde Supabase
-                const minIds = productosMin.map(p => p.id);
-                const { data: productosDB } = await supabaseAdmin
-                    .from('productos')
-                    .select('id, nombre, imagen, precio')
-                    .in('id', minIds);
-
-                productos = productosMin.map(pMin => {
-                    const pFull = (productosDB || []).find(p => p.id === pMin.id);
-                    if (pFull) {
-                        return {
-                            ...pFull,
-                            cantidad: pMin.c,
-                            precio: pMin.p,
-                            precioFinal: pMin.p,
-                            imagen: pFull.imagen && pFull.imagen.startsWith('http')
-                                ? pFull.imagen
-                                : `/assets/${require('path').basename(pFull.imagen || 'logo.png')}`
-                        };
-                    }
-                    return { id: pMin.id, nombre: `Producto ID ${pMin.id}`, precio: pMin.p, cantidad: pMin.c, imagen: '/assets/logo.png' };
-                });
-
-                console.log('Productos re-hidratados:', productos.length);
-
-                // Comprobar idempotencia: evitar reducción de stock duplicada si el endpoint
-                // se llama más de una vez con el mismo session_id.
-                // Requiere tabla en Supabase: CREATE TABLE pedidos_procesados (
-                //   id BIGSERIAL PRIMARY KEY,
-                //   stripe_session_id TEXT UNIQUE NOT NULL,
-                //   created_at TIMESTAMPTZ DEFAULT NOW()
-                // );
-                const { data: yaProcessado } = await supabaseAdmin
-                    .from('pedidos_procesados')
-                    .select('id')
-                    .eq('stripe_session_id', sessionId)
-                    .maybeSingle();
-
-                if (!yaProcessado) {
-                    await reducirStock(productos);
-                    await supabaseAdmin
-                        .from('pedidos_procesados')
-                        .insert({ stripe_session_id: sessionId });
-                } else {
-                    console.log('⚠️ Pedido ya procesado anteriormente, omitiendo reducción de stock:', sessionId);
-                }
-            } catch (e) {
-                console.error('Error al parsear/hidratar productos:', e);
-            }
-        }
-
-        const pedido = {
-            sessionId: session.id,
-            productos: productos,
-            total: session.amount_total / 100, // Stripe devuelve en centavos
-            currency: session.currency,
-            fecha: new Date(session.created * 1000).toISOString(),
-            customer_email: session.customer_email || (session.customer_details ? session.customer_details.email : null),
-            shipping_address: session.shipping_details
-        };
-
-        // Enviar correo de notificación (no esperamos a que termine para responder al cliente)
-        enviarCorreoPedido(pedido).then(enviado => {
-            if (enviado) {
-                console.log('✅ Correo de notificación enviado para el pedido:', session.id);
-            } else {
-                console.log('❌ Error al enviar correo de notificación para el pedido:', session.id);
-            }
-        }).catch(error => {
-            console.error('❌ Error en el envío de correo:', error);
-        });
-
-        const respuesta = {
+        res.json({
             success: true,
             pedido: pedido
-        };
-
-        console.log('Enviando respuesta:', respuesta);
-        res.json(respuesta);
+        });
     } catch (error) {
         console.error('Error al obtener pedido:', error);
         res.status(500).json({
