@@ -277,6 +277,45 @@ async function enviarCorreoPedido(pedido) {
     }
 }
 
+// ===== Webhook de Stripe =====
+// Stripe avisa aqui de cada pago, venga o no el cliente de vuelta a la web.
+// Hasta ahora lo que pasaba tras cobrar (bajar stock, avisar por correo) colgaba
+// de que el navegador volviera a gracias-compra.html: si el comprador cerraba la
+// pestana, el pedido se cobraba y en Nutrigan nadie se enteraba.
+//
+// Va declarado ANTES de bodyParser.json() a proposito. La firma se calcula sobre
+// los bytes crudos del cuerpo, asi que si Express ya lo ha convertido en objeto
+// la verificacion falla siempre, aunque el evento sea legitimo.
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+    // El secreto no se comprueba al arrancar, como las claves de Stripe: el
+    // servidor debe poder seguir sirviendo la tienda aunque el webhook no este
+    // dado de alta todavia.
+    if (!process.env.STRIPE_WEBHOOK_SECRET) {
+        console.error('❌ [webhook] STRIPE_WEBHOOK_SECRET sin configurar, evento descartado');
+        return res.status(500).send('Webhook sin configurar');
+    }
+
+    let evento;
+    try {
+        evento = stripe.webhooks.constructEvent(
+            req.body,
+            req.headers['stripe-signature'],
+            process.env.STRIPE_WEBHOOK_SECRET
+        );
+    } catch (error) {
+        // Firma invalida: o no viene de Stripe, o el secreto no es el de este
+        // endpoint. Se responde 400 para que quede registrado en el Dashboard.
+        console.error('❌ [webhook] Firma no valida:', error.message);
+        return res.status(400).send(`Webhook Error: ${error.message}`);
+    }
+
+    console.log(`✅ [webhook] Evento recibido: ${evento.type} (${evento.id})`);
+
+    // De momento solo se acusa recibo. El procesado del pedido entra en el
+    // siguiente bloque; responder 200 rapido evita que Stripe reintente.
+    res.json({ recibido: true });
+});
+
 // Middleware para parsear JSON (debe ir antes de las rutas)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
