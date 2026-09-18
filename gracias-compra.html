@@ -363,12 +363,10 @@
                     pintarResumen(datos);
                     resolverDatos(datos);
 
-                    if (window.NutriganGA) {
-                        NutriganGA.registrarCompra(ultimoPedido.pedidoId, {
-                            items: NutriganGA.aItems(ultimoPedido.productos || []),
-                            total: datos.total
-                        });
-                    }
+                    // Sin purchase: este camino es el del contrareembolso, que se
+                    // retiró como método de pago, y las compras las cuenta ahora
+                    // el servidor.
+
                 } else {
                     resolverDatos(null); // sin pedido no hay reseña que ofrecer
                 }
@@ -427,13 +425,23 @@
             resolverDatos(datos); // null si no hay pedido → sin reseña
             limpiarCarrito();
 
-            // Purchase de GA4 con los datos reales de Stripe (antiduplicados por session_id).
-            if (window.NutriganGA) {
-                NutriganGA.registrarCompra(sessionId, pedido ? {
-                    items: NutriganGA.aItems(pedido.productos || []),
-                    total: parseFloat(pedido.total) || 0
-                } : null);
-            }
+            // El purchase de GA4 ya no se manda desde aquí: lo manda el servidor
+            // al recibir el aviso de pago de Stripe (ver enviarCompraGA4 en
+            // server.js). Desde el navegador solo se contaban las compras de
+            // quien volvía a esta página, que no son todas.
+            //
+            // Tiene que mandarlo uno solo de los dos. GA4 dice que descarta los
+            // purchase repetidos con el mismo transaction_id, pero se le escapan
+            // bastantes, y una venta contada dos veces es peor que el problema
+            // que vinimos a arreglar.
+            //
+            // NutriganGA.registrarCompra() sigue existiendo por si hubiera que
+            // volver atrás: bastaría con descomentar la llamada de abajo y quitar
+            // las variables GA4_* del servidor.
+            // NutriganGA.registrarCompra(sessionId, pedido ? {
+            //     items: NutriganGA.aItems(pedido.productos || []),
+            //     total: parseFloat(pedido.total) || 0
+            // } : null);
         }
         procesarPedido();
 

@@ -342,6 +342,83 @@ async function reclamarPedido(sessionId) {
     return true;
 }
 
+// Identificador de cliente de reserva, estable para un mismo pedido.
+function clientIdDeReserva(sessionId) {
+    let h = 0;
+    for (let i = 0; i < sessionId.length; i++) {
+        h = ((h << 5) - h + sessionId.charCodeAt(i)) | 0;
+    }
+    return Math.abs(h) + '.' + Math.abs(h ^ 0x5f5f5f);
+}
+
+// Manda la compra a GA4 desde el servidor (Measurement Protocol).
+//
+// El `purchase` se mandaba desde el navegador, en la pagina de gracias, asi que
+// quien pagaba y cerraba la pestana no llegaba a contarse. Desde aqui se cuenta
+// toda compra cobrada, vuelva o no el comprador.
+//
+// Esta funcion no lanza nunca, a proposito: Analytics es un espectador del
+// pedido y no puede tumbar su procesado.
+async function enviarCompraGA4(pedido, metadata) {
+    const idMedicion = process.env.GA4_MEASUREMENT_ID;
+    const apiSecret = process.env.GA4_API_SECRET;
+
+    if (!idMedicion || !apiSecret) {
+        console.warn('⚠️ [GA4] Falta GA4_MEASUREMENT_ID o GA4_API_SECRET: la compra', pedido.sessionId, 'no se cuenta en Analytics');
+        return;
+    }
+
+    // Sin client_id GA4 descarta el evento. Si el navegador no lo mando (gtag
+    // bloqueado, cookies rechazadas), se usa uno derivado del id del pedido: se
+    // pierde de donde vino la visita, pero la venta se cuenta. Contar una venta
+    // sin origen es mejor que no contarla.
+    const clientId = (metadata && metadata.ga_client_id) || clientIdDeReserva(pedido.sessionId);
+
+    const params = {
+        transaction_id: pedido.sessionId,
+        currency: String(pedido.currency || 'eur').toUpperCase(),
+        value: Number(pedido.total),
+        items: (pedido.productos || []).map(p => ({
+            item_id: String(p.id),
+            item_name: p.nombre,
+            price: Number(p.precio),
+            quantity: Number(p.cantidad)
+        })),
+        // Sin esto GA4 deja el evento fuera de los informes por no venir de una
+        // sesion con interaccion.
+        engagement_time_msec: 1
+    };
+
+    if (metadata && metadata.ga_session_id) {
+        params.session_id = metadata.ga_session_id;
+    }
+
+    try {
+        const respuesta = await fetch(
+            `https://www.google-analytics.com/mp/collect?measurement_id=${encodeURIComponent(idMedicion)}&api_secret=${encodeURIComponent(apiSecret)}`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    client_id: clientId,
+                    events: [{ name: 'purchase', params: params }]
+                })
+            }
+        );
+
+        // Ojo al depurar: este endpoint responde 204 aunque el evento venga mal
+        // formado. Para ver si GA4 lo acepta de verdad hay que repetir la misma
+        // llamada contra /debug/mp/collect, que si devuelve los errores.
+        if (respuesta.status >= 400) {
+            console.error('❌ [GA4] Analytics rechazo la compra', pedido.sessionId, '- HTTP', respuesta.status);
+        } else {
+            console.log('✅ [GA4] Compra enviada a Analytics:', pedido.sessionId, `(${params.value} ${params.currency})`);
+        }
+    } catch (error) {
+        console.error('❌ [GA4] No se pudo enviar la compra', pedido.sessionId, '-', error.message);
+    }
+}
+
 // Lo que tiene que pasar una sola vez por compra: bajar el stock y avisar por
 // correo. Devuelve el pedido montado, que es lo que ve el comprador.
 //
@@ -378,6 +455,10 @@ async function procesarPedido(session, origen) {
     if (!enviado) {
         console.error('❌ AVISO SIN ENVIAR del pedido', session.id, '- esta cobrado en Stripe, hay que mirarlo a mano');
     }
+
+    // Va dentro del candado, como el resto: asi cada compra se cuenta en
+    // Analytics exactamente una vez.
+    await enviarCompraGA4(pedido, session.metadata);
 
     return pedido;
 }
@@ -655,7 +736,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         console.log('=== RECIBIDA PETICIÓN A /api/create-checkout-session ===');
         console.log('Body:', req.body);
 
-        const { productos, total, cantidadTotal } = req.body;
+        const { productos, total, cantidadTotal, ga } = req.body;
 
         if (!productos || productos.length === 0) {
             return res.status(400).json({
@@ -768,7 +849,14 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 productos_json: JSON.stringify(productos.map(p => {
                     const actual = productosActuales.find(a => a.id === p.id);
                     return { id: p.id, c: p.cantidad, p: parseFloat(actual?.precio || 0) };
-                }))
+                })),
+                // Identidad de GA4 del navegador que esta comprando. Viaja de ida
+                // y vuelta por Stripe para que, al confirmarse el pago, el
+                // servidor pueda apuntarle la venta a esta misma visita en vez de
+                // a un usuario nuevo. Se recortan por si acaso: los metadatos de
+                // Stripe admiten 500 caracteres por valor.
+                ...(ga && ga.clientId ? { ga_client_id: String(ga.clientId).slice(0, 100) } : {}),
+                ...(ga && ga.sessionId ? { ga_session_id: String(ga.sessionId).slice(0, 100) } : {})
             },
             // Mensaje personalizado
             custom_text: {

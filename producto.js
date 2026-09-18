@@ -526,6 +526,12 @@ async function comprarAhora() {
             timestamp: new Date().toISOString()
         };
 
+        // Identidad de GA4 para que el servidor pueda atribuir la compra a esta
+        // visita. Si no llega a tiempo se sigue igual: manda el pago.
+        if (window.NutriganGA && NutriganGA.identidad) {
+            datosCarrito.ga = await NutriganGA.identidad();
+        }
+
         const response = await fetch('https://nutrigan-web.onrender.com/api/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

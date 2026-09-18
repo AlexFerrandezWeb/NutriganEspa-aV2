@@ -686,6 +686,12 @@ async function enviarCarritoARender() {
         console.log('🛒 Enviando datos del carrito:', datosCarrito);
         console.log('🌐 URL de la API:', getApiUrl('/api/create-checkout-session'));
         
+        // Identidad de GA4 para que el servidor pueda atribuir la compra a esta
+        // visita. Si no llega a tiempo se sigue igual: manda el pago.
+        if (window.NutriganGA && NutriganGA.identidad) {
+            datosCarrito.ga = await NutriganGA.identidad();
+        }
+
         // Enviar datos a Render usando getApiUrl
         const response = await fetch(getApiUrl('/api/create-checkout-session'), {
             method: 'POST',

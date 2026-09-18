@@ -8,6 +8,50 @@
     const CLAVE_PEDIDO_PENDIENTE = 'pedidoPendiente';
     const CLAVE_COMPRAS_ENVIADAS = 'comprasEnviadas';
     const MONEDA = 'EUR';
+    const MEDICION = 'G-2ZN5E3WV35';
+
+    // Pide a gtag el identificador de cliente y el de sesión de GA4.
+    //
+    // Hacen falta porque la compra ya no la manda este navegador, sino el
+    // servidor, al recibir el aviso de Stripe. Sin estos dos datos, Analytics
+    // apuntaría la venta a un usuario recién aparecido y se perdería de dónde
+    // vino: la campaña, el buscador, la visita entera.
+    //
+    // Lleva un plazo máximo a propósito. Esto se pregunta justo antes de salir
+    // hacia la pasarela, y si gtag no contesta —bloqueador de anuncios, cookies
+    // rechazadas, script que no cargó— el pago tiene que seguir adelante igual.
+    // Se prefiere una venta sin atribuir a una venta que no ocurre.
+    function identidadGA4(msMaximo) {
+        return new Promise(function (resolve) {
+            const identidad = {};
+            let pendientes = 2;
+            let terminado = false;
+
+            function terminar() {
+                if (terminado) return;
+                terminado = true;
+                resolve(identidad);
+            }
+
+            if (typeof gtag !== 'function') return terminar();
+
+            setTimeout(terminar, msMaximo || 1000);
+
+            function recoger(clave) {
+                return function (valor) {
+                    if (valor) identidad[clave] = String(valor);
+                    if (--pendientes === 0) terminar();
+                };
+            }
+
+            try {
+                gtag('get', MEDICION, 'client_id', recoger('clientId'));
+                gtag('get', MEDICION, 'session_id', recoger('sessionId'));
+            } catch (e) {
+                terminar();
+            }
+        });
+    }
 
     function enviar(nombre, parametros) {
         if (typeof gtag !== 'function') {
@@ -163,7 +207,10 @@
 
         // Expuesto para las páginas de éxito que ya tienen sus propios datos
         // de pedido en localStorage (contrareembolso).
-        aItems: aItems
+        aItems: aItems,
+
+        // La piden carrito.js y producto.js antes de salir hacia Stripe.
+        identidad: identidadGA4
     };
 
     // Captura los clics de WhatsApp en toda la web mediante delegación en
