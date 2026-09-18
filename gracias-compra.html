@@ -376,9 +376,14 @@
             }
 
             // --- Tarjeta (Stripe): pedimos el pedido real al servidor ---
-            // No reprocesar en cada recarga: el endpoint reenvía el email (no es
-            // idempotente; el stock sí lo es por su lado). Por eso, tras la primera
-            // vez, mostramos el resumen desde una caché local en lugar de re-pedirlo.
+            // Tras la primera vez, el resumen se pinta desde una caché local en
+            // lugar de volver a pedirlo.
+            //
+            // Nació como protección contra correos duplicados, porque el endpoint
+            // reenviaba el aviso en cada recarga. Ya no hace falta para eso: el
+            // candado de `pedidos_procesados` cubre el correo y el stock, en el
+            // servidor, que es donde no depende de que el navegador colabore. Se
+            // mantiene sólo por ahorrarse la llamada.
             const notificados = JSON.parse(localStorage.getItem('pedidosNotificados') || '[]');
             let pedido = null;
 
