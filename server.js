@@ -9,6 +9,7 @@ const { createClient } = require('@supabase/supabase-js');
 
 // Regla de promociones, la misma que usa el navegador (ver promociones.js).
 const promos = require('./promociones.js');
+const envio = require('./envio.js');
 
 // Cliente Supabase con service role (solo backend, nunca en frontend)
 const supabaseAdmin = createClient(
@@ -812,14 +813,16 @@ app.post('/api/create-checkout-session', async (req, res) => {
                             currency: 'eur',
                         },
                         display_name: 'Envío gratuito',
+                        // El plazo sale de envio.js, que es de donde lo cogen
+                        // tambien la ficha, el carrito y los Terminos.
                         delivery_estimate: {
                             minimum: {
                                 unit: 'business_day',
-                                value: 5,
+                                value: envio.PLAZO.minimo,
                             },
                             maximum: {
                                 unit: 'business_day',
-                                value: 10,
+                                value: envio.PLAZO.maximo,
                             },
                         },
                     },

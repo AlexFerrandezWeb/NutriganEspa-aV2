@@ -494,10 +494,22 @@
             });
         };
 
-        // Fecha estimada de entrega (~7 días laborables de media).
+        /**
+         * Fecha estimada de entrega, para programar la encuesta de Google.
+         *
+         * Sumaba 7 días naturales «de media», pero el envío tarda hasta 10 días
+         * hábiles, que son unas dos semanas de calendario: la encuesta llegaba
+         * antes que el paquete en la mayoría de los pedidos. Y a quien le
+         * preguntan qué le ha parecido algo que aún no ha recibido, contesta mal.
+         *
+         * El plazo sale de envio.js, el mismo del que bebe el checkout.
+         */
         function getEstimatedDeliveryDate() {
+            const dias = window.NutriganEnvio
+                ? window.NutriganEnvio.diasNaturalesHastaEntrega()
+                : 14;
             const today = new Date();
-            const deliveryDate = new Date(today.getTime() + (7 * 24 * 60 * 60 * 1000));
+            const deliveryDate = new Date(today.getTime() + (dias * 24 * 60 * 60 * 1000));
             return deliveryDate.toISOString().split('T')[0]; // YYYY-MM-DD
         }
 
@@ -517,6 +529,7 @@
         }
     </script>
     <script src="promociones.js" defer></script>
+    <script src="envio.js" defer></script>
     <script src="js/busqueda.js" defer></script>
     <script src="js/buscador-panel.js" defer></script>
     <script src="js/nav-scroll.js" defer></script>
