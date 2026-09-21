@@ -179,10 +179,80 @@ document.addEventListener('DOMContentLoaded', function () {
             this.container.addEventListener('mouseenter', () => this.pauseAutoPlay());
             this.container.addEventListener('mouseleave', () => this.startAutoPlay());
 
+            this.bindDeslizamiento();
+
             // Resize listener
             window.addEventListener('resize', () => {
                 this.updateConfig();
             });
+        }
+
+        /**
+         * Pasar las imágenes arrastrando con el dedo.
+         *
+         * En móvil no hay flechas —se comían la foto y caían encima del botón de
+         * WhatsApp—, así que arrastrar es el gesto natural para pasar de imagen.
+         *
+         * Lo delicado es no robarle el scroll a la página: el primer movimiento
+         * decide. Si se va más en horizontal que en vertical, el gesto es del
+         * carrusel y se corta el scroll; si no, se deja pasar y aquí no ha
+         * ocurrido nada. Decidirlo una sola vez por gesto evita que la página dé
+         * tirones cuando el dedo no va recto, que es como va siempre.
+         */
+        bindDeslizamiento() {
+            const MINIMO = 45;      // píxeles a partir de los cuales es un pase
+            let inicioX = 0, inicioY = 0;
+            let direccion = null;   // 'horizontal' | 'vertical' | null
+            let huboArrastre = false;
+            // Cuando termino el ultimo arrastre. Es una marca de tiempo y no un
+            // si/no a proposito: el click que hay que anular puede no llegar nunca,
+            // y con una bandera se quedaba puesta comiendose el toque siguiente.
+            this.finDelArrastre = 0;
+
+            this.container.addEventListener('touchstart', (e) => {
+                if (e.touches.length !== 1) return;
+                inicioX = e.touches[0].clientX;
+                inicioY = e.touches[0].clientY;
+                direccion = null;
+                huboArrastre = false;
+                this.pauseAutoPlay();
+            }, { passive: true });
+
+            // passive:false porque hace falta poder cortar el scroll de la
+            // página cuando el gesto resulta ser horizontal.
+            this.container.addEventListener('touchmove', (e) => {
+                if (e.touches.length !== 1) return;
+                const dx = e.touches[0].clientX - inicioX;
+                const dy = e.touches[0].clientY - inicioY;
+
+                if (!direccion) {
+                    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+                    direccion = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+                }
+                if (direccion === 'horizontal') {
+                    huboArrastre = true;
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            this.container.addEventListener('touchend', (e) => {
+                this.startAutoPlay();
+                if (huboArrastre) this.finDelArrastre = Date.now();
+                if (direccion !== 'horizontal') return;
+
+                const dx = e.changedTouches[0].clientX - inicioX;
+                if (Math.abs(dx) < MINIMO) return;
+                if (dx < 0) this.nextSlide(); else this.prevSlide();
+            });
+
+            // Las imágenes de la gama abren un modal al pulsarlas, y un
+            // arrastre acaba disparando ese click. Se corta en fase de captura,
+            // que llega antes que el listener de la imagen.
+            this.container.addEventListener('click', (e) => {
+                if (Date.now() - this.finDelArrastre > 400) return;
+                e.preventDefault();
+                e.stopPropagation();
+            }, true);
         }
 
         /**
