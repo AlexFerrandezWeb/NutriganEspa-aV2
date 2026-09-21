@@ -153,7 +153,7 @@
         // pagan desde N cajas, y anunciarlos a secas engaña a quien compre una
         // sola y contradice al feed de Google Shopping, que publica el suelto.
         var condicion = promo
-            ? '<span class="buscador-panel__condicion">Oferta desde ' + promo.cajasMinimas + ' cajas</span>'
+            ? '<span class="buscador-panel__condicion">Oferta comprando ' + promo.cajasMinimas + ' o más cajas</span>'
             : '';
 
         return '<li class="buscador-panel__item' + (promo ? ' buscador-panel__item--oferta' : '') + '">' +
