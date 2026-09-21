@@ -6575,8 +6575,12 @@ body {
     transition: opacity 0.3s ease;
 }
 
+/* El icono va a la altura de la PRIMERA linea, no del centro ni del pie.
+   Esta fila tiene tres alturas (texto, plazo y logo del transportista) y con
+   flex-end el camion se quedaba a la altura del logo, descolocado frente a
+   las filas de la garantia y las devoluciones, que solo tienen una linea. */
 .info-item--envio {
-    align-items: flex-end;
+    align-items: flex-start;
 }
 
 .logo-correos:hover {
@@ -7621,6 +7625,36 @@ body {
     color: var(--color-acento);
     width: 16px;
     text-align: center;
+}
+
+/* ── Filas de informacion (envio, garantia, devoluciones) ──────────────
+   Las tres tienen que leerse como una lista: mismo margen izquierdo, mismo
+   interlineado y el icono siempre a la altura de la primera linea. */
+.info-item {
+    align-items: flex-start;
+    line-height: 1.5;
+}
+
+.info-item i {
+    /* El mismo interlineado que el texto: asi el icono cae a su altura sin
+       empujarlo con margenes a ojo, que se descuadran al cambiar la fuente. */
+    line-height: inherit;
+    flex-shrink: 0;
+}
+
+.info-text-container {
+    gap: 0.1rem;
+}
+
+/* El plazo es el dato de apoyo del envio: se lee despues, no compite con el
+   «gratuito», que es el gancho. */
+.info-plazo {
+    font-size: 0.86em;
+    opacity: 0.8;
+}
+
+.logo-correos {
+    margin-top: 0.4rem;
 }
 
 /* Especificaciones Técnicas */
