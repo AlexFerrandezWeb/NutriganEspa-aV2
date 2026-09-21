@@ -724,17 +724,35 @@ function aplicarFiltros() {
         });
     }
     
-    // Aplicar filtro de búsqueda
+    // Aplicar filtro de búsqueda. Tolera faltas y variantes fonéticas, que es
+    // como se escribe de verdad: "Bronkus" y "Broncus" tienen que encontrar el
+    // Bronkub. Los resultados salen por orden de acierto, no por orden de
+    // catálogo, para que lo que se escribió entero vaya delante de lo que solo
+    // se parece.
     if (terminoBusqueda) {
-        productosFiltradosTemp = productosFiltradosTemp.filter(producto => {
-            return (
-                producto.nombre.toLowerCase().includes(terminoBusqueda) ||
-                producto.descripcion.toLowerCase().includes(terminoBusqueda) ||
-                producto.especie.toLowerCase().includes(terminoBusqueda) ||
-                producto.etapa.toLowerCase().includes(terminoBusqueda) ||
-                producto.categoria.toLowerCase().includes(terminoBusqueda)
-            );
-        });
+        const B = window.NutriganBusqueda;
+        if (B) {
+            const conPuntos = [];
+            productosFiltradosTemp.forEach(producto => {
+                const puntos = B.puntuar(producto, terminoBusqueda);
+                if (puntos !== null) conPuntos.push({ producto, puntos });
+            });
+            // sort() es estable, así que los empates conservan el orden del catálogo.
+            conPuntos.sort((a, b) => a.puntos - b.puntos);
+            productosFiltradosTemp = conPuntos.map(x => x.producto);
+        } else {
+            // Sin el módulo cargado, la búsqueda literal de siempre. Peor, pero
+            // la página sigue buscando en vez de quedarse en blanco.
+            productosFiltradosTemp = productosFiltradosTemp.filter(producto => {
+                return (
+                    producto.nombre.toLowerCase().includes(terminoBusqueda) ||
+                    producto.descripcion.toLowerCase().includes(terminoBusqueda) ||
+                    producto.especie.toLowerCase().includes(terminoBusqueda) ||
+                    producto.etapa.toLowerCase().includes(terminoBusqueda) ||
+                    producto.categoria.toLowerCase().includes(terminoBusqueda)
+                );
+            });
+        }
     }
     
     productosFiltrados = productosFiltradosTemp;
