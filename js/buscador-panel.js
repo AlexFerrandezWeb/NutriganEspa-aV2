@@ -23,7 +23,11 @@
     var nav = document.querySelector('.nav-principal');
     if (!buscador || !input || !nav) return;
 
+    // El "Todos" primero: sin él, quien filtra por una categoría no tiene forma
+    // evidente de volver al catálogo entero. Su slug vacío es el estado de
+    // partida del panel, así que aparece marcado desde el principio.
     var CATEGORIAS = [
+        ['', 'Todos'],
         ['bovinos', 'Bovinos'], ['ovinos', 'Ovinos'], ['caprinos', 'Caprinos'],
         ['porcinos', 'Porcinos'], ['equinos', 'Equinos'], ['perros', 'Perros']
     ];
@@ -42,16 +46,23 @@
     panel.className = 'buscador-panel';
     panel.id = 'buscador-panel';
     panel.hidden = true;
+    // Categorías y orden van juntos en un bloque que se queda pegado arriba: son
+    // los mandos del panel, y al rodar la lista tienen que seguir a mano en vez
+    // de irse por arriba y obligar a volver al principio para cambiar de filtro.
     panel.innerHTML =
-        '<div class="buscador-panel__chips">' +
-            CATEGORIAS.map(function (c) {
-                return '<a href="/productos/' + c[0] + '" class="categoria-movil-chip" data-categoria="' + c[0] + '">' + c[1] + '</a>';
-            }).join('') +
-        '</div>' +
-        '<div class="buscador-panel__orden" role="group" aria-label="Ordenar">' +
-            '<button type="button" class="buscador-panel__orden-btn activo" data-orden="recomendados">Destacados</button>' +
-            '<button type="button" class="buscador-panel__orden-btn" data-orden="baratos">Más baratos</button>' +
-            '<button type="button" class="buscador-panel__orden-btn" data-orden="caros">Más caros</button>' +
+        '<div class="buscador-panel__fijo">' +
+            '<div class="buscador-panel__chips">' +
+                CATEGORIAS.map(function (c) {
+                    var destino = c[0] ? '/productos/' + c[0] : '/productos.html';
+                    return '<a href="' + destino + '" class="categoria-movil-chip' +
+                           (c[0] ? '' : ' activo') + '" data-categoria="' + c[0] + '">' + c[1] + '</a>';
+                }).join('') +
+            '</div>' +
+            '<div class="buscador-panel__orden" role="group" aria-label="Ordenar">' +
+                '<button type="button" class="buscador-panel__orden-btn activo" data-orden="recomendados">Destacados</button>' +
+                '<button type="button" class="buscador-panel__orden-btn" data-orden="baratos">Más baratos</button>' +
+                '<button type="button" class="buscador-panel__orden-btn" data-orden="caros">Más caros</button>' +
+            '</div>' +
         '</div>' +
         '<p class="buscador-panel__titulo" id="buscador-panel-titulo">Destacados</p>' +
         '<ul class="buscador-panel__lista" id="buscador-panel-lista"></ul>' +

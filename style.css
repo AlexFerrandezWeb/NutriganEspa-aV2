@@ -1415,7 +1415,7 @@ body {
         background: #ffffff;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 0.9rem 0 1.5rem;
+        padding: 0 0 1.5rem;
         border-top: 1px solid var(--color-borde);
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
         overscroll-behavior: contain;
@@ -1425,6 +1425,17 @@ body {
        lista se acaba desplazando la página del fondo. */
     body.buscador-panel-abierto {
         overflow: hidden;
+    }
+
+    /* Los mandos del panel se quedan pegados arriba mientras rueda la lista.
+       El sticky es respecto al propio panel, que es quien tiene el scroll.
+       Necesita fondo propio: sin el, los productos se leerian por debajo. */
+    .buscador-panel__fijo {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: #ffffff;
+        padding-top: 0.9rem;
     }
 
     .buscador-panel__chips {
