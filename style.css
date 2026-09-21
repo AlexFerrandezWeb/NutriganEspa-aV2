@@ -2786,9 +2786,13 @@ body {
     flex-wrap: wrap;
 }
 
+/* Son enlaces reales a /productos/<categoria>, no botones: de ahí que haya que
+   quitarles el subrayado y el color de enlace. Se ven y se usan igual. */
 .filtro-btn {
     background: white;
     color: var(--color-texto-oscuro);
+    text-decoration: none;
+    display: inline-block;
     border: 2px solid var(--color-borde);
     padding: 0.8rem 1.5rem;
     font-family: var(--fuente-titulos);
@@ -3192,43 +3196,6 @@ body {
         font-size: 0.72rem;
         padding: 0.5rem 0.5rem;
     }
-}
-
-/* Enlaces entre categorias del catalogo. Van en el HTML que sirve el servidor
-   (los filtros de arriba los pinta JavaScript y Google no los ve como enlaces),
-   asi que aqui viven dentro del indice del pie. */
-.categorias-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 0;
-}
-
-.categorias-nav a {
-    padding: 0.45rem 1rem;
-    border: 1px solid var(--color-borde);
-    border-radius: 20px;
-    color: var(--color-texto-oscuro);
-    text-decoration: none;
-    font-size: 0.88rem;
-    font-weight: 600;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.categorias-nav a:hover,
-.categorias-nav a:focus-visible {
-    background: var(--color-contador);
-    border-color: var(--color-contador);
-    color: #ffffff;
-}
-
-.categorias-nav a[aria-current="page"] {
-    background: var(--color-texto-oscuro);
-    border-color: var(--color-texto-oscuro);
-    color: #ffffff;
 }
 
 /* Estilos adicionales para la página de productos */

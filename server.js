@@ -1334,16 +1334,24 @@ async function servirCatalogo(req, res, categoria) {
     // Enlaces reales entre categorías: sin ellos Google no llega a estas páginas
     // por navegación, sólo por el sitemap. El JavaScript los intercepta para
     // seguir filtrando al instante, sin recargar.
-    const navegacion = ['<nav class="categorias-nav" aria-label="Categorías de producto">',
-        `<a href="/productos.html"${!categoria ? ' aria-current="page"' : ''}>Todos</a>`]
-        .concat(Object.entries(CATEGORIAS_CATALOGO).map(([slug, c]) =>
-            `<a href="/productos/${slug}"${categoria === slug ? ' aria-current="page"' : ''}>${escapeXml(c.nombre)}</a>`))
-        .concat(['</nav>']).join('');
+    //
+    // Van en los filtros de arriba, no en un segundo bloque al pie. Estuvieron
+    // abajo y la página acababa enseñando el mismo filtro dos veces: el de
+    // arriba que pinta el JavaScript y este. Siendo el mismo control, uno sobra,
+    // y el que se queda tiene que ser el que Google puede leer.
+    const navegacion = [
+        `<a class="filtro-btn${!categoria ? ' activo' : ''}" data-categoria="todos"` +
+        ` href="/productos.html"${!categoria ? ' aria-current="page"' : ''}>Todos</a>`
+    ].concat(Object.entries(CATEGORIAS_CATALOGO).map(([slug, c]) =>
+        `<a class="filtro-btn${categoria === slug ? ' activo' : ''}" data-categoria="${slug}"` +
+        ` href="/productos/${slug}"${categoria === slug ? ' aria-current="page"' : ''}>${escapeXml(c.nombre)}</a>`
+    )).join('');
 
     const canonical = categoria ? `${BASE_URL}/productos/${categoria}` : `${BASE_URL}/productos.html`;
 
     let html = PRODUCTOS_HTML_TEMPLATE
-        .replace('<!--PRODUCTOS_SEO_LINKS-->', navegacion + bloque)
+        .replace('<!--PRODUCTOS_CATEGORIAS_NAV-->', navegacion)
+        .replace('<!--PRODUCTOS_SEO_LINKS-->', bloque)
         .replace('<link rel="canonical" href="https://www.xn--nutriganespaa-tkb.com/productos.html">',
             `<link rel="canonical" href="${canonical}">`)
         .replace('<meta property="og:url" content="https://www.xn--nutriganespaa-tkb.com/productos.html">',

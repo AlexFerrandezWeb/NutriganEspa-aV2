@@ -221,8 +221,13 @@
         <div class="productos-catalogo-container">
             <div class="productos-filtros">
                 <h3 class="filtros-titulo">Filtrar por categoría</h3>
+                <!-- Los filtros los inyecta el servidor como enlaces reales a
+                     /productos/<categoria>: así Google los rastrea aunque la
+                     rejilla se pinte con JavaScript. productos.js les engancha
+                     el filtrado instantáneo, y si la página se sirviera sin
+                     inyección los genera él desde cero. -->
                 <div class="filtros-botones" id="filtros-botones">
-                    <!-- Los filtros se generarán dinámicamente -->
+                    <!--PRODUCTOS_CATEGORIAS_NAV-->
                 </div>
             </div>
 

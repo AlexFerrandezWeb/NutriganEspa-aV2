@@ -104,6 +104,22 @@ async function cargarProductos() {
 
 // Función para generar los filtros dinámicamente
 function generarFiltros(categorias) {
+    // El servidor ya los deja pintados como enlaces reales, que es lo que
+    // rastrea Google. Si están, no se tocan: solo se les engancha el filtrado
+    // instantáneo para que no recarguen la página. Regenerarlos como botones
+    // borraría los enlaces justo después de que el buscador los haya leído.
+    const yaPintados = filtrosBotones.querySelectorAll('.filtro-btn');
+    if (yaPintados.length) {
+        yaPintados.forEach(enlace => {
+            enlace.addEventListener('click', e => {
+                e.preventDefault();
+                filtrarProductos(enlace.getAttribute('data-categoria'));
+            });
+        });
+        return;
+    }
+
+    // Servida sin inyección (fichero suelto): se generan a mano, como antes.
     filtrosBotones.innerHTML = '';
     // Botón "Todos"
     const botonTodos = document.createElement('button');
@@ -137,12 +153,14 @@ function filtrarProductos(categoria, actualizarUrl) {
         if (location.pathname !== destino) history.pushState({ categoria: categoria }, '', destino);
     }
     
-    // Actualizar botones activos
+    // Actualizar botones activos. aria-current además de la clase: ahora son
+    // enlaces, y un lector de pantalla necesita que se diga cuál es la página
+    // en la que se está, no solo que se pinte distinto.
     document.querySelectorAll('.filtro-btn').forEach(btn => {
-        btn.classList.remove('activo');
-        if (btn.getAttribute('data-categoria') === categoria) {
-            btn.classList.add('activo');
-        }
+        const esActivo = btn.getAttribute('data-categoria') === categoria;
+        btn.classList.toggle('activo', esActivo);
+        if (esActivo) btn.setAttribute('aria-current', 'page');
+        else btn.removeAttribute('aria-current');
     });
     
     // Aplicar filtros (categoría + búsqueda)
