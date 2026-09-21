@@ -9,18 +9,20 @@
    Sin escribir nada enseña los destacados, que son los que el cliente marca
    desde el panel de administración: así la lista se mantiene sola.
 
-   Solo en móvil. En escritorio la lupa ya abre la barra en un clic y hay sitio
-   de sobra para el catálogo.
+   En escritorio es el mismo panel colgando de la lupa, con los productos en
+   rejilla en vez de en una columna: lo que cambia es el sitio disponible, no
+   lo que hace falta ensenar.
    -------------------------------------------------------------------------- */
 (function () {
     'use strict';
 
     var MOVIL = 576;
-    if (window.innerWidth > MOVIL) return;
+    function esMovil() { return window.innerWidth <= MOVIL; }
 
     var buscador = document.querySelector('.nav-buscador');
     var input = buscador && buscador.querySelector('input[type="search"]');
     var nav = document.querySelector('.nav-principal');
+    var btnLupa = document.querySelector('.btn-lupa-buscar');
     if (!buscador || !input || !nav) return;
 
     // El "Todos" primero: sin él, quien filtra por una categoría no tiene forma
@@ -289,14 +291,32 @@
         panel.style.top = Math.round(nav.getBoundingClientRect().bottom) + 'px';
     }
 
+    /**
+     * Recolocar mientras la cabecera se mueve.
+     *
+     * En escritorio la barra de busqueda se despliega con una animacion de
+     * 0,35s, asi que medir el alto del nav una sola vez al abrir da el de
+     * antes: el panel arrancaba flotando por encima de donde le toca. Se mide
+     * durante medio segundo, que es lo que dura el movimiento.
+     */
+    function seguirColocando() {
+        var hasta = performance.now() + 500;
+        (function paso(ahora) {
+            colocar();
+            if (ahora < hasta && abierto()) requestAnimationFrame(paso);
+        })(performance.now());
+    }
+
     function abierto() { return !panel.hidden; }
 
     function abrir() {
         if (abierto()) return;
         panel.hidden = false;
-        botonCerrar.hidden = false;
-        document.body.classList.add('buscador-panel-abierto');
-        colocar();
+        // La X es de movil: en escritorio se cierra con la lupa, con Escape o
+        // pulsando fuera, y meteria un boton de mas en una barra que no lo pide.
+        botonCerrar.hidden = !esMovil();
+        document.body.classList.toggle('buscador-panel-abierto', esMovil());
+        seguirColocando();
         cargar();
         render();
     }
@@ -307,6 +327,23 @@
         botonCerrar.hidden = true;
         document.body.classList.remove('buscador-panel-abierto');
         input.blur();
+
+        // En escritorio el panel cuelga de la barra que abre la lupa, asi que
+        // al cerrarlo se recoge tambien la barra: dejarla abierta y vacia por
+        // debajo del panel cerrado se ve como un resto de algo que fallo.
+        if (!esMovil() && btnLupa && buscador.classList.contains('buscador-abierto')) {
+            btnLupa.click();
+        }
+    }
+
+    // La lupa es de nav-scroll.js, que solo sabe abrir y cerrar la barra. En vez
+    // de meter mano alli, se escucha la clase que pone: asi cada fichero sigue
+    // mandando sobre lo suyo y no hay dos sitios tocando el mismo boton.
+    if (btnLupa && typeof MutationObserver !== 'undefined') {
+        new MutationObserver(function () {
+            if (esMovil()) return;
+            if (!buscador.classList.contains('buscador-abierto')) cerrar();
+        }).observe(buscador, { attributes: true, attributeFilter: ['class'] });
     }
 
     botonCerrar.addEventListener('click', function (e) {
@@ -338,8 +375,13 @@
     buscador.addEventListener('submit', cerrar);
 
     window.addEventListener('resize', function () {
-        if (window.innerWidth > MOVIL) cerrar();
-        else if (abierto()) colocar();
+        if (!abierto()) return;
+        // El panel existe en los dos tamanos, asi que al cambiar de uno a otro
+        // no se cierra: se recoloca y se revisa quien manda sobre la X y el
+        // bloqueo del fondo, que si dependen del ancho.
+        colocar();
+        botonCerrar.hidden = !esMovil();
+        document.body.classList.toggle('buscador-panel-abierto', esMovil());
     });
     window.addEventListener('orientationchange', colocar);
 
