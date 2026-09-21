@@ -13,12 +13,41 @@
     var menuSidebar = document.querySelector('.menu-izquierda');
     var banner = document.querySelector('.banner-envio-gratis');
 
+    /**
+     * Aparta el contenido que va detrás de la barra fija del título.
+     *
+     * La barra es position:fixed, así que no ocupa sitio: lo que dejaba hueco
+     * para ella era un margin-top escrito a mano en la hoja de estilos, uno
+     * distinto por página y por tamaño de pantalla (200px, 260px, 136px...).
+     * Todos daban por hecho un alto de cabecera concreto, y en cuanto la
+     * cabecera creció —el buscador de móvil— la barra pasó a comerse las
+     * primeras líneas del contenido en las cinco páginas que la llevan.
+     *
+     * Aquí se mide en vez de suponer. El margen de la hoja de estilos sigue
+     * mandando como mínimo, así que sin JavaScript la página se ve como
+     * siempre y en escritorio no cambia nada.
+     */
+    function apartarContenido(suelo) {
+        var siguiente = hero.nextElementSibling;
+        if (!siguiente) return;
+
+        // Se borra el margen puesto antes para volver a leer el de la hoja de
+        // estilos: si no, al cambiar de tamaño se acumularía sobre sí mismo.
+        siguiente.style.marginTop = '';
+        var base = parseFloat(getComputedStyle(siguiente).marginTop) || 0;
+        var sinMargen = siguiente.getBoundingClientRect().top + window.pageYOffset - base;
+
+        siguiente.style.marginTop = Math.max(base, suelo - sinMargen) + 'px';
+    }
+
     function applyPositions() {
         var h = nav.getBoundingClientRect().bottom;
         var bannerH = banner ? banner.offsetHeight : 0;
         if (banner) banner.style.top = h + 'px';
         if (hero && !nav.classList.contains('nav-oculta')) {
-            hero.style.top = (h + bannerH - 1) + 'px';
+            var heroTop = h + bannerH - 1;
+            hero.style.top = heroTop + 'px';
+            apartarContenido(heroTop + hero.offsetHeight);
         }
         if (carrusel && !nav.classList.contains('nav-oculta')) {
             carrusel.style.marginTop = (h + bannerH - 1) + 'px';
