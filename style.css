@@ -1427,6 +1427,60 @@ body {
         overflow: hidden;
     }
 
+    /* La X para salir del buscador. Va dentro del recuadro, a la derecha.
+       Solo existe mientras el panel esta abierto: cerrado no hay nada que
+       cerrar, y ocuparia sitio en un ancho donde no sobra. */
+    .nav-buscador .buscador-cerrar {
+        position: absolute;
+        right: 0.45rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* 34px de lado: por debajo de eso no se acierta con el dedo. */
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--color-texto-oscuro);
+        opacity: 0.55;
+        cursor: pointer;
+        z-index: 3;
+    }
+
+    .nav-buscador .buscador-cerrar svg {
+        width: 17px;
+        height: 17px;
+        fill: none;
+    }
+
+    .nav-buscador .buscador-cerrar:active {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    /* Sitio para la X, que si no se le mete el texto por debajo. */
+    body.buscador-panel-abierto .nav-buscador input[type="search"] {
+        padding-right: 2.6rem;
+    }
+
+    /* Dos equis juntas no se entienden: la del navegador solo borra lo escrito
+       y solo sale si hay texto; la nuestra cierra, que es lo que hace falta.
+
+       Van en reglas separadas a proposito. Juntas por una coma, el navegador
+       que no reconoce el selector del otro tira la regla ENTERA, incluida su
+       propia mitad: en Chrome salian las dos equis, una al lado de la otra. */
+    body.buscador-panel-abierto .nav-buscador input[type="search"]::-webkit-search-cancel-button {
+        display: none;
+    }
+
+    body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clear-button {
+        display: none;
+    }
+
     /* Los mandos del panel se quedan pegados arriba mientras rueda la lista.
        El sticky es respecto al propio panel, que es quien tiene el scroll.
        Necesita fondo propio: sin el, los productos se leerian por debajo. */

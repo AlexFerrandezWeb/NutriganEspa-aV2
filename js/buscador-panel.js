@@ -70,6 +70,24 @@
 
     nav.appendChild(panel);
 
+    /**
+     * La X para salir.
+     *
+     * El panel se cerraba con Escape, que en un movil no existe, o enviando la
+     * busqueda: quien lo abria sin querer se quedaba dentro. La X del campo
+     * `type=search` no vale para esto, porque solo aparece si hay texto escrito
+     * y solo borra lo escrito; esta cierra el panel siempre.
+     */
+    var botonCerrar = document.createElement('button');
+    botonCerrar.type = 'button';
+    botonCerrar.className = 'buscador-cerrar';
+    botonCerrar.setAttribute('aria-label', 'Cerrar el buscador');
+    botonCerrar.hidden = true;
+    botonCerrar.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+        '<path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>';
+    (buscador.querySelector('.buscador-input-container') || buscador).appendChild(botonCerrar);
+
     var lista = panel.querySelector('#buscador-panel-lista');
     var titulo = panel.querySelector('#buscador-panel-titulo');
     var pie = panel.querySelector('#buscador-panel-pie');
@@ -245,6 +263,7 @@
     function abrir() {
         if (abierto()) return;
         panel.hidden = false;
+        botonCerrar.hidden = false;
         document.body.classList.add('buscador-panel-abierto');
         colocar();
         cargar();
@@ -254,9 +273,20 @@
     function cerrar() {
         if (!abierto()) return;
         panel.hidden = true;
+        botonCerrar.hidden = true;
         document.body.classList.remove('buscador-panel-abierto');
         input.blur();
     }
+
+    botonCerrar.addEventListener('click', function (e) {
+        e.preventDefault();
+        // Se limpia lo escrito: dejarlo puesto hace que al volver a tocar el
+        // campo reaparezca una busqueda vieja que nadie pidio.
+        input.value = '';
+        categoria = '';
+        marcarChips();
+        cerrar();
+    });
 
     input.addEventListener('focus', abrir);
     input.addEventListener('click', abrir);
