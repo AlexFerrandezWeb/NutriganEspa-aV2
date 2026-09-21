@@ -177,8 +177,12 @@ function mostrarProductos(productosAMostrar) {
         productosGrid.appendChild(productoElement);
     });
     
-    // Agregar clase para pocos productos (1-3 productos) solo si NO hay búsqueda activa
-    if (productosAMostrar.length <= 3 && !terminoBusqueda) {
+    // Con uno, dos o tres resultados la rejilla se ajusta para que la tarjeta
+    // conserve su tamaño normal. Antes esto se saltaba durante una búsqueda, y
+    // como buscar es justo lo que suele dejar un único resultado, ese resultado
+    // salía estirado a todo el ancho: una tarjeta de 1200px con una foto
+    // diminuta en medio.
+    if (productosAMostrar.length <= 3) {
         productosGrid.classList.add('pocos-productos');
         productosGrid.setAttribute('data-count', productosAMostrar.length);
     } else {
