@@ -129,6 +129,25 @@
             .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
+    /**
+     * La miniatura de 200px, si la hay.
+     *
+     * Las fotos de producto miden unos 950px y aqui se ensenan a 80: al filtrar
+     * por una categoria el navegador se bajaba y decodificaba casi cuarenta
+     * imagenes grandes de golpe, y se veian entrando a trozos.
+     *
+     * Solo se cambian las del propio sitio; las que el cliente sube desde el
+     * panel viven en Supabase y no tienen miniatura. Y si alguna faltara, el
+     * onerror de la etiqueta vuelve a la original, asi que nunca queda un
+     * hueco vacio.
+     */
+    function miniatura(ruta) {
+        var r = String(ruta || '').replace(/^\//, '');
+        return /^assets\/producto[\w-]*\.webp$/i.test(r)
+            ? r.replace('assets/', 'assets/mini/')
+            : r;
+    }
+
     function filaHtml(p) {
         var promo = window.NutriganPromos && window.NutriganPromos.promocionDe
             ? window.NutriganPromos.promocionDe(p)
@@ -160,7 +179,10 @@
 
         return '<li class="buscador-panel__item' + (promo ? ' buscador-panel__item--oferta' : '') + '">' +
             '<a href="/producto/' + slug(p.nombre) + '">' +
-                '<img src="' + escapar(p.imagen || 'assets/logo.png') + '" alt="" loading="lazy" decoding="async">' +
+                // width/height para que la fila no de un salto cuando entra la foto.
+                '<img src="' + escapar(miniatura(p.imagen) || 'assets/logo.png') + '"' +
+                    ' onerror="this.onerror=null;this.src=&quot;' + escapar(p.imagen || 'assets/logo.png') + '&quot;"' +
+                    ' alt="" width="80" height="80" loading="lazy" decoding="async">' +
                 '<span class="buscador-panel__texto">' +
                     '<span class="buscador-panel__nombre">' + escapar(p.nombre) + '</span>' +
                     '<span class="buscador-panel__precios">' + unidad + caja + '</span>' +

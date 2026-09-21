@@ -181,6 +181,12 @@
     window.addEventListener('scroll', function () {
         // No cerrar si el foco está dentro del menú (evita cierre por zoom iOS en inputs)
         if (menuMovil && menuMovil.contains(document.activeElement)) return;
+
+        // Con el panel de búsqueda abierto tampoco: al abrirlo se le quita el
+        // scroll al fondo, y ese cambio mueve la página unos píxeles. Eso
+        // llegaba aquí como un scroll del visitante y cerraba el buscador que
+        // se acababa de abrir: a media página no había forma de abrirlo.
+        if (document.body.classList.contains('buscador-panel-abierto')) return;
         cerrarMenuSiAbierto();
         cerrarBuscador();
     }, { passive: true });
