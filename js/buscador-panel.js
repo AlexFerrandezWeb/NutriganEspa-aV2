@@ -312,10 +312,8 @@
     function abrir() {
         if (abierto()) return;
         panel.hidden = false;
-        // La X es de movil: en escritorio se cierra con la lupa, con Escape o
-        // pulsando fuera, y meteria un boton de mas en una barra que no lo pide.
-        botonCerrar.hidden = !esMovil();
-        document.body.classList.toggle('buscador-panel-abierto', esMovil());
+        botonCerrar.hidden = false;
+        document.body.classList.add('buscador-panel-abierto');
         seguirColocando();
         cargar();
         render();
@@ -377,11 +375,8 @@
     window.addEventListener('resize', function () {
         if (!abierto()) return;
         // El panel existe en los dos tamanos, asi que al cambiar de uno a otro
-        // no se cierra: se recoloca y se revisa quien manda sobre la X y el
-        // bloqueo del fondo, que si dependen del ancho.
+        // no se cierra: solo hay que recolocarlo bajo la cabecera.
         colocar();
-        botonCerrar.hidden = !esMovil();
-        document.body.classList.toggle('buscador-panel-abierto', esMovil());
     });
     window.addEventListener('orientationchange', colocar);
 

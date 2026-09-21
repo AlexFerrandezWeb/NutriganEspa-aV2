@@ -310,6 +310,118 @@ body {
     }
 }
 
+/* El panel llega hasta el borde de abajo, bloquea el fondo y lleva su X para
+   salir. Esto era solo de móvil; en escritorio el panel se quedaba en una
+   franja y sin X, y acababan siendo dos buscadores distintos segun la
+   pantalla. Es el mismo, y se cierra igual en los dos. */
+.buscador-panel {
+    bottom: 0;
+}
+
+
+/* Con el panel abierto, lo de detrás no se mueve: si no, al arrastrar la
+   lista se acaba desplazando la página del fondo. */
+body.buscador-panel-abierto {
+    overflow: hidden;
+}
+
+
+/* La X para salir del buscador. Va dentro del recuadro, a la derecha.
+   Solo existe mientras el panel esta abierto: cerrado no hay nada que
+   cerrar, y ocuparia sitio en un ancho donde no sobra. */
+.nav-buscador .buscador-cerrar {
+    position: absolute;
+    right: 0.45rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 34px de lado: por debajo de eso no se acierta con el dedo. */
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-texto-oscuro);
+    opacity: 0.55;
+    cursor: pointer;
+    z-index: 3;
+}
+
+
+/* El atributo hidden esconde con un display:none del navegador, y el
+   display:flex de arriba se lo pisa: los estilos de la pagina ganan a los
+   del navegador. Sin esta regla la X se queda en pantalla con el panel
+   cerrado, que es justo cuando no hay nada que cerrar. */
+.nav-buscador .buscador-cerrar[hidden] {
+    display: none;
+}
+
+
+.nav-buscador .buscador-cerrar svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+}
+
+
+.nav-buscador .buscador-cerrar:active {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.06);
+}
+
+
+/* Sitio para la X, que si no se le mete el texto por debajo. */
+body.buscador-panel-abierto .nav-buscador input[type="search"] {
+    padding-right: 2.6rem;
+}
+
+
+/* Dos equis juntas no se entienden: la del navegador solo borra lo escrito
+   y solo sale si hay texto; la nuestra cierra, que es lo que hace falta.
+
+   Van en reglas separadas a proposito. Juntas por una coma, el navegador
+   que no reconoce el selector del otro tira la regla ENTERA, incluida su
+   propia mitad: en Chrome salian las dos equis, una al lado de la otra. */
+body.buscador-panel-abierto .nav-buscador input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}
+
+
+body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clear-button {
+    display: none;
+}
+
+/* ── LA BARRA DE BÚSQUEDA, IGUAL EN LOS DOS TAMAÑOS ────────────────────
+   En escritorio salia sin separacion entre recuadro y boton, con el boton 4px
+   mas alto que el recuadro y con el texto rotatorio de sugerencias encima del
+   propio placeholder, ilegibles los dos. */
+.nav-buscador {
+    gap: 0.4rem;
+}
+
+/* Que el boton mida lo que mida el recuadro, y no lo que sumen su relleno y su
+   icono: asi no hay que cuadrarlos a mano cada vez que cambia uno.
+
+   El relleno de arriba y abajo se quita a proposito: con el, el boton era mas
+   alto que el recuadro y el stretch no lo encogia, porque el que manda es el
+   mas alto de los dos. Sin el, manda el recuadro y el boton lo iguala. */
+.nav-buscador button[type="submit"] {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* El texto rotatorio se pisa con el placeholder y con lo que se escribe. */
+.nav-buscador .buscador-texto-dinamico {
+    display: none;
+}
+
 @media (max-width: 576px) {
     .nav-superior {
         padding: 0.8rem 1rem 0 1rem;
@@ -1650,88 +1762,6 @@ body {
         display: none;
     }
 
-    /* ── PANEL DE BÚSQUEDA: lo propio del móvil ──────────────
-       Ocupa hasta el borde de abajo, bloquea el fondo y saca la X para
-       salir, que en escritorio no hace falta porque la lupa cierra. */
-    .buscador-panel {
-        bottom: 0;
-    }
-
-
-    /* Con el panel abierto, lo de detrás no se mueve: si no, al arrastrar la
-       lista se acaba desplazando la página del fondo. */
-    body.buscador-panel-abierto {
-        overflow: hidden;
-    }
-
-
-    /* La X para salir del buscador. Va dentro del recuadro, a la derecha.
-       Solo existe mientras el panel esta abierto: cerrado no hay nada que
-       cerrar, y ocuparia sitio en un ancho donde no sobra. */
-    .nav-buscador .buscador-cerrar {
-        position: absolute;
-        right: 0.45rem;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        /* 34px de lado: por debajo de eso no se acierta con el dedo. */
-        width: 34px;
-        height: 34px;
-        padding: 0;
-        border: none;
-        border-radius: 50%;
-        background: transparent;
-        color: var(--color-texto-oscuro);
-        opacity: 0.55;
-        cursor: pointer;
-        z-index: 3;
-    }
-
-
-    /* El atributo hidden esconde con un display:none del navegador, y el
-       display:flex de arriba se lo pisa: los estilos de la pagina ganan a los
-       del navegador. Sin esta regla la X se queda en pantalla con el panel
-       cerrado, que es justo cuando no hay nada que cerrar. */
-    .nav-buscador .buscador-cerrar[hidden] {
-        display: none;
-    }
-
-
-    .nav-buscador .buscador-cerrar svg {
-        width: 17px;
-        height: 17px;
-        fill: none;
-    }
-
-
-    .nav-buscador .buscador-cerrar:active {
-        opacity: 1;
-        background: rgba(0, 0, 0, 0.06);
-    }
-
-
-    /* Sitio para la X, que si no se le mete el texto por debajo. */
-    body.buscador-panel-abierto .nav-buscador input[type="search"] {
-        padding-right: 2.6rem;
-    }
-
-
-    /* Dos equis juntas no se entienden: la del navegador solo borra lo escrito
-       y solo sale si hay texto; la nuestra cierra, que es lo que hace falta.
-
-       Van en reglas separadas a proposito. Juntas por una coma, el navegador
-       que no reconoce el selector del otro tira la regla ENTERA, incluida su
-       propia mitad: en Chrome salian las dos equis, una al lado de la otra. */
-    body.buscador-panel-abierto .nav-buscador input[type="search"]::-webkit-search-cancel-button {
-        display: none;
-    }
-
-
-    body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clear-button {
-        display: none;
-    }
 
     .menu-izquierda li {
         width: 100% !important;
@@ -10357,8 +10387,6 @@ body {
    una pantalla aparte, y quitarle el scroll a la página da un salto feo. */
 @media (min-width: 577px) {
     .buscador-panel {
-        max-height: min(72vh, 620px);
-        border-radius: 0 0 14px 14px;
         padding-bottom: 1.6rem;
     }
 
@@ -10407,9 +10435,4 @@ body {
         height: 58px;
     }
 
-    /* La X vive solo en móvil: aquí se cierra con la lupa, con Escape o
-       pulsando fuera. */
-    .nav-buscador .buscador-cerrar {
-        display: none;
-    }
 }

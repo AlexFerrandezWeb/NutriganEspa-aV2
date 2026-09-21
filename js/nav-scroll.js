@@ -122,11 +122,16 @@
     // corta hasta un producto, era el camino más largo de la página.
     //
     // Las categorías y los resultados los pone buscador-panel.js al tocarlo.
-    if (buscador && window.innerWidth <= 576) {
-        var inputMovil = buscador.querySelector('input[type="search"]');
-        if (inputMovil) {
-            inputMovil.setAttribute('autocomplete', 'off');
-            inputMovil.setAttribute('placeholder', 'Buscar en Nutrigan España...');
+    //
+    // El texto de ayuda va en los dos tamaños: el «Buscar...» del HTML no dice
+    // dónde se busca, y en escritorio quedaba además un texto rotatorio de
+    // sugerencias pisándolo. Se pone desde aquí y no en las 12 páginas para no
+    // tener doce copias de la misma frase.
+    if (buscador) {
+        var campo = buscador.querySelector('input[type="search"]');
+        if (campo) {
+            campo.setAttribute('autocomplete', 'off');
+            campo.setAttribute('placeholder', 'Buscar en Nutrigan España...');
         }
     }
 
