@@ -200,8 +200,8 @@ async function enviarCorreoPedido(pedido) {
                     <td style="padding: 10px; border: 1px solid #ddd;">${index + 1}</td>
                     <td style="padding: 10px; border: 1px solid #ddd;">${producto.nombre}</td>
                     <td style="padding: 10px; border: 1px solid #ddd;">${producto.cantidad}</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">${producto.precio}€</td>
-                    <td style="padding: 10px; border: 1px solid #ddd;">${(producto.precio * producto.cantidad).toFixed(2)}€</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${promos.separarMiles(producto.precio)}€</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">${promos.separarMiles(producto.precio * producto.cantidad)}€</td>
                 </tr>
             `;
         });

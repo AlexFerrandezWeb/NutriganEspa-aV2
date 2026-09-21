@@ -3,6 +3,15 @@ const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+/** Precio para leer: "€1.270,50". El formato vive en promociones.js, que
+    es quien lo usa también en las ofertas y en el HTML que pinta el servidor. */
+function precioSitio(n) {
+    return window.NutriganPromos
+        ? window.NutriganPromos.formatoPrecioSitio(n)
+        : '€' + parseFloat(n).toFixed(2);
+}
+
+
 function escHTML(str) {
     if (str == null) return '';
     return String(str)
@@ -120,7 +129,7 @@ function mostrarProducto(producto) {
     if (producto.cantidad_minima && producto.cantidad_minima > 1) {
         const precioUnitario = producto.precio_unitario || (producto.precio / producto.cantidad_minima);
         document.getElementById('producto-precio').innerHTML = `
-            <span class="precio-unitario">€${precioUnitario.toFixed(2)} <small>/unidad</small></span>
+            <span class="precio-unitario">${precioSitio(precioUnitario)} <small>/unidad</small></span>
             <div class="precio-info">
                 <small>Mínimo: ${producto.cantidad_minima} unidades</small>
             </div>
@@ -130,7 +139,7 @@ function mostrarProducto(producto) {
         document.getElementById('cantidad-producto').value = producto.cantidad_minima;
         cantidadActual = producto.cantidad_minima;
     } else {
-        document.getElementById('producto-precio').innerHTML = `€${producto.precio.toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
+        document.getElementById('producto-precio').innerHTML = `${precioSitio(producto.precio)} <span class="precio-iva">IVA inc.</span>`;
     }
 
     // Oferta vigente, si la hay.
@@ -325,7 +334,7 @@ function mostrarProductosRelacionados(productos) {
             <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="relacionado-imagen" loading="lazy" decoding="async">
             <div class="relacionado-info">
                 <h4 class="relacionado-nombre">${escHTML(producto.nombre)}</h4>
-                <p class="relacionado-precio">€${producto.precio.toFixed(2)}${agotado ? ' <span class="etiqueta-agotado">Agotado</span>' : ''}</p>
+                <p class="relacionado-precio">${precioSitio(producto.precio)}${agotado ? ' <span class="etiqueta-agotado">Agotado</span>' : ''}</p>
             </div>
         `;
         
@@ -419,7 +428,7 @@ function actualizarPrecioSegunCantidad() {
     contenedorPrecio.classList.toggle('producto-precio--promo', aplicaLaOferta);
     contenedorPrecio.innerHTML = aplicaLaOferta
         ? window.NutriganPromos.precioConTachadoHTML(promo)
-        : `€${parseFloat(productoActual.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span>`;
+        : `${precioSitio(parseFloat(productoActual.precio))} <span class="precio-iva">IVA inc.</span>`;
 }
 
 // Función para actualizar botones de cantidad

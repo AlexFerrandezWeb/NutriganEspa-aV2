@@ -3,6 +3,15 @@ const SUPABASE_URL = 'https://sajxwtxafdtcrlynegqp.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_J5S8W6Ume00gCtaKcUInZw_SoJnyKb1';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+/** Precio para leer: "€1.270,50". El formato vive en promociones.js, que
+    es quien lo usa también en las ofertas y en el HTML que pinta el servidor. */
+function precioSitio(n) {
+    return window.NutriganPromos
+        ? window.NutriganPromos.formatoPrecioSitio(n)
+        : '€' + parseFloat(n).toFixed(2);
+}
+
+
 function escHTML(str) {
     if (str == null) return '';
     return String(str)
@@ -198,7 +207,7 @@ function crearItemCarrito(producto, index) {
     const totalAntes = producto.precio * producto.cantidad;
     const precioTotal = totalAntes - descuentoDeEstaLinea;
     const precioUnitario = producto.cantidad ? precioTotal / producto.cantidad : producto.precio;
-    const tachado = importe => `<s class="carrito-item-precio-antes">€${importe.toFixed(2)}</s> `;
+    const tachado = importe => `<s class="carrito-item-precio-antes">${precioSitio(importe)}</s> `;
     
     itemDiv.innerHTML = `
         <a href="/producto/${slugify(producto.nombre)}" class="carrito-item-enlace-completo">
@@ -213,8 +222,8 @@ function crearItemCarrito(producto, index) {
             </div>
         </a>
         <div class="carrito-item-precios">
-            <div class="carrito-item-precio-unitario">${enOferta ? tachado(producto.precio) : ''}€${precioUnitario.toFixed(2)} c/u</div>
-            <div class="carrito-item-precio-total">${enOferta ? tachado(totalAntes) : ''}€${precioTotal.toFixed(2)}</div>
+            <div class="carrito-item-precio-unitario">${enOferta ? tachado(producto.precio) : ''}${precioSitio(precioUnitario)} c/u</div>
+            <div class="carrito-item-precio-total">${enOferta ? tachado(totalAntes) : ''}${precioSitio(precioTotal)}</div>
         </div>
         <div class="carrito-item-controls">
             <div class="carrito-item-cantidad">
@@ -385,8 +394,8 @@ function actualizarResumenCarrito() {
     const cantidadTotal = carrito.reduce((total, producto) => total + producto.cantidad, 0);
     
     // Actualizar elementos
-    subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
-    envioElement.textContent = envio === 0 ? 'Gratis' : `€${envio.toFixed(2)}`;
+    subtotalElement.textContent = `${precioSitio(subtotal)}`;
+    envioElement.textContent = envio === 0 ? 'Gratis' : `${precioSitio(envio)}`;
 
     // La nota del ahorro solo existe cuando hay ahorro: un "€0.00" fijo en el
     // resumen invita a pensar que la oferta no ha entrado.
@@ -394,7 +403,7 @@ function actualizarResumenCarrito() {
     const descuentoElement = document.getElementById('descuento');
     if (notaAhorro && descuentoElement) {
         notaAhorro.hidden = descuento <= 0;
-        descuentoElement.textContent = `€${descuento.toFixed(2)}`;
+        descuentoElement.textContent = `${precioSitio(descuento)}`;
     }
 
     const origenElement = document.getElementById('descuento-origen');
@@ -408,7 +417,7 @@ function actualizarResumenCarrito() {
             && window.NutriganPromos.elCarritoLlevaAplicador(carrito));
     }
 
-    totalElement.textContent = `€${total.toFixed(2)}`;
+    totalElement.textContent = `${precioSitio(total)}`;
     cantidadTotalElement.textContent = `${cantidadTotal} producto${cantidadTotal !== 1 ? 's' : ''}`;
     
     // Habilitar/deshabilitar botón de proceder al pago. Se bloquea tambien si
@@ -494,7 +503,7 @@ function actualizarBarraMovil(total, hayAgotados) {
         importe.textContent = 'Revisa tu carrito';
     } else {
         etiqueta.textContent = 'Total';
-        importe.textContent = `€${total.toFixed(2)}`;
+        importe.textContent = `${precioSitio(total)}`;
     }
 }
 

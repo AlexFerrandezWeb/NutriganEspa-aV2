@@ -31,6 +31,15 @@ function slugify(str) {
         .replace(/^-+|-+$/g, '');
 }
 
+
+/** Precio para leer: "€1.270,50". El formato vive en promociones.js, que
+    es quien lo usa también en las ofertas y en el HTML que pinta el servidor. */
+function precioSitio(n) {
+    return window.NutriganPromos
+        ? window.NutriganPromos.formatoPrecioSitio(n)
+        : '€' + parseFloat(n).toFixed(2);
+}
+
 // Variables globales
 let productos = [];
 let productosFiltrados = [];
@@ -217,7 +226,7 @@ function precioDelProducto(producto) {
     if (promo) {
         return `<div class="producto-precio producto-precio--promo">${window.NutriganPromos.precioConTachadoHTML(promo)}</div>`;
     }
-    return `<div class="producto-precio">€${parseFloat(producto.precio).toFixed(2)} <span class="precio-iva">IVA inc.</span></div>`;
+    return `<div class="producto-precio">${precioSitio(parseFloat(producto.precio))} <span class="precio-iva">IVA inc.</span></div>`;
 }
 
 // Precio por unidad de la tarjeta. Con promocion vigente se tacha el normal y se
@@ -229,7 +238,9 @@ function precioUnidadDelProducto(producto) {
     if (promo) {
         return `<span class="precio-por-unidad precio-por-unidad--promo">${window.NutriganPromos.precioUnidadTachadoHTML(promo)}</span>`;
     }
-    return `<span class="precio-por-unidad">(${parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',')}€/U)</span>`;
+    return `<span class="precio-por-unidad">(${window.NutriganPromos
+        ? window.NutriganPromos.formatoUnidadSitio(producto.precio_unitario)
+        : parseFloat(producto.precio_unitario).toFixed(2).replace('.', ',') + '€/U'})</span>`;
 }
 
 // Función para crear el elemento HTML de un producto
@@ -585,7 +596,7 @@ function mostrarModalDetalles(producto) {
                     <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}">
                 </div>
                 <div class="modal-info">
-                    <div class="modal-precio">€${producto.precio.toFixed(2)}</div>
+                    <div class="modal-precio">${precioSitio(producto.precio)}</div>
                     <p class="modal-descripcion">${escHTML(producto.descripcionCompleta)}</p>
 
                     <div class="modal-detalles">

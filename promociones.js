@@ -193,8 +193,27 @@
        -------------------------------------------------------------------- */
 
     /** 2.9 -> "2,90 €"; 12 -> "12 €" (sin decimales muertos). */
+    /**
+     * 1270.5 -> "1.270,50". Punto para los miles, coma para los céntimos, que
+     * es como se escribe un precio en castellano.
+     *
+     * No es cosmética: sin el punto, "1270.50" y "12705.00" se distinguen mal
+     * de un vistazo, y este catálogo pone palés de cuatro cifras al lado de
+     * botes de dos.
+     *
+     * Ojo: esto es para lo que LEE una persona. El feed de Google Shopping, los
+     * datos estructurados y los eventos de Analytics mandan el número crudo
+     * ("1270.50") y no pasan por aquí; con separadores, el feed se rompe.
+     */
+    function separarMiles(n) {
+        var valor = parseFloat(n) || 0;
+        var partes = Math.abs(valor).toFixed(2).split('.');
+        var entero = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return (valor < 0 ? '-' : '') + entero + ',' + partes[1];
+    }
+
     function formatoEuros(n) {
-        var s = parseFloat(n).toFixed(2).replace('.', ',');
+        var s = separarMiles(n);
         if (s.slice(-3) === ',00') s = s.slice(0, -3);
         return s + ' €';
     }
@@ -209,17 +228,17 @@
      * sigue mandando formatoEuros, que se lee mejor sin el «,00».
      */
     function formatoEurosConCentimos(n) {
-        return parseFloat(n).toFixed(2).replace('.', ',') + ' €';
+        return separarMiles(n) + ' €';
     }
 
-    /** "€70.00" — el formato que ya usan las tarjetas y la ficha del sitio. */
+    /** "€1.270,50" — el formato de las tarjetas y la ficha del sitio. */
     function formatoPrecioSitio(n) {
-        return '€' + parseFloat(n).toFixed(2);
+        return '€' + separarMiles(n);
     }
 
     /** "3,50€/U" — el formato del precio por unidad que ya usan las tarjetas. */
     function formatoUnidadSitio(n) {
-        return parseFloat(n).toFixed(2).replace('.', ',') + '€/U';
+        return separarMiles(n) + '€/U';
     }
 
     /* --------------------------------------------------------------------
@@ -353,6 +372,7 @@
         descuentoDeCarrito: descuentoDeCarrito,
         loQueFaltaParaLaPromo: loQueFaltaParaLaPromo,
         tiempoRestante: tiempoRestante,
+        separarMiles: separarMiles,
         formatoEuros: formatoEuros,
         formatoEurosConCentimos: formatoEurosConCentimos,
         formatoPrecioSitio: formatoPrecioSitio,
