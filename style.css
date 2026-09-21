@@ -1624,11 +1624,20 @@ body {
         color: #8a8a8a;
     }
 
-    /* Precio viejo tachado, al lado del rebajado. */
+    /* El de antes tachado en rojo, el de ahora en verde: en una fila tan
+       estrecha el color distingue los dos importes mas rapido que el tamano.
+       Es el mismo rojo que ya usa el catalogo para las ofertas. */
     .buscador-panel__antes {
         font-size: 0.72rem;
-        color: #9a9a9a;
+        color: #c41f34;
         text-decoration: line-through;
+        text-decoration-thickness: 1.5px;
+    }
+
+    .buscador-panel__item--oferta .buscador-panel__caja,
+    .buscador-panel__item--oferta .buscador-panel__unidad {
+        color: var(--color-contador);
+        font-weight: 700;
     }
 
     /* "Oferta desde 2 cajas". Va con el precio y no como etiqueta suelta:

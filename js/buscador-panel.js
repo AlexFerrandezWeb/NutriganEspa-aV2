@@ -92,9 +92,18 @@
     var titulo = panel.querySelector('#buscador-panel-titulo');
     var pie = panel.querySelector('#buscador-panel-pie');
 
+    /**
+     * Siempre con centimos, tambien los redondos: "3,00 €" y no "3 €".
+     *
+     * En una lista los precios se leen en columna y se comparan de un vistazo;
+     * con unos a dos decimales y otros a ninguno, la columna queda dentada. Y
+     * junto a su tachado, «3 €» al lado de «3,60 €» parecen de dos monedas
+     * distintas. Es el motivo por el que promociones.js ya tenia una version
+     * con centimos aparte de la corriente.
+     */
     function euros(n) {
-        if (window.NutriganPromos && window.NutriganPromos.formatoEuros) {
-            return window.NutriganPromos.formatoEuros(n);
+        if (window.NutriganPromos && window.NutriganPromos.formatoEurosConCentimos) {
+            return window.NutriganPromos.formatoEurosConCentimos(n);
         }
         // El panel vive en las 12 páginas y promociones.js solo en cuatro, así
         // que aquí hace falta saber separar los miles por cuenta propia.
