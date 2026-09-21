@@ -156,9 +156,9 @@
         /* Resumen en vivo de la oferta: enseña lo que va a ver el cliente final
            mientras se teclean las cifras, para no tener que ir a la web a
            comprobarlo. En rojo cuando la oferta no se va a aplicar. */
-        .promo-resumen { margin-top: 4px; padding: 10px 12px; border-radius: 8px; font-size: 0.82rem; line-height: 1.5; }
-        .promo-resumen.ok { background: #e8f5f0; color: #17654a; border: 1px solid #b8ded1; }
-        .promo-resumen.mal { background: #fdecee; color: #a3182b; border: 1px solid #f2c2c8; }
+        .promo-resumen, .precio-resumen { margin-top: 4px; padding: 10px 12px; border-radius: 8px; font-size: 0.82rem; line-height: 1.5; }
+        .promo-resumen.ok, .precio-resumen.ok { background: #e8f5f0; color: #17654a; border: 1px solid #b8ded1; }
+        .promo-resumen.mal, .precio-resumen.mal { background: #fdecee; color: #a3182b; border: 1px solid #f2c2c8; }
 
         /* ── TAGS (ingredientes/beneficios) ─────────────────── */
         .tag-box { border: 1px solid #ddd; border-radius: 8px; padding: 8px 10px; background: white; }
@@ -413,7 +413,17 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="f-precio">Precio (€) *</label>
+                        <label for="f-precio-unitario">Precio unitario (€/u) <span class="label-hint">— aparece como "(X€/U)" en la tarjeta</span></label>
+                        <input type="number" id="f-precio-unitario" step="0.01" min="0" placeholder="5.82">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-unidades">Unidades por caja <span class="label-hint">— 20 si la caja lleva 20 bolos</span></label>
+                        <input type="number" id="f-unidades" step="1" min="1" placeholder="20">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="f-precio">Precio (€) * <span class="label-hint" id="f-precio-hint"></span></label>
                         <input type="number" id="f-precio" step="0.01" min="0" required placeholder="70.00">
                     </div>
                     <div class="form-group">
@@ -421,12 +431,7 @@
                         <input type="number" id="f-stock" min="0" value="0">
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="f-precio-unitario">Precio unitario (€/u) <span class="label-hint">— aparece como "(X€/U)" en la tarjeta</span></label>
-                        <input type="number" id="f-precio-unitario" step="0.01" min="0" placeholder="5.82">
-                    </div>
-                </div>
+                <div class="precio-resumen" id="precio-resumen" hidden></div>
                 <div class="form-group">
                     <label for="f-desc">Descripción corta</label>
                     <textarea id="f-desc" rows="2" placeholder="Descripción breve visible en la tienda..."></textarea>
@@ -913,6 +918,85 @@
             if (el) el.addEventListener('input', actualizarResumenPromo);
         });
 
+    /** Euros con simbolo, tirando de la tienda si esta cargada. */
+    function euros(n) {
+        if (window.NutriganPromos && window.NutriganPromos.formatoEuros) {
+            return window.NutriganPromos.formatoEuros(n);
+        }
+        return n.toFixed(2).replace('.', ',') + ' €';
+    }
+
+    /**
+     * Unidades que lleva la caja de un producto.
+     *
+     * No hay columna para esto: se deduce de los dos precios, que es de donde
+     * salio siempre. Solo vale si la division da un entero; si un producto
+     * viniera descuadrado se devuelve vacio, para que se escriba a mano en vez
+     * de heredar el error que se estaba intentando arreglar.
+     */
+    function unidadesDeLaCaja(p) {
+        if (!p.precio_unitario || !p.precio) return '';
+        const uds = p.precio / p.precio_unitario;
+        const entero = Math.round(uds);
+        if (entero < 1 || Math.abs(uds - entero) > 0.005) return '';
+        return entero;
+    }
+
+    /**
+     * El precio de la caja es la multiplicacion, no un numero aparte.
+     *
+     * Los dos precios eran campos sueltos y nada impedia subir el de la unidad
+     * dejando el total viejo: asi es como ocho productos acabaron anunciando
+     * 42,35 € por unidad y cobrando a 39,49 €. Con las unidades delante, el
+     * total lo calcula el panel y deja de poder descuadrarse.
+     *
+     * Los descuentos no entran aqui: van por las columnas promo_*, que se
+     * aplican encima de este precio base.
+     */
+    function actualizarPrecioCalculado() {
+        const elPrecio = document.getElementById('f-precio');
+        const caja     = document.getElementById('precio-resumen');
+        const pista    = document.getElementById('f-precio-hint');
+        if (!elPrecio || !caja) return;
+
+        const unitario = parseFloat(document.getElementById('f-precio-unitario').value);
+        const unidades = parseInt(document.getElementById('f-unidades').value, 10);
+
+        // Sin precio por unidad no hay multiplicacion que hacer: el total se
+        // escribe a mano, como se ha hecho siempre.
+        if (!(unitario > 0)) {
+            elPrecio.readOnly = false;
+            pista.textContent = '';
+            caja.hidden = true;
+        } else if (!(unidades > 0)) {
+            elPrecio.readOnly = false;
+            pista.textContent = '';
+            caja.className = 'precio-resumen mal';
+            caja.textContent = 'Di cuántas unidades lleva la caja y el total se calcula solo. ' +
+                'Mientras esté vacío hay que escribirlo a mano, y puede quedar descuadrado ' +
+                'del precio por unidad.';
+            caja.hidden = false;
+        } else {
+            const total = +(unitario * unidades).toFixed(2);
+            elPrecio.readOnly = true;
+            elPrecio.value = total.toFixed(2);
+            pista.textContent = '— lo calcula el panel';
+            caja.className = 'precio-resumen ok';
+            caja.textContent = unidades + ' × ' + euros(unitario) + ' = ' + euros(total) +
+                '. Para cambiar el total, cambia el precio por unidad.';
+            caja.hidden = false;
+        }
+
+        // El precio de caja es la base de la oferta, asi que si se ha movido,
+        // el resumen de la oferta ya no dice la verdad.
+        actualizarResumenPromo();
+    }
+
+    ['f-precio-unitario', 'f-unidades'].forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', actualizarPrecioCalculado);
+    });
+
     // ── PRODUCT FORM ──────────────────────────────────────────
     async function openProductForm(id = null) {
         editingId = id;
@@ -960,6 +1044,7 @@
             document.getElementById('f-ficha').value        = p.ficha_tecnica || '';
             document.getElementById('f-imagen-url').value   = p.imagen || '';
             document.getElementById('f-precio-unitario').value = p.precio_unitario ?? '';
+            document.getElementById('f-unidades').value        = unidadesDeLaCaja(p);
             document.getElementById('f-promo-cajas').value     = p.promo_cajas_minimas ?? '';
             document.getElementById('f-promo-descuento').value = p.promo_descuento_caja ?? '';
             // La columna es DATE; Supabase la devuelve como 'YYYY-MM-DD' y el input
@@ -977,7 +1062,7 @@
             document.getElementById('save-btn').textContent = 'Guardar producto';
         }
 
-        actualizarResumenPromo();
+        actualizarPrecioCalculado();
         actualizarContadorDestacados();
 
         isDirty = false;
@@ -1000,6 +1085,24 @@
                 'Ya hay ' + MAX_DESTACADOS + ' productos destacados, que es lo que cabe en la portada. ' +
                 'Quita el destacado a otro antes de poner este.';
             document.getElementById('form-error').hidden = false;
+            return;
+        }
+
+        // Red de seguridad de la multiplicacion. El campo es de solo lectura y
+        // se calcula solo, asi que esto no deberia saltar nunca; esta por si
+        // alguna vez se guarda por un camino que no pase por el formulario,
+        // porque el descuadre no se nota hasta que un cliente paga de menos.
+        const unitarioGuardar = parseFloat(document.getElementById('f-precio-unitario').value);
+        const unidadesGuardar = parseInt(document.getElementById('f-unidades').value, 10);
+        const precioGuardar   = parseFloat(document.getElementById('f-precio').value);
+        if (unitarioGuardar > 0 && unidadesGuardar > 0 &&
+            Math.abs(precioGuardar - unitarioGuardar * unidadesGuardar) > 0.005) {
+            document.getElementById('form-error').textContent =
+                'El precio no cuadra: ' + unidadesGuardar + ' × ' + euros(unitarioGuardar) +
+                ' son ' + euros(+(unitarioGuardar * unidadesGuardar).toFixed(2)) +
+                ', no ' + euros(precioGuardar) + '.';
+            document.getElementById('form-error').hidden = false;
+            document.getElementById('f-precio-unitario').focus();
             return;
         }
 
