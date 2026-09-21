@@ -1609,7 +1609,8 @@ body {
     .buscador-panel__precios {
         display: flex;
         align-items: baseline;
-        gap: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.35rem 0.5rem;
     }
 
     .buscador-panel__unidad {
@@ -1621,6 +1622,34 @@ body {
     .buscador-panel__caja {
         font-size: 0.75rem;
         color: #8a8a8a;
+    }
+
+    /* Precio viejo tachado, al lado del rebajado. */
+    .buscador-panel__antes {
+        font-size: 0.72rem;
+        color: #9a9a9a;
+        text-decoration: line-through;
+    }
+
+    /* "Oferta desde 2 cajas". Va con el precio y no como etiqueta suelta:
+       el importe rebajado solo se paga desde ahi, y anunciarlo a secas
+       enganaria a quien compre una sola caja. */
+    .buscador-panel__condicion {
+        display: inline-block;
+        margin-top: 0.2rem;
+        padding: 0.1rem 0.42rem;
+        border-radius: 10px;
+        background: #fdecee;
+        color: #a3182b;
+        font-family: var(--fuente-titulos);
+        font-size: 0.64rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .buscador-panel__item--oferta a {
+        background: #fffdf7;
     }
 
     .buscador-panel__vacio {

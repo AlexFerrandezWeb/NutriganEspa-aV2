@@ -119,19 +119,41 @@
     }
 
     function filaHtml(p) {
+        var promo = window.NutriganPromos && window.NutriganPromos.promocionDe
+            ? window.NutriganPromos.promocionDe(p)
+            : null;
+
         // El precio por unidad delante: es como compara el ganadero. El de la
-        // caja debajo, que es lo que se paga.
-        var unidad = p.precio_unitario
-            ? '<span class="buscador-panel__unidad">' + euros(p.precio_unitario) + '/u</span>'
+        // caja detrás, que es lo que se paga. Con oferta viva, el rebajado
+        // sustituye al normal y el normal se queda tachado al lado, igual que
+        // en las tarjetas del catálogo.
+        var unidad = '';
+        if (promo && promo.precioUnidadPromo) {
+            unidad = '<span class="buscador-panel__unidad">' + euros(promo.precioUnidadPromo) + '/u</span>' +
+                     '<s class="buscador-panel__antes">' + euros(promo.precioUnidadNormal) + '/u</s>';
+        } else if (p.precio_unitario) {
+            unidad = '<span class="buscador-panel__unidad">' + euros(p.precio_unitario) + '/u</span>';
+        }
+
+        var caja = promo
+            ? '<span class="buscador-panel__caja">' + euros(promo.precioCajaPromo) + '</span>' +
+              '<s class="buscador-panel__antes">' + euros(promo.precioCajaNormal) + '</s>'
+            : '<span class="buscador-panel__caja">' + euros(p.precio) + '</span>';
+
+        // La condición va pegada al precio, nunca suelta: los 60 € solo se
+        // pagan desde N cajas, y anunciarlos a secas engaña a quien compre una
+        // sola y contradice al feed de Google Shopping, que publica el suelto.
+        var condicion = promo
+            ? '<span class="buscador-panel__condicion">Oferta desde ' + promo.cajasMinimas + ' cajas</span>'
             : '';
-        return '<li class="buscador-panel__item">' +
+
+        return '<li class="buscador-panel__item' + (promo ? ' buscador-panel__item--oferta' : '') + '">' +
             '<a href="/producto/' + slug(p.nombre) + '">' +
                 '<img src="' + escapar(p.imagen || 'assets/logo.png') + '" alt="" loading="lazy" decoding="async">' +
                 '<span class="buscador-panel__texto">' +
                     '<span class="buscador-panel__nombre">' + escapar(p.nombre) + '</span>' +
-                    '<span class="buscador-panel__precios">' + unidad +
-                        '<span class="buscador-panel__caja">' + euros(p.precio) + '</span>' +
-                    '</span>' +
+                    '<span class="buscador-panel__precios">' + unidad + caja + '</span>' +
+                    condicion +
                 '</span>' +
             '</a>' +
         '</li>';
