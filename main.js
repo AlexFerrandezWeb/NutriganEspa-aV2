@@ -589,3 +589,41 @@ document.addEventListener('click', function (evento) {
     // Vibración, vuelo al carrito, pulso del contador y «Añadido» en el botón.
     window.NutriganFeedback.confirmarAnadido(boton, producto.imagen);
 });
+
+
+/* --------------------------------------------------------------------------
+   El botón de WhatsApp se aparta al pasar por el carrusel de la gama.
+
+   El botón es fijo en la esquina inferior derecha y ahí tapaba una de las fotos
+   de producto del carrusel «Conoce toda la gama Bolutech». En una pantalla de
+   mano no hay sitio para los dos, y la foto es la que el visitante ha bajado a
+   ver.
+
+   Solo en móvil: en escritorio el carrusel no llega a esa esquina.
+   -------------------------------------------------------------------------- */
+(function () {
+    var flotante = document.querySelector('.whatsapp-float');
+    var gama = document.querySelector('.conoce-productos-section');
+    if (!flotante || !gama || !('IntersectionObserver' in window)) return;
+
+    var enPantalla = false;
+
+    // El ancho se mira aquí y no una sola vez al arrancar: girar el móvil
+    // cambia el ancho sin recargar, y el botón se quedaría escondido.
+    function aplicar() {
+        flotante.classList.toggle(
+            'whatsapp-float--oculto',
+            enPantalla && window.innerWidth <= 768
+        );
+    }
+
+    // Sin margen ni umbral a propósito: el botón vive pegado al borde de abajo,
+    // así que empieza a estorbar en cuanto el carrusel asoma por ahí, que es
+    // justo cuando el observador lo da por visible.
+    new IntersectionObserver(function (entradas) {
+        enPantalla = entradas[0].isIntersecting;
+        aplicar();
+    }, { threshold: 0 }).observe(gama);
+
+    window.addEventListener('resize', aplicar);
+})();

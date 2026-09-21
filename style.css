@@ -2912,6 +2912,53 @@ body {
     }
 }
 
+/* ── CARRUSELES Y BOTÓN FLOTANTE EN MÓVIL ──────────────────────────────── */
+@media (max-width: 768px) {
+    /* Fuera las flechas. Se comen la foto, caen justo donde esta el boton de
+       WhatsApp y en una pantalla de mano estorban mas de lo que ayudan. Queda
+       el avance automatico y los puntos, que si son pulsables. */
+    .carrusel-btn {
+        display: none;
+    }
+
+    /* Sin flechas, los puntos pasan a ser la unica navegacion a mano, y con 8
+       o 10 px no se aciertan con el dedo. El punto se ve igual; lo que crece
+       es la zona que responde al toque, y el hueco entre ellos sube para que
+       esas zonas no se pisen. */
+    .carrusel-indicadores {
+        /* 22 y no 20: con puntos de 8px, asi cada zona tactil de 30px queda
+           justo pegada a la siguiente sin llegar a pisarla. */
+        gap: 22px;
+        /* Por encima de .hero-overlay, que tiene z-index 100 y se tragaba el
+           toque: los puntos se veian pulsables y no lo eran. Con las flechas
+           puestas no se notaba, porque nadie los usaba. */
+        z-index: 101;
+    }
+
+    .indicador {
+        position: relative;
+    }
+
+    .indicador::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 30px;
+        height: 30px;
+    }
+
+    /* El boton se aparta al pasar por el carrusel de la gama, donde tapaba una
+       de las fotos de producto. Baja en vez de desaparecer de golpe, y deja de
+       responder al toque mientras esta fuera. */
+    .whatsapp-float--oculto {
+        opacity: 0;
+        transform: translateY(150%);
+        pointer-events: none;
+    }
+}
+
 /* Responsive para WhatsApp */
 @media (max-width: 768px) {
     .whatsapp-float {
