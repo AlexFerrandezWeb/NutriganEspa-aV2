@@ -1590,7 +1590,35 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
 }
 
 
+/* El panel se reparte en columna para poder empujar el pie hasta abajo. Los
+   trozos de arriba no se encogen: en un flex, por defecto, se apretarian
+   para dejarle sitio a la lista. */
+.buscador-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+/* El display de arriba pisa el display:none con el que el navegador esconde
+   lo que lleva el atributo hidden, y el panel se quedaba abierto nada mas
+   cargar la pagina. Es el mismo tropiezo que con la X de cerrar: en cuanto se
+   le da un display propio a algo que se esconde con hidden, hay que decirlo
+   aqui tambien. */
+.buscador-panel[hidden] {
+    display: none;
+}
+
+.buscador-panel__fijo,
+.buscador-panel__titulo,
 .buscador-panel__pie {
+    flex-shrink: 0;
+}
+
+/* margin-top:auto y no una posicion fija: con pocos productos empuja el
+   enlace hasta el borde de abajo, y cuando hay tantos que la lista no cabe,
+   el margen se anula solo y el enlace queda donde termina la lista, que es
+   donde toca. */
+.buscador-panel__pie {
+    margin-top: auto;
     padding: 1rem 0.9rem 0;
     text-align: center;
 }
@@ -10415,8 +10443,8 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
 
     .buscador-panel__lista {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 0.4rem 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+        gap: 0.5rem 1.2rem;
         padding: 0.4rem 1.6rem 0;
     }
 
@@ -10430,9 +10458,36 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
         background: #f5faf8;
     }
 
+    /* Aqui sobra sitio: las fotos y la letra crecen para que un producto se
+       reconozca de un vistazo, que es a lo que viene el panel. */
     .buscador-panel__item img {
-        width: 58px;
-        height: 58px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .buscador-panel__nombre {
+        font-size: 0.98rem;
+    }
+
+    .buscador-panel__unidad {
+        font-size: 0.94rem;
+    }
+
+    .buscador-panel__caja,
+    .buscador-panel__antes {
+        font-size: 0.84rem;
+    }
+
+    .buscador-panel__condicion {
+        font-size: 0.7rem;
+    }
+
+    .buscador-panel__titulo {
+        font-size: 0.78rem;
+    }
+
+    .buscador-panel__pie a {
+        font-size: 0.92rem;
     }
 
 }
