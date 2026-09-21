@@ -1300,16 +1300,51 @@ body {
         margin-right: 0.3rem;
     }
 
-    .menu-izquierda .menu-li-buscador {
-        width: 100% !important;
-        padding: 1rem 0 1.2rem 0 !important;
-        margin: 0 0 0.5rem 0 !important;
-        border-bottom: 1px solid var(--color-borde);
+    /* ── BUSCADOR DE LA CABECERA EN MÓVIL ──────────────────────
+       Vive a la vista bajo el logo, como en Amazon. Estuvo dentro del menú
+       hamburguesa y buscar costaba tres gestos —abrir el menú, bajar, pinchar
+       el recuadro— para lo que es la forma más directa de llegar a un producto.
+
+       Las páginas llevan una regla en línea que deja .nav-buscador plegado a la
+       espera de la lupa, y es de las de !important. Estas ganan por
+       especificidad, que no por orden: dos clases contra una. */
+    .nav-principal .nav-buscador {
+        max-height: none !important;
+        overflow: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        margin: 0.5rem 0 0 !important;
+        padding: 0 0.6rem 0.15rem !important;
+        width: 100%;
         box-sizing: border-box;
+        gap: 0.4rem;
+        justify-content: stretch;
     }
 
+    .nav-principal .nav-buscador .buscador-input-container {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .nav-principal .nav-buscador input[type="search"] {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        /* 16px clavados: por debajo, iOS hace zoom al enfocar el campo y deja
+           la página descuadrada. */
+        font-size: 16px;
+    }
+
+    /* El texto rotatorio de sugerencias se pisa con lo escrito en un ancho de
+       móvil, donde además el sitio es lo que más escasea. */
+    .nav-principal .nav-buscador .buscador-texto-dinamico {
+        display: none;
+    }
+
+    /* Categorías bajo la barra: aparecen al pinchar el recuadro y se pliegan al
+       salir, para no robarle sitio al contenido mientras no se busca. */
     .buscador-categorias-movil {
-        margin-top: 0.85rem;
+        margin-top: 0.5rem;
         width: 100%;
         max-height: 0;
         opacity: 0;
@@ -1322,16 +1357,7 @@ body {
         max-height: 120px;
         opacity: 1;
         pointer-events: auto;
-    }
-
-    .categorias-movil-titulo {
-        font-size: 0.72rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.6px;
-        color: var(--color-texto-oscuro);
-        opacity: 0.5;
-        margin: 0 0 0.5rem 0;
+        padding-bottom: 0.6rem;
     }
 
     .categorias-movil-chips {
@@ -1340,7 +1366,7 @@ body {
         flex-wrap: nowrap;
         gap: 0.5rem;
         overflow-x: auto;
-        padding: 0 0.5rem;
+        padding: 0 0.6rem;
         scrollbar-width: none;
     }
 
@@ -1348,13 +1374,13 @@ body {
         display: none;
     }
 
-    .menu-izquierda .categoria-movil-chip {
+    .categoria-movil-chip {
         background: white;
         color: var(--color-acento);
         border: 2px solid var(--color-acento);
-        padding: 0.28rem 0.65rem !important;
+        padding: 0.28rem 0.65rem;
         font-family: var(--fuente-titulos);
-        font-size: 0.72rem !important;
+        font-size: 0.72rem;
         font-weight: 700;
         border-radius: 20px;
         cursor: pointer;
@@ -1364,43 +1390,184 @@ body {
         white-space: nowrap;
         flex-shrink: 0;
         transition: all 0.2s ease;
-        display: inline-block !important;
-        width: auto !important;
+        display: inline-block;
+        width: auto;
     }
 
-    .menu-izquierda .categoria-movil-chip:hover,
-    .menu-izquierda .categoria-movil-chip:active {
+    .categoria-movil-chip:hover,
+    .categoria-movil-chip:active {
         background: var(--color-acento);
         color: white;
         border-color: var(--color-acento);
         box-shadow: 0 4px 12px rgba(29, 129, 93, 0.3);
     }
 
-    .menu-izquierda .menu-li-buscador .nav-buscador {
-        max-height: none !important;
-        overflow: visible !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        margin: 0 !important;
-        padding: 0 0.5rem !important;
-        width: 100%;
-        box-sizing: border-box;
-        justify-content: stretch;
+    /* ── PANEL DE BÚSQUEDA A PANTALLA COMPLETA (MÓVIL) ─────────
+       Se abre al tocar el recuadro de la cabecera. Cuelga del nav, que es
+       fixed, y arranca justo debajo: el top lo pone el JavaScript, porque el
+       alto de la cabecera cambia. */
+    .buscador-panel {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1200;
+        background: #ffffff;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0.9rem 0 1.5rem;
+        border-top: 1px solid var(--color-borde);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+        overscroll-behavior: contain;
     }
 
-    .menu-izquierda .menu-li-buscador .buscador-input-container {
-        flex: 1;
-        width: 100%;
+    /* Con el panel abierto, lo de detrás no se mueve: si no, al arrastrar la
+       lista se acaba desplazando la página del fondo. */
+    body.buscador-panel-abierto {
+        overflow: hidden;
     }
 
-    .menu-izquierda .menu-li-buscador .nav-buscador input[type="search"] {
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
+    .buscador-panel__chips {
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: auto;
+        padding: 0 0.9rem 0.85rem;
+        scrollbar-width: none;
     }
 
-    .menu-izquierda .menu-li-buscador .buscador-texto-dinamico {
+    .buscador-panel__chips::-webkit-scrollbar {
         display: none;
+    }
+
+    .buscador-panel .categoria-movil-chip.activo {
+        background: var(--color-acento);
+        color: #ffffff;
+    }
+
+    .buscador-panel__orden {
+        display: flex;
+        gap: 0.4rem;
+        padding: 0 0.9rem 0.9rem;
+        border-bottom: 1px solid var(--color-borde);
+    }
+
+    .buscador-panel__orden-btn {
+        flex: 1;
+        background: #f5f6f7;
+        border: none;
+        border-radius: 8px;
+        padding: 0.5rem 0.3rem;
+        font-family: var(--fuente-titulos);
+        /* Sin nowrap, "Más baratos" se parte en dos y los tres botones quedan
+           de alturas distintas. */
+        white-space: nowrap;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        color: var(--color-texto-oscuro);
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .buscador-panel__orden-btn.activo {
+        background: var(--color-acento);
+        color: #ffffff;
+    }
+
+    .buscador-panel__titulo {
+        margin: 0.9rem 0 0.2rem;
+        padding: 0 0.9rem;
+        font-family: var(--fuente-titulos);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--color-texto-oscuro);
+        opacity: 0.5;
+    }
+
+    .buscador-panel__lista {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .buscador-panel__item a {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.7rem 0.9rem;
+        text-decoration: none;
+        color: inherit;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    .buscador-panel__item a:active {
+        background: #f5faf8;
+    }
+
+    .buscador-panel__item img {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    .buscador-panel__texto {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        min-width: 0;
+    }
+
+    .buscador-panel__nombre {
+        font-size: 0.86rem;
+        font-weight: 600;
+        line-height: 1.25;
+        /* Dos líneas y a cortar: hay nombres de 40 caracteres y la fila no
+           puede crecer hasta empujar al resto fuera de la pantalla. */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .buscador-panel__precios {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+
+    .buscador-panel__unidad {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--color-acento);
+    }
+
+    .buscador-panel__caja {
+        font-size: 0.75rem;
+        color: #8a8a8a;
+    }
+
+    .buscador-panel__vacio {
+        padding: 1.8rem 0.9rem;
+        text-align: center;
+        font-size: 0.86rem;
+        color: #8a8a8a;
+    }
+
+    .buscador-panel__pie {
+        padding: 1rem 0.9rem 0;
+        text-align: center;
+    }
+
+    .buscador-panel__pie a {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--color-acento);
+        text-decoration: none;
+        border-bottom: 1px solid currentColor;
     }
 
     .menu-izquierda li {

@@ -39,6 +39,17 @@
     if (hero) hero.style.transition = 'none';
     applyPositions();
 
+    // El alto de la cabecera se medía una sola vez, al cargar, y de él cuelgan
+    // el banner, el hero y el menú. Pero cambia después: cuando entra la
+    // tipografía web (el recuadro del buscador crece unos píxeles y el banner
+    // se metía por debajo de la cabecera), al girar el móvil y al cambiar el
+    // tamaño de la ventana. Hay que volver a medir en esos tres momentos.
+    window.addEventListener('resize', startTracking);
+    window.addEventListener('orientationchange', startTracking);
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(applyPositions).catch(function () {});
+    }
+
     var rafId = null;
     var rafStart = 0;
     var RAF_DURATION = 400;
@@ -75,45 +86,27 @@
     var buscador = document.querySelector('.nav-buscador');
     var btnLupa  = document.querySelector('.btn-lupa-buscar');
 
-    // En móvil, mover el buscador dentro del menú hamburguesa
-    if (menuMovil && buscador && window.innerWidth <= 576) {
-        var liBuscador = document.createElement('li');
-        liBuscador.className = 'menu-li-buscador';
-        liBuscador.appendChild(buscador);
-
-        var categoriasMov = document.createElement('div');
-        categoriasMov.className = 'buscador-categorias-movil';
-        categoriasMov.innerHTML =
-            '<div class="categorias-movil-chips">' +
-            '<a href="productos.html?categoria=bovinos" class="categoria-movil-chip">Bovinos</a>' +
-            '<a href="productos.html?categoria=ovinos" class="categoria-movil-chip">Ovinos</a>' +
-            '<a href="productos.html?categoria=caprinos" class="categoria-movil-chip">Caprinos</a>' +
-            '<a href="productos.html?categoria=porcinos" class="categoria-movil-chip">Porcinos</a>' +
-            '<a href="productos.html?categoria=equinos" class="categoria-movil-chip">Equinos</a>' +
-            '<a href="productos.html?categoria=perros" class="categoria-movil-chip">Perros</a>' +
-            '</div>';
-        liBuscador.appendChild(categoriasMov);
-
-        menuMovil.insertBefore(liBuscador, menuMovil.firstChild);
-
-        var liEnvio = document.createElement('li');
-        liEnvio.className = 'menu-li-envio';
-        liEnvio.innerHTML = '<i class="fas fa-truck"></i> Envío gratis a toda la península';
-        menuMovil.appendChild(liEnvio);
-
+    // En móvil el buscador se queda a la vista en la cabecera, bajo el logo.
+    //
+    // Estuvo dentro del menú hamburguesa, y llegar a él costaba tres gestos:
+    // abrir el menú, bajar y pinchar el recuadro. Para lo que es la vía más
+    // corta hasta un producto, era el camino más largo de la página.
+    //
+    // Las categorías y los resultados los pone buscador-panel.js al tocarlo.
+    if (buscador && window.innerWidth <= 576) {
         var inputMovil = buscador.querySelector('input[type="search"]');
         if (inputMovil) {
             inputMovil.setAttribute('autocomplete', 'off');
             inputMovil.setAttribute('placeholder', 'Buscar en Nutrigan España...');
-            inputMovil.addEventListener('focus', function () {
-                categoriasMov.classList.add('visible');
-            });
-            inputMovil.addEventListener('blur', function () {
-                setTimeout(function () {
-                    categoriasMov.classList.remove('visible');
-                }, 200);
-            });
         }
+    }
+
+    // El aviso de envío gratis se queda al pie del menú hamburguesa.
+    if (menuMovil && window.innerWidth <= 576) {
+        var liEnvio = document.createElement('li');
+        liEnvio.className = 'menu-li-envio';
+        liEnvio.innerHTML = '<i class="fas fa-truck"></i> Envío gratis a toda la península';
+        menuMovil.appendChild(liEnvio);
     }
 
     function cerrarBuscador() {
