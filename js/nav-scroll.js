@@ -127,11 +127,22 @@
     }
 
     if (btnLupa && buscador) {
+        var inputBuscador = buscador.querySelector('input[type="search"]');
+
         btnLupa.addEventListener('click', function (e) {
             e.stopPropagation();
             var abierto = buscador.classList.toggle('buscador-abierto');
             btnLupa.classList.toggle('activo', abierto);
             btnLupa.setAttribute('aria-expanded', abierto);
+
+            // Quien pulsa la lupa quiere escribir, no ver aparecer un recuadro
+            // vacio y tener que pincharlo aparte.
+            //
+            // preventScroll no es un adorno: al dar el foco, el navegador lleva
+            // la vista al input, y ese desplazamiento dispara el listener de
+            // scroll de aqui abajo, que cierra el buscador recien abierto.
+            if (abierto && inputBuscador) inputBuscador.focus({ preventScroll: true });
+
             startTracking();
         });
 
