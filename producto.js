@@ -697,6 +697,18 @@ function configurarEventListeners() {
     document.getElementById('btn-ficha-tecnica').addEventListener('click', verFichaTecnica);
 }
 
+// La base de datos guarda las fichas en relativo -«assets/fichas-tecnicas/2Activ.pdf»-
+// y el panel de admin las sigue pidiendo así. Eso valía cuando esta página era
+// /producto.html?id=2, en la raíz; desde que vive en /producto/<slug> el navegador
+// resuelve la relativa contra esa carpeta y pide /producto/assets/... , que es 404.
+// Anteponer la barra la ancla a la raíz y deja igual lo que ya venga absoluto.
+function urlFichaTecnica(ruta) {
+    const limpia = String(ruta || '').trim();
+    if (!limpia) return '';
+    if (/^(https?:)?\//i.test(limpia)) return limpia;
+    return '/' + limpia.replace(/^\.?\//, '');
+}
+
 // Función para ver ficha técnica
 async function verFichaTecnica() {
     console.log('Función verFichaTecnica llamada');
@@ -717,14 +729,15 @@ async function verFichaTecnica() {
             console.log('Producto encontrado:', producto);
 
             if (producto && producto.ficha_tecnica) {
+                const urlFicha = urlFichaTecnica(producto.ficha_tecnica);
                 try {
                     // Verificar que el recurso exista antes de abrir
-                    const headResp = await fetch(producto.ficha_tecnica, { method: 'HEAD' });
+                    const headResp = await fetch(urlFicha, { method: 'HEAD' });
                     if (headResp.ok) {
-                        console.log('Abriendo ficha técnica:', producto.ficha_tecnica);
-                        window.open(producto.ficha_tecnica, '_blank');
+                        console.log('Abriendo ficha técnica:', urlFicha);
+                        window.open(urlFicha, '_blank');
                     } else {
-                        console.warn('Ficha técnica no encontrada (HEAD no OK):', producto.ficha_tecnica);
+                        console.warn('Ficha técnica no encontrada (HEAD no OK):', urlFicha);
                         mostrarNotificacion('Ficha técnica no disponible', 'error');
                     }
                 } catch (e) {
