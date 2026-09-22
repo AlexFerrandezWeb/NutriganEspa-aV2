@@ -801,6 +801,26 @@ app.post('/api/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
+            // La factura la emite Stripe sola al cobrarse el pedido, y nace ya
+            // pagada porque sale del propio cobro. Es la diferencia con crearla a
+            // mano desde el Dashboard, que abre un cobro nuevo y por eso salia
+            // «importe adeudado» en una venta que ya estaba pagada.
+            //
+            // Para que ademas salga por correo hacen falta los recibos
+            // automaticos del Dashboard (Configuracion > Empresa > Correos
+            // electronicos de clientes > Pagos efectuados). Sin ese interruptor
+            // la factura se genera y se archiva, pero no se envia a nadie.
+            invoice_creation: {
+                enabled: true,
+                invoice_data: {
+                    description: 'Pedido realizado en nutriganespana.com'
+                }
+            },
+            // Quien pide la factura suele pedirla para su explotacion, y sin su
+            // NIF no le sirve. Esto añade el campo en el checkout y el dato sale
+            // impreso en la factura. Va sin "required": el que no lo necesite
+            // pasa de largo y no se le estorba la compra.
+            tax_id_collection: { enabled: true },
             success_url: 'https://www.xn--nutriganespaa-tkb.com/gracias-compra.html?session_id={CHECKOUT_SESSION_ID}',
             cancel_url: 'https://www.xn--nutriganespaa-tkb.com/carrito.html',
             // Configuración de envíos
