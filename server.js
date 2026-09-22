@@ -22,6 +22,7 @@ console.log('Configuración de entorno:');
 console.log('PORT:', process.env.PORT);
 console.log('STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY ? 'Configurada' : 'No configurada');
 console.log('STRIPE_PUBLIC_KEY:', process.env.STRIPE_PUBLIC_KEY ? 'Configurada' : 'No configurada');
+console.log('Metodos de pago:', process.env.STRIPE_METODOS_PAGO || 'card (por defecto)');
 
 // Verificar que las claves de Stripe estén configuradas
 if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_PUBLIC_KEY) {
@@ -54,6 +55,20 @@ const transporter = nodemailer.createTransport({
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Metodos de pago que se ofrecen en Checkout.
+//
+// Bizum no se enciende desde aqui sino desde la variable de entorno, en Render,
+// porque Stripe rechaza la sesion entera -y entonces no puede pagar nadie- si se
+// le pide un metodo cuya capacidad no esta aprobada todavia. La de Bizum tarda:
+// queda en pending hasta que verifican los datos fiscales de la empresa. Poniendo
+// STRIPE_METODOS_PAGO=card,bizum el dia que llegue la aprobacion se activa sin
+// tocar codigo ni desplegar, y si hubiera que dar marcha atras se quita igual de
+// rapido. Mientras la variable no exista, esto se comporta como siempre.
+const METODOS_PAGO = (process.env.STRIPE_METODOS_PAGO || 'card')
+    .split(',')
+    .map(m => m.trim().toLowerCase())
+    .filter(Boolean);
 
 // Disponibilidad de cara al cliente. Manda la columna `disponible` de Supabase;
 // el `stock` numérico ya no decide nada visible porque no se lleva inventario real.
@@ -798,7 +813,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
 
         // Crear sesión de checkout
         const opcionesSesion = {
-            payment_method_types: ['card'],
+            payment_method_types: METODOS_PAGO,
             line_items: lineItems,
             mode: 'payment',
             success_url: 'https://www.xn--nutriganespaa-tkb.com/gracias-compra.html?session_id={CHECKOUT_SESSION_ID}',
@@ -903,7 +918,20 @@ app.post('/api/create-checkout-session', async (req, res) => {
             // segundo intento vuelve a fallar y lo recoge el catch de fuera.
             console.error('Marca por sesion rechazada, se reintenta sin ella:', errorMarca.message);
             delete opcionesSesion.branding_settings;
-            session = await stripe.checkout.sessions.create(opcionesSesion);
+            try {
+                session = await stripe.checkout.sessions.create(opcionesSesion);
+            } catch (errorMetodos) {
+                // Misma idea, un escalon mas abajo: si lo que Stripe rechaza es un
+                // metodo de pago que aun no tiene aprobado -el caso de Bizum si se
+                // enciende la variable antes de tiempo-, cae la sesion entera y la
+                // tienda deja de cobrar. Antes que eso, se vuelve a la tarjeta sola
+                // y la venta se salva. Si ya ibamos solo con tarjeta el fallo es
+                // otro, asi que se deja subir al catch de fuera.
+                if (opcionesSesion.payment_method_types.length <= 1) throw errorMetodos;
+                console.error('Metodos de pago rechazados, se reintenta solo con tarjeta:', errorMetodos.message);
+                opcionesSesion.payment_method_types = ['card'];
+                session = await stripe.checkout.sessions.create(opcionesSesion);
+            }
         }
 
         res.json({
