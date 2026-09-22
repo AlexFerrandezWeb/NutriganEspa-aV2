@@ -85,6 +85,7 @@ async function cargarProducto(id) {
 
         if (producto) {
             productoActual = producto;
+            prepararFichaTecnica(producto);
             if (window.NutriganGA) {
                 NutriganGA.verProducto(producto);
             }
@@ -710,54 +711,35 @@ function urlFichaTecnica(ruta) {
 }
 
 // Función para ver ficha técnica
-async function verFichaTecnica() {
-    console.log('Función verFichaTecnica llamada');
-    
-    // Obtener ID del producto (URL limpia o ?id= antiguo)
-    const productoId = (productoActual && productoActual.id) || obtenerProductoId();
-    console.log('Producto ID:', productoId);
-    
-    if (productoId) {
-        try {
-            // Cargar el producto para obtener la ficha técnica
-            const { data: producto, error: fichaError } = await sb
-                .from('productos')
-                .select('ficha_tecnica')
-                .eq('id', parseInt(productoId))
-                .single();
-            if (fichaError) throw fichaError;
-            console.log('Producto encontrado:', producto);
+//
+// Se resuelve al cargar la página, no al pulsar. En móvil un window.open que llega
+// después de un await ya no cuenta como gesto del usuario y el navegador lo bloquea
+// en silencio: el botón se marca y no ocurre nada. Aquí se consultaba a Supabase y
+// luego se comprobaba el PDF -dos esperas-, así que en el móvil no abría nunca. El
+// dato ya viene en productoActual, porque cargarProducto hace select('*').
+let fichaTecnica = { url: '', disponible: false };
 
-            if (producto && producto.ficha_tecnica) {
-                const urlFicha = urlFichaTecnica(producto.ficha_tecnica);
-                try {
-                    // Verificar que el recurso exista antes de abrir
-                    const headResp = await fetch(urlFicha, { method: 'HEAD' });
-                    if (headResp.ok) {
-                        console.log('Abriendo ficha técnica:', urlFicha);
-                        window.open(urlFicha, '_blank');
-                    } else {
-                        console.warn('Ficha técnica no encontrada (HEAD no OK):', urlFicha);
-                        mostrarNotificacion('Ficha técnica no disponible', 'error');
-                    }
-                } catch (e) {
-                    console.error('Error verificando la ficha técnica:', e);
-                    mostrarNotificacion('Ficha técnica no disponible', 'error');
-                }
-            } else {
-                console.log('No se encontró ficha técnica');
-                // Mostrar mensaje de que no está disponible
-                mostrarNotificacion('Ficha técnica no disponible', 'error');
-            }
-        } catch (error) {
-            console.error('Error al cargar la ficha técnica:', error);
-            // Mostrar mensaje de que no está disponible
-            mostrarNotificacion('Ficha técnica no disponible', 'error');
-        }
-    } else {
-        console.error('No se pudo obtener el ID del producto');
-        alert('No se pudo cargar la ficha técnica. Por favor, inténtelo de nuevo.');
+function prepararFichaTecnica(producto) {
+    const url = urlFichaTecnica(producto && producto.ficha_tecnica);
+    // Optimista mientras responde el HEAD: quien pulse en ese primer instante
+    // prefiere que se abra a que le digan que no está.
+    fichaTecnica = { url: url, disponible: !!url };
+    if (!url) return;
+
+    // De fondo, sin bloquear el clic: 19 Globigen Día Stop y 25 Snap Detector
+    // apuntan a PDFs que el proveedor todavía no ha mandado, y para esos el botón
+    // tiene que avisar en vez de abrir una pestaña con un 404.
+    fetch(url, { method: 'HEAD' })
+        .then(r => { fichaTecnica.disponible = r.ok; })
+        .catch(() => { fichaTecnica.disponible = false; });
+}
+
+function verFichaTecnica() {
+    if (fichaTecnica.url && fichaTecnica.disponible) {
+        window.open(fichaTecnica.url, '_blank');
+        return;
     }
+    mostrarNotificacion('Ficha técnica no disponible', 'error');
 }
 
 // Función para volver a la página de productos
