@@ -523,6 +523,21 @@ async function enviarCorreoResena(sessionId, fecha) {
         return true;
     }
 
+    // Uno por cliente, no por pedido: en Google cada persona deja una sola
+    // reseña por negocio, asi que pedirla en cada compra solo molesta. Solo se
+    // pide en la primera compra con ese email; esto deja fuera tambien a los
+    // clientes de antes del correo, a los que se les pidio por WhatsApp.
+    const anteriores = await stripe.checkout.sessions.list({
+        customer_details: { email },
+        created: { lt: session.created },
+        status: 'complete',
+        limit: 1
+    });
+    if (anteriores.data.length > 0) {
+        console.log('ℹ️ [reseña] Cliente que ya habia comprado antes, no se repite:', sessionId);
+        return true;
+    }
+
     // A quien devolvio el pedido no se le pide que lo valore.
     const cargo = session.payment_intent && session.payment_intent.latest_charge;
     if (cargo && cargo.amount_refunded > 0) {
