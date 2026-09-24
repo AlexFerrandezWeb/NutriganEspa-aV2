@@ -489,12 +489,14 @@ function correoResena({ nombre, productos, fecha }) {
     const fechaPedido = new Date(fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 
     return {
-        subject: `¿Qué tal te ha ido con ${productos.length === 1 ? productos[0] : 'tu pedido de Nutrigan'}?`,
+        // La reseña es de la ficha de Nutrigan, no de un producto: se pregunta por
+        // toda la experiencia (web, envio, trato), y el producto va de ejemplo.
+        subject: '¿Qué tal tu experiencia con Nutrigan?',
         html: `
             <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; color: #222; font-size: 15px; line-height: 1.6;">
                 <p>${saludo}</p>
-                <p>Soy Javier, de Nutrigan. Espero que te llegara todo bien: <strong>${loQueCompro}</strong>. Ahora que ya lo has podido probar, quería saber qué tal te ha ido.</p>
-                <p>Si tienes un minuto, tu opinión en Google nos ayuda mucho a que otros ganaderos nos conozcan:</p>
+                <p>Soy Javier, de Nutrigan. Espero que te llegara todo bien: <strong>${loQueCompro}</strong>. Me gustaría saber qué tal te ha ido con nosotros en todo: el producto, pero también la compra en la web, el envío y el trato que has recibido.</p>
+                <p>Si tienes un minuto, cuéntalo en Google. Tu opinión ayuda mucho a que otros ganaderos nos conozcan:</p>
                 <p style="text-align: center; margin: 28px 0;">
                     <a href="${ENLACE_RESENA_GOOGLE}" style="background: #2c5530; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block;">Dejar mi opinión en Google</a>
                 </p>
