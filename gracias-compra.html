@@ -51,13 +51,6 @@
         .btn-lupa-buscar { background: none; border: none; cursor: pointer; padding: 0.4rem 0.6rem; font-size: 1.2rem; color: var(--color-texto-oscuro, #333); transition: color 0.2s; line-height: 1; }
         .btn-lupa-buscar:hover, .btn-lupa-buscar.activo { color: var(--color-acento, #1d815d); }
 
-        /* La sección de reseñas de Google arranca oculta; el JS la muestra solo si
-           Google llega a inyectar el widget (evita la tarjeta blanca vacía). */
-        .google-reviews-section { display: none; }
-        .google-reviews-section.reviews-activa { display: block; }
-        /* Mientras el widget está vacío no debe verse su tarjeta blanca. */
-        .google-reviews-widget:empty { min-height: 0; padding: 0; background: none; box-shadow: none; }
-
         /* ===== Página de gracias compacta: que el pedido y la reseña se vean sin scroll ===== */
         /* Hero más bajo (antes ocupaba 50vh). */
         .carrusel-container:has(.gracias-icon) { height: auto; min-height: 0; padding: 2.25rem 1rem; }
@@ -231,15 +224,6 @@
         </div>
     </section>
 
-    <!-- Google Customer Reviews Widget -->
-    <section class="google-reviews-section">
-        <div class="google-reviews-container">
-            <h2 class="google-reviews-titulo">¿Cómo fue su experiencia?</h2>
-            <p class="google-reviews-descripcion">Su opinión es muy importante para nosotros. ¡Ayúdenos a mejorar!</p>
-            <div id="google-reviews-widget" class="google-reviews-widget"></div>
-        </div>
-    </section>
-
     <!-- Volver al inicio -->
     <section class="volver-inicio-section">
         <a href="index.html" class="volver-inicio-btn">
@@ -307,20 +291,17 @@
     <!-- El resumen del pedido (nº, fecha, total) se pinta desde procesarPedido() más
          abajo, que dispone de los datos reales tanto en contrareembolso como en tarjeta. -->
 
-    <!-- Google Customer Reviews -->
-    <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+    <!-- La encuesta de Google Customer Reviews que vivía aquí se retiró: la
+         reseña la pide un correo del servidor tras la entrega (ver
+         revisarResenasPendientes en server.js), no esta página, cuando el
+         cliente aún no tiene el producto. -->
     <script>
-        // === Datos del pedido: fuente única para el resumen y para la reseña de Google ===
+        // === Datos del pedido, para el resumen ===
         // Dos caminos llegan aquí:
         //  - Stripe (tarjeta): vuelve con ?session_id=... Pedimos el pedido real al
         //    servidor, que además descuenta stock y envía el email de aviso.
         //  - Contrareembolso: el pedido queda en 'ultimoPedido' (localStorage).
         const API_BASE = 'https://nutrigan-web.onrender.com';
-
-        // Promesa que se resuelve con los datos del pedido en cuanto están listos,
-        // para que Google Reviews use el email y el pedido REALES (no un placeholder).
-        let resolverDatos;
-        const datosPedidoListos = new Promise(function (res) { resolverDatos = res; });
 
         function pintarResumen(datos) {
             if (datos.numero) document.getElementById('numero-pedido').textContent = datos.numero;
@@ -361,14 +342,11 @@
                         productos: ultimoPedido.productos || []
                     };
                     pintarResumen(datos);
-                    resolverDatos(datos);
 
                     // Sin purchase: este camino es el del contrareembolso, que se
                     // retiró como método de pago, y las compras las cuenta ahora
                     // el servidor.
 
-                } else {
-                    resolverDatos(null); // sin pedido no hay reseña que ofrecer
                 }
                 limpiarCarrito();
                 localStorage.removeItem('ultimoPedido');
@@ -427,7 +405,6 @@
             }
 
             if (datos) pintarResumen(datos);
-            resolverDatos(datos); // null si no hay pedido → sin reseña
             limpiarCarrito();
 
             // El purchase de GA4 ya no se manda desde aquí: lo manda el servidor
@@ -449,87 +426,8 @@
             // } : null);
         }
         procesarPedido();
-
-        // === Google Customer Reviews ===
-        // La sección arranca oculta (CSS) y solo se muestra si Google inyecta el widget
-        // de verdad, así nunca se ve una tarjeta blanca vacía cuando el opt-in no está.
-        window.renderOptIn = function () {
-            window.gapi.load('surveyoptin', async function () {
-                // Esperar los datos reales del pedido (máx. 8s por si el fetch tarda).
-                const datos = await Promise.race([
-                    datosPedidoListos,
-                    new Promise(function (r) { setTimeout(function () { r(null); }, 8000); })
-                ]);
-                // Sin email real no tiene sentido pedir la reseña: dejamos la sección oculta.
-                if (!datos || !datos.email) return;
-
-                const widget = document.getElementById('google-reviews-widget');
-                const seccion = document.querySelector('.google-reviews-section');
-
-                // Mostramos la sección para que Google pueda renderizar dentro de un
-                // contenedor visible; si en 4s no ha pintado nada, la volvemos a ocultar.
-                seccion.classList.add('reviews-activa');
-                const revisar = setTimeout(function () {
-                    if (!widget.querySelector('*')) seccion.classList.remove('reviews-activa');
-                }, 4000);
-
-                try {
-                    const params = {
-                        'merchant_id': 5663326184,
-                        'order_id': datos.orderId || ('PED' + Date.now().toString().slice(-6)),
-                        'email': datos.email,
-                        'delivery_country': 'ES',
-                        'estimated_delivery_date': getEstimatedDeliveryDate()
-                    };
-                    // 'products' es opcional: solo lo enviamos con GTINs válidos para
-                    // no provocar errores de validación en Google.
-                    const productos = getProductsForGoogleReviews(datos.productos || []);
-                    if (productos.length) params.products = productos;
-                    window.gapi.surveyoptin.render(params, widget);
-                } catch (error) {
-                    console.error('Error al renderizar Google Reviews:', error);
-                    clearTimeout(revisar);
-                    seccion.classList.remove('reviews-activa');
-                }
-            });
-        };
-
-        /**
-         * Fecha estimada de entrega, para programar la encuesta de Google.
-         *
-         * Sumaba 7 días naturales «de media», pero el envío tarda hasta 10 días
-         * hábiles, que son unas dos semanas de calendario: la encuesta llegaba
-         * antes que el paquete en la mayoría de los pedidos. Y a quien le
-         * preguntan qué le ha parecido algo que aún no ha recibido, contesta mal.
-         *
-         * El plazo sale de envio.js, el mismo del que bebe el checkout.
-         */
-        function getEstimatedDeliveryDate() {
-            const dias = window.NutriganEnvio
-                ? window.NutriganEnvio.diasNaturalesHastaEntrega()
-                : 14;
-            const today = new Date();
-            const deliveryDate = new Date(today.getTime() + (dias * 24 * 60 * 60 * 1000));
-            return deliveryDate.toISOString().split('T')[0]; // YYYY-MM-DD
-        }
-
-        // Productos en el formato que espera Google Reviews. Solo los que tienen un
-        // GTIN válido (8-14 dígitos); el resto se omiten para no romper la validación.
-        function getProductsForGoogleReviews(productos) {
-            return (productos || [])
-                .filter(function (p) { return /^\d{8,14}$/.test(String(p.gtin || '')); })
-                .map(function (p) {
-                    return {
-                        'gtin': String(p.gtin),
-                        'name': p.nombre || '',
-                        'category': 'Suplementos Nutricionales',
-                        'brand': 'Nutrigan'
-                    };
-                });
-        }
     </script>
     <script src="promociones.js" defer></script>
-    <script src="envio.js" defer></script>
     <script src="js/busqueda.js" defer></script>
     <script src="js/buscador-panel.js" defer></script>
     <script src="js/nav-scroll.js" defer></script>

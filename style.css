@@ -4802,7 +4802,6 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
 /* Títulos de las secciones de gracias: line-height holgado para que no se
    solapen al partirse en dos líneas en móvil. */
 .pedido-titulo,
-.google-reviews-titulo,
 .contacto-titulo {
     line-height: 1.2;
 }
@@ -6006,47 +6005,6 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
    ESTILOS PARA CARRITO DE COMPRAS
    ======================================== */
 
-
-/* Google Customer Reviews Section */
-.google-reviews-section {
-    padding: 3rem 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    margin: 2rem 0;
-}
-
-.google-reviews-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    text-align: center;
-}
-
-.google-reviews-titulo {
-    font-family: var(--fuente-titulos);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--color-texto-oscuro);
-    margin: 0 0 1rem 0;
-}
-
-.google-reviews-descripcion {
-    font-size: 1.1rem;
-    color: var(--color-storm-gray);
-    margin: 0 0 2rem 0;
-    line-height: 1.6;
-}
-
-.google-reviews-widget {
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin: 1rem 0;
-}
 
 /* Hero Section del Carrito */
 .carrito-hero {

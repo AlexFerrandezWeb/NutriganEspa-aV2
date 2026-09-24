@@ -9,8 +9,8 @@
    No es un detalle de redacción: los Términos son el contrato, así que prometer
    2-5 y entregar en 10 es incumplirlo por escrito en cada pedido.
 
-   De aquí beben el checkout de Stripe (servidor), la ficha, el carrito y la
-   fecha con la que se programa la encuesta de Google Customer Reviews. Los
+   De aquí beben el checkout de Stripe (servidor), la ficha, el carrito y el
+   día en que el servidor manda el correo pidiendo reseña. Los
    textos de los Términos y de esta web que no pasan por JavaScript llevan el
    mismo dato escrito; para que no se separen, van dentro de un
    [data-envio-plazo] que este módulo reescribe al cargar.
@@ -35,8 +35,8 @@
      * Días naturales que hay que esperar para dar el pedido por entregado.
      *
      * Los días hábiles no cuentan fines de semana, así que diez hábiles son unas
-     * dos semanas de calendario. Sirve para programar la encuesta de Google
-     * Customer Reviews: pedirle su opinión a alguien que aún no ha recibido el
+     * dos semanas de calendario. Sirve para programar el correo que pide reseña
+     * (server.js): pedirle su opinión a alguien que aún no ha recibido el
      * producto no solo no sirve, sino que se lleva una mala valoración de un
      * pedido que iba bien.
      */
