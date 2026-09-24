@@ -731,6 +731,43 @@ app.get('/api/pedido/:sessionId', async (req, res) => {
 // aparenta crear pedidos. Si algun dia se recupera el contrareembolso, hay que
 // escribirlo de cero contra Supabase + el envio de correo, como hace Stripe.
 
+// El IVA de todos los productos es el 10 %, y los precios de la web ya lo llevan
+// dentro («IVA inc.»). Por eso el tipo va como incluido: el cliente paga lo mismo
+// que ve, y la factura y el recibo desglosan la base y la cuota.
+//
+// El tipo se busca en Stripe -y se crea la primera vez- en vez de apuntar a un id
+// fijo, porque el modo de prueba y el real tienen cada uno el suyo y asi vale la
+// misma clave de entorno para los dos. Se guarda la promesa para no preguntarlo
+// en cada compra; si falla se olvida, y la siguiente vuelve a intentarlo.
+let tipoIVAPromesa = null;
+
+function tipoIVA() {
+    if (!tipoIVAPromesa) {
+        tipoIVAPromesa = (async () => {
+            const { data } = await stripe.taxRates.list({ active: true, limit: 100 });
+            const existente = data.find(t =>
+                t.percentage === 10 && t.inclusive && t.country === 'ES' && t.display_name === 'IVA'
+            );
+            if (existente) return existente.id;
+
+            const creado = await stripe.taxRates.create({
+                display_name: 'IVA',
+                percentage: 10,
+                inclusive: true,
+                country: 'ES',
+                tax_type: 'vat',
+                description: 'IVA reducido del 10 %, incluido en el precio'
+            });
+            console.log('✅ Tipo de IVA creado en Stripe:', creado.id);
+            return creado.id;
+        })().catch(error => {
+            tipoIVAPromesa = null;
+            throw error;
+        });
+    }
+    return tipoIVAPromesa;
+}
+
 // Endpoint para crear sesión de checkout de Stripe
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
@@ -770,6 +807,15 @@ app.post('/api/create-checkout-session', async (req, res) => {
             return res.status(500).json({ success: false, message: 'Error al verificar precios' });
         }
 
+        // Sin el tipo de IVA la venta sigue: la factura saldria sin desglose, que
+        // es como salia hasta ahora, pero el cliente puede pagar.
+        let idIVA = null;
+        try {
+            idIVA = await tipoIVA();
+        } catch (errorIVA) {
+            console.error('❌ No se pudo obtener el tipo de IVA, se cobra sin desglose:', errorIVA.message);
+        }
+
         // Crear línea de productos para Stripe con precios de Supabase
         const lineItems = productos.map(producto => {
             const actual = productosActuales.find(p => p.id === producto.id);
@@ -792,7 +838,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
                     },
                     unit_amount: Math.round(parseFloat(precioUnitario) * 100)
                 },
-                quantity: producto.cantidad
+                quantity: producto.cantidad,
+                ...(idIVA ? { tax_rates: [idIVA] } : {})
             };
         });
 
@@ -813,7 +860,19 @@ app.post('/api/create-checkout-session', async (req, res) => {
             invoice_creation: {
                 enabled: true,
                 invoice_data: {
-                    description: 'Pedido realizado en nutriganespana.com'
+                    // La plantilla de Stripe pone «Importe adeudado» y «Pagar por
+                    // Internet» incluso en una factura ya cobrada, y no se puede
+                    // quitar. Esta linea sale justo debajo y deshace el equivoco.
+                    description: 'Pedido realizado y pagado en nutriganespana.com. Esta factura no tiene importe pendiente: el justificante del pago es el recibo que acompaña a este correo.',
+                    // Una factura española tiene que llevar nombre y NIF de quien
+                    // la emite, y la cabecera de Stripe solo pone el nombre
+                    // comercial y la direccion. Van aqui y no en el Dashboard
+                    // porque esos datos de la cuenta solo los edita un
+                    // administrador.
+                    custom_fields: [
+                        { name: 'Emisor', value: 'Francisco Javier Álvarez Rodríguez' },
+                        { name: 'NIF', value: '09420141P' }
+                    ]
                 }
             },
             // Quien pide la factura suele pedirla para su explotacion, y sin su
@@ -923,7 +982,18 @@ app.post('/api/create-checkout-session', async (req, res) => {
             // segundo intento vuelve a fallar y lo recoge el catch de fuera.
             console.error('Marca por sesion rechazada, se reintenta sin ella:', errorMarca.message);
             delete opcionesSesion.branding_settings;
-            session = await stripe.checkout.sessions.create(opcionesSesion);
+            try {
+                session = await stripe.checkout.sessions.create(opcionesSesion);
+            } catch (errorFactura) {
+                // Lo mismo con la factura y el IVA: son papeleo del pedido, no el
+                // pedido. Ultimo intento solo con lo imprescindible para cobrar;
+                // si tambien falla, el problema es otro y lo recoge el catch de fuera.
+                console.error('Sesion rechazada con factura/IVA, se reintenta sin ellos:', errorFactura.message);
+                delete opcionesSesion.invoice_creation;
+                delete opcionesSesion.tax_id_collection;
+                opcionesSesion.line_items.forEach(linea => delete linea.tax_rates);
+                session = await stripe.checkout.sessions.create(opcionesSesion);
+            }
         }
 
         res.json({
