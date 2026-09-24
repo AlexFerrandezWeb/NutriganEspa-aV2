@@ -464,6 +464,140 @@ async function procesarPedido(session, origen) {
     return pedido;
 }
 
+// ===== Correo pidiendo reseña =====
+// Unos dias despues de la entrega, un correo de Javier pide opinion en la ficha
+// de Google. Despues y no en la pagina de gracias: ahi el cliente aun no tiene el
+// producto, y una opinion de algo que no ha probado no le sirve a nadie.
+//
+// Uno por pedido y sin recordatorios. Lo marca la columna resena_enviada_at de
+// pedidos_procesados, que se reclama antes de enviar -como el propio pedido- para
+// que dos revisiones solapadas no manden el mismo correo dos veces.
+
+const ENLACE_RESENA_GOOGLE = 'https://g.page/r/CZnIqu98M2vBEBM/review';
+
+// Los clientes de antes de esta fecha se los pide Alejandro a mano, por WhatsApp.
+// Sin este corte, el primer arranque les mandaria el correo a todos a la vez.
+const RESENAS_DESDE = '2026-09-25T00:00:00Z';
+
+// La entrega estimada (la misma de envio.js que ve el comprador) mas unos dias
+// para que lo haya podido probar.
+const DIAS_HASTA_PEDIR_RESENA = envio.diasNaturalesHastaEntrega() + 5;
+
+function correoResena({ nombre, productos, fecha }) {
+    const saludo = nombre ? `Hola ${escapeHtml(nombre)},` : 'Hola,';
+    const loQueCompro = productos.length ? escapeHtml(productos.join(', ')) : 'tu pedido';
+    const fechaPedido = new Date(fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    return {
+        subject: `¿Qué tal te ha ido con ${productos.length === 1 ? productos[0] : 'tu pedido de Nutrigan'}?`,
+        html: `
+            <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; color: #222; font-size: 15px; line-height: 1.6;">
+                <p>${saludo}</p>
+                <p>Soy Javier, de Nutrigan. Espero que te llegara todo bien: <strong>${loQueCompro}</strong>. Ahora que ya lo has podido probar, quería saber qué tal te ha ido.</p>
+                <p>Si tienes un minuto, tu opinión en Google nos ayuda mucho a que otros ganaderos nos conozcan:</p>
+                <p style="text-align: center; margin: 28px 0;">
+                    <a href="${ENLACE_RESENA_GOOGLE}" style="background: #2c5530; color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; display: inline-block;">Dejar mi opinión en Google</a>
+                </p>
+                <p>Y si algo no ha ido como esperabas, responde a este correo y me lo cuentas: prefiero saberlo.</p>
+                <p>Un saludo,<br>Javier Álvarez<br>Nutrigan España</p>
+                <p style="font-size: 12px; color: #888; border-top: 1px solid #eee; padding-top: 12px; margin-top: 28px;">
+                    Te escribimos porque hiciste un pedido en nutriganespaña.com el ${fechaPedido}. Es el único correo que te enviaremos sobre este pedido.
+                </p>
+            </div>`
+    };
+}
+
+// Devuelve true si el correo sale o si no hay que mandarlo nunca (sin email,
+// pedido devuelto): en ambos casos el pedido queda cerrado. false si el fallo es
+// pasajero y conviene reintentarlo en la proxima revision.
+async function enviarCorreoResena(sessionId, fecha) {
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+        expand: ['line_items', 'payment_intent.latest_charge']
+    });
+
+    const email = session.customer_details && session.customer_details.email;
+    if (!email) {
+        console.warn('⚠️ [reseña] Pedido sin email, no se pide:', sessionId);
+        return true;
+    }
+
+    // A quien devolvio el pedido no se le pide que lo valore.
+    const cargo = session.payment_intent && session.payment_intent.latest_charge;
+    if (cargo && cargo.amount_refunded > 0) {
+        console.log('ℹ️ [reseña] Pedido con devolucion, no se pide:', sessionId);
+        return true;
+    }
+
+    // Solo el nombre de pila: "Hola Jose," y no "Hola Jose García rivadulla,".
+    // Si compra una empresa ("Quintana S.C.", "Ganadería parga sc") el nombre de
+    // pila seria "Hola Ganadería,", asi que entonces se saluda sin nombre.
+    const nombreCompleto = (session.customer_details.name || '').trim();
+    const esEmpresa = /\b(s\.?\s?c|s\.?\s?l|s\.?\s?a|s\.?\s?a\.?\s?t|gaec|ganader[ií]a|cooperativa|explotaci[oó]n)\b\.?/i.test(nombreCompleto);
+    const pila = nombreCompleto && !esEmpresa ? nombreCompleto.split(/\s+/)[0] : '';
+    const nombre = pila ? pila.charAt(0).toUpperCase() + pila.slice(1).toLowerCase() : '';
+    const productos = ((session.line_items && session.line_items.data) || []).map(l => l.description);
+
+    const correo = correoResena({ nombre, productos, fecha });
+    await transporter.sendMail({
+        from: `"Javier - Nutrigan España" <${process.env.EMAIL_USER || 'javiernutrigan@gmail.com'}>`,
+        replyTo: 'javiernutrigan@gmail.com',
+        to: email,
+        subject: correo.subject,
+        html: correo.html
+    });
+    console.log('✅ [reseña] Correo enviado:', sessionId);
+    return true;
+}
+
+async function revisarResenasPendientes() {
+    const limite = new Date(Date.now() - DIAS_HASTA_PEDIR_RESENA * 24 * 60 * 60 * 1000).toISOString();
+
+    const { data: pendientes, error } = await supabaseAdmin
+        .from('pedidos_procesados')
+        .select('id, stripe_session_id, created_at')
+        .is('resena_enviada_at', null)
+        .gte('created_at', RESENAS_DESDE)
+        .lte('created_at', limite)
+        .order('created_at')
+        .limit(20);
+
+    if (error) {
+        // Lo normal si aun no se ha creado la columna: se avisa y se sigue.
+        console.error('❌ [reseña] No se pudieron leer los pedidos pendientes:', error.message);
+        return;
+    }
+
+    for (const pedido of pendientes) {
+        const { data: reclamado } = await supabaseAdmin
+            .from('pedidos_procesados')
+            .update({ resena_enviada_at: new Date().toISOString() })
+            .eq('id', pedido.id)
+            .is('resena_enviada_at', null)
+            .select('id');
+        if (!reclamado || reclamado.length === 0) continue;
+
+        try {
+            await enviarCorreoResena(pedido.stripe_session_id, pedido.created_at);
+        } catch (e) {
+            // Stripe o Gmail caidos: se suelta el pedido y se reintenta en la
+            // siguiente revision, en vez de perder el correo.
+            console.error('❌ [reseña] Fallo al enviar, se reintentara:', pedido.stripe_session_id, e.message);
+            await supabaseAdmin.from('pedidos_procesados').update({ resena_enviada_at: null }).eq('id', pedido.id);
+        }
+    }
+}
+
+// Solo con la clave real. En local, con la de prueba, la revision leeria la
+// base de datos de produccion, no encontraria esos pedidos en el modo de prueba
+// de Stripe y los iria soltando y reclamando sin parar.
+if ((process.env.STRIPE_SECRET_KEY || '').startsWith('sk_live_')) {
+    const SEIS_HORAS = 6 * 60 * 60 * 1000;
+    setTimeout(() => {
+        revisarResenasPendientes().catch(e => console.error('❌ [reseña]', e.message));
+        setInterval(() => revisarResenasPendientes().catch(e => console.error('❌ [reseña]', e.message)), SEIS_HORAS);
+    }, 60 * 1000);
+}
+
 // ===== Webhook de Stripe =====
 // Stripe avisa aqui de cada pago, venga o no el cliente de vuelta a la web.
 // Hasta ahora lo que pasaba tras cobrar (bajar stock, avisar por correo) colgaba
