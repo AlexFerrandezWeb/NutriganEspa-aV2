@@ -1130,6 +1130,14 @@ app.post('/api/create-checkout-session', async (req, res) => {
             },
             // Mensaje personalizado
             custom_text: {
+                // La casilla "Estoy comprando como empresa" la pone Stripe sin
+                // explicar nada, y su texto no se puede cambiar. Sin esta frase
+                // unos no la marcan aunque les haga falta la factura a su nombre,
+                // y otros la marcan pensando que da otro precio. Va en la seccion
+                // de envio porque la casilla esta justo debajo.
+                shipping_address: {
+                    message: '¿Compras para una ganadería, empresa o como autónomo? Marca «Estoy comprando como empresa» y pon tu NIF: la factura saldrá a tu nombre para que puedas deducir el IVA. El precio es el mismo.'
+                },
                 submit: {
                     message: 'Nutrigan España - Productos de calidad para el bienestar animal. Envío gratuito incluido en todos los pedidos.'
                 }
