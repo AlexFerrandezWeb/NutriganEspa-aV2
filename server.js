@@ -507,6 +507,27 @@ function correoResena({ nombre, productos, fecha }) {
         // La reseña es de la ficha de Nutrigan, no de un producto: se pregunta por
         // toda la experiencia (web, envio, trato), y el producto va de ejemplo.
         subject: '¿Qué tal tu experiencia con Nutrigan?',
+        // Version en texto plano del mismo mensaje. Un correo solo HTML, con un
+        // boton y un enlace, es de los que los filtros mandan a spam: a una clienta
+        // le paso con el primer envio. Un correo personal de verdad siempre lleva
+        // las dos partes.
+        text: [
+            nombre ? `Hola ${nombre},` : 'Hola,',
+            '',
+            `Soy Javier, de Nutrigan. Espero que te llegara todo bien: ${productos.length ? productos.join(', ') : 'tu pedido'}. Me gustaría saber qué tal te ha ido con nosotros en todo: el producto, pero también la compra en la web, el envío y el trato que has recibido.`,
+            '',
+            'Si tienes un minuto, cuéntalo en Google. Tu opinión ayuda mucho a que otros ganaderos nos conozcan:',
+            ENLACE_RESENA_GOOGLE,
+            '',
+            'Y si algo no ha ido como esperabas, responde a este correo y me lo cuentas: prefiero saberlo.',
+            '',
+            'Un saludo,',
+            'Javier Álvarez',
+            'Nutrigan España',
+            '',
+            '--',
+            `Te escribimos porque hiciste un pedido en nutriganespaña.com el ${fechaPedido}. Es el único correo que te enviaremos sobre este pedido.`
+        ].join('\n'),
         html: `
             <div style="font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; color: #222; font-size: 15px; line-height: 1.6;">
                 <p>${saludo}</p>
@@ -575,6 +596,7 @@ async function enviarCorreoResena(sessionId, fecha) {
         replyTo: 'javiernutrigan@gmail.com',
         to: email,
         subject: correo.subject,
+        text: correo.text,
         html: correo.html
     });
     console.log('✅ [reseña] Correo enviado:', sessionId);
