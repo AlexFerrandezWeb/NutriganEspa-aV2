@@ -1139,7 +1139,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
                     message: '¿Compras para una ganadería, empresa o como autónomo? Marca «Estoy comprando como empresa» y pon tu NIF: la factura saldrá a tu nombre para que puedas deducir el IVA. El precio es el mismo.'
                 },
                 submit: {
-                    message: 'Nutrigan España - Productos de calidad para el bienestar animal. Envío gratuito incluido en todos los pedidos.'
+                    message: 'Nutrigan España - Productos de calidad para el bienestar animal. Envío gratuito a toda la península.'
                 }
             },
             // Icono de la pestaña del navegador en la pagina de Stripe. Sin esto
