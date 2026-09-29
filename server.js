@@ -1583,42 +1583,48 @@ const CATEGORIAS_CATALOGO = {
         h1: 'Productos veterinarios para vacas',
         subtitulo: 'Bolos, suplementos y tratamientos para vacuno de leche y de carne',
         title: 'Productos veterinarios para vacas | Bolos y suplementos | Nutrigan España',
-        description: 'Productos veterinarios para vacas: bolos de calcio y fósforo, suplementos para el periparto, tratamientos de patas y desinfectantes. Envío gratis a toda la península.'
+        description: 'Productos veterinarios para vacas: bolos de calcio y fósforo, suplementos para el periparto, tratamientos de patas y desinfectantes. Envío gratis a toda la península.',
+        intro: 'Para vacuno de leche y de carne trabajamos la gama Bolutech de Neolait: bolos ruminales para cada etapa. Para el preparto y el periparto, Prepalac, Tonic, Flash, Start y Repro. Para la lactación, Activ, Heel y Vitality. Y para la recría de terneros y novillas, Junior y Excell. Completan el catálogo el calostro y los antidiarreicos para terneros (Globigen, Enterogav, Lactibiose), la higiene de la ubre antes y después del ordeño (Optiderm, Lactox, Lactomint) y productos para heridas y camas. Si no sabes qué bolo necesita tu rebaño, llámanos y te asesoramos.'
     },
     ovinos: {
         nombre: 'Ovinos',
         h1: 'Productos para ovinos',
         subtitulo: 'Suplementos nutricionales y sanitarios para ganado ovino',
         title: 'Productos para ovinos | Suplementos para ovejas | Nutrigan España',
-        description: 'Productos para ovinos: suplementos nutricionales, cicatrizantes y productos sanitarios para ovejas y corderos. Envío gratis a toda la península.'
+        description: 'Productos para ovinos: suplementos nutricionales, cicatrizantes y productos sanitarios para ovejas y corderos. Envío gratis a toda la península.',
+        intro: 'Para ovejas de leche y de carne, y para sus corderos, reunimos productos para los momentos que más se notan en la explotación. En el parto y los primeros días del cordero, potenciadores del calostro (Calostrum, Delicious) y el antidiarreico Enterogav. En el ordeño, higiene de la ubre y control de mastitis (Lactomint, Dipp Forte, Lactox, Optiderm). Y para las heridas, Blue Spray, un cicatrizante sin antibióticos. También tenemos repelentes contra insectos y parásitos (Replyn), energía para el periparto (Optilactol) y el test Snap Detector para comprobar residuos de antibióticos en la leche.'
     },
     caprinos: {
         nombre: 'Caprinos',
         h1: 'Productos veterinarios para cabras',
         subtitulo: 'Suplementos nutricionales y sanitarios para ganado caprino',
         title: 'Productos veterinarios para cabras | Ganado caprino | Nutrigan España',
-        description: 'Productos veterinarios para cabras: suplementos nutricionales, cicatrizantes y productos sanitarios para ganado caprino. Envío gratis a toda la península.'
+        description: 'Productos veterinarios para cabras: suplementos nutricionales, cicatrizantes y productos sanitarios para ganado caprino. Envío gratis a toda la península.',
+        intro: 'En caprino, la mayoría de explotaciones son de leche y muchas venden a quesería, así que la higiene del ordeño y la calidad de la leche pesan mucho. Para la ubre tenemos espumas y selladores (Optiderm, Lactox, Dipp Forte) y la gama Lactomint para el secado y el control de mastitis sin descartar leche, además del test Snap Detector de residuos de antibióticos. Para los cabritos, potenciadores del calostro y el antidiarreico Enterogav. Para las cabras en el periparto, energía líquida con Optilactol. Y para el día a día, Blue Spray y Filmavit para heridas y Replyn contra insectos y parásitos.'
     },
     porcinos: {
         nombre: 'Porcinos',
         h1: 'Productos veterinarios para cerdos',
         subtitulo: 'Suplementos nutricionales y sanitarios para ganado porcino',
         title: 'Productos veterinarios para cerdos | Ganado porcino | Nutrigan España',
-        description: 'Productos veterinarios para cerdos: suplementos nutricionales, desinfectantes y productos sanitarios para ganado porcino. Envío gratis a toda la península.'
+        description: 'Productos veterinarios para cerdos: suplementos nutricionales, desinfectantes y productos sanitarios para ganado porcino. Envío gratis a toda la península.',
+        intro: 'En porcino, buena parte de la salud de la granja depende del ambiente. Por eso reunimos productos para el manejo de purines, olores y moscas (el activador Bioprana), el control de micotoxinas en el pienso (Secuestrante Detox), el cuidado respiratorio (Bronkub Plus) y la cicatrización de heridas (Blue Spray, Filmavit, Filmaderm). Para las cerdas, Lactomint Uter para la higiene tras el parto y Dry Part para el control metabólico en el periparto. Y Replyn Defense como repelente frente a insectos.'
     },
     equinos: {
         nombre: 'Equinos',
         h1: 'Productos veterinarios para caballos',
         subtitulo: 'Suplementos nutricionales y sanitarios para équidos',
         title: 'Productos veterinarios para caballos | Equinos | Nutrigan España',
-        description: 'Productos veterinarios para caballos: suplementos nutricionales, cicatrizantes y productos sanitarios para équidos. Envío gratis a toda la península.'
+        description: 'Productos veterinarios para caballos: suplementos nutricionales, cicatrizantes y productos sanitarios para équidos. Envío gratis a toda la península.',
+        intro: 'Para caballos y otros équidos tenemos productos de cuidado externo y de manejo de la cuadra. Lactomint Care alivia golpes, inflamaciones y edemas. Filmaderm es una solución protectora y refrescante para la piel. Y Replyn Dune ayuda a controlar parásitos e insectos, que molestan especialmente en verano. En la cuadra, el activador Bioprana ayuda con el estiércol, los olores y las moscas, y el Secuestrante Detox protege frente a las micotoxinas del pienso.'
     },
     perros: {
         nombre: 'Perros',
         h1: 'Productos veterinarios para perros',
         subtitulo: 'Cicatrizantes, repelentes y suplementos para perros',
         title: 'Productos veterinarios para perros | Cicatrizantes y repelentes | Nutrigan España',
-        description: 'Productos veterinarios para perros: spray azul cicatrizante, repelentes de insectos y suplementos. Envío gratis a toda la península.'
+        description: 'Productos veterinarios para perros: spray azul cicatrizante, repelentes de insectos y suplementos. Envío gratis a toda la península.',
+        intro: 'Para perros de trabajo, de caza o de compañía tenemos los snacks EuroDog Repelent, en bocaditos y en galletas. Son un premio funcional que ayuda a protegerlos desde dentro frente a pulgas, garrapatas y mosquitos, como refuerzo de los antiparasitarios habituales, no como sustituto. Se venden en sacos de 20 kg, pensados para quien tiene varios perros, como en las explotaciones ganaderas o las rehalas.'
     }
 };
 
@@ -1674,11 +1680,13 @@ async function servirCatalogo(req, res, categoria) {
         .productos-indice-seo__lista li{break-inside:avoid;margin:0 0 .7em}
         .productos-indice-seo__lista a{display:inline-block;color:#555;text-decoration:none;font-size:.92em;line-height:1.35;border-bottom:1px solid transparent;transition:color .2s ease,border-color .2s ease}
         .productos-indice-seo__lista a:hover{color:#1d815d;border-bottom-color:#1d815d}
-        @media(max-width:560px){.productos-indice-seo{padding:2.5em 1.2em 3em}.productos-indice-seo__lista{column-width:auto;columns:1}}
+        .productos-indice-seo__intro{max-width:760px;margin:2.5em auto 0;font-size:.88em;line-height:1.6;color:#8a8a8a;text-align:center}
+        @media(max-width:560px){.productos-indice-seo{padding:2.5em 1.2em 3em}.productos-indice-seo__lista{column-width:auto;columns:1}.productos-indice-seo__intro{text-align:left}}
       </style>
       <h2 class="productos-indice-seo__titulo">${tituloIndice}</h2>
       <p class="productos-indice-seo__sub">${subIndice}</p>
-      <ul class="productos-indice-seo__lista">${items}</ul>
+      <ul class="productos-indice-seo__lista">${items}</ul>${cfg && cfg.intro ? `
+      <p class="productos-indice-seo__intro">${escapeHtml(cfg.intro)}</p>` : ''}
     </section>`;
         }
     } catch (e) {
