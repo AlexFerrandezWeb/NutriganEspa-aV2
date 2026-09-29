@@ -157,10 +157,11 @@ function filtrarProductos(categoria, actualizarUrl) {
 
     // La URL acompana al filtro: cada categoria tiene pagina propia, asi que
     // compartirla o volver atras tiene que llevar al mismo sitio.
+    var destino = categoria === 'todos' ? '/productos.html' : '/productos/' + categoria;
     if (actualizarUrl !== false && window.history && history.pushState) {
-        var destino = categoria === 'todos' ? '/productos.html' : '/productos/' + categoria;
         if (location.pathname !== destino) history.pushState({ categoria: categoria }, '', destino);
     }
+    sincronizarTextosCategoria(destino);
     
     // Actualizar botones activos. aria-current además de la clase: ahora son
     // enlaces, y un lector de pantalla necesita que se diga cuál es la página
@@ -174,6 +175,33 @@ function filtrarProductos(categoria, actualizarUrl) {
     
     // Aplicar filtros (categoría + búsqueda)
     aplicarFiltros();
+}
+
+// El filtro cambia la rejilla al instante, pero el titulo, la pestana y el
+// bloque del pie (con el texto de cada especie) los pinta el servidor. Se piden
+// a la pagina de esa categoria y se cambian aqui; si falla, se queda como
+// estaba y basta con recargar.
+var textosPedidos = 0;
+function sincronizarTextosCategoria(destino) {
+    if (!window.fetch || !window.DOMParser) return;
+    var pedido = ++textosPedidos;
+    fetch(destino)
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (html) {
+            // Si ya se ha pulsado otra categoria, esta respuesta llega tarde.
+            if (!html || pedido !== textosPedidos) return;
+            var nueva = new DOMParser().parseFromString(html, 'text/html');
+            ['.productos-header-titulo', '.productos-header-subtitulo', '.productos-indice-seo'].forEach(function (sel) {
+                var actual = document.querySelector(sel);
+                var otra = nueva.querySelector(sel);
+                if (actual && otra) actual.replaceWith(otra);
+            });
+            document.title = nueva.title || document.title;
+            var descNueva = nueva.querySelector('meta[name="description"]');
+            var desc = document.querySelector('meta[name="description"]');
+            if (desc && descNueva) desc.setAttribute('content', descNueva.getAttribute('content'));
+        })
+        .catch(function () {});
 }
 
 // El boton atras del navegador entre categorias no recarga la pagina, asi que
