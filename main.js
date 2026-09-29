@@ -697,3 +697,45 @@ document.addEventListener('click', function (evento) {
 
     window.addEventListener('resize', aplicar);
 })();
+
+
+/* --------------------------------------------------------------------------
+   Firma en la consola del navegador
+   Para quien abra las herramientas de desarrollador: el nombre en letras de
+   bloque, como hacen algunas webs. No hace nada más; si la consola no admite
+   estilos, se ve el mismo dibujo en texto plano.
+   -------------------------------------------------------------------------- */
+(function () {
+    if (!window.console || typeof console.log !== 'function') return;
+
+    var nutrigan = [
+        '███╗   ██╗██╗   ██╗████████╗██████╗ ██╗ ██████╗  █████╗ ███╗   ██╗',
+        '████╗  ██║██║   ██║╚══██╔══╝██╔══██╗██║██╔════╝ ██╔══██╗████╗  ██║',
+        '██╔██╗ ██║██║   ██║   ██║   ██████╔╝██║██║  ███╗███████║██╔██╗ ██║',
+        '██║╚██╗██║██║   ██║   ██║   ██╔══██╗██║██║   ██║██╔══██║██║╚██╗██║',
+        '██║ ╚████║╚██████╔╝   ██║   ██║  ██║██║╚██████╔╝██║  ██║██║ ╚████║',
+        '╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝'
+    ].join('\n');
+
+    var espana = [
+        '                                 ▄▀▀▀▄▄▄▀',
+        '███████╗███████╗██████╗  █████╗ ███╗   ██╗ █████╗',
+        '██╔════╝██╔════╝██╔══██╗██╔══██╗████╗  ██║██╔══██╗',
+        '█████╗  ███████╗██████╔╝███████║██╔██╗ ██║███████║',
+        '██╔══╝  ╚════██║██╔═══╝ ██╔══██║██║╚██╗██║██╔══██║',
+        '███████╗███████║██║     ██║  ██║██║ ╚████║██║  ██║',
+        '╚══════╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝'
+    ].join('\n');
+
+    var bloque = 'font-family: monospace; font-size: 11px; line-height: 1.05; font-weight: bold;';
+
+    console.log(
+        '%c' + nutrigan + '\n%c' + espana,
+        bloque + ' color: #2f9a48; text-shadow: 2px 2px 0 #14361f;',
+        bloque + ' color: #e8ede9; text-shadow: 2px 2px 0 #2f9a48;'
+    );
+    console.log(
+        '%cSuplementos y nutrición para ganado · desde 1999 · https://www.nutriganespaña.com',
+        'color: #5b685f; font-size: 11px;'
+    );
+})();
