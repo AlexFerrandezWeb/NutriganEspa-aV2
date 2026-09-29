@@ -204,9 +204,19 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Función para enviar correo de notificación de pedido
-async function enviarCorreoPedido(pedido) {
+async function enviarCorreoPedido(pedido, factura) {
     try {
         const { productos, total, currency, customer_email, shipping_address, fecha } = pedido;
+
+        // La factura es un extra del aviso: si Stripe no la ha dado, el correo
+        // sale igual, sin ese bloque.
+        const bloqueFactura = !factura ? '' : `
+                    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
+                        <h3 style="color: #2c5530; margin-top: 0;">Factura${factura.numero ? ` ${factura.numero}` : ''}</h3>
+                        <p>${factura.pdf ? 'Va adjunta a este correo en PDF. ' : ''}Es la misma que ha recibido el cliente.</p>
+                        <p><a href="${factura.enlace}" style="color: #2c5530; font-weight: bold;">Ver o descargar la factura</a></p>
+                    </div>
+        `;
 
         // Crear lista de productos
         let listaProductos = '';
@@ -276,13 +286,21 @@ async function enviarCorreoPedido(pedido) {
                             <strong>Total: ${total}€</strong>
                         </div>
                     </div>
-
+${bloqueFactura}
                     <div style="text-align: center; margin-top: 30px; color: #666;">
                         <p>Este correo fue generado automáticamente por el sistema de Nutrigan España</p>
                     </div>
                 </div>
             `
         };
+
+        if (factura && factura.pdf) {
+            mailOptions.attachments = [{
+                filename: `Factura ${factura.numero || pedido.sessionId}.pdf`,
+                content: factura.pdf,
+                contentType: 'application/pdf'
+            }];
+        }
 
         const info = await transporter.sendMail(mailOptions);
         console.log('✅ Correo enviado correctamente:', info.messageId);
@@ -441,6 +459,42 @@ async function enviarCompraGA4(pedido, metadata) {
 // La llaman los dos caminos —el webhook y gracias-compra.html—, y el candado
 // esta por encima de las dos cosas. Antes solo tapaba el stock y el correo
 // quedaba fuera, asi que recargar la pagina de gracias reenviaba el aviso.
+// La factura que Stripe emite con el cobro (invoice_creation), para mandarle a
+// Javier la misma que recibe el cliente. Se finaliza justo despues del pago, asi
+// que si aun no tiene PDF se espera un momento y se mira otra vez. Nunca bloquea
+// el aviso: sin factura, el correo sale sin ella.
+async function obtenerFactura(session) {
+    if (!session.invoice) return null;
+    const id = typeof session.invoice === 'string' ? session.invoice : session.invoice.id;
+
+    try {
+        let factura = await stripe.invoices.retrieve(id);
+        if (!factura.invoice_pdf) {
+            await new Promise(resolver => setTimeout(resolver, 2000));
+            factura = await stripe.invoices.retrieve(id);
+        }
+
+        let pdf = null;
+        if (factura.invoice_pdf) {
+            try {
+                const respuesta = await fetch(factura.invoice_pdf);
+                if (respuesta.ok) pdf = Buffer.from(await respuesta.arrayBuffer());
+            } catch (e) {
+                console.error('⚠️ No se pudo descargar el PDF de la factura', id, '-', e.message);
+            }
+        }
+
+        return {
+            numero: factura.number,
+            pdf: pdf,
+            enlace: factura.hosted_invoice_url || factura.invoice_pdf || `https://dashboard.stripe.com/invoices/${id}`
+        };
+    } catch (e) {
+        console.error('⚠️ No se pudo leer la factura', id, '-', e.message);
+        return { numero: null, pdf: null, enlace: `https://dashboard.stripe.com/invoices/${id}` };
+    }
+}
+
 async function procesarPedido(session, origen) {
     const productos = await rehidratarProductos(session);
 
@@ -467,7 +521,7 @@ async function procesarPedido(session, origen) {
         }
     }
 
-    const enviado = await enviarCorreoPedido(pedido);
+    const enviado = await enviarCorreoPedido(pedido, await obtenerFactura(session));
     if (!enviado) {
         console.error('❌ AVISO SIN ENVIAR del pedido', session.id, '- esta cobrado en Stripe, hay que mirarlo a mano');
     }
