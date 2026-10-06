@@ -215,14 +215,16 @@
 
     // Captura los clics de WhatsApp en toda la web mediante delegación en
     // document, para no depender del orden de carga ni instrumentar cada botón.
-    // Cubre tanto el botón flotante (.whatsapp-float) como cualquier enlace wa.me.
+    // Cubre los enlaces a /whatsapp (el contador del servidor), que llevan su
+    // origen en la URL, y cualquier enlace wa.me directo que quede.
     document.addEventListener('click', function (evento) {
-        const enlace = evento.target.closest('a[href*="wa.me"], .whatsapp-float');
+        const enlace = evento.target.closest('a[href^="/whatsapp"], a[href*="wa.me"], .whatsapp-float');
         if (!enlace) return;
 
-        const origen = enlace.classList.contains('whatsapp-float')
-            ? 'boton_flotante'
-            : 'enlace';
+        let origen = 'enlace';
+        try {
+            origen = new URL(enlace.href, location.href).searchParams.get('origen') || origen;
+        } catch (e) { /* href raro: se queda como enlace */ }
         window.NutriganGA.clicWhatsapp(origen);
     });
 })();

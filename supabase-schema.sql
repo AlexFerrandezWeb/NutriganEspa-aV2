@@ -149,3 +149,19 @@ CREATE POLICY "Admin puede actualizar imágenes" ON storage.objects
 DROP POLICY IF EXISTS "Admin puede eliminar imágenes" ON storage.objects;
 CREATE POLICY "Admin puede eliminar imágenes" ON storage.objects
   FOR DELETE USING (bucket_id = 'imagenes' AND auth.role() = 'authenticated');
+
+
+-- 4. CLICS DE WHATSAPP
+-- =====================================================
+-- Cada clic en un boton de WhatsApp de la web (ruta /whatsapp de server.js).
+-- Sin IP ni datos del visitante: solo de donde salio y por que producto.
+CREATE TABLE IF NOT EXISTS clics_whatsapp (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  origen TEXT NOT NULL,      -- flotante, ficha, catalogo, guia, bolutech
+  producto TEXT,             -- nombre del producto, si se pregunto por uno
+  pagina TEXT                -- ruta de la pagina desde la que se pulso
+);
+
+-- Sin politicas: solo el servidor (service role) lee y escribe.
+ALTER TABLE clics_whatsapp ENABLE ROW LEVEL SECURITY;

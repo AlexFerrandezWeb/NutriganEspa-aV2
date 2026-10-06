@@ -16,6 +16,7 @@ Disallow: /clear-cache.html
 Disallow: /status
 Disallow: /admin.html
 Disallow: /admin-panel.html
+Disallow: /whatsapp
 
 # Sitemap
 Sitemap: https://www.xn--nutriganespaa-tkb.com/sitemap.xml

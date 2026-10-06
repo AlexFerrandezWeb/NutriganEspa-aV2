@@ -691,9 +691,11 @@ function cerrarModal() {
 
 // Función para contactar por WhatsApp
 function contactarWhatsApp(nombreProducto) {
-    const mensaje = `Hola, me interesa el producto ${nombreProducto}. ¿Podrían darme más información?`;
-    const url = `https://wa.me/34626983042?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
+    // Pasa por /whatsapp, que apunta el contacto y escribe el mensaje. Al ser un
+    // boton y no un enlace, el contador de clics de analytics.js no lo ve: se
+    // avisa a GA4 desde aqui.
+    if (window.NutriganGA) window.NutriganGA.clicWhatsapp('catalogo');
+    window.open(`/whatsapp?origen=catalogo&producto=${encodeURIComponent(nombreProducto)}`, '_blank');
 }
 
 // Función para mostrar error

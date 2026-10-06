@@ -1485,7 +1485,10 @@ function renderProductoHtml(producto, canonical) {
             `<p>${escapeHtml(descripcionCuerpo)}</p>`)
         // Por id y no por la cadena completa: asi el reemplazo aguanta si algun dia
         // cambian los atributos de la etiqueta en producto.html.
-        .replace(/<img id="producto-imagen-principal"[^>]*>/, imgPrincipal);
+        .replace(/<img id="producto-imagen-principal"[^>]*>/, imgPrincipal)
+        // En la ficha el boton de WhatsApp ya dice por que producto se pregunta.
+        .replace('href="/whatsapp?origen=flotante"',
+            `href="/whatsapp?origen=ficha&amp;producto=${encodeURIComponent(producto.nombre)}"`);
 }
 
 // URL antigua /producto.html?id= -> 301 a la URL limpia /producto/<slug> (consolida SEO)
@@ -1545,6 +1548,53 @@ app.get('/producto/:slug', async (req, res) => {
     const canonical = `${PRODUCT_BASE}/producto/${canonicalSlug}`;
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(renderProductoHtml(producto, canonical));
+});
+
+// ===== Contactos por WhatsApp =====
+// Todos los botones de WhatsApp pasan por aqui: se apunta el clic en
+// clics_whatsapp y se redirige a wa.me con el mensaje ya escrito. GA4 tambien
+// lo cuenta, pero solo de quien acepta las cookies; esta cuenta no usa cookies
+// ni guarda IP ni nada del visitante, asi que sale completa.
+//
+// El mensaje empieza por «vengo de la web» para que Javier sepa en el propio
+// chat de donde llega el contacto. El destino es siempre el mismo numero, asi
+// que el parametro producto solo cambia el texto: no es una redireccion abierta.
+const WHATSAPP_NUMERO = '34626983042';
+const MENSAJES_WHATSAPP = {
+    flotante: 'Hola, vengo de la web. Me interesan sus productos de nutrición animal.',
+    guia: 'Hola, vengo de la web. Necesito ayuda para elegir el producto adecuado para mi ganado.',
+    bolutech: 'Hola, vengo de la web. Quiero información sobre los productos Bolutech.'
+};
+// Los rastreadores y las vistas previas de enlaces no son contactos.
+const UA_NO_HUMANO = /bot|crawl|spider|slurp|preview|facebookexternalhit|whatsapp|curl|wget|python|headless/i;
+// IPs propias separadas por comas (la de casa de Alejandro), igual que el filtro
+// de trafico interno de GA4. Se ponen en Render para no dejarlas en el repo.
+const IPS_INTERNAS = (process.env.IPS_INTERNAS || '').split(',').map(s => s.trim()).filter(Boolean);
+
+app.get('/whatsapp', (req, res) => {
+    const origen = typeof req.query.origen === 'string' ? req.query.origen.slice(0, 20) : '';
+    const producto = typeof req.query.producto === 'string' ? req.query.producto.trim().slice(0, 120) : '';
+    const texto = producto
+        ? `Hola, vengo de la web. Me interesa el producto ${producto}. ¿Podrían darme más información?`
+        : (MENSAJES_WHATSAPP[origen] || MENSAJES_WHATSAPP.flotante);
+
+    const ip = String(req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
+    const esHumano = !UA_NO_HUMANO.test(req.headers['user-agent'] || '');
+    if (esHumano && !IPS_INTERNAS.includes(ip)) {
+        // Solo la ruta de la pagina de origen, sin consulta ni dominio.
+        let pagina = null;
+        try { pagina = new URL(req.headers.referer).pathname.slice(0, 200); } catch (e) { /* sin referer */ }
+
+        // Sin await: si Supabase falla o tarda, el visitante llega igual a WhatsApp.
+        supabaseAdmin.from('clics_whatsapp')
+            .insert({ origen: origen || 'otro', producto: producto || null, pagina })
+            .then(({ error }) => {
+                if (error) console.error('❌ [whatsapp] No se pudo apuntar el clic:', error.message);
+            });
+    }
+
+    res.setHeader('Cache-Control', 'no-store');
+    res.redirect(302, `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`);
 });
 
 // Redirigir URLs antiguas /docs/*.pdf a la ubicación actual /assets/fichas-tecnicas/*.pdf
