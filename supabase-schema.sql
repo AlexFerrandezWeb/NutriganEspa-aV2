@@ -165,3 +165,18 @@ CREATE TABLE IF NOT EXISTS clics_whatsapp (
 
 -- Sin politicas: solo el servidor (service role) lee y escribe.
 ALTER TABLE clics_whatsapp ENABLE ROW LEVEL SECURITY;
+
+
+-- 5. AVISO DE COOKIES
+-- =====================================================
+-- Cuantas visitas ven el aviso y cuantas aceptan o rechazan (ruta
+-- /api/privacidad de server.js). Sin IP ni datos del visitante.
+CREATE TABLE IF NOT EXISTS avisos_cookies (
+  id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  evento TEXT NOT NULL,      -- mostrado, aceptar, rechazar
+  pagina TEXT                -- ruta de la pagina
+);
+
+-- Sin politicas: solo el servidor (service role) lee y escribe.
+ALTER TABLE avisos_cookies ENABLE ROW LEVEL SECURITY;

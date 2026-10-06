@@ -1650,6 +1650,35 @@ app.get('/whatsapp', (req, res) => {
     res.redirect(302, `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`);
 });
 
+// ===== Aviso de cookies =====
+// Cuenta, sin saber quien, cuantas visitas ven el aviso y cuantas aceptan o
+// rechazan. GA4 solo ve a quien acepta: con esta proporcion se estima cuanto
+// se queda corto. No se guarda IP ni nada del visitante, solo el evento y la
+// pagina. La ruta no lleva «cookies» en el nombre para que los bloqueadores
+// no la corten.
+//
+// «mostrado» lo manda cookies.min.js solo en la primera pagina de la visita
+// (sin referer de la propia web): si no, quien ignora el aviso y navega
+// contaria una vez por pagina.
+const EVENTOS_AVISO = new Set(['mostrado', 'aceptar', 'rechazar']);
+
+app.post('/api/privacidad', (req, res) => {
+    const evento = req.query.e;
+    const esHumano = !UA_NO_HUMANO.test(req.headers['user-agent'] || '');
+    if (EVENTOS_AVISO.has(evento) && esHumano && !IPS_INTERNAS.includes(ipCliente(req))) {
+        let pagina = null;
+        try { pagina = new URL(req.headers.referer).pathname.slice(0, 200); } catch (e) { /* sin referer */ }
+
+        supabaseAdmin.from('avisos_cookies')
+            .insert({ evento, pagina })
+            .then(({ error }) => {
+                if (error) console.error('❌ [aviso cookies] No se pudo apuntar:', error.message);
+            });
+    }
+    // sendBeacon no lee la respuesta: basta con cerrar rapido.
+    res.status(204).end();
+});
+
 // Redirigir URLs antiguas /docs/*.pdf a la ubicación actual /assets/fichas-tecnicas/*.pdf
 app.get('/docs/:filename', (req, res) => {
     res.redirect(301, '/assets/fichas-tecnicas/' + req.params.filename);
