@@ -8792,16 +8792,27 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
     transform: translateY(-1px);
 }
 
-.btn-rechazar {
-    background-color: transparent;
-    color: var(--color-texto-oscuro);
-    border: 2px solid var(--color-texto-oscuro);
-}
-
-.btn-rechazar:hover {
+/* Mismo formato que Aceptar: la AEPD pide que rechazar sea igual de visible
+   que aceptar. Va con .cookie-buttons delante porque «.cookie-buttons button»
+   pesa mas que una clase sola y le quitaba el borde. */
+.cookie-buttons .btn-rechazar {
     background-color: var(--color-texto-oscuro);
     color: white;
+}
+
+.cookie-buttons .btn-rechazar:hover {
+    background-color: #3a4a5c;
     transform: translateY(-1px);
+}
+
+/* Panel de configuracion de politica-cookies.html: que la cabecera fija no
+   tape el titulo al llegar desde «Configurar cookies». */
+#configuracion {
+    scroll-margin-top: 170px;
+}
+
+.cookie-buttons--panel {
+    margin-top: 1rem;
 }
 
 .cookie-link {

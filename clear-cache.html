@@ -23,12 +23,7 @@
       });
       // Si el usuario ya dio su consentimiento en una visita anterior, lo restauramos.
       if (document.cookie.indexOf('cookiesAceptadas=true') !== -1) {
-        gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted',
-          'analytics_storage': 'granted'
-        });
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
       }
       gtag('config', 'G-2ZN5E3WV35');
     </script>

@@ -24,12 +24,7 @@
       });
       // Si el usuario ya dio su consentimiento en una visita anterior, lo restauramos.
       if (document.cookie.indexOf('cookiesAceptadas=true') !== -1) {
-        gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted',
-          'analytics_storage': 'granted'
-        });
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
       }
       gtag('config', 'G-2ZN5E3WV35');
     </script>
@@ -271,6 +266,7 @@
                     <a href="/aviso-legal.html" class="footer-enlace">Aviso Legal</a>
                     <a href="/politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
                     <a href="/politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="/politica-cookies.html#configuracion" class="footer-enlace">Configurar cookies</a>
                     <a href="/terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
                     <a href="/politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
                 </div>
@@ -330,16 +326,15 @@
         aria-describedby="cookie-description">
         <div class="cookie-content">
             <h2 id="cookie-title" class="visually-hidden">Política de Cookies</h2>
-            <p id="cookie-description">Utilizamos cookies propias y de terceros para mejorar nuestros servicios y
-                mostrarle publicidad relacionada con sus preferencias mediante el análisis de sus hábitos de navegación.
+            <p id="cookie-description">Usamos cookies de Google Analytics para saber cuántas personas visitan la web y qué
+                productos interesan, y así mejorarla. No usamos cookies de publicidad. Solo se activan si las aceptas.
             </p>
             <div class="cookie-buttons">
-                <button onclick="aceptarCookies()" class="btn-aceptar" aria-label="Aceptar todas las cookies">Aceptar
-                    todas</button>
+                <button onclick="aceptarCookies()" class="btn-aceptar" aria-label="Aceptar las cookies de análisis">Aceptar</button>
                 <button onclick="configurarCookies()" class="btn-configurar"
                     aria-label="Configurar cookies">Configurar</button>
                 <button onclick="rechazarCookies()" class="btn-rechazar"
-                    aria-label="Rechazar todas las cookies">Rechazar todas</button>
+                    aria-label="Rechazar las cookies de análisis">Rechazar</button>
             </div>
             <a href="/politica-cookies.html" class="cookie-link">Más información</a>
         </div>

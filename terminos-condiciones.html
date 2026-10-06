@@ -24,12 +24,7 @@
       });
       // Si el usuario ya dio su consentimiento en una visita anterior, lo restauramos.
       if (document.cookie.indexOf('cookiesAceptadas=true') !== -1) {
-        gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted',
-          'analytics_storage': 'granted'
-        });
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
       }
       gtag('config', 'G-2ZN5E3WV35');
     </script>
@@ -345,6 +340,7 @@
                     <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
                     <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
                     <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="politica-cookies.html#configuracion" class="footer-enlace">Configurar cookies</a>
                     <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
                     <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
                 </div>

@@ -24,12 +24,7 @@
       });
       // Si el usuario ya dio su consentimiento en una visita anterior, lo restauramos.
       if (document.cookie.indexOf('cookiesAceptadas=true') !== -1) {
-        gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted',
-          'analytics_storage': 'granted'
-        });
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
       }
       gtag('config', 'G-2ZN5E3WV35');
     </script>
@@ -120,7 +115,19 @@
     <main class="legal-content">
         <div class="legal-container">
             <h1 class="legal-titulo">Política de Cookies</h1>
-            <p class="legal-fecha">Última actualización: 22 de septiembre de 2026</p>
+            <p class="legal-fecha">Última actualización: 7 de octubre de 2026</p>
+
+            <section class="legal-seccion" id="configuracion">
+                <h2>Configurar tus cookies</h2>
+                <p>Las cookies técnicas están siempre activas: sin ellas la web no recordaría tu elección. Las de
+                    análisis (Google Analytics) solo se activan si las aceptas, y puedes cambiar de opinión aquí
+                    cuando quieras. Si las desactivas, se borran las que ya estuvieran guardadas.</p>
+                <p id="estado-cookies" aria-live="polite"></p>
+                <div class="cookie-buttons cookie-buttons--panel">
+                    <button onclick="aceptarCookies()" class="btn-aceptar">Activar cookies de análisis</button>
+                    <button onclick="rechazarCookies()" class="btn-rechazar">Desactivar cookies de análisis</button>
+                </div>
+            </section>
 
             <section class="legal-seccion">
                 <h2>1. ¿Qué son las Cookies?</h2>
@@ -135,26 +142,16 @@
                 <h2>2. Tipos de Cookies que Utilizamos</h2>
 
                 <h3>2.1 Cookies Técnicas (Necesarias)</h3>
-                <p>Estas cookies son esenciales para el funcionamiento del sitio web y no se pueden desactivar:</p>
-                <ul>
-                    <li><strong>Cookies de sesión:</strong> Mantienen la sesión activa durante su visita</li>
-                    <li><strong>Cookies de seguridad:</strong> Protegen contra ataques y fraudes</li>
-                    <li><strong>Cookies de funcionalidad:</strong> Permiten el funcionamiento básico del sitio</li>
-                </ul>
+                <p>Guardan tu elección sobre las cookies para no preguntarte en cada página. Son imprescindibles y no
+                    se pueden desactivar.</p>
 
-                <h3>2.2 Cookies de Rendimiento</h3>
-                <p>Nos ayudan a entender cómo los visitantes interactúan con nuestro sitio web:</p>
-                <ul>
-                    <li><strong>Google Analytics:</strong> Recopila información anónima sobre el uso del sitio</li>
-                    <li><strong>Cookies de análisis:</strong> Miden el rendimiento y la funcionalidad</li>
-                </ul>
+                <h3>2.2 Cookies de Análisis</h3>
+                <p>Google Analytics nos dice cuántas personas visitan la web, qué páginas ven y qué productos les
+                    interesan. Solo se instalan si las aceptas.</p>
 
-                <h3>2.3 Cookies de Marketing</h3>
-                <p>Se utilizan para mostrar anuncios relevantes y medir la efectividad de las campañas:</p>
-                <ul>
-                    <li><strong>Cookies de publicidad:</strong> Personalizan los anuncios mostrados</li>
-                    <li><strong>Cookies de redes sociales:</strong> Permiten compartir contenido en redes sociales</li>
-                </ul>
+                <h3>2.3 Publicidad y Redes Sociales</h3>
+                <p>No usamos cookies de publicidad ni de redes sociales. Los enlaces a Facebook y WhatsApp son enlaces
+                    normales: no instalan ninguna cookie hasta que entras en esas páginas.</p>
             </section>
 
             <section class="legal-seccion">
@@ -198,14 +195,13 @@
 
             <section class="legal-seccion">
                 <h2>4. Finalidad del Uso de Cookies</h2>
-                <p>Utilizamos cookies para:</p>
+                <p>Usamos cookies para:</p>
                 <ul>
-                    <li><strong>Funcionalidad:</strong> Recordar sus preferencias y configuraciones</li>
-                    <li><strong>Rendimiento:</strong> Analizar el uso del sitio web para mejorarlo</li>
-                    <li><strong>Personalización:</strong> Mostrar contenido relevante para usted</li>
-                    <li><strong>Marketing:</strong> Mostrar anuncios personalizados (con su consentimiento)</li>
-                    <li><strong>Seguridad:</strong> Proteger contra fraudes y ataques</li>
+                    <li><strong>Recordar tu elección</strong> sobre las cookies (técnica).</li>
+                    <li><strong>Saber cómo se usa la web</strong> (análisis, solo si aceptas): cuántas visitas hay,
+                        qué productos interesan y dónde se atasca la gente, para mejorarla.</li>
                 </ul>
+                <p>No las usamos para mostrarte anuncios ni para crear perfiles con fines publicitarios.</p>
             </section>
 
             <section class="legal-seccion">
@@ -233,35 +229,28 @@
 
             <section class="legal-seccion">
                 <h2>6. Cookies de Terceros</h2>
-                <p>Nuestro sitio web puede contener cookies de terceros:</p>
                 <ul>
-                    <li><strong>Google Analytics:</strong> Para análisis de tráfico web</li>
-                    <li><strong>Redes sociales:</strong> Para botones de compartir</li>
-                    <li><strong>Proveedores de pago:</strong> Para procesar pagos</li>
+                    <li><strong>Google Analytics</strong> (Google Ireland Ltd.): las cookies de análisis descritas
+                        arriba, solo si las aceptas.</li>
+                    <li><strong>Stripe</strong>: al pagar pasas a la página de pago de Stripe, que tiene su propia
+                        política de cookies. Nuestra web no instala cookies de Stripe.</li>
                 </ul>
-                <p>Estas cookies están sujetas a las políticas de privacidad de los respectivos terceros.</p>
             </section>
 
             <section class="legal-seccion">
                 <h2>7. Consentimiento</h2>
-                <p>Al continuar navegando por nuestro sitio web, usted acepta el uso de cookies según se describe en
-                    esta política. Puede retirar su consentimiento en cualquier momento:</p>
-                <ul>
-                    <li>Eliminando las cookies de su navegador</li>
-                    <li>Configurando su navegador para rechazar cookies</li>
-                    <li>Contactando con nosotros en javiernutrigan@gmail.com</li>
-                </ul>
+                <p>Las cookies de análisis solo se instalan si pulsas «Aceptar» en el aviso. Navegar por la web sin
+                    elegir no cuenta como aceptarlas.</p>
+                <p>Puedes retirar tu consentimiento en cualquier momento desde
+                    <a href="#configuracion">Configurar tus cookies</a>, en esta misma página, o desde el enlace
+                    «Configurar cookies» que hay al pie de todas las páginas. También puedes borrarlas desde tu
+                    navegador o escribirnos a javiernutrigan@gmail.com.</p>
             </section>
 
             <section class="legal-seccion">
                 <h2>8. Impacto de Desactivar Cookies</h2>
-                <p>Si desactiva las cookies, algunas funcionalidades del sitio web pueden verse afectadas:</p>
-                <ul>
-                    <li>No se recordarán sus preferencias</li>
-                    <li>El carrito de compras puede no funcionar correctamente</li>
-                    <li>Algunas páginas pueden no cargar correctamente</li>
-                    <li>La experiencia de usuario puede verse reducida</li>
-                </ul>
+                <p>Si rechazas las cookies de análisis, la web funciona exactamente igual: el catálogo, el carrito y
+                    el pago no dependen de ellas. Solo dejamos de saber cómo se usa la web.</p>
             </section>
 
             <section class="legal-seccion">
@@ -309,6 +298,7 @@
                     <a href="aviso-legal.html" class="footer-enlace">Aviso Legal</a>
                     <a href="politica-privacidad.html" class="footer-enlace">Política de Privacidad</a>
                     <a href="politica-cookies.html" class="footer-enlace">Política de Cookies</a>
+                    <a href="politica-cookies.html#configuracion" class="footer-enlace">Configurar cookies</a>
                     <a href="terminos-condiciones.html" class="footer-enlace">Términos y Condiciones</a>
                     <a href="politica-devoluciones.html" class="footer-enlace">Política de Devoluciones</a>
                 </div>
@@ -336,6 +326,7 @@
         </div>
     </footer>
 
+    <script src="js/cookies.min.js" defer></script>
     <script defer src="main.js"></script>
     <script>
         // Actualizar contador del carrito
