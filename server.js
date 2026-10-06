@@ -770,6 +770,60 @@ app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// ===== Limite de peticiones por visitante =====
+// Frena a quien repite una ruta cara en bucle (crear sesiones de Stripe, llenar
+// clics_whatsapp de filas falsas). Contra una avalancha de verdad esta
+// Cloudflare delante; esto es para lo que se cuela de uno en uno, y para lo que
+// llega directo a nutrigan-web.onrender.com, que no pasa por Cloudflare.
+//
+// En memoria y por ventana fija de un minuto: Render corre una sola instancia,
+// asi que no hace falta nada compartido. Se reinicia con cada despliegue.
+
+// La IP del visitante. Detras de Cloudflare viene en cf-connecting-ip; directo
+// a Render, en la primera de x-forwarded-for. Las dos cabeceras las puede
+// inventar quien llame directo a Render: es un freno, no un muro.
+function ipCliente(req) {
+    return String(req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.ip || '')
+        .split(',')[0].trim();
+}
+
+function limitePorMinuto(nombre, maximo) {
+    const cuentas = new Map();
+    // Cada minuto se vacia entero: es la ventana. unref() para no retener el proceso.
+    setInterval(() => cuentas.clear(), 60 * 1000).unref();
+
+    // Devuelve true si esta peticion pasa del limite.
+    return function excedido(req) {
+        const ip = ipCliente(req);
+        const n = (cuentas.get(ip) || 0) + 1;
+        cuentas.set(ip, n);
+        if (n === maximo + 1) console.warn(`⚠️ [limite] ${nombre}: ${ip} pasa de ${maximo}/min`);
+        return n > maximo;
+    };
+}
+
+// Un cliente de verdad crea una o dos sesiones de pago; diez por minuto ya es
+// alguien en bucle. El carrito y la ficha ya muestran «inténtalo de nuevo» si
+// reciben un error.
+const excedidoCheckout = limitePorMinuto('checkout', 10);
+// Las rutas /api/ que consultan Supabase (catalogo, fichas, pedido). Holgado:
+// una pagina de catalogo hace pocas llamadas y Google tambien pasa por aqui.
+const excedidoApi = limitePorMinuto('api', 300);
+// El clic de WhatsApp nunca se bloquea: se deja de apuntar, pero el visitante
+// llega igual al chat.
+const excedidoWhatsapp = limitePorMinuto('whatsapp', 20);
+
+app.use('/api/', (req, res, next) => {
+    // El webhook de Stripe va antes de este punto y no pasa por aqui. Los
+    // OPTIONS de CORS (la ficha llama a Render desde otro origen) no cuentan:
+    // si no, cada pago gastaria dos.
+    if (req.method === 'OPTIONS') return next();
+    const excedido = req.path === '/create-checkout-session' ? excedidoCheckout(req) : excedidoApi(req);
+    if (!excedido) return next();
+    res.setHeader('Retry-After', '60');
+    res.status(429).json({ success: false, message: 'Demasiadas peticiones. Espera un minuto y vuelve a intentarlo.' });
+});
+
 // Redirigir a la URL canónica: HTTPS + www
 app.use((req, res, next) => {
     // Las rutas de API nunca se redirigen (evita romper POST con redirect 301)
@@ -1578,9 +1632,8 @@ app.get('/whatsapp', (req, res) => {
         ? `Hola, vengo de la web. Me interesa el producto ${producto}. ¿Podrían darme más información?`
         : (MENSAJES_WHATSAPP[origen] || MENSAJES_WHATSAPP.flotante);
 
-    const ip = String(req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
     const esHumano = !UA_NO_HUMANO.test(req.headers['user-agent'] || '');
-    if (esHumano && !IPS_INTERNAS.includes(ip)) {
+    if (esHumano && !IPS_INTERNAS.includes(ipCliente(req)) && !excedidoWhatsapp(req)) {
         // Solo la ruta de la pagina de origen, sin consulta ni dominio.
         let pagina = null;
         try { pagina = new URL(req.headers.referer).pathname.slice(0, 200); } catch (e) { /* sin referer */ }
