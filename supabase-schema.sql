@@ -158,7 +158,7 @@ CREATE POLICY "Admin puede eliminar imágenes" ON storage.objects
 CREATE TABLE IF NOT EXISTS clics_whatsapp (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  origen TEXT NOT NULL,      -- flotante, ficha, catalogo, guia, bolutech
+  origen TEXT NOT NULL,      -- flotante, ficha, catalogo, guia, bolutech, perfil
   producto TEXT,             -- nombre del producto, si se pregunto por uno
   pagina TEXT                -- ruta de la pagina desde la que se pulso
 );

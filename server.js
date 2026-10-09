@@ -1611,13 +1611,16 @@ app.get('/producto/:slug', async (req, res) => {
 // ni guarda IP ni nada del visitante, asi que sale completa.
 //
 // El mensaje empieza por «vengo de la web» para que Javier sepa en el propio
-// chat de donde llega el contacto. El destino es siempre el mismo numero, asi
-// que el parametro producto solo cambia el texto: no es una redireccion abierta.
+// chat de donde llega el contacto. El enlace «Chat» del Perfil de Empresa de
+// Google usa origen=perfil, que en vez de eso dice que viene de la ficha.
+// El destino es siempre el mismo numero, asi que el parametro producto solo
+// cambia el texto: no es una redireccion abierta.
 const WHATSAPP_NUMERO = '34626983042';
 const MENSAJES_WHATSAPP = {
     flotante: 'Hola, vengo de la web. Me interesan sus productos de nutrición animal.',
     guia: 'Hola, vengo de la web. Necesito ayuda para elegir el producto adecuado para mi ganado.',
-    bolutech: 'Hola, vengo de la web. Quiero información sobre los productos Bolutech.'
+    bolutech: 'Hola, vengo de la web. Quiero información sobre los productos Bolutech.',
+    perfil: 'Hola, les escribo desde su ficha de Google. Me interesan sus productos de nutrición animal.'
 };
 // Los rastreadores y las vistas previas de enlaces no son contactos.
 const UA_NO_HUMANO = /bot|crawl|spider|slurp|preview|facebookexternalhit|whatsapp|curl|wget|python|headless/i;
@@ -1634,9 +1637,13 @@ app.get('/whatsapp', (req, res) => {
 
     const esHumano = !UA_NO_HUMANO.test(req.headers['user-agent'] || '');
     if (esHumano && !IPS_INTERNAS.includes(ipCliente(req)) && !excedidoWhatsapp(req)) {
-        // Solo la ruta de la pagina de origen, sin consulta ni dominio.
+        // Solo la ruta de la pagina de origen, sin consulta ni dominio. Si se
+        // pulso fuera de la web (la ficha de Google) no hay pagina nuestra.
         let pagina = null;
-        try { pagina = new URL(req.headers.referer).pathname.slice(0, 200); } catch (e) { /* sin referer */ }
+        try {
+            const ref = new URL(req.headers.referer);
+            if (ref.host === req.headers.host) pagina = ref.pathname.slice(0, 200);
+        } catch (e) { /* sin referer */ }
 
         // Sin await: si Supabase falla o tarda, el visitante llega igual a WhatsApp.
         supabaseAdmin.from('clics_whatsapp')
