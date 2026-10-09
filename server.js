@@ -1438,12 +1438,12 @@ const SEO_FICHAS = {
     1: {
         nombre: 'Bolutech® Flash',
         title: 'Bolutech Flash · Bolo de calcio contra la fiebre de leche | Nutrigan',
-        description: 'Bolo de calcio de liberación rápida para vacas en periparto: ayuda a prevenir la hipocalcemia o fiebre de la leche. Caja de 20 bolos. Envío gratis.'
+        description: 'Bolo de calcio de liberación rápida (90 minutos) para el día del parto: reduce el riesgo de hipocalcemia o fiebre de la leche. Con vitamina D3. Envío gratis.'
     },
     9: {
         nombre: 'Bolutech® Start',
-        title: 'Bolutech Start · Bolo contra la acetonemia posparto | Nutrigan',
-        description: 'Bolo energético de liberación rápida para vacas en periparto: previene la acetonemia posparto. Sin tiempo de espera. Caja de 10 bolos. Envío gratis.'
+        title: 'Bolutech Start · Bolo para reducir la cetosis posparto | Nutrigan',
+        description: 'Bolo de liberación rápida con niacina para las primeras semanas tras el parto: reduce el riesgo de cetosis (acetonemia). Caja de 10 bolos. Envío gratis.'
     },
     11: {
         nombre: 'Lactibiose® Effervescent',
@@ -1466,7 +1466,7 @@ const SEO_FICHAS = {
     23: {
         nombre: 'gav-ALLFEED® Replyn DEFENSE WS250ml',
         title: 'Replyn Defense · Spray repelente de insectos para ganado | Nutrigan',
-        description: 'Spray dermoprotector repelente y antipicaduras para el ganado, frente a los mosquitos que transmiten la EHE. Sin tiempo de espera. 250 ml. Envío gratis.'
+        description: 'Spray dermoprotector repelente y antipicaduras para el ganado: control de insectos, ectoparásitos y culicoides (EHE). Se diluye en agua. 250 ml. Envío gratis.'
     },
     33: {
         nombre: 'Activador Microorganismos BIOPRANA 20L',
@@ -1475,13 +1475,13 @@ const SEO_FICHAS = {
     },
     37: {
         nombre: 'EuroDog® Bocaditos Repelent Alta Calidad - 20KG',
-        title: 'EuroDog Bocaditos Repelent · Snack antiparasitario para perros | Nutrigan',
-        description: 'Bocaditos masticables para perros que ayudan a protegerlos desde dentro frente a pulgas, garrapatas y mosquitos. Sin cereales. Palet de 60 sacos de 20 kg.'
+        title: 'EuroDog Bocaditos Repelent · Snack para perros sin cereales | Nutrigan',
+        description: 'Bocaditos masticables para perros con harina de carne, extractos de plantas y aceites esenciales. Sin cereales. Palet de 60 sacos de 20 kg. Envío gratis.'
     },
     45: {
         nombre: 'Lactox A+B - 10kg',
-        title: 'Lactox A+B · Desinfectante post-ordeño con dióxido de cloro | Nutrigan',
-        description: 'Lactox A+B genera dióxido de cloro para la higiene del pezón tras el ordeño y la prevención de mastitis en vacas, ovejas y cabras. 3 × 10 kg. Envío gratis.'
+        title: 'Lactox A+B · Baño de pezones post-ordeño con dióxido de cloro | Nutrigan',
+        description: 'Baño de pezones bicomponente que libera dióxido de cloro tras el ordeño. Forma una película dermoprotectora y seca rápido. Pack de 3 × 10 kg. Envío gratis.'
     }
 };
 
