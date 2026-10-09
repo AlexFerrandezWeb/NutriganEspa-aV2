@@ -7538,6 +7538,51 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
     color: var(--color-texto-oscuro);
 }
 
+/* Encabezado de la descripcion en la ficha, entre el boton de la ficha tecnica
+   y el texto. */
+.producto-descripcion-titulo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-texto-oscuro);
+    margin: 1.5rem 0 0.6rem 0;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-contador);
+}
+
+/* Formato que admite la descripcion completa (descripcionAHtml en server.js y
+   producto.js): parrafos, subtitulos y listas con una marca verde. */
+.producto-descripcion-detalle p {
+    margin: 0 0 0.9rem 0;
+}
+
+.producto-descripcion-detalle .descripcion-subtitulo {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-contador);
+    margin: 1.1rem 0 0.5rem 0;
+}
+
+.producto-descripcion-detalle .descripcion-lista {
+    list-style: none;
+    margin: 0 0 1rem 0;
+    padding: 0;
+}
+
+.producto-descripcion-detalle .descripcion-lista li {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.producto-descripcion-detalle .descripcion-lista li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--color-contador);
+    font-weight: 700;
+}
+
 .producto-caracteristicas {
     display: grid;
     grid-template-columns: 1fr 1fr;

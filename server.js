@@ -1423,6 +1423,28 @@ async function getSlugMap() {
     return map;
 }
 
+// La descripcion completa admite un formato minimo escrito en el propio texto
+// del panel: linea en blanco = parrafo nuevo, lineas que empiezan por «•» =
+// lista, y una linea que acaba en «:» encima de una lista = su subtitulo. Un
+// texto de un solo parrafo, como casi todos, sale igual que siempre. producto.js
+// tiene la misma funcion (descripcionAHtml): tienen que pintar lo mismo, o Google
+// veria una cosa y el cliente otra.
+function descripcionAHtml(texto) {
+    const bloques = String(texto || '').replace(/<[^>]*>/g, '').replace(/\r/g, '')
+        .split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+    return bloques.map(bloque => {
+        const lineas = bloque.split('\n').map(l => l.trim()).filter(Boolean);
+        const esItem = l => /^[•\-]\s*/.test(l);
+        const titulo = lineas.length > 1 && /:$/.test(lineas[0]) && lineas.slice(1).every(esItem)
+            ? `<h3 class="descripcion-subtitulo">${escapeHtml(lineas.shift())}</h3>` : '';
+        if (lineas.every(esItem)) {
+            return titulo + '<ul class="descripcion-lista">' +
+                lineas.map(l => `<li>${escapeHtml(l.replace(/^[•\-]\s*/, ''))}</li>`).join('') + '</ul>';
+        }
+        return titulo + `<p>${escapeHtml(lineas.join(' '))}</p>`;
+    }).join('');
+}
+
 // Titulo y descripcion para Google de las fichas que mas se ven en Search
 // Console (export de jul-oct 2026) y menos clics reciben. «Lactox | Nutrigan
 // España» salia en la posicion 5 y nadie pulsaba: el nombre solo lo entiende
@@ -1475,8 +1497,8 @@ const SEO_FICHAS = {
     },
     37: {
         nombre: 'EuroDog® Bocaditos Repelent Alta Calidad - 20KG',
-        title: 'EuroDog Bocaditos Repelent · Snack para perros sin cereales | Nutrigan',
-        description: 'Bocaditos masticables para perros con harina de carne, extractos de plantas y aceites esenciales. Sin cereales. Palet de 60 sacos de 20 kg. Envío gratis.'
+        title: 'EuroDog Bocaditos Repelent · Snack repelente de pulgas para perros | Nutrigan',
+        description: 'Bocaditos para perros que ayudan a protegerlos desde dentro frente a pulgas, garrapatas y mosquitos. Sin cereales. Palet de 60 sacos de 20 kg. Envío gratis.'
     },
     45: {
         nombre: 'Lactox A+B - 10kg',
@@ -1611,8 +1633,7 @@ function renderProductoHtml(producto, canonical) {
     // La completa, que es la que producto.js pinta en ese hueco. Tienen que
     // coincidir: si el HTML dice una cosa y el JavaScript la sustituye por
     // otra, Google ve un texto y el visitante otro.
-    const descripcionCuerpo = (producto.descripcion_completa || producto.descripcion || '')
-        .replace(/<[^>]*>/g, '').trim();
+    const descripcionCuerpo = descripcionAHtml(producto.descripcion_completa || producto.descripcion);
 
     return productoTemplate
         .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
@@ -1623,8 +1644,7 @@ function renderProductoHtml(producto, canonical) {
             `<h1 class="producto-hero-titulo" id="producto-nombre">${escapeHtml(producto.nombre)}</h1>`)
         .replace('<h2 class="producto-titulo" id="producto-titulo-detalle">Cargando...</h2>',
             `<h2 class="producto-titulo" id="producto-titulo-detalle">${escapeHtml(producto.nombre)}</h2>`)
-        .replace('<p>Cargando descripción...</p>',
-            `<p>${escapeHtml(descripcionCuerpo)}</p>`)
+        .replace('<p>Cargando descripción...</p>', descripcionCuerpo)
         // Por id y no por la cadena completa: asi el reemplazo aguanta si algun dia
         // cambian los atributos de la etiqueta en producto.html.
         .replace(/<img id="producto-imagen-principal"[^>]*>/, imgPrincipal)

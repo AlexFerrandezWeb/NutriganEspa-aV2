@@ -102,6 +102,27 @@ async function cargarProducto(id) {
     }
 }
 
+// Parrafos, listas «•» y subtitulos «...:» escritos en el texto del panel. Es la
+// misma funcion que descripcionAHtml() de server.js, que pinta este hueco antes
+// de que cargue el JavaScript: si cambia una, hay que cambiar la otra.
+function descripcionAHtml(texto) {
+    const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const bloques = String(texto || '').replace(/<[^>]*>/g, '').replace(/\r/g, '')
+        .split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
+    return bloques.map(bloque => {
+        const lineas = bloque.split('\n').map(l => l.trim()).filter(Boolean);
+        const esItem = l => /^[•\-]\s*/.test(l);
+        const titulo = lineas.length > 1 && /:$/.test(lineas[0]) && lineas.slice(1).every(esItem)
+            ? `<h3 class="descripcion-subtitulo">${esc(lineas.shift())}</h3>` : '';
+        if (lineas.every(esItem)) {
+            return titulo + '<ul class="descripcion-lista">' +
+                lineas.map(l => `<li>${esc(l.replace(/^[•\-]\s*/, ''))}</li>`).join('') + '</ul>';
+        }
+        return titulo + `<p>${esc(lineas.join(' '))}</p>`;
+    }).join('');
+}
+
 // Función para mostrar el producto
 function mostrarProducto(producto) {
     // El titulo lo pone el servidor, y en algunas fichas no es solo el nombre
@@ -181,12 +202,8 @@ function mostrarProducto(producto) {
     // En la ficha va la descripcion completa, no la de una linea: es el unico
     // sitio donde cabe y donde aporta. Las tarjetas del catalogo y de la
     // portada siguen con la corta, que es lo que pide una rejilla.
-    const descP = document.createElement('p');
-    descP.textContent = (producto.descripcion_completa || producto.descripcion || '')
-        .replace(/<[^>]*>/g, '');
-    const descContainer = document.getElementById('producto-descripcion');
-    descContainer.innerHTML = '';
-    descContainer.appendChild(descP);
+    document.getElementById('producto-descripcion').innerHTML =
+        descripcionAHtml(producto.descripcion_completa || producto.descripcion);
     
     // Actualizar características
     document.getElementById('producto-especie').textContent = producto.especie;

@@ -640,24 +640,24 @@ function mostrarModalDetalles(producto) {
                         <div class="detalle-item">
                             <strong>Presentación:</strong> ${escHTML(producto.presentacion)}
                         </div>
-                        <div class="detalle-item">
+                        ${producto.peso ? `<div class="detalle-item">
                             <strong>Peso:</strong> ${escHTML(producto.peso)}
-                        </div>
+                        </div>` : ''}
                     </div>
 
-                    <div class="modal-ingredientes">
+                    ${(producto.ingredientes || []).length ? `<div class="modal-ingredientes">
                         <h4>Ingredientes principales:</h4>
                         <div class="ingredientes-lista">
-                            ${(producto.ingredientes || []).map(ing => `<span class="ingrediente-tag">${escHTML(ing)}</span>`).join('')}
+                            ${producto.ingredientes.map(ing => `<span class="ingrediente-tag">${escHTML(ing)}</span>`).join('')}
                         </div>
-                    </div>
+                    </div>` : ''}
 
-                    <div class="modal-beneficios">
+                    ${(producto.beneficios || []).length ? `<div class="modal-beneficios">
                         <h4>Beneficios:</h4>
                         <ul>
-                            ${(producto.beneficios || []).map(beneficio => `<li>${escHTML(beneficio)}</li>`).join('')}
+                            ${producto.beneficios.map(beneficio => `<li>${escHTML(beneficio)}</li>`).join('')}
                         </ul>
-                    </div>
+                    </div>` : ''}
 
                     <div class="modal-stock">
                         <strong>Stock disponible:</strong> ${parseInt(producto.stock) || 0} unidades
