@@ -7549,6 +7549,29 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
     border-bottom: 2px solid var(--color-contador);
 }
 
+/* Descripcion plegada: solo el primer parrafo y el boton «Ver más». */
+.producto-descripcion-detalle .descripcion-mas[hidden] {
+    display: none;
+}
+
+.producto-descripcion-detalle .btn-ver-mas {
+    background: none;
+    border: none;
+    padding: 0.2rem 0;
+    margin-top: 0.2rem;
+    color: var(--color-contador);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.producto-descripcion-detalle .btn-ver-mas:hover,
+.producto-descripcion-detalle .btn-ver-mas:focus-visible {
+    color: var(--color-texto-oscuro);
+}
+
 /* Formato que admite la descripcion completa (descripcionAHtml en server.js y
    producto.js): parrafos, subtitulos y listas con una marca verde. */
 .producto-descripcion-detalle p {

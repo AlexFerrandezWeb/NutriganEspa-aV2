@@ -1429,10 +1429,14 @@ async function getSlugMap() {
 // texto de un solo parrafo, como casi todos, sale igual que siempre. producto.js
 // tiene la misma funcion (descripcionAHtml): tienen que pintar lo mismo, o Google
 // veria una cosa y el cliente otra.
+//
+// Si hay mas de un parrafo, solo se ve el primero y el resto queda plegado tras
+// un boton «Ver más» (lo abre producto.js). Va en el HTML, oculto con hidden, asi
+// que Google lo sigue leyendo.
 function descripcionAHtml(texto) {
     const bloques = String(texto || '').replace(/<[^>]*>/g, '').replace(/\r/g, '')
         .split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
-    return bloques.map(bloque => {
+    const html = bloques.map(bloque => {
         const lineas = bloque.split('\n').map(l => l.trim()).filter(Boolean);
         const esItem = l => /^[•\-]\s*/.test(l);
         const titulo = lineas.length > 1 && /:$/.test(lineas[0]) && lineas.slice(1).every(esItem)
@@ -1442,7 +1446,11 @@ function descripcionAHtml(texto) {
                 lineas.map(l => `<li>${escapeHtml(l.replace(/^[•\-]\s*/, ''))}</li>`).join('') + '</ul>';
         }
         return titulo + `<p>${escapeHtml(lineas.join(' '))}</p>`;
-    }).join('');
+    });
+    if (html.length < 2) return html.join('');
+    return html[0] +
+        '<div class="descripcion-mas" id="descripcion-mas" hidden>' + html.slice(1).join('') + '</div>' +
+        '<button type="button" class="btn-ver-mas" aria-expanded="false" aria-controls="descripcion-mas">Ver más</button>';
 }
 
 // Titulo y descripcion para Google de las fichas que mas se ven en Search

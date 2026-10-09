@@ -104,13 +104,14 @@ async function cargarProducto(id) {
 
 // Parrafos, listas «•» y subtitulos «...:» escritos en el texto del panel. Es la
 // misma funcion que descripcionAHtml() de server.js, que pinta este hueco antes
-// de que cargue el JavaScript: si cambia una, hay que cambiar la otra.
+// de que cargue el JavaScript: si cambia una, hay que cambiar la otra. Con mas
+// de un parrafo, el resto queda plegado tras el boton «Ver más».
 function descripcionAHtml(texto) {
     const esc = t => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     const bloques = String(texto || '').replace(/<[^>]*>/g, '').replace(/\r/g, '')
         .split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
-    return bloques.map(bloque => {
+    const html = bloques.map(bloque => {
         const lineas = bloque.split('\n').map(l => l.trim()).filter(Boolean);
         const esItem = l => /^[•\-]\s*/.test(l);
         const titulo = lineas.length > 1 && /:$/.test(lineas[0]) && lineas.slice(1).every(esItem)
@@ -120,8 +121,25 @@ function descripcionAHtml(texto) {
                 lineas.map(l => `<li>${esc(l.replace(/^[•\-]\s*/, ''))}</li>`).join('') + '</ul>';
         }
         return titulo + `<p>${esc(lineas.join(' '))}</p>`;
-    }).join('');
+    });
+    if (html.length < 2) return html.join('');
+    return html[0] +
+        '<div class="descripcion-mas" id="descripcion-mas" hidden>' + html.slice(1).join('') + '</div>' +
+        '<button type="button" class="btn-ver-mas" aria-expanded="false" aria-controls="descripcion-mas">Ver más</button>';
 }
+
+// El boton «Ver más» lo pinta tanto el servidor como mostrarProducto(), que
+// reescribe el hueco: por eso se escucha en el documento y no en el boton.
+document.addEventListener('click', e => {
+    const boton = e.target.closest('.btn-ver-mas');
+    if (!boton) return;
+    const resto = document.getElementById(boton.getAttribute('aria-controls'));
+    if (!resto) return;
+    const abrir = resto.hidden;
+    resto.hidden = !abrir;
+    boton.setAttribute('aria-expanded', String(abrir));
+    boton.textContent = abrir ? 'Ver menos' : 'Ver más';
+});
 
 // Función para mostrar el producto
 function mostrarProducto(producto) {
