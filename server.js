@@ -9,6 +9,8 @@ const { createClient } = require('@supabase/supabase-js');
 
 // Regla de promociones, la misma que usa el navegador (ver promociones.js).
 const promos = require('./promociones.js');
+// Resumen corto y formato de la descripcion larga, los mismos que en el navegador.
+const descripciones = require('./descripciones.js');
 const envio = require('./envio.js');
 
 // Cliente Supabase con service role (solo backend, nunca en frontend)
@@ -1423,36 +1425,6 @@ async function getSlugMap() {
     return map;
 }
 
-// La descripcion completa admite un formato minimo escrito en el propio texto
-// del panel: linea en blanco = parrafo nuevo, lineas que empiezan por «•» =
-// lista, y una linea que acaba en «:» encima de una lista = su subtitulo. Un
-// texto de un solo parrafo, como casi todos, sale igual que siempre. producto.js
-// tiene la misma funcion (descripcionAHtml): tienen que pintar lo mismo, o Google
-// veria una cosa y el cliente otra.
-//
-// Si hay mas de un parrafo, solo se ve el primero y el resto queda plegado tras
-// un boton «Ver más» (lo abre producto.js). Va en el HTML, oculto con hidden, asi
-// que Google lo sigue leyendo.
-function descripcionAHtml(texto) {
-    const bloques = String(texto || '').replace(/<[^>]*>/g, '').replace(/\r/g, '')
-        .split(/\n\s*\n/).map(b => b.trim()).filter(Boolean);
-    const html = bloques.map(bloque => {
-        const lineas = bloque.split('\n').map(l => l.trim()).filter(Boolean);
-        const esItem = l => /^[•\-]\s*/.test(l);
-        const titulo = lineas.length > 1 && /:$/.test(lineas[0]) && lineas.slice(1).every(esItem)
-            ? `<h3 class="descripcion-subtitulo">${escapeHtml(lineas.shift())}</h3>` : '';
-        if (lineas.every(esItem)) {
-            return titulo + '<ul class="descripcion-lista">' +
-                lineas.map(l => `<li>${escapeHtml(l.replace(/^[•\-]\s*/, ''))}</li>`).join('') + '</ul>';
-        }
-        return titulo + `<p>${escapeHtml(lineas.join(' '))}</p>`;
-    });
-    if (html.length < 2) return html.join('');
-    return html[0] +
-        '<div class="descripcion-mas" id="descripcion-mas" hidden>' + html.slice(1).join('') + '</div>' +
-        '<button type="button" class="btn-ver-mas" aria-expanded="false" aria-controls="descripcion-mas">Ver más</button>';
-}
-
 // Titulo y descripcion para Google de las fichas que mas se ven en Search
 // Console (export de jul-oct 2026) y menos clics reciben. «Lactox | Nutrigan
 // España» salia en la posicion 5 y nadie pulsaba: el nombre solo lo entiende
@@ -1641,7 +1613,7 @@ function renderProductoHtml(producto, canonical) {
     // La completa, que es la que producto.js pinta en ese hueco. Tienen que
     // coincidir: si el HTML dice una cosa y el JavaScript la sustituye por
     // otra, Google ve un texto y el visitante otro.
-    const descripcionCuerpo = descripcionAHtml(producto.descripcion_completa || producto.descripcion);
+    const descripcionCuerpo = descripciones.aHtml(producto.descripcion_completa || producto.descripcion);
 
     return productoTemplate
         .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
@@ -2284,7 +2256,7 @@ function precioTarjetaHtml(producto) {
  */
 function bloqueOfertaHtml(producto, promo) {
     const nombre = escapeHtml(producto.nombre);
-    const claim = escapeHtml(textoPlano(producto.descripcion));
+    const claim = escapeHtml(descripciones.resumen(producto));
     const imagen = escapeHtml(producto.imagen || 'assets/logo.png');
     const enlace = `/producto/${slugify(producto.nombre)}`;
 
@@ -2385,9 +2357,9 @@ function tarjetaDestacadaHtml(producto) {
     const imagen = escapeHtml(producto.imagen || 'assets/logo.png');
     const enlace = `/producto/${slugify(producto.nombre)}`;
 
-    // La descripción de Supabase puede traer marcado (el <span> del sello ECO,
-    // por ejemplo), así que se deja pasar tal cual como ya hace el catálogo.
-    const descripcion = producto.descripcion || '';
+    // El arranque de la descripcion larga con «…» (descripciones.js): en el
+    // panel solo se escribe la larga. Se escapa porque ya no trae marcado.
+    const descripcion = escapeHtml(descripciones.resumen(producto));
     const unidad = precioUnidadTarjetaHtml(producto);
 
     // Solo la etiqueta de oferta: aquí todos son destacados, así que ponérsela a
@@ -2414,7 +2386,7 @@ function tarjetaDestacadaHtml(producto) {
                             data-nombre="${nombre}"
                             data-precio="${escapeHtml(producto.precio)}"
                             data-imagen="${imagen}"
-                            data-descripcion="${escapeHtml(producto.descripcion || '')}">
+                            data-descripcion="${escapeHtml(descripciones.resumen(producto))}">
                         <i class="fas fa-shopping-cart"></i> Añadir al carrito
                     </button>
                 </a>`;

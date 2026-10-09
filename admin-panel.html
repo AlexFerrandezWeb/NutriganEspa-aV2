@@ -433,12 +433,16 @@
                 </div>
                 <div class="precio-resumen" id="precio-resumen" hidden></div>
                 <div class="form-group">
-                    <label for="f-desc">Descripción corta</label>
-                    <textarea id="f-desc" rows="2" placeholder="Descripción breve visible en la tienda..."></textarea>
+                    <label for="f-desc-full">Descripción completa</label>
+                    <textarea id="f-desc-full" rows="10" placeholder="Descripción detallada del producto..."></textarea>
+                    <small class="check-hint">Deja una línea en blanco entre párrafos. Las líneas que empiezan por «•»
+                        salen como lista, y una línea que acaba en «:» encima de una lista, como su título. En la ficha
+                        solo se ve el primer párrafo con un botón «Ver más». La frase de las tarjetas del catálogo sale
+                        sola del principio de este texto.</small>
                 </div>
                 <div class="form-group">
-                    <label for="f-desc-full">Descripción completa</label>
-                    <textarea id="f-desc-full" rows="4" placeholder="Descripción detallada del producto..."></textarea>
+                    <label for="f-desc">Descripción corta (solo si no hay completa)</label>
+                    <textarea id="f-desc" rows="2" placeholder="Solo se usa si la descripción completa está vacía"></textarea>
                 </div>
                 <div class="form-group">
                     <label class="check-label">

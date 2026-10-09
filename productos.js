@@ -305,7 +305,7 @@ function crearElementoProducto(producto, indice = 0) {
         <div class="producto-cuerpo">
         <h3 class="producto-nombre">${escHTML(producto.nombre)}</h3>
         <p class="producto-descripcion">
-            ${producto.descripcion || ''}
+            ${escHTML(NutriganDescripciones.resumen(producto))}
         </p>
         <div class="producto-unidad-info">
             ${precioUnidadDelProducto(producto)}
@@ -428,7 +428,7 @@ function añadirAlCarrito(id, boton) {
     const productoCarrito = {
         id: producto.id,
         nombre: producto.nombre,
-        descripcion: producto.descripcion,
+        descripcion: NutriganDescripciones.resumen(producto),
         precio: producto.precio,
         imagen: producto.imagen,
         cantidad: 1
