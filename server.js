@@ -1423,14 +1423,102 @@ async function getSlugMap() {
     return map;
 }
 
+// Titulo y descripcion para Google de las fichas que mas se ven en Search
+// Console (export de jul-oct 2026) y menos clics reciben. «Lactox | Nutrigan
+// España» salia en la posicion 5 y nadie pulsaba: el nombre solo lo entiende
+// quien ya conoce el producto. Aqui se dice que es, con las palabras que la
+// gente busca («spray azul para heridas», «fiebre de leche»...). El resto de
+// fichas siguen con el nombre.
+//
+// Cada entrada guarda el nombre para el que se escribio. Si en el panel se
+// cambia el nombre del producto, el titulo de aqui ya no vale: la ficha vuelve
+// sola a «Nombre nuevo | Nutrigan España» y se avisa en el registro para
+// reescribirlo. Asi un cambio de nombre siempre se ve en Google.
+const SEO_FICHAS = {
+    1: {
+        nombre: 'Bolutech® Flash',
+        title: 'Bolutech Flash · Bolo de calcio contra la fiebre de leche | Nutrigan',
+        description: 'Bolo de calcio de liberación rápida para vacas en periparto: ayuda a prevenir la hipocalcemia o fiebre de la leche. Caja de 20 bolos. Envío gratis.'
+    },
+    9: {
+        nombre: 'Bolutech® Start',
+        title: 'Bolutech Start · Bolo contra la acetonemia posparto | Nutrigan',
+        description: 'Bolo energético de liberación rápida para vacas en periparto: previene la acetonemia posparto. Sin tiempo de espera. Caja de 10 bolos. Envío gratis.'
+    },
+    11: {
+        nombre: 'Lactibiose® Effervescent',
+        title: 'Lactibiose · Rehidratante para terneros con diarrea | Nutrigan',
+        description: 'Rehidratante efervescente antidiarreico para terneros, con sabor a vainilla. Repone electrolitos desde el nacimiento. Caja de 24 sobres. Envío gratis.'
+    },
+    // Las dos medidas del Blue Spray salian para las mismas busquedas y se
+    // repartian los clics: la de 200 ml es la del «spray azul» y la de 400 ml
+    // se presenta como el formato grande.
+    17: {
+        nombre: 'Blue Spray 200ml',
+        title: 'Blue Spray · Spray azul cicatrizante para heridas 200 ml | Nutrigan',
+        description: 'Spray azul cicatrizante para heridas de ovejas, vacas, cabras, cerdos y perros. Sin antibióticos y sin tiempo de espera. Envío gratis a la península.'
+    },
+    18: {
+        nombre: 'Blue Spray 400ml',
+        title: 'Blue Spray 400 ml · Spray azul para heridas, bote grande | Nutrigan',
+        description: 'Spray azul cicatrizante en bote grande de 400 ml, para quien trata muchos animales: ovejas, vacas, cabras y perros. Sin antibióticos. Envío gratis.'
+    },
+    23: {
+        nombre: 'gav-ALLFEED® Replyn DEFENSE WS250ml',
+        title: 'Replyn Defense · Spray repelente de insectos para ganado | Nutrigan',
+        description: 'Spray dermoprotector repelente y antipicaduras para el ganado, frente a los mosquitos que transmiten la EHE. Sin tiempo de espera. 250 ml. Envío gratis.'
+    },
+    33: {
+        nombre: 'Activador Microorganismos BIOPRANA 20L',
+        title: 'Bioprana · Activador para purines, olores y moscas | Nutrigan',
+        description: 'Activador de microorganismos para purines y estiércol: los licúa, quita los malos olores y reduce moscas y larvas. Pack de 3 garrafas de 20 L. Envío gratis.'
+    },
+    37: {
+        nombre: 'EuroDog® Bocaditos Repelent Alta Calidad - 20KG',
+        title: 'EuroDog Bocaditos Repelent · Snack antiparasitario para perros | Nutrigan',
+        description: 'Bocaditos masticables para perros que ayudan a protegerlos desde dentro frente a pulgas, garrapatas y mosquitos. Sin cereales. Palet de 60 sacos de 20 kg.'
+    },
+    45: {
+        nombre: 'Lactox A+B - 10kg',
+        title: 'Lactox A+B · Desinfectante post-ordeño con dióxido de cloro | Nutrigan',
+        description: 'Lactox A+B genera dióxido de cloro para la higiene del pezón tras el ordeño y la prevención de mastitis en vacas, ovejas y cabras. 3 × 10 kg. Envío gratis.'
+    }
+};
+
+// En Google la descripcion es lo que convence de pulsar, y el envio gratis no
+// salia en ninguna: se anade al final de las fichas sin texto propio.
+const ENVIO_GRATIS_DESC = ' Envío gratis a la península.';
+
+// Las frases enteras que quepan y el envio detras. Si no caben al menos 100
+// caracteres de frases enteras, se recorta como siempre y sin el envio: una
+// descripcion corta dice menos del producto, y «...higiene de ubres en… Envío
+// gratis» se leia mal.
+function descripcionConEnvio(texto) {
+    if (!texto) return '';
+    const max = 155 - ENVIO_GRATIS_DESC.length;
+    if (texto.length <= max) return texto + ENVIO_GRATIS_DESC;
+    const frases = texto.match(/[^.]+\.(\s|$)/g) || [];
+    let base = '';
+    for (const frase of frases) {
+        if ((base + frase).trim().length > max) break;
+        base += frase;
+    }
+    return base.trim().length >= 100 ? base.trim() + ENVIO_GRATIS_DESC : recortarDescripcion(texto, 155);
+}
+
 // Genera el HTML del producto con meta tags + JSON-LD inyectados server-side
 function renderProductoHtml(producto, canonical) {
-    const title = `${producto.nombre} | Nutrigan España`;
+    let seo = SEO_FICHAS[producto.id] || {};
+    if (seo.nombre && seo.nombre !== producto.nombre) {
+        console.warn(`⚠️ [seo] «${producto.nombre}» (id ${producto.id}) ha cambiado de nombre: revisa su entrada en SEO_FICHAS`);
+        seo = {};
+    }
+    const title = seo.title || `${producto.nombre} | Nutrigan España`;
     const rawDesc = (producto.descripcion_completa || producto.descripcion || '')
         .replace(/<[^>]*>/g, '')
         .replace(/\s+/g, ' ')
         .trim();
-    const description = recortarDescripcion(rawDesc, 155);
+    const description = seo.description || descripcionConEnvio(rawDesc);
     const imageUrl = resolveImageUrl(producto.imagen);
     const disponibilidad = estaDisponible(producto) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
     const precio = parseFloat(producto.precio || 0).toFixed(2);
@@ -1763,7 +1851,7 @@ const CATEGORIAS_CATALOGO = {
         subtitulo: 'Cicatrizantes, repelentes y suplementos para perros',
         title: 'Productos veterinarios para perros | Cicatrizantes y repelentes | Nutrigan España',
         description: 'Productos veterinarios para perros: spray azul cicatrizante, repelentes de insectos y suplementos. Envío gratis a toda la península.',
-        intro: 'Para perros de trabajo, de caza o de compañía tenemos los snacks EuroDog Repelent, en bocaditos y en galletas. Son un premio funcional que ayuda a protegerlos desde dentro frente a pulgas, garrapatas y mosquitos, como refuerzo de los antiparasitarios habituales, no como sustituto. Se venden en sacos de 20 kg, pensados para quien tiene varios perros, como en las explotaciones ganaderas o las rehalas.'
+        intro: 'Para perros de trabajo, de caza o de compañía tenemos los snacks EuroDog Repelent, en bocaditos y en galletas. Son un premio funcional que ayuda a protegerlos desde dentro frente a pulgas, garrapatas y mosquitos, como refuerzo de los antiparasitarios habituales, no como sustituto. Se venden en sacos de 20 kg, pensados para quien tiene varios perros, como en las explotaciones ganaderas o las rehalas. Para cortes y heridas, el Blue Spray es un spray azul cicatrizante sin antibióticos que vale igual para el perro que para el ganado.'
     }
 };
 

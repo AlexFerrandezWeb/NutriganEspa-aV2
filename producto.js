@@ -104,9 +104,11 @@ async function cargarProducto(id) {
 
 // Función para mostrar el producto
 function mostrarProducto(producto) {
-    // Actualizar título de la página
-    document.title = `${producto.nombre} | Nutrigan España`;
-    document.getElementById('producto-titulo').textContent = `${producto.nombre} | Nutrigan España`;
+    // El titulo lo pone el servidor, y en algunas fichas no es solo el nombre
+    // (SEO_FICHAS en server.js): aqui solo se rellena si llego sin poner.
+    if (document.title === 'Producto | Nutrigan España') {
+        document.title = `${producto.nombre} | Nutrigan España`;
+    }
 
     // Informar a Google Analytics del producto específico visitado
     if (typeof gtag === 'function') {
