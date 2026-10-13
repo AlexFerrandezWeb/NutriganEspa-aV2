@@ -7,7 +7,10 @@
  * como en una pantalla táctil, igual que el modo responsive de Chrome:
  *   - arrastrar con el ratón desplaza la página, con inercia al soltar;
  *   - el cursor es un círculo, como la yema de un dedo;
- *   - no hay barra de desplazamiento, como en un móvil.
+ *   - no hay barra de desplazamiento, como en un móvil;
+ *   - la rueda del ratón no mueve esta web (un móvil no tiene rueda): se le
+ *     pasa a alexweb.es, que mueve su propia página, como si el aparato
+ *     fuera un objeto más de ella.
  * Los clics siguen funcionando; solo se anula el que llega justo después de
  * arrastrar, para no abrir nada sin querer.
  *
@@ -172,6 +175,18 @@
         e.preventDefault();
         e.stopPropagation();
     }, true);
+
+    window.addEventListener('wheel', function (e) {
+        // Con Ctrl la rueda es el zoom del navegador: se deja en paz.
+        if (!activo || e.ctrlKey) return;
+        e.preventDefault();
+        if (window.parent !== window) {
+            window.parent.postMessage(
+                { alexweb: 'rueda', dx: e.deltaX, dy: e.deltaY, modo: e.deltaMode },
+                '*'
+            );
+        }
+    }, { passive: false, capture: true });
 
     // El arrastre nativo de imagenes y enlaces se comeria el gesto.
     document.addEventListener('dragstart', function (e) {
