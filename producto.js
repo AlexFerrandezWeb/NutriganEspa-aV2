@@ -75,13 +75,10 @@ let cantidadActual = 1;
 // Función para cargar el producto
 async function cargarProducto(id) {
     try {
-        const { data: producto, error } = await sb
-            .from('productos')
-            .select('*')
-            .eq('id', parseInt(id))
-            .single();
-
-        if (error) throw error;
+        const response = await fetch('/api/productos/' + encodeURIComponent(id));
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message || 'No se pudo cargar el producto');
+        const producto = result.producto;
 
         if (producto) {
             productoActual = producto;
@@ -129,7 +126,9 @@ function mostrarProducto(producto) {
     document.getElementById('producto-titulo-detalle').textContent = producto.nombre;
     
     // Manejar precio unitario y cantidad mínima
-    if (producto.cantidad_minima && producto.cantidad_minima > 1) {
+    if (producto.precio == null) {
+        document.getElementById('producto-precio').textContent = 'Precio pendiente de confirmación';
+    } else if (producto.cantidad_minima && producto.cantidad_minima > 1) {
         const precioUnitario = producto.precio_unitario || (producto.precio / producto.cantidad_minima);
         document.getElementById('producto-precio').innerHTML = `
             <span class="precio-unitario">${precioSitio(precioUnitario)} <small>/unidad</small></span>
@@ -173,7 +172,7 @@ function mostrarProducto(producto) {
     // distintos y un Bolutech puede tener uno, el otro, los dos o ninguno.
     const cajaAplicador = document.getElementById('producto-aplicador');
     if (cajaAplicador && window.NutriganPromos) {
-        cajaAplicador.innerHTML = window.NutriganPromos.esDeLaGamaBolutech(producto)
+        cajaAplicador.innerHTML = estaDisponible(producto) && window.NutriganPromos.esDeLaGamaBolutech(producto)
             ? window.NutriganPromos.avisoAplicadorHTML('aviso-aplicador--ficha', { variante: 'ficha', conFoto: true })
             : '';
     }
@@ -197,8 +196,8 @@ function mostrarProducto(producto) {
     // la ventaja de haberla inyectado. Se comparan URLs absolutas ya resueltas
     // porque el src del atributo es relativo y el de la propiedad no.
     const imagenPrincipal = document.getElementById('producto-imagen-principal');
-    if (producto.imagen) {
-        const deseada = new URL(producto.imagen, document.baseURI).href;
+    if (NutriganImages.resolve(producto.imagen)) {
+        const deseada = new URL(NutriganImages.resolve(producto.imagen), document.baseURI).href;
         if (imagenPrincipal.src !== deseada) {
             imagenPrincipal.src = deseada;
         }
@@ -234,7 +233,7 @@ function actualizarBadges(producto) {
     if (!estaDisponible(producto)) {
         const badge = document.createElement('span');
         badge.className = 'producto-badge producto-badge-agotado';
-        badge.textContent = 'Agotado';
+        badge.textContent = producto.proximo_lanzamiento ? 'Próximamente' : 'Agotado';
         badgesContainer.appendChild(badge);
     } else if (window.NutriganPromos && window.NutriganPromos.promocionDe(producto)) {
         // Solo si se puede comprar: anunciar un descuento en algo agotado no
@@ -252,7 +251,7 @@ function actualizarMiniaturas(producto) {
     miniaturasContainer.innerHTML = '';
     
     // Crear miniatura para la imagen principal
-    const miniaturaPrincipal = crearMiniatura(producto.imagen, producto.nombre, true);
+    const miniaturaPrincipal = crearMiniatura(NutriganImages.resolve(producto.imagen), producto.nombre, true);
     miniaturasContainer.appendChild(miniaturaPrincipal);
     
     // Si hay imágenes adicionales, añadirlas
@@ -330,7 +329,7 @@ function mostrarProductosRelacionados(productos) {
         if (agotado) item.classList.add('relacionado-agotado');
 
         item.innerHTML = `
-            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="relacionado-imagen" loading="lazy" decoding="async">
+            <img src="${escHTML(NutriganImages.resolve(producto.imagen))}" alt="${escHTML(producto.nombre)}" class="relacionado-imagen" loading="lazy" decoding="async">
             <div class="relacionado-info">
                 <h4 class="relacionado-nombre">${escHTML(producto.nombre)}</h4>
                 <p class="relacionado-precio">${precioSitio(producto.precio)}${agotado ? ' <span class="etiqueta-agotado">Agotado</span>' : ''}</p>
@@ -349,15 +348,17 @@ function actualizarEstadoBotones(producto) {
     const cantidadMas = document.getElementById('cantidad-mas');
     
     const agotado = !estaDisponible(producto);
+    document.querySelector('.producto-compra').hidden = !!producto.proximo_lanzamiento;
 
     btnAñadir.disabled = agotado;
     btnComprar.disabled = agotado;
     cantidadMenos.disabled = agotado;
     cantidadMas.disabled = agotado;
+    document.getElementById('cantidad-producto').disabled = agotado;
 
     if (agotado) {
-        btnAñadir.textContent = 'Agotado';
-        btnComprar.textContent = 'Agotado';
+        btnAñadir.textContent = producto.proximo_lanzamiento ? 'Próximamente' : 'Agotado';
+        btnComprar.textContent = producto.proximo_lanzamiento ? 'Próximamente' : 'Agotado';
     }
 }
 
@@ -472,7 +473,7 @@ function añadirAlCarrito() {
         descripcion: NutriganDescripciones.resumen(productoActual),
         precio: productoActual.precio,
         cantidadMinima: productoActual.cantidad_minima || 1,
-        imagen: productoActual.imagen,
+        imagen: NutriganImages.resolve(productoActual.imagen),
         cantidad: cantidadActual
     };
     
@@ -526,7 +527,7 @@ async function comprarAhora() {
                 nombre: productoActual.nombre,
                 precio: precioCaja,
                 cantidadMinima: productoActual.cantidad_minima || 1,
-                imagen: productoActual.imagen,
+                imagen: NutriganImages.resolve(productoActual.imagen),
                 cantidad: cantidadActual
             }],
             total: precioCaja * cantidadActual,
@@ -765,7 +766,7 @@ function inyectarSchemaProducto(producto) {
         '@type': 'Product',
         'name': producto.nombre,
         'description': producto.descripcion,
-        'image': producto.imagen,
+        'image': NutriganImages.resolve(producto.imagen),
         'url': window.location.href,
         'sku': String(producto.id),
         'mpn': `SKU-${producto.id}`,
@@ -800,6 +801,8 @@ function inyectarSchemaProducto(producto) {
             }
         }
     };
+
+    if (producto.precio == null) delete schema.offers;
 
     const script = document.createElement('script');
     script.id = 'schema-producto';

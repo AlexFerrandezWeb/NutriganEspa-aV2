@@ -306,6 +306,7 @@
             .table-container { border-radius: 0; box-shadow: none; background: transparent; }
         }
     </style>
+    <script src="/js/product-images.js"></script>
 </head>
 <body>
 
@@ -423,7 +424,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="f-precio">Precio (€) * <span class="label-hint" id="f-precio-hint"></span></label>
+                        <label for="f-precio">Precio (€) <span id="f-precio-required">*</span> <span class="label-hint" id="f-precio-hint"></span></label>
                         <input type="number" id="f-precio" step="0.01" min="0" required placeholder="70.00">
                     </div>
                     <div class="form-group">
@@ -459,6 +460,7 @@
                     <small class="check-hint">Si lo desmarcas, el producto aparece como
                         «Agotado», no se puede comprar y el feed de Google pasa a
                         «out of stock» (tarda hasta 1&nbsp;hora en reflejarse).</small>
+                    <small class="check-hint" id="pending-product-hint" hidden>Este producto está pendiente de lanzamiento. Puedes guardar el precio vacío. Para activarlo, indica un precio y stock mayores que cero y marca «Disponible para la venta».</small>
                 </div>
             </div>
 
@@ -580,12 +582,12 @@
             <div class="form-section">
                 <div class="section-title">Imagen del producto</div>
                 <div class="img-preview-wrap">
-                    <img id="img-preview" src="" alt="" class="img-preview" hidden onerror="this.hidden=true;document.getElementById('no-img').hidden=false">
+                    <img id="img-preview" src="" alt="Vista previa de la imagen del producto" class="img-preview" hidden onerror="this.hidden=true;document.getElementById('no-img').hidden=false">
                     <span id="no-img" class="no-img-msg">Sin imagen</span>
                 </div>
                 <div class="form-group">
                     <label for="f-imagen-url">URL de imagen</label>
-                    <input type="text" id="f-imagen-url" placeholder="https://... o assets/producto1.webp" oninput="previewUrl(this.value)">
+                    <input type="text" id="f-imagen-url" placeholder="https://... o assets/bolutech-flash.webp" oninput="previewUrl(this.value)">
                 </div>
                 <div class="form-group">
                     <label>O subir nueva imagen desde tu ordenador</label>
@@ -617,6 +619,7 @@
     // ── STATE ─────────────────────────────────────────────────
     let allProducts = [];
     let editingId   = null;
+    let editingPending = false;
     let tags        = { ingredientes: [], beneficios: [] };
     let imgFile     = null;
     let isDirty     = false;
@@ -676,18 +679,15 @@
         document.getElementById('product-table').hidden = true;
         document.getElementById('empty-state').hidden   = true;
 
-        const { data, error } = await sb
-            .from('productos')
-            .select('id, nombre, precio, stock, destacado, disponible, imagen, categoria')
-            .order('id', { ascending: true });
-
-        if (error) {
+        try {
+            const response = await fetch('/api/productos', { cache: 'no-store' });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.message || 'No se pudo cargar el catálogo');
+            allProducts = result.productos;
+            renderProducts(allProducts);
+        } catch (error) {
             document.getElementById('loading').textContent = 'Error al cargar: ' + error.message;
-            return;
         }
-
-        allProducts = data || [];
-        renderProducts(allProducts);
     }
 
     function renderProducts(list) {
@@ -709,26 +709,26 @@
 
         document.getElementById('product-tbody').innerHTML = list.map(p => `
             <tr class="${p.disponible === false ? 'row-agotado' : ''}">
-                <td data-label="Imagen"><img src="${p.imagen || 'assets/logo_nutriganesp.png'}" alt="" class="product-thumb"
+                <td data-label="Imagen"><img src="${esc(NutriganImages.resolve(p.imagen) || 'assets/logo_nutriganesp.png')}" alt="${esc(p.nombre)}" class="product-thumb"
                      onerror="this.src='assets/logo_nutriganesp.png'"></td>
                 <td data-label="ID"><div class="td-val" style="color:#aaa;font-size:0.8rem">${p.id}</div></td>
                 <td data-label="Nombre"><div class="td-val">
                     <div class="marquee-wrap">
                         <span class="marquee-inner">
                             <strong>${esc(p.nombre)}</strong>
-                            ${p.disponible === false ? '<span class="badge-agotado">Agotado</span>' : ''}
+                            ${p.disponible === false ? `<span class="badge-agotado">${p.proximo_lanzamiento ? 'Próximamente' : 'Agotado'}</span>` : ''}
                             ${p.destacado ? '<span class="badge-dest">Destacado</span>' : ''}
                         </span>
                     </div>
                     ${p.categoria ? `<span style="color:#aaa;font-size:0.76rem;display:block;text-align:right">${esc(p.categoria)}</span>` : ''}
                 </div></td>
-                <td data-label="Precio"><div class="td-val" style="white-space:nowrap">${parseFloat(p.precio).toFixed(2)} €</div></td>
+                <td data-label="Precio"><div class="td-val" style="white-space:nowrap">${p.precio == null ? 'Pendiente' : parseFloat(p.precio).toFixed(2) + ' €'}</div></td>
                 <td data-label="Stock" class="${p.stock <= 10 ? 'stock-low' : ''}"><div class="td-val">${p.stock}</div></td>
                 <td data-label="Dest."><div class="td-val" style="text-align:center">${p.destacado ? '✅' : '—'}</div></td>
                 <td data-label="Acciones"><div class="td-val">
                     <div class="td-actions">
                         <button class="btn btn-sm btn-secondary" onclick="openProductForm(${p.id})">Editar</button>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id}, '${esc(p.nombre).replace(/'/g,"\\'")}')">Eliminar</button>
+                        ${!p.pendiente_catalogo ? `<button class="btn btn-sm btn-danger" onclick="confirmDelete(${p.id}, '${esc(p.nombre).replace(/'/g,"\\'")}')">Eliminar</button>` : ''}
                     </div>
                 </div></td>
             </tr>
@@ -1002,8 +1002,21 @@
     });
 
     // ── PRODUCT FORM ──────────────────────────────────────────
+    function actualizarRequisitosDisponibilidad() {
+        const activarPendiente = editingPending && document.getElementById('f-disponible').checked;
+        const required = !editingPending || activarPendiente;
+        document.getElementById('f-precio').required = required;
+        document.getElementById('f-precio').min = editingPending ? '0.01' : '0';
+        document.getElementById('f-precio-required').hidden = !required;
+        document.getElementById('f-stock').min = activarPendiente ? '1' : '0';
+        document.getElementById('f-stock').required = activarPendiente;
+        document.getElementById('pending-product-hint').hidden = !editingPending;
+    }
+    document.getElementById('f-disponible').addEventListener('change', actualizarRequisitosDisponibilidad);
+
     async function openProductForm(id = null) {
         editingId = id;
+        editingPending = false;
         tags = { ingredientes: [], beneficios: [] };
         imgFile = null;
 
@@ -1021,8 +1034,14 @@
             document.getElementById('form-title').textContent = 'Editar producto';
             document.getElementById('save-btn').textContent = 'Guardar cambios';
 
-            const { data: p, error } = await sb.from('productos').select('*').eq('id', id).single();
-            if (error || !p) { alert('No se pudo cargar el producto'); return; }
+            let p;
+            try {
+                const response = await fetch('/api/productos/' + encodeURIComponent(id), { cache: 'no-store' });
+                const result = await response.json();
+                if (!response.ok || !result.success) throw new Error('No se pudo cargar el producto');
+                p = result.producto;
+                editingPending = !!p.pendiente_catalogo;
+            } catch (error) { alert('No se pudo cargar el producto'); return; }
 
             document.getElementById('f-id').value           = p.id;
             document.getElementById('f-nombre').value       = p.nombre || '';
@@ -1046,7 +1065,7 @@
             document.getElementById('f-certificaciones').value = p.certificaciones || '';
             document.getElementById('f-temperatura').value  = p.temperatura || '';
             document.getElementById('f-ficha').value        = p.ficha_tecnica || '';
-            document.getElementById('f-imagen-url').value   = p.imagen || '';
+            document.getElementById('f-imagen-url').value   = NutriganImages.resolve(p.imagen) || '';
             document.getElementById('f-precio-unitario').value = p.precio_unitario ?? '';
             document.getElementById('f-unidades').value        = unidadesDeLaCaja(p);
             document.getElementById('f-promo-cajas').value     = p.promo_cajas_minimas ?? '';
@@ -1055,18 +1074,20 @@
             // de fecha espera justo eso, pero se recorta por si viniera con hora.
             document.getElementById('f-promo-hasta').value     = p.promo_hasta ? String(p.promo_hasta).slice(0, 10) : '';
 
-            tags.ingredientes = Array.isArray(p.ingredientes) ? [...p.ingredientes] : [];
-            tags.beneficios   = Array.isArray(p.beneficios)   ? [...p.beneficios]   : [];
+            const lista = value => Array.isArray(value) ? [...value] : String(value || '').split(/\n|;\s*/).filter(Boolean);
+            tags.ingredientes = lista(p.ingredientes);
+            tags.beneficios   = lista(p.beneficios);
             renderTags('ingredientes');
             renderTags('beneficios');
 
-            if (p.imagen) previewUrl(p.imagen);
+            if (p.imagen) previewUrl(NutriganImages.resolve(p.imagen));
         } else {
             document.getElementById('form-title').textContent = 'Añadir producto';
             document.getElementById('save-btn').textContent = 'Guardar producto';
         }
 
         actualizarPrecioCalculado();
+        actualizarRequisitosDisponibilidad();
         actualizarContadorDestacados();
 
         isDirty = false;
@@ -1136,7 +1157,7 @@
                 nombre:               document.getElementById('f-nombre').value.trim(),
                 descripcion:          document.getElementById('f-desc').value.trim(),
                 descripcion_completa: document.getElementById('f-desc-full').value.trim(),
-                precio:               parseFloat(document.getElementById('f-precio').value),
+                precio:               document.getElementById('f-precio').value === '' ? null : parseFloat(document.getElementById('f-precio').value),
                 precio_unitario:      document.getElementById('f-precio-unitario').value !== '' ? parseFloat(document.getElementById('f-precio-unitario').value) : null,
                 stock:                parseInt(document.getElementById('f-stock').value) || 0,
                 destacado:            document.getElementById('f-destacado').checked,
@@ -1163,8 +1184,22 @@
             let error;
             const isEditing = !!editingId;
             const previousData = isEditing ? { ...allProducts.find(p => p.id === editingId) } : null;
+            if (previousData && data.etapa === previousData.etapa) {
+                data.tiempo_liberacion = previousData.tiempo_liberacion;
+            }
 
-            if (isEditing) {
+            const wasPending = editingPending;
+            if (isEditing && wasPending) {
+                const { data: { session } } = await sb.auth.getSession();
+                if (!session) throw new Error('Inicia sesión de nuevo para guardar');
+                const response = await fetch('/api/admin/productos-pendientes/' + editingId, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (!response.ok || !result.success) throw new Error(result.message || 'No se pudo guardar el producto');
+            } else if (isEditing) {
                 ({ error } = await sb.from('productos').update(data).eq('id', editingId));
             } else {
                 const maxId = allProducts.length ? Math.max(...allProducts.map(p => p.id)) : 0;
@@ -1183,13 +1218,13 @@
             await loadProducts();
             setTimeout(() => {
                 closePanel();
-                if (isEditing) {
+                if (isEditing && !wasPending) {
                     showUndoBtn(async () => {
                         const { error } = await sb.from('productos').update(previousData).eq('id', previousData.id);
                         if (error) alert('Error al revertir: ' + error.message);
                         else await loadProducts();
                     });
-                } else {
+                } else if (!isEditing) {
                     showUndoBtn(async () => {
                         const { error } = await sb.from('productos').delete().eq('id', data.id);
                         if (error) alert('Error al revertir: ' + error.message);

@@ -73,17 +73,13 @@ window.addEventListener('pageshow', function(event) {
     }
 });
 
-// Función para cargar productos desde Supabase
+// El servidor reúne el catálogo compartido y las novedades publicadas con la web.
 async function cargarProductos() {
     try {
-        const { data, error } = await sb
-            .from('productos')
-            .select('*')
-            .order('id', { ascending: true });
-
-        if (error) throw error;
-
-        productos = data;
+        const response = await fetch('/api/productos');
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message || 'No se pudo cargar el catálogo');
+        productos = result.productos;
         inyectarSchemaItemList(productos);
 
         // Derivar categorías únicas de los propios productos
@@ -250,6 +246,7 @@ function mostrarProductos(productosAMostrar) {
 // tachado junto al rebajado y la condicion al lado; sin ella, el precio de
 // siempre y la tarjeta queda exactamente como estaba.
 function precioDelProducto(producto) {
+    if (producto.precio == null) return '<div class="producto-precio">Precio pendiente de confirmación</div>';
     const promo = window.NutriganPromos && window.NutriganPromos.promocionDe(producto);
     if (promo) {
         return `<div class="producto-precio producto-precio--promo">${window.NutriganPromos.precioConTachadoHTML(promo)}</div>`;
@@ -283,7 +280,7 @@ function crearElementoProducto(producto, indice = 0) {
     
     // Badge de agotado (lo marca la columna `disponible`, no el stock numerico)
     const agotado = !estaDisponible(producto);
-    const badgeStock = agotado ? '<span class="producto-badge-agotado">Agotado</span>' : '';
+    const badgeStock = agotado ? `<span class="producto-badge-agotado">${producto.proximo_lanzamiento ? 'Próximamente' : 'Agotado'}</span>` : '';
 
     // Badge de oferta. No se pinta en un producto agotado: comparte esquina con
     // el de «Agotado» y, sobre todo, anunciar un descuento en algo que no se
@@ -299,7 +296,7 @@ function crearElementoProducto(producto, indice = 0) {
     productoLink.innerHTML = `
         <div class="producto-imagen-container">
             <div class="producto-etiquetas">${badgeDestacado}${badgeStock}${badgeOferta}</div>
-            <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" class="producto-imagen"
+            <img src="${escHTML(NutriganImages.resolve(producto.imagen))}" alt="${escHTML(producto.nombre)}" class="producto-imagen"
                  ${indice < 4 ? 'loading="eager"' : 'loading="lazy"'} decoding="async">
         </div>
         <div class="producto-cuerpo">
@@ -307,10 +304,11 @@ function crearElementoProducto(producto, indice = 0) {
         <p class="producto-descripcion">
             ${escHTML(NutriganDescripciones.resumen(producto))}
         </p>
+        ${producto.disponibilidad_texto ? `<p class="producto-disponibilidad">${escHTML(producto.disponibilidad_texto)}</p>` : ''}
         <div class="producto-unidad-info">
             ${precioUnidadDelProducto(producto)}
             ${producto.presentacion ? `<span class="producto-presentacion-info">${escHTML(producto.presentacion)}</span>` : ''}
-            <span class="producto-envio-gratis"><i class="fas fa-truck"></i>Envío gratis</span>
+            ${!agotado ? '<span class="producto-envio-gratis"><i class="fas fa-truck"></i>Envío gratis</span>' : ''}
         </div>
         <div class="producto-detalles">
             <div class="producto-especie">
@@ -329,7 +327,7 @@ function crearElementoProducto(producto, indice = 0) {
             </button>
             <button class="producto-btn producto-btn-carrito" onclick="event.preventDefault(); añadirAlCarrito(${producto.id}, this)" ${agotado ? 'disabled' : ''}>
                 <i class="fas fa-shopping-cart"></i>
-                ${agotado ? 'Agotado' : 'Añadir al Carrito'}
+                ${agotado ? (producto.proximo_lanzamiento ? 'Próximamente' : 'Agotado') : 'Añadir al Carrito'}
             </button>
         </div>
         </div>
@@ -418,6 +416,10 @@ function añadirAlCarrito(id, boton) {
         console.error('Producto no encontrado');
         return;
     }
+    if (!estaDisponible(producto) || producto.precio == null) {
+        mostrarNotificacionCarrito(producto.disponibilidad_texto || 'Producto agotado temporalmente');
+        return;
+    }
     
     console.log('Producto encontrado:', producto);
     
@@ -430,7 +432,7 @@ function añadirAlCarrito(id, boton) {
         nombre: producto.nombre,
         descripcion: NutriganDescripciones.resumen(producto),
         precio: producto.precio,
-        imagen: producto.imagen,
+        imagen: NutriganImages.resolve(producto.imagen),
         cantidad: 1
     };
     
@@ -481,7 +483,7 @@ function crearEfectoVueloCarrito(producto) {
     const elementoFlotante = document.createElement('div');
     elementoFlotante.className = 'producto-volando';
     elementoFlotante.innerHTML = `
-        <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
+        <img src="${escHTML(NutriganImages.resolve(producto.imagen))}" alt="${escHTML(producto.nombre)}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px;">
     `;
     
     // Estilos del elemento flotante
@@ -621,7 +623,7 @@ function mostrarModalDetalles(producto) {
             </div>
             <div class="modal-body">
                 <div class="modal-imagen">
-                    <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}">
+                    <img src="${escHTML(NutriganImages.resolve(producto.imagen))}" alt="${escHTML(producto.nombre)}">
                 </div>
                 <div class="modal-info">
                     <div class="modal-precio">${precioSitio(producto.precio)}</div>
@@ -864,7 +866,7 @@ function inyectarSchemaItemList(productosData) {
                 '@type': 'Product',
                 'name': producto.nombre,
                 'description': producto.descripcion,
-                'image': producto.imagen,
+                'image': NutriganImages.resolve(producto.imagen),
                 'url': `https://www.xn--nutriganespaa-tkb.com/producto/${slugify(producto.nombre)}`,
                 'brand': { '@type': 'Brand', 'name': 'Nutrigan España' },
                 'offers': {
@@ -900,6 +902,9 @@ function inyectarSchemaItemList(productosData) {
         }))
     };
 
+    schema.itemListElement.forEach((entry, index) => {
+        if (productosData[index].precio == null) delete entry.item.offers;
+    });
     const script = document.createElement('script');
     script.id = 'schema-productos';
     script.type = 'application/ld+json';

@@ -2664,6 +2664,13 @@ body.buscador-panel-abierto .nav-buscador input[type="search"]::-moz-search-clea
     border-radius: 4px;
 }
 
+@media (min-width: 769px) {
+    .productos-grid-catalogo .producto-disponibilidad {
+        text-align: left;
+        padding-inline-start: 0.45rem;
+    }
+}
+
 .producto-unidad-info {
     display: flex;
     flex-direction: column;

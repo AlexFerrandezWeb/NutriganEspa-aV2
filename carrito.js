@@ -96,7 +96,7 @@ async function sincronizarPreciosCarrito() {
             actualizado = true;
         }
         if (item.nombre !== actual.nombre) { item.nombre = actual.nombre; actualizado = true; }
-        if (item.imagen !== actual.imagen) { item.imagen = actual.imagen; actualizado = true; }
+        if (item.imagen !== NutriganImages.resolve(actual.imagen)) { item.imagen = NutriganImages.resolve(actual.imagen); actualizado = true; }
         // Un producto puede haberse marcado como agotado despues de anadirlo al
         // carrito. Lo reflejamos aqui para avisar antes de que llegue al pago.
         const disponibleAhora = estaDisponible(actual);
@@ -212,7 +212,7 @@ function crearItemCarrito(producto, index) {
     itemDiv.innerHTML = `
         <a href="/producto/${slugify(producto.nombre)}" class="carrito-item-enlace-completo">
             <div class="carrito-item-imagen">
-                <img src="${escHTML(producto.imagen)}" alt="${escHTML(producto.nombre)}" loading="lazy">
+                <img src="${escHTML(NutriganImages.resolve(producto.imagen))}" alt="${escHTML(producto.nombre)}" loading="lazy">
             </div>
             <div class="carrito-item-info">
                 <h3 class="carrito-item-nombre">${escHTML(producto.nombre)}</h3>
@@ -591,7 +591,7 @@ function añadirAlCarrito(producto) {
             nombre: producto.nombre,
             descripcion: producto.descripcion,
             precio: producto.precio,
-            imagen: producto.imagen,
+            imagen: NutriganImages.resolve(producto.imagen),
             cantidad: producto.cantidad || 1
         });
     }

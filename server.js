@@ -11,6 +11,17 @@ const { createClient } = require('@supabase/supabase-js');
 const promos = require('./promociones.js');
 // Resumen corto y formato de la descripcion larga, los mismos que en el navegador.
 const descripciones = require('./descripciones.js');
+const productImages = require('./js/product-images.js');
+// Novedades que se publican junto con sus archivos, sin adelantar cambios en la BD.
+// Si el producto ya existe en Supabase, sus datos tienen prioridad.
+const productosPendientes = require('./data/productos-pendientes.json');
+function combinarProductosPendientes(productos) {
+    return catalogoPendiente.merge(productos);
+}
+function productoPendiente(id) {
+    const producto = catalogoPendiente.get(id);
+    return producto ? { ...producto, pendiente_catalogo: true } : null;
+}
 const envio = require('./envio.js');
 
 // Cliente Supabase con service role (solo backend, nunca en frontend)
@@ -18,6 +29,7 @@ const supabaseAdmin = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_SERVICE_KEY
 );
+const catalogoPendiente = require('./lib/pending-products')(supabaseAdmin, productosPendientes, __dirname);
 
 // Verificar y mostrar las variables de entorno
 console.log('Configuración de entorno:');
@@ -344,9 +356,9 @@ async function rehidratarProductos(session) {
             cantidad: pMin.c,
             precio: pMin.p,
             precioFinal: pMin.p,
-            imagen: pFull.imagen && pFull.imagen.startsWith('http')
-                ? pFull.imagen
-                : `/assets/${require('path').basename(pFull.imagen || 'logo.png')}`
+            imagen: productImages.resolve(pFull.imagen) && productImages.resolve(pFull.imagen).startsWith('http')
+                ? productImages.resolve(pFull.imagen)
+                : `/assets/${require('path').basename(productImages.resolve(pFull.imagen) || 'logo.png')}`
         };
     });
 }
@@ -928,7 +940,7 @@ app.get('/api/pedido-test/:sessionId', (req, res) => {
                     precio: 54.26,
                     precioFinal: 59.686,
                     cantidad: 2,
-                    imagen: '/assets/producto14.webp'
+                    imagen: '/assets/bolutech-junior.webp'
                 },
                 {
                     id: '2',
@@ -936,7 +948,7 @@ app.get('/api/pedido-test/:sessionId', (req, res) => {
                     precio: 44.3,
                     precioFinal: 48.73,
                     cantidad: 1,
-                    imagen: '/assets/producto2.webp'
+                    imagen: '/assets/bolutech-activ.webp'
                 }
             ],
             total: 168.102,
@@ -1124,9 +1136,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             const promo = promos.promocionDe(actual);
             const aplicaLaOferta = promo && producto.cantidad >= promo.cajasMinimas;
             const precioUnitario = aplicaLaOferta ? promo.precioCajaPromo : actual.precio;
-            const imagenUrl = actual.imagen && actual.imagen.startsWith('http')
-                ? actual.imagen
-                : `https://www.xn--nutriganespaa-tkb.com/${actual.imagen}`;
+            const imagenUrl = resolveImageUrl(productImages.resolve(actual.imagen));
             return {
                 price_data: {
                     currency: 'eur',
@@ -1329,6 +1339,24 @@ app.post('/api/create-checkout-session', async (req, res) => {
 });
 
 // Endpoint para obtener todos los productos desde Supabase
+app.put('/api/admin/productos-pendientes/:id', async (req, res) => {
+    try {
+        const token = (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
+        if (!token) return res.status(401).json({ success: false, message: 'Inicia sesión en el panel' });
+        const { data, error } = await supabaseAdmin.auth.getUser(token);
+        if (error || !data.user) return res.status(401).json({ success: false, message: 'La sesión no es válida' });
+        const result = await catalogoPendiente.save(req.params.id, req.body);
+        slugMapCache = { map: null, expiresAt: 0 };
+        productosHtmlCache = {};
+        sitemapCache = { xml: null, expiresAt: 0 };
+        googleFeedCache = { xml: null, expiresAt: 0 };
+        portadaCache = { productos: null, expiresAt: 0 };
+        res.json({ success: true, ...result });
+    } catch (error) {
+        res.status(error.status || 500).json({ success: false, message: error.message || 'No se pudo guardar el producto' });
+    }
+});
+
 app.get('/api/productos', async (req, res) => {
     const { data, error } = await supabaseAdmin
         .from('productos')
@@ -1336,7 +1364,13 @@ app.get('/api/productos', async (req, res) => {
         .order('id', { ascending: true });
 
     if (error) return res.status(500).json({ success: false, message: error.message });
-    res.json({ success: true, productos: data });
+    // Optidry abre la lista, tanto durante el lanzamiento como al activarlo.
+    const productos = combinarProductosPendientes(data).sort((a, b) => {
+        const ordenA = a.id === 49 ? -1 : a.id;
+        const ordenB = b.id === 49 ? -1 : b.id;
+        return ordenA - ordenB;
+    });
+    res.json({ success: true, productos: productos.map(productImages.product) });
 });
 
 app.get('/api/productos/:id', async (req, res) => {
@@ -1346,8 +1380,9 @@ app.get('/api/productos/:id', async (req, res) => {
         .eq('id', parseInt(req.params.id))
         .single();
 
-    if (error) return res.status(404).json({ success: false, message: 'Producto no encontrado' });
-    res.json({ success: true, producto: data });
+    const producto = data || productoPendiente(req.params.id);
+    if (!producto) return res.status(404).json({ success: false, message: 'Producto no encontrado' });
+    res.json({ success: true, producto: productImages.product(producto) });
 });
 
 // Helpers compartidos por SSR y feed de Google Shopping
@@ -1420,7 +1455,7 @@ async function getSlugMap() {
     const { data, error } = await supabaseAdmin.from('productos').select('id, nombre');
     if (error || !data) throw error || new Error('No se pudo cargar el índice de productos');
     const map = new Map();
-    data.forEach(p => map.set(slugify(p.nombre), p.id));
+    combinarProductosPendientes(data).forEach(p => map.set(slugify(p.nombre), p.id));
     slugMapCache = { map, expiresAt: now + 60 * 60 * 1000 };
     return map;
 }
@@ -1521,7 +1556,7 @@ function renderProductoHtml(producto, canonical) {
         .replace(/\s+/g, ' ')
         .trim();
     const description = seo.description || descripcionConEnvio(rawDesc);
-    const imageUrl = resolveImageUrl(producto.imagen);
+    const imageUrl = resolveImageUrl(productImages.resolve(producto.imagen));
     const disponibilidad = estaDisponible(producto) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
     const precio = parseFloat(producto.precio || 0).toFixed(2);
 
@@ -1566,6 +1601,9 @@ function renderProductoHtml(producto, canonical) {
         }
     };
 
+    // Sin precio confirmado no se publica una oferta ficticia a cero euros.
+    if (producto.precio == null) delete schema.offers;
+
     const breadcrumbSchema = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -1601,7 +1639,7 @@ function renderProductoHtml(producto, canonical) {
     // no sirve de nada. La ruta sale de la misma columna `imagen` que alimentan la
     // web y el feed de Google, asi que no se reintroduce ningun desfase.
     const imgPrincipal = '<img id="producto-imagen-principal"'
-        + ` src="${escapeHtml(resolveImageSrc(producto.imagen))}"`
+        + ` src="${escapeHtml(resolveImageSrc(productImages.resolve(producto.imagen)))}"`
         + ` alt="${escapeHtml(producto.nombre)}"`
         + ' class="imagen-principal" fetchpriority="high" decoding="async">';
 
@@ -1615,7 +1653,7 @@ function renderProductoHtml(producto, canonical) {
     // otra, Google ve un texto y el visitante otro.
     const descripcionCuerpo = descripciones.aHtml(producto.descripcion_completa || producto.descripcion);
 
-    return productoTemplate
+    let html = productoTemplate
         .replace('<title id="producto-titulo">Producto | Nutrigan España</title>', `<title id="producto-titulo">${escapeHtml(title)}</title>`)
         .replace('<!-- PRODUCT_SEO_PLACEHOLDER -->', seoTags)
         .replace('<span id="breadcrumb-nombre">Cargando...</span>',
@@ -1631,6 +1669,16 @@ function renderProductoHtml(producto, canonical) {
         // En la ficha el boton de WhatsApp ya dice por que producto se pregunta.
         .replace('href="/whatsapp?origen=flotante"',
             `href="/whatsapp?origen=ficha&amp;producto=${encodeURIComponent(producto.nombre)}"`);
+    if (producto.precio == null) {
+        html = html.replace(/<span class="producto-precio" id="producto-precio">[^<]*<\/span>/,
+            '<span class="producto-precio" id="producto-precio">Precio pendiente de confirmación</span>'
+            + `<p class="producto-disponibilidad">${escapeHtml(producto.disponibilidad_texto || 'Próximamente')}</p>`);
+        html = html.replace(/id="(btn-añadir-carrito|btn-comprar-ahora|cantidad-menos|cantidad-mas|cantidad-producto)"/g, '$& disabled');
+        if (producto.proximo_lanzamiento) {
+            html = html.replace('<div class="producto-compra">', '<div class="producto-compra" hidden>');
+        }
+    }
+    return html;
 }
 
 // URL antigua /producto.html?id= -> 301 a la URL limpia /producto/<slug> (consolida SEO)
@@ -1642,13 +1690,14 @@ app.get('/producto.html', async (req, res) => {
         return res.send(productoTemplate);
     }
 
-    const { data: producto, error } = await supabaseAdmin
+    const { data: productoDB, error } = await supabaseAdmin
         .from('productos')
         .select('nombre')
         .eq('id', id)
         .single();
 
-    if (error || !producto) {
+    const producto = productoDB || productoPendiente(id);
+    if (!producto) {
         // Producto descatalogado (id ya no existe): 301 al catálogo en vez de 404,
         // así recuperamos la visita de Google y damos mejor UX.
         return res.redirect(301, '/productos.html');
@@ -1675,13 +1724,14 @@ app.get('/producto/:slug', async (req, res) => {
     // Así recuperamos la visita y damos mejor UX. Ver commit 70d42de.
     if (!id) return res.redirect(301, '/productos.html');
 
-    const { data: producto, error } = await supabaseAdmin
+    const { data: productoDB, error } = await supabaseAdmin
         .from('productos')
         .select('id, nombre, descripcion, descripcion_completa, imagen, precio, stock, disponible, especie, etapa, categoria')
         .eq('id', id)
         .single();
 
-    if (error || !producto) return res.status(404).send(NOT_FOUND_HTML);
+    const producto = productoDB || productoPendiente(id);
+    if (!producto) return res.status(404).send(NOT_FOUND_HTML);
 
     // Si el slug pedido no es el canónico (p. ej. nombre cambiado), redirigir al actual
     const canonicalSlug = slugify(producto.nombre);
@@ -1719,9 +1769,14 @@ const IPS_INTERNAS = (process.env.IPS_INTERNAS || '').split(',').map(s => s.trim
 app.get('/whatsapp', (req, res) => {
     const origen = typeof req.query.origen === 'string' ? req.query.origen.slice(0, 20) : '';
     const producto = typeof req.query.producto === 'string' ? req.query.producto.trim().slice(0, 120) : '';
-    const texto = producto
-        ? `Hola, vengo de la web. Me interesa el producto ${producto}. ¿Podrían darme más información?`
-        : (MENSAJES_WHATSAPP[origen] || MENSAJES_WHATSAPP.flotante);
+    // Lo que el visitante escribe en el chat de Javi y el chat aún no sabe
+    // contestar. Igual que producto, solo cambia el texto del mensaje.
+    const pregunta = typeof req.query.pregunta === 'string' ? req.query.pregunta.trim().slice(0, 300) : '';
+    const texto = pregunta
+        ? `Hola, vengo de la web. ${pregunta}`
+        : producto
+            ? `Hola, vengo de la web. Me interesa el producto ${producto}. ¿Podrían darme más información?`
+            : (MENSAJES_WHATSAPP[origen] || MENSAJES_WHATSAPP.flotante);
 
     const esHumano = !UA_NO_HUMANO.test(req.headers['user-agent'] || '');
     if (esHumano && !IPS_INTERNAS.includes(ipCliente(req)) && !excedidoWhatsapp(req)) {
@@ -1887,7 +1942,7 @@ async function servirCatalogo(req, res, categoria) {
             .order('nombre', { ascending: true });
 
         const productos = (!error && todos)
-            ? (categoria ? todos.filter(p => productoEnCategoria(p, categoria)) : todos)
+            ? (categoria ? combinarProductosPendientes(todos).filter(p => productoEnCategoria(p, categoria)) : combinarProductosPendientes(todos))
             : null;
 
         if (productos && productos.length) {
@@ -2026,7 +2081,7 @@ app.get('/sitemap.xml', async (req, res) => {
     <priority>${p.priority}</priority>
   </url>`).join('');
 
-    const productUrls = productos.map(p => {
+    const productUrls = combinarProductosPendientes(productos).map(p => {
         const lastmod = p.updated_at ? p.updated_at.split('T')[0] : today;
         return `
   <url>
@@ -2133,7 +2188,7 @@ app.get('/productos-google.xml', async (req, res) => {
     const items = productos.map(p => {
         const disponibilidad = estaDisponible(p) ? 'in stock' : 'out of stock';
         const descripcion = escapeXml(construirDescripcionFeed(p));
-        const imageUrl = buildImageUrl(p.imagen);
+        const imageUrl = buildImageUrl(productImages.resolve(p.imagen));
         const productType = escapeXml(buildProductType(p));
 
         return `
@@ -2257,7 +2312,7 @@ function precioTarjetaHtml(producto) {
 function bloqueOfertaHtml(producto, promo) {
     const nombre = escapeHtml(producto.nombre);
     const claim = escapeHtml(descripciones.resumen(producto));
-    const imagen = escapeHtml(producto.imagen || 'assets/logo.png');
+    const imagen = escapeHtml(productImages.resolve(producto.imagen) || 'assets/logo.png');
     const enlace = `/producto/${slugify(producto.nombre)}`;
 
     // "Caja de 20 bolos a 58 € en vez de 70 €". Si el producto no declara
@@ -2354,7 +2409,7 @@ function productosDestacados(productos) {
 /** Una tarjeta de la rejilla de destacados. */
 function tarjetaDestacadaHtml(producto) {
     const nombre = escapeHtml(producto.nombre);
-    const imagen = escapeHtml(producto.imagen || 'assets/logo.png');
+    const imagen = escapeHtml(productImages.resolve(producto.imagen) || 'assets/logo.png');
     const enlace = `/producto/${slugify(producto.nombre)}`;
 
     // El arranque de la descripcion larga con «…» (descripciones.js): en el
@@ -2410,7 +2465,7 @@ function schemaDestacadosJson(destacados) {
                 sku: String(p.id),
                 mpn: `SKU-${p.id}`,
                 description: textoPlano(p.descripcion_completa || p.descripcion),
-                image: resolveImageUrl(p.imagen),
+                image: resolveImageUrl(productImages.resolve(p.imagen)),
                 url: url,
                 brand: { '@type': 'Brand', name: 'Nutrigan España' },
                 offers: {
@@ -2519,6 +2574,8 @@ app.get('/', async (req, res) => {
 // (migrate-to-supabase.js, test-fix.js) lo hacen con fs.readFileSync, que lee del
 // disco y no pasa por Express, así que siguen funcionando igual.
 const RUTAS_PRIVADAS = [
+    '/lib',                  // servicios internos del servidor
+    '/data',                 // novedades pendientes de incorporar al catálogo compartido
     '/backups',              // copias históricas de la hoja de estilos
     '/scripts',              // utilidades de mantenimiento (feed, imágenes, SEO)
     '/server.js',            // lógica de negocio y superficie de API
@@ -2529,12 +2586,19 @@ RUTAS_PRIVADAS.forEach(ruta => {
     app.use(ruta, (req, res) => res.status(404).send('No encontrado'));
 });
 
+// Conservar enlaces indexados y carritos antiguos sin duplicar archivos.
+app.get('/assets/:filename', (req, res, next) => {
+    const renamed = productImages.aliases[req.params.filename];
+    if (!renamed) return next();
+    res.redirect(301, '/assets/' + renamed);
+});
+
 // Middleware para servir archivos estáticos (debe ir después de las rutas de API)
 app.use(express.static(path.join(__dirname)));
 
 // Iniciar el servidor
-app.listen(PORT, '0.0.0.0', () => {
+catalogoPendiente.ready.then(() => app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
     console.log('El servidor está escuchando en todas las interfaces de red');
     console.log('Configurado para funcionar en Render');
-}); 
+}));
